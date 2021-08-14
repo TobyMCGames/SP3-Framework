@@ -3,11 +3,7 @@
 #include "Application.h"
 #include <sstream>
 
-SceneCollision::SceneCollision() :
-shape(NULL),
-start(NULL),
-ball(NULL),
-levelCompleted(false)
+SceneCollision::SceneCollision()
 {
 }
 
@@ -29,7 +25,6 @@ void SceneCollision::Init()
 	m_objectCount = 0;
 
 	//Player Here
-	player.SetCapacity(500);
 
 	Math::InitRNG();
 
@@ -38,7 +33,6 @@ void SceneCollision::Init()
 	m_ghost = new GameObject(GameObject::GO_BALL);
 	m_ghost->active = false;
 
-	level1();
 }
 
 GameObject* SceneCollision::FetchGO()
@@ -293,8 +287,6 @@ void SceneCollision::CheckCollisionResponse(GameObject* go1, GameObject* go2, fl
 	}
 	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_GOAL)
 	{
-		std::cout << "You Win" << std::endl;
-		levelCompleted = true;
 	}
 	return;
 }
@@ -306,8 +298,6 @@ void SceneCollision::MakePillar(float x, float y, float thickness, GameObject::G
 	go->active = true;
 	go->pos.Set(x, y, 0);
 	go->scale.Set(thickness, thickness, thickness);
-	if (shape != NULL)
-		shape->push_back(go);
 }
 
 void SceneCollision::MakeThinWall(float x, float y, float angleDeg, float thickness, float height)
@@ -414,427 +404,136 @@ void SceneCollision::Update(double dt)
 {
 	SceneBase::Update(dt);
 	
-	if (!levelCompleted)
+	if (Application::IsKeyPressed('9'))
 	{
-		if (Application::IsKeyPressed('9'))
-		{
-			m_speed = Math::Max(0.f, m_speed - 0.1f);
-		}
-		if (Application::IsKeyPressed('0'))
-		{
-			m_speed += 0.1f;
-		}
-		if (Application::IsKeyPressed('R'))
-		{
-			if (shape_list.size() > 0)
-			{
-				int listSize = shape_list.size();
-				for (int i = 0; i < listSize; i++)
-				{
-					std::vector<GameObject*>* last_Shape = shape_list.back();
-					int size = last_Shape->size();
-					for (int j = 0; j < size; j++)
-					{
-						GameObject* go = last_Shape->back();
-						go->active = false;
-						last_Shape->back() = NULL;
-						last_Shape->pop_back();
-						m_objectCount--;
-					}
-					shape_list.back() = NULL;
-					shape_list.pop_back();
-					ShapeCount--;
-					player.CleanInk(LastInkCost.back());
-					LastInkCost.pop_back();
-				}
-			}
-			player.SetCapacity(500);
-			if (ball != NULL)
-			{
-				ball->active = false;
-				ball = NULL;
-			}
-		}
-		//Changing Material
-		static bool EbuttonState = false;
-		if (Application::IsKeyPressed('E') && !EbuttonState)
-		{
-			EbuttonState = true;
-			player.ChangeMat(1);
-		}
-		else if (!Application::IsKeyPressed('E') && EbuttonState)
-		{
-			EbuttonState = false;
-		}
-		//Mouse Section
-		double x, y;
-		Application::GetCursorPos(&x, &y);
-		unsigned w = Application::GetWindowWidth();
-		unsigned h = Application::GetWindowHeight();
-		double PosX = (x / w) * m_worldWidth;
-		double PosY = m_worldHeight - (y / h) * m_worldHeight;
-		static bool bLButtonState = false;
-		if (!bLButtonState && Application::IsMousePressed(0))
-		{
-			bLButtonState = true;
-			std::cout << "LBUTTON DOWN" << std::endl;
-
-			m_ghost->active = true;
-			m_ghost->type = GameObject::GO_BALL;
-			m_ghost->pos.x = PosX;
-			m_ghost->pos.y = PosY;
-			m_ghost->scale.Set(2, 2, 2);
-		}
-		else if (bLButtonState && !Application::IsMousePressed(0))
-		{
-			bLButtonState = false;
-			std::cout << "LBUTTON UP" << std::endl;
-
-			//Exercise 6: spawn small GO_BALL
-			m_ghost->active = false;
-			GameObject* go = FetchGO();
-			go->type = GameObject::GO_BALL;
-			go->pos = m_ghost->pos;
-			go->vel = m_ghost->pos - Vector3(PosX, PosY, 0);
-			go->scale = m_ghost->scale;
-			go->mass = go->scale.x * go->scale.x * go->scale.x;
-		}
-		static bool bRButtonState = false;
-		if (Application::IsMousePressed(1))
-		{
-			if (!bRButtonState) {
-				bRButtonState = true;
-				std::cout << "RBUTTON DOWN" << std::endl;
-				start.x = PosX;
-				start.y = PosY;
-				if (shape == NULL)
-				{
-					shape = new std::vector<GameObject*>;
-				}
-			}
-			if (!m_ghost->active)
-			{
-				if (player.GetInkAmount() > 0)
-				{
-					if ((Vector3(PosX, PosY, 0) - start).LengthSquared() > Math::Square(MIN_LINE_LENGTH))
-					{
-						//shape = new std::vector<GameObject*>;
-
-						switch (player.GetCurrentMat())
-						{
-						case PlayerA2::ELASTIC:
-						case PlayerA2::NON_ELASTIC:
-							if (player.UseInk(player.GetInkCost()))
-							{
-								if (player.GetCurrentMat() == PlayerA2::ELASTIC)
-								{
-									MakePillar(
-										start.x,
-										start.y,
-										LINE_THICKNESS,
-										GameObject::GO_PILLAR);
-									m_ghost->type = GameObject::GO_WALL;
-								}
-								else
-								{
-									MakePillar(
-										start.x,
-										start.y,
-										LINE_THICKNESS,
-										GameObject::GO_NONELASTIC_PILLAR);
-									m_ghost->type = GameObject::GO_NONELASTIC_WALL;
-								}
-								CurInkCost += player.GetInkCost();
-							}
-							m_ghost->active = true;
-							break;
-						}
-					}
-				}
-			}
-			else
-			{
-				Vector3 line = Vector3(PosX, PosY, 0) - start;
-				if (player.GetCurrentMat() == PlayerA2::ELASTIC || player.GetCurrentMat() == PlayerA2::NON_ELASTIC)
-				{
-					m_ghost->normal = (line.Cross(Vector3(0, 0, 1))).Normalized();
-					if (player.GetInkAmount() >= (line.Length() / LINE_THICKNESS))
-					{
-						m_ghost->scale.Set(LINE_THICKNESS, line.Length() / 2, 1);
-						m_ghost->pos.x = start.x + line.x / 2;
-						m_ghost->pos.y = start.y + line.y / 2;
-					}
-					else
-					{
-						m_ghost->scale.Set(LINE_THICKNESS, player.GetInkAmount() * LINE_THICKNESS, 1);
-						line.Normalize();
-						line *= player.GetInkAmount() * LINE_THICKNESS;
-						m_ghost->pos.x = start.x + line.x / 2;
-						m_ghost->pos.y = start.y + line.y / 2;
-					}
-
-					if ((Vector3(PosX, PosY, 0) - m_ghost->pos).LengthSquared() > Math::Square(MAX_LINE_LENGTH))
-					{
-						if (player.UseInk(m_ghost->scale.y * player.GetInkCost()))
-						{
-							GameObject* go = FetchGO();
-							go->active = true;
-							go->type = m_ghost->type;
-							go->pos = m_ghost->pos;
-							go->scale = m_ghost->scale;
-							go->normal = m_ghost->normal;
-							go->mass = go->scale.x * go->scale.y * go->scale.z;
-							shape->push_back(go);
-
-							CurInkCost += m_ghost->scale.y * player.GetInkCost();
-						}
-
-						//Reset m_ghost position
-						m_ghost->active = false;
-						start.Set(PosX, PosY, 0);
-					}
-				}
-			}
-
-		}
-		else if (bRButtonState && !Application::IsMousePressed(1))
-		{
-			bRButtonState = false;
-			std::cout << "RBUTTON UP" << std::endl;
-
-			if (m_ghost->active)
-			{
-				if (player.GetCurrentMat() == PlayerA2::ELASTIC || player.GetCurrentMat() == PlayerA2::NON_ELASTIC)
-				{
-					if (player.UseInk(m_ghost->scale.y * player.GetInkCost()))
-					{
-						m_ghost->active = false;
-						GameObject* go = FetchGO();
-						go->active = true;
-						go->type = m_ghost->type;
-						go->pos = m_ghost->pos;
-						go->scale = m_ghost->scale;
-						go->normal = m_ghost->normal;
-						go->mass = go->scale.x * go->scale.y * go->scale.z;
-						shape->push_back(go);
-
-						CurInkCost += m_ghost->scale.y * player.GetInkCost();
-					}
-					if (player.UseInk(player.GetInkCost()))
-					{
-						if (player.GetCurrentMat() == PlayerA2::ELASTIC)
-						{
-							MakePillar(
-								PosX,
-								PosY,
-								LINE_THICKNESS,
-								GameObject::GO_PILLAR);
-						}
-						else
-						{
-							MakePillar(
-								PosX,
-								PosY,
-								LINE_THICKNESS,
-								GameObject::GO_NONELASTIC_PILLAR);
-						}
-						CurInkCost += player.GetInkCost();
-					}
-				}
-			}
-			else
-			{
-				if (player.GetCurrentMat() == PlayerA2::ELASTIC || player.GetCurrentMat() == PlayerA2::NON_ELASTIC)
-				{
-					if (player.UseInk(player.GetInkCost()))
-					{
-						if (player.GetCurrentMat() == PlayerA2::ELASTIC)
-						{
-							MakePillar(
-								start.x,
-								start.y,
-								LINE_THICKNESS,
-								GameObject::GO_PILLAR);
-						}
-						else
-						{
-							MakePillar(
-								start.x,
-								start.y,
-								LINE_THICKNESS,
-								GameObject::GO_NONELASTIC_PILLAR);
-						}
-						CurInkCost += player.GetInkCost();
-					}
-				}
-			}
-			shape_list.push_back(shape);
-			shape = NULL;
-			ShapeCount++;
-			LastInkCost.push_back(CurInkCost);
-			CurInkCost = 0;
-		}
-
-		// ball Spawn
-		if (Application::IsKeyPressed(VK_SPACE))
-		{
-			if (ball == NULL)
-			{
-				ball = FetchGO();
-				ball->type = GameObject::GO_BALL;
-				ball->vel.SetZero();
-				ball->vel += spawner->normal.Rotated(-90) * DISPENSER_FORCE;
-				ball->pos = spawner->pos;
-				ball->scale.Set(2, 2, 2);
-			}
-		}
-
-		// Erase Last Shape
-		static bool RButtonState = false;
-		if (Application::IsKeyPressed('Q') && !RButtonState)
-		{
-			RButtonState = true;
-			if (shape_list.size() > 0)
-			{
-				std::vector<GameObject*>* last_Shape = shape_list.back();
-				int size = last_Shape->size();
-				for (int i = 0; i < size; i++)
-				{
-					GameObject* go = last_Shape->back();
-					go->active = false;
-					last_Shape->back() = NULL;
-					last_Shape->pop_back();
-					m_objectCount--;
-				}
-				shape_list.back() = NULL;
-				shape_list.pop_back();
-				ShapeCount--;
-				player.CleanInk(LastInkCost.back());
-				LastInkCost.pop_back();
-			}
-		}
-		else if (!Application::IsKeyPressed('Q') && RButtonState)
-		{
-			RButtonState = false;
-		}
-
-		//Physics Simulation Section
-
-		for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); it++)
-		{
-			GameObject* go = (GameObject*)*it;
-			if (go->active)
-			{
-				//Exercise 7: handle out of bound game objects
-				if (go->pos.x < 0 || go->pos.x > m_worldWidth ||
-					go->pos.y < 0 || go->pos.y > m_worldHeight)
-				{
-					ReturnGO(go);
-					if (go == ball)
-					{
-						ball = NULL;
-					}
-					continue;
-				}
-				//Exercise 8a: handle collision between GO_BALL and GO_BALL using velocity swap
-				for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_goList.end(); it2++)
-				{
-					GameObject* go2 = (GameObject*)*it2;
-					if (go == go2)
-					{
-						continue;
-					}
-					if (go2->active)
-					{
-						GameObject* ball = go;
-						GameObject* other = go2;
-						if (ball->type != GameObject::GO_BALL) {
-							ball = go2;
-							other = go;
-						}
-						if (CheckCollision(ball, other, dt) == true) {
-							CheckCollisionResponse(ball, other, dt);
-						}
-					}
-				}
-
-
-				//Exercise 8b: store values in auditing variables
-
-				//Exercise 10: handle collision using momentum swap instead
-
-				//Exercise 12: improve inner loop to prevent double collision
-
-				//Exercise 13: improve collision detection algorithm [solution to be given later] 
-
-				if (go->type == GameObject::GO_BALL)
-				{
-					go->pos += go->vel * dt * m_speed;
-					go->vel.y -= 9.8f * dt * m_speed;
-					go->vel -= go->vel * 5 / 100 * dt * m_speed;
-				}
-				else if (go->type == GameObject::GO_FLIPPER || go->type == GameObject::GO_FLIPPER_PILLAR)
-				{
-					float angle = go->angularVelocity * dt * m_speed;
-					Vector3 PivToPos = go->pos - go->pivot;
-					PivToPos.Rotate(angle);
-					go->pos.Set(
-						go->pivot.x + PivToPos.x,
-						go->pivot.y + PivToPos.y,
-						0
-					);
-
-					go->normal.Rotate(angle);
-				}
-			}
+		m_speed = Math::Max(0.f, m_speed - 0.1f);
+	}
+	if (Application::IsKeyPressed('0'))
+	{
+		m_speed += 0.1f;
+	}
+	if (Application::IsKeyPressed('R'))
+	{
+	}
+	//Changing Material
+	static bool EbuttonState = false;
+	if (Application::IsKeyPressed('E') && !EbuttonState)
+	{
+		EbuttonState = true;
+	}
+	else if (!Application::IsKeyPressed('E') && EbuttonState)
+	{
+		EbuttonState = false;
+	}
+	//Mouse Section
+	double x, y;
+	Application::GetCursorPos(&x, &y);
+	unsigned w = Application::GetWindowWidth();
+	unsigned h = Application::GetWindowHeight();
+	double PosX = (x / w) * m_worldWidth;
+	double PosY = m_worldHeight - (y / h) * m_worldHeight;
+	static bool bLButtonState = false;
+	if (!bLButtonState && Application::IsMousePressed(0))
+	{
+		bLButtonState = true;
+		std::cout << "LBUTTON DOWN" << std::endl;
+	}
+	else if (bLButtonState && !Application::IsMousePressed(0))
+	{
+		bLButtonState = false;
+	}
+	static bool bRButtonState = false;
+	if (Application::IsMousePressed(1))
+	{
+		if (!bRButtonState) {
+			bRButtonState = true;
+			std::cout << "RBUTTON DOWN" << std::endl;
 		}
 	}
-	else
+	else if (bRButtonState && !Application::IsMousePressed(1))
 	{
-		if (Application::IsKeyPressed(VK_RETURN))
+		bRButtonState = false;
+	}
+
+	// ball Spawn
+	if (Application::IsKeyPressed(VK_SPACE))
+	{
+	}
+
+	// Erase Last Shape
+	static bool RButtonState = false;
+	if (Application::IsKeyPressed('Q') && !RButtonState)
+	{
+		RButtonState = true;
+	}
+	else if (!Application::IsKeyPressed('Q') && RButtonState)
+	{
+		RButtonState = false;
+	}
+
+	//Physics Simulation Section
+
+	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); it++)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go->active)
 		{
-			levelCompleted = false;
-			curLevel++;
-			if (shape_list.size() > 0)
+			//Exercise 7: handle out of bound game objects
+			if (go->pos.x < 0 || go->pos.x > m_worldWidth ||
+				go->pos.y < 0 || go->pos.y > m_worldHeight)
 			{
-				int listSize = shape_list.size();
-				for (int i = 0; i < listSize; i++)
+				ReturnGO(go);
+				continue;
+			}
+			//Exercise 8a: handle collision between GO_BALL and GO_BALL using velocity swap
+			for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_goList.end(); it2++)
+			{
+				GameObject* go2 = (GameObject*)*it2;
+				if (go == go2)
 				{
-					std::vector<GameObject*>* last_Shape = shape_list.back();
-					int size = last_Shape->size();
-					for (int j = 0; j < size; j++)
-					{
-						GameObject* go = last_Shape->back();
-						go->active = false;
-						last_Shape->back() = NULL;
-						last_Shape->pop_back();
-						m_objectCount--;
+					continue;
+				}
+				if (go2->active)
+				{
+					GameObject* ball = go;
+					GameObject* other = go2;
+					if (ball->type != GameObject::GO_BALL) {
+						ball = go2;
+						other = go;
 					}
-					shape_list.back() = NULL;
-					shape_list.pop_back();
-					ShapeCount--;
-					player.CleanInk(LastInkCost.back());
-					LastInkCost.pop_back();
+					if (CheckCollision(ball, other, dt) == true) {
+						CheckCollisionResponse(ball, other, dt);
+					}
 				}
 			}
-			player.SetCapacity(500);
-			if (ball != NULL)
+
+
+			//Exercise 8b: store values in auditing variables
+
+			//Exercise 10: handle collision using momentum swap instead
+
+			//Exercise 12: improve inner loop to prevent double collision
+
+			//Exercise 13: improve collision detection algorithm [solution to be given later] 
+
+			if (go->type == GameObject::GO_BALL)
 			{
-				ball->active = false;
-				ball = NULL;
+				go->pos += go->vel * dt * m_speed;
+				go->vel.y -= 9.8f * dt * m_speed;
+				go->vel -= go->vel * 5 / 100 * dt * m_speed;
 			}
-			ResetList();
-			switch (curLevel)
+			else if (go->type == GameObject::GO_FLIPPER || go->type == GameObject::GO_FLIPPER_PILLAR)
 			{
-			case 1:
-				level1();
-				break;
-			case 2:
-				level2();
-				break;
-			case 3:
-				level3();
-				break;
+				float angle = go->angularVelocity * dt * m_speed;
+				Vector3 PivToPos = go->pos - go->pivot;
+				PivToPos.Rotate(angle);
+				go->pos.Set(
+					go->pivot.x + PivToPos.x,
+					go->pivot.y + PivToPos.y,
+					0
+				);
+
+				go->normal.Rotate(angle);
 			}
 		}
 	}
@@ -1007,11 +706,6 @@ void SceneCollision::Render()
 	//Exercise 5: Render m_objectCount
 	ss << "GameObject Count: " << m_objectCount;
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 12);
-
-	ss.str("");
-	ss.precision(5);
-	ss << "Ink Amount: " << player.GetInkAmount();
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 21);
 	
 	ss.str("");
 	ss.precision(5);
@@ -1020,25 +714,6 @@ void SceneCollision::Render()
 	
 	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(0, 1, 0), 3, 0, 0);
 
-	if (levelCompleted)
-	{
-		ss.str("");
-		ss << "Level Completed";
-		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 10, 15, 30);
-
-		if (curLevel == num_levels)
-		{
-			ss.str("");
-			ss << "You completed all levels";
-			RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 5, 20, 10);
-		}
-		else
-		{
-			ss.str("");
-			ss << "'Enter' to next level";
-			RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 5, 20, 10);
-		}
-	}
 }
 
 void SceneCollision::Exit()
@@ -1068,128 +743,4 @@ void SceneCollision::ResetList(void)
 			m_objectCount--;
 		}
 	}
-}
-
-void SceneCollision::level1()
-{
-	spawner = FetchGO();
-	spawner->type = GameObject::GO_DISPENSER;
-	spawner->normal.Set(1, 0, 0);
-	spawner->pos.Set(20, m_worldHeight - 5, 0);
-	spawner->scale.Set(10, 5, 10);
-
-	goal = FetchGO();
-	goal->type = GameObject::GO_GOAL;
-	goal->pos.Set(40, 20, 0);
-	goal->normal.Set(1, 0, 0);
-	goal->scale.Set(15, 10, 1);
-
-	float offset = 44.5f;
-	float wallThickness = 4.f;
-	float wallHeight = m_worldHeight / 2 - wallThickness;
-	float angleInterval = Math::PI;
-	for (int i = 0; i < 2; i++) {
-		MakeThinWall(
-			m_worldWidth / 2 + (m_worldWidth / 2 - wallThickness) * cosf(angleInterval * i),
-			m_worldHeight / 2 + (m_worldHeight / 2 - wallThickness) * sinf(angleInterval * i),
-			Math::RadianToDegree(angleInterval) * i,
-			wallThickness,
-			wallHeight);
-	}
-
-	MakeThickWall(40, 50, 90, 5, 32);
-}
-
-void SceneCollision::level2()
-{
-	spawner = FetchGO();
-	spawner->type = GameObject::GO_DISPENSER;
-	spawner->normal.Set(1, 0, 0);
-	spawner->pos.Set(20, m_worldHeight - 5, 0);
-	spawner->scale.Set(10, 5, 10);
-
-	goal = FetchGO();
-	goal->type = GameObject::GO_GOAL;
-	goal->pos.Set(m_worldWidth - 40, 10, 0);
-	goal->normal.Set(1, 0, 0);
-	goal->scale.Set(15, 10, 1);
-
-	float offset = 44.5f;
-	float wallThickness = 4.f;
-	float wallHeight = m_worldHeight / 2 - wallThickness;
-	float angleInterval = Math::PI;
-	for (int i = 0; i < 2; i++) {
-		MakeThinWall(
-			m_worldWidth / 2 + (m_worldWidth / 2 - wallThickness) * cosf(angleInterval * i),
-			m_worldHeight / 2 + (m_worldHeight / 2 - wallThickness) * sinf(angleInterval * i),
-			Math::RadianToDegree(angleInterval) * i,
-			wallThickness,
-			wallHeight);
-	}
-
-	MakeThickWall(28, 35, 90, 5, 20);
-	MakeThickWall(95, 85, 90, 15, 30);
-
-	MakeFlipper(
-		50, 38,
-		Vector3(47.5, 35.5, 0),
-		45,
-		0,
-		1.5f, 15.f);
-
-	MakeFlipper(
-		70, 70,
-		Vector3(70, 75, 0),
-		-90,
-		-120,
-		1.5f, 15.f);
-}
-
-void SceneCollision::level3()
-{
-	spawner = FetchGO();
-	spawner->type = GameObject::GO_DISPENSER;
-	spawner->normal.Set(1, 0, 0);
-	spawner->pos.Set(20, m_worldHeight - 5, 0);
-	spawner->scale.Set(10, 5, 10);
-
-	goal = FetchGO();
-	goal->type = GameObject::GO_GOAL;
-	goal->pos.Set(m_worldWidth - 13, m_worldHeight / 2, 0);
-	goal->normal.Set(1, 0, 0);
-	goal->scale.Set(5, 20, 1);
-
-	float offset = 44.5f;
-	float wallThickness = 4.f;
-	float wallHeight = m_worldHeight / 2 - wallThickness;
-	float angleInterval = Math::PI;
-	for (int i = 0; i < 2; i++) {
-		MakeThinWall(
-			m_worldWidth / 2 + (m_worldWidth / 2 - wallThickness) * cosf(angleInterval * i),
-			m_worldHeight / 2 + (m_worldHeight / 2 - wallThickness) * sinf(angleInterval * i),
-			Math::RadianToDegree(angleInterval) * i,
-			wallThickness,
-			wallHeight);
-	}
-
-	MakeThickWall(m_worldWidth - 20.5, 17.5, 90, 17.5, 2.5);
-	MakeThickWall(m_worldWidth - 20.5, 82.5, 90, 17.5, 2.5);
-
-	GameObject* go = FetchGO();
-	go->active = true;
-	go->type = GameObject::GO_BOUNCER;
-	go->pos.Set(18, 30, 0);
-	go->scale.Set(6, 6, 6);
-
-	go = FetchGO();
-	go->active = true;
-	go->type = GameObject::GO_BOUNCER;
-	go->pos.Set(58, 30, 0);
-	go->scale.Set(6, 6, 6);
-
-	go = FetchGO();
-	go->active = true;
-	go->type = GameObject::GO_BOUNCER;
-	go->pos.Set(98, 30, 0);
-	go->scale.Set(6, 6, 6);
 }

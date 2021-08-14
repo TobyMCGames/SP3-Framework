@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "SceneTitleA2.h"
+#include "SceneTitle.h"
 #include "SceneCollision.h"
 
 GLFWwindow* m_window;
@@ -90,9 +90,9 @@ void Application::Init()
 
 
 	//Create a window and create its OpenGL context
-	m_width = 800;
-	m_height = 600;
-	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
+	m_width = 1920;
+	m_height = 1080;
+	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -128,7 +128,7 @@ bool results = true;
 void Application::Run()
 {
 	//Main Loop
-	Scene* Title = new SceneTitleA2();
+	Scene* Title = new SceneTitle();
 	/*Scene* GamePlay = new SceneAsteroid();
 	Scene* Result = new SceneResult();*/
 	Scene* Collision = new SceneCollision;
