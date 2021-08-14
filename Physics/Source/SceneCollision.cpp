@@ -5,6 +5,7 @@
 
 SceneCollision::SceneCollision()
 {
+	std::cout << "Initialising" << std::endl;
 }
 
 SceneCollision::~SceneCollision()
