@@ -9,6 +9,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="DesignPatterns">
+      <UniqueIdentifier>{4333f391-2adc-4466-86a2-f890e2bf1798}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -105,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="Source\SceneTitle.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SingletonPattern.h">
+      <Filter>DesignPatterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

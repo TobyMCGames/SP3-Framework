@@ -26,6 +26,7 @@ void SceneCollision::Init()
 	m_objectCount = 0;
 
 	//Player Here
+	player = Player::GetInstance();
 
 	Math::InitRNG();
 

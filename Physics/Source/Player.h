@@ -1,7 +1,9 @@
 #pragma once
-class Player
-{
+#include "SingletonPattern.h"
 
+class Player : public SingletonPattern<Player>
+{
+	friend SingletonPattern<Player>;
 public:
 	enum materials
 	{

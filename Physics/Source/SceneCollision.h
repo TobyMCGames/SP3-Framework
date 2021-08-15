@@ -48,7 +48,7 @@ protected:
 	int m_objectCount;
 
 	//Line Drawing
-	Player player;
+	Player* player;
 
 
 
