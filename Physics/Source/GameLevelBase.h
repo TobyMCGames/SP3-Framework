@@ -19,4 +19,3 @@ public:
 	virtual void Destroy() = 0;
 	bool SetMap(string);
 };
-
