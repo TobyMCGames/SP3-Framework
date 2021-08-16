@@ -121,6 +121,8 @@ void SceneBase::Init()
 	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//castle_background.tga");
 	meshList[GEO_TITLE] = MeshBuilder::GenerateQuad("title", Color(1, 1, 1), 2);
 	meshList[GEO_TITLE]->textureID = LoadTGA("Image//game_title.tga");
+	meshList[GEO_CONTROLS] = MeshBuilder::GenerateQuad("controls", Color(1, 1, 1), 2);
+	meshList[GEO_CONTROLS]->textureID = LoadTGA("Image//controls.tga");
 
 	bLightEnabled = true;
 }
