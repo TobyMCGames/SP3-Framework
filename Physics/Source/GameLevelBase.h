@@ -11,6 +11,8 @@ protected:
 	vector<GameObject*>map;
 	Player* player;
 public:
+	GameLevelBase();
+	~GameLevelBase();
 	virtual void Init() = 0;
 	virtual void Update(double dt) = 0;
 	virtual void Render() = 0;
