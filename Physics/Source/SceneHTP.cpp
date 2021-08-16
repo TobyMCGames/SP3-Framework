@@ -40,7 +40,7 @@ void SceneHTP::Update(double dt)
 	float posX = x / w * 80; //convert (0,800) to (0,80)
 	float posY = 1 - (y / h) * 60; //convert (600,0) to (0,60)
 	BackButton.Set(1, 1, 1);
-	if (posX > 37 && posX < 48 && posY > -49 && posY < -44)
+	if (posX > 7 && posX < 18 && posY > -53 && posY < -48)
 	{
 		BackButton.Set(1, 0, 0);
 		//Mouse Section
@@ -82,7 +82,7 @@ void SceneHTP::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth/2, m_worldHeight/2, -1);
 	modelStack.Scale(88, 55, 55);
-	RenderMesh(meshList[GEO_BACKGROUND], false);
+	RenderMesh(meshList[GEO_CONTROLS], false);
 	modelStack.PopMatrix();
 
 	////Title Logo
@@ -97,8 +97,8 @@ void SceneHTP::Render()
 	//On screen text
 	std::ostringstream ss;
 	ss.str("");
-	ss << "back";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), BackButton, 4, 39.5, 10);
+	ss << "<Back";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), BackButton, 4, 7, 5);
 }
 
 void SceneHTP::Exit()
