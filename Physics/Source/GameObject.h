@@ -11,14 +11,26 @@ struct GameObject
 		GO_BALL,
 		GO_CUBE,
 		GO_WALL,
-		GO_NONELASTIC_WALL,
-		GO_PILLAR,
-		GO_NONELASTIC_PILLAR,
-		GO_FLIPPER,
-		GO_FLIPPER_PILLAR,
-		GO_BOUNCER,
-		GO_DISPENSER,
-		GO_GOAL,
+
+		// MOBS
+		GO_PLAYER,
+		GO_PLAYERCLONE,
+		GO_SKELEARCHER,
+		GO_ZOMBIE,
+		GO_TURRET,
+		GO_SPIDER,
+		GO_BOOMER,
+		GO_DEMONLORD,
+
+		// PROJECTILES
+
+		GO_ARROW,
+		GO_MAGICBALL,
+		GO_SKELEARROW,
+		GO_DEMONBALL,
+
+		// TILES
+
 
 		GO_TOTAL, //must be last
 	};
@@ -38,6 +50,13 @@ struct GameObject
 	Vector3 pivot;
 
 	float timer;
+
+	// SP3 Values for Entities, Projectile & Tiles
+	int health;
+	int damage;
+	float Default_Speed;
+
+	virtual void Response(GameObject*) = 0;
 
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
