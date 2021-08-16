@@ -24,6 +24,8 @@ protected:
 	float m_worldHeight;
 
 	Color PlayButton;
+	Color HTPButton;
+	Color QuitButton;
 };
 
 #endif

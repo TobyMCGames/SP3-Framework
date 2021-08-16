@@ -12,6 +12,8 @@ protected:
 		NUM_STATES,
 	};
 public:
+	Entity();
+	~Entity();
 	virtual void Update(double dt) = 0;
 	virtual void Response(GameObject*) = 0;
 };

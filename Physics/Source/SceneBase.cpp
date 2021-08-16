@@ -118,9 +118,24 @@ void SceneBase::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 	meshList[GEO_TEXT]->material.kAmbient.Set(1, 0, 0);
 	meshList[GEO_BACKGROUND] = MeshBuilder::GenerateQuad("background", Color(1, 1, 1), 2);
-	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Space_BG.tga");
+	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//castle_background.tga");
 	meshList[GEO_TITLE] = MeshBuilder::GenerateQuad("title", Color(1, 1, 1), 2);
-	meshList[GEO_TITLE]->textureID = LoadTGA("Image//TitleA2.tga");
+	meshList[GEO_TITLE]->textureID = LoadTGA("Image//game_title.tga");
+
+	// SCENE GUI
+	meshList[GUI_HEART] = MeshBuilder::GenerateQuad("Hearts_sprite", Color(1, 1, 1));
+	meshList[GUI_HEART]->textureID = LoadTGA("Image/GUI/Hearts_Icon.tga");
+	meshList[GUI_ENERGY] = MeshBuilder::GenerateQuad("Energy_Sprite", Color(1, 1, 1));
+	meshList[GUI_ENERGY]->textureID = LoadTGA("Image//GUI//Energy_Icon.tga");
+	meshList[GUI_CELLS] = MeshBuilder::GenerateQuad("UI_CELLS_Sprite", Color(1, 1, 1));
+	meshList[GUI_CELLS]->textureID = LoadTGA("Image//GUI//normal_Cells.tga");
+	meshList[GUI_ENERGYBAR] = MeshBuilder::GenerateQuad("healthbar",Color(0.0f,0.7f,0.7f));
+	meshList[GUI_HEALTHBAR] = MeshBuilder::GenerateQuad("energybar",Color(0.7f,0.0f,0.0f));
+	meshList[GUI_STATS_BG] = MeshBuilder::GenerateQuad("stats_bg", Color(1, 1, 1));
+	meshList[GUI_STATS_BG]->textureID = LoadTGA("Image//GUI//Stats_background.tga");
+	meshList[GUI_ATK_ICON] = MeshBuilder::GenerateQuad("atkicon", Color(1, 1, 1));
+	meshList[GUI_ATK_ICON]->textureID = LoadTGA("Image//GUI//AtkIcon.tga");
+
 
 	bLightEnabled = true;
 }
