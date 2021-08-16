@@ -4,13 +4,12 @@
 #include "GameObject.h"
 #include <vector>
 #include "SceneBase.h"
+#include "SingletonPattern.h"
 
-class SceneHTP : public SceneBase
+class SceneHTP : public SceneBase, public SingletonPattern<SceneHTP>
 {
-
+	friend SingletonPattern<SceneHTP>;
 public:
-	SceneHTP();
-	~SceneHTP();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -19,6 +18,8 @@ public:
 
 
 protected:
+	SceneHTP();
+	~SceneHTP();
 
 	float m_worldWidth;
 	float m_worldHeight;
