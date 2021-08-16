@@ -118,9 +118,9 @@ void SceneBase::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 	meshList[GEO_TEXT]->material.kAmbient.Set(1, 0, 0);
 	meshList[GEO_BACKGROUND] = MeshBuilder::GenerateQuad("background", Color(1, 1, 1), 2);
-	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Space_BG.tga");
+	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//castle_background.tga");
 	meshList[GEO_TITLE] = MeshBuilder::GenerateQuad("title", Color(1, 1, 1), 2);
-	meshList[GEO_TITLE]->textureID = LoadTGA("Image//TitleA2.tga");
+	meshList[GEO_TITLE]->textureID = LoadTGA("Image//game_title.tga");
 
 	bLightEnabled = true;
 }

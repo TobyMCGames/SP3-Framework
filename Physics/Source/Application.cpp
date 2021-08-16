@@ -14,6 +14,8 @@
 #include "GameStateManager.h"
 #include "SceneTitle.h"
 #include "SceneCollision.h"
+#include "SceneHTP.h"
+#include "SceneCredits.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -95,6 +97,10 @@ void Application::Init()
 	m_height = 1080;
 	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
 
+	//m_width = 1920;
+	//m_height = 1080;
+	//m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
+
 	//If the window couldn't be created
 	if (!m_window)
 	{
@@ -123,7 +129,10 @@ void Application::Init()
 
 	// Create the game states
 	GameStateManager::GetInstance()->AddGameState("IntroState", new SceneTitle);
+	GameStateManager::GetInstance()->AddGameState("HowToPlayState", new SceneHTP);
 	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneCollision);
+	GameStateManager::GetInstance()->AddGameState("CreditsState", new SceneCredits);
+
 
 	// Set active game State
 	GameStateManager::GetInstance()->SetActiveGameState("IntroState");
