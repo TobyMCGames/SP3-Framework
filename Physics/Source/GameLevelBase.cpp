@@ -27,5 +27,5 @@ void GameLevelBase::Render()
 
 bool GameLevelBase::SetMap(string)
 {
-	
+	return false;
 }
