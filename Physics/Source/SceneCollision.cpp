@@ -32,8 +32,6 @@ void SceneCollision::Init()
 
 	//Exercise 1: initialize m_objectCount
 
-	m_ghost = new GameObject(GameObject::GO_BALL);
-	m_ghost->active = false;
 
 }
 
@@ -53,7 +51,7 @@ GameObject* SceneCollision::FetchGO()
 	}
 	for (int i = 0; i < 10; i++)
 	{
-		m_goList.push_back(new GameObject(GameObject::GO_BALL));
+		//m_goList.push_back(new GameObject(GameObject::GO_BALL));
 	}
 	//Exercise 2b: increase object count every time an object is set to active
 	m_goList.back()->active = true;
@@ -68,339 +66,114 @@ void SceneCollision::ReturnGO(GameObject *go)
 	m_objectCount--;
 }
 
-bool SceneCollision::CheckCollision(GameObject* go1, GameObject* go2, float dt)
-{
-	if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_BALL)
-	{
-		if ((go1->pos - go2->pos).LengthSquared() <= (go1->scale.x + go2->scale.x) * (go1->scale.x + go2->scale.x))
-		{
-			Vector3 collisionNormal = go2->pos - go1->pos;
-			Vector3 DiffVel = go1->vel - go2->vel;
-			if (DiffVel.Dot(collisionNormal) > 0)
-				return true;
-		}
-	}
-	else if ((go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_WALL) ||
-		(go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_NONELASTIC_WALL) ||
-		(go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_DISPENSER))
-	{
-		Vector3 N = go2->normal;
-		//Flip if needed
-		if ((go2->pos - go1->pos).Dot(N) < 0)
-			N = -N;
-
-		if (go2->type != GameObject::GO_FLIPPER)
-		{
-			if (N.Dot(go1->vel) < 0)
-				return false;
-		}
-
-		Vector3 NP = Vector3(-N.y, N.x, 0);
-		Vector3 w0_b1 = go2->pos - go1->pos;
-		float r = go1->scale.x;
-		float h_2 = go2->scale.x;
-		float l_2 = go2->scale.y;
-
-		if ((abs((w0_b1).Dot(N)) < r + h_2) &&
-			abs((w0_b1).Dot(NP)) < l_2)
-		{
-			// collided
-			std::cout << "Ball hit wall" << std::endl;
-			return true;
-		}
-	}
-	else if ((go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_PILLAR) ||
-		(go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_NONELASTIC_PILLAR) ||
-		(go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_BOUNCER))
-	{
-		if ((go1->pos - go2->pos).LengthSquared() <= (go1->scale.x + go2->scale.x) * (go1->scale.x + go2->scale.x))
-		{
-			Vector3 collisionNormal = go2->pos - go1->pos;
-			if (go1->vel.Dot(collisionNormal) > 0)
-				return true;
-		}
-	}
-	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_FLIPPER)
-	{
-		Vector3 N = go2->normal;
-		//Flip if needed
-		if ((go2->pos - go1->pos).Dot(N) < 0)
-			N = -N;
-
-		Vector3 NP = Vector3(-N.y, N.x, 0);
-		Vector3 w0_b1 = go2->pos - go1->pos;
-		float r = go1->scale.x;
-		float h_2 = go2->scale.x;
-		float l_2 = go2->scale.y;
-
-		if ((abs((w0_b1).Dot(N)) < r + h_2) &&
-			abs((w0_b1).Dot(NP)) < l_2)
-		{
-			float period = (2 * Math::PI) / Math::DegreeToRadian(go2->angularVelocity);
-			float distance;
-			if ((go2->pos - go2->pivot).LengthSquared() == 0)
-				distance = 0;
-			else
-				distance = (go1->pos - go2->pivot).Dot((go2->pos - go2->pivot).Normalized());
-			float speed = (2 * Math::PI * distance) / period;
-			Vector3 NormalVelocity = go2->normal * speed;
-
-			Vector3 FlipperVel_BallDir = NormalVelocity.Dot(go1->vel.Normalized()) * go1->vel.Normalized();
-
-			Vector3 difSpeed = go1->vel - FlipperVel_BallDir;
-			if (difSpeed.Length() > 0)
-			{
-				// collided
-				std::cout << "Ball inside goal" << std::endl;
-				return true;
-			}
-		}
-	}
-	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_FLIPPER_PILLAR)
-	{
-		//Vector3 PillarNewPos = go2->pos.Rotated(go2->angularVelocity * dt * m_speed);
-		//Vector3 NewBallPos = go1->pos + (go1->vel - Vector3(0, -9.8, 0) * dt * m_speed) * dt * m_speed;
-		if ((go1->pos - go2->pos).LengthSquared() <= (go1->scale.x + go2->scale.x) * (go1->scale.x + go2->scale.x))
-		{
-			Vector3 collisionNormal = go2->pos - go1->pos;
-			
-			float period = (2 * Math::PI) / Math::DegreeToRadian(go2->angularVelocity);
-			float distance = (go1->pos - go2->pivot).Dot((go2->pos - go2->pivot).Normalized());
-			float speed = (2 * Math::PI * distance) / period;
-			Vector3 NormalVelocity = go2->normal * speed;
-
-			Vector3 DiffVel = go1->vel - NormalVelocity;
-
-			if (DiffVel.Dot(collisionNormal) > 0)
-				return true;
-
-		}
-	}
-	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_GOAL)
-	{
-		Vector3 N = go2->normal;
-		//Flip if needed
-		if ((go2->pos - go1->pos).Dot(N) < 0)
-			N = -N;
-
-		Vector3 NP = Vector3(-N.y, N.x, 0);
-		Vector3 w0_b1 = go2->pos - go1->pos;
-		float r = go1->scale.x;
-		float h_2 = go2->scale.x;
-		float l_2 = go2->scale.y;
-
-		if ((abs((w0_b1).Dot(N)) < h_2 - r) &&
-			abs((w0_b1).Dot(NP)) < l_2)
-		{
-			// collided
-			std::cout << "Ball inside goal" << std::endl;
-			return true;
-		}
-	}
-	return false;
-}
-
-void SceneCollision::CheckCollisionResponse(GameObject* go1, GameObject* go2, float dt)
-{
-	if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_BALL)
-	{
-		u1 = go1->vel;
-		u2 = go2->vel;
-		m1 = go1->mass;
-		m2 = go2->mass;
-
-		Vector3 collisionNormal = go1->pos - go2->pos;
-		float distSq = collisionNormal.LengthSquared();
-		float dp = (u1 - u2).Dot(go1->pos - go2->pos);
-		v1 = u1 - ((2 * m2) / (m1 + m2)) * (dp / distSq) * collisionNormal;
-		v2 = u2 - ((2 * m1) / (m1 + m2)) * (dp / distSq) * -collisionNormal;
-
-		go1->vel = v1;
-		go2->vel = v2;
-		std::cout << "ball & ball clashed" << std::endl;
-	}
-	else if ((go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_WALL) ||
-		(go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_DISPENSER))
-	{
-		go1->vel -= 2 * go1->vel.Dot(go2->normal) * go2->normal;
-	}
-	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_PILLAR)
-	{
-		Vector3 normal = (go1->pos - go2->pos).Normalized();
-		go1->vel -= 2 * go1->vel.Dot(normal) * normal;
-	}
-	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_NONELASTIC_WALL)
-	{
-		go1->vel -= 2 * go1->vel.Dot(go2->normal) * go2->normal;
-		go1->vel *= 0.8;
-	}
-	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_NONELASTIC_PILLAR)
-	{
-		Vector3 normal = (go1->pos - go2->pos).Normalized();
-		go1->vel -= 2 * go1->vel.Dot(normal) * normal;
-		go1->vel *= 0.8;
-	}
-	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_FLIPPER)
-	{
-		float period = (2 * Math::PI) / Math::DegreeToRadian(go2->angularVelocity);
-
-		float distance;
-		if ((go2->pos - go2->pivot).LengthSquared() == 0)
-			distance = 0;
-		else
-			distance = (go1->pos - go2->pivot).Dot((go2->pos - go2->pivot).Normalized());
-		float speed = (2 * Math::PI * distance) / period;
-		Vector3 NormalVelocity = go2->normal * speed;
-		Vector3 difSpeed;
-		Vector3 N = go2->normal;
-		if ((go1->pos - go2->pos).Dot(go2->normal) > 0)
-		{
-			N = -N;
-			Vector3 FlipperVel_BallDir = NormalVelocity.Dot(go1->vel.Normalized()) * go1->vel.Normalized();
-			difSpeed = go1->vel - FlipperVel_BallDir;
-		}
-		else
-		{
-			difSpeed = go1->vel - NormalVelocity;
-		}
-
-		go1->vel -= 2 * difSpeed.Dot(N) * N;
-	}
-	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_FLIPPER_PILLAR)
-	{
-		float period = (2 * Math::PI) / Math::DegreeToRadian(go2->angularVelocity);
-		float distance = (go2->pos - go2->pivot).Length();
-		float speed = (2 * Math::PI * distance) / period;
-		Vector3 NormalVelocity = go2->normal * speed;
-		Vector3 CollisionNormal = (go1->pos - go2->pos).Normalized();
-
-
-		Vector3 FlipperVel_BallDir = NormalVelocity.Dot(CollisionNormal) * CollisionNormal;
-		Vector3 difSpeed = go1->vel - FlipperVel_BallDir;
-
-		go1->vel -= 2 * difSpeed.Dot(CollisionNormal) * CollisionNormal;
-
-	}
-	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_BOUNCER)
-	{
-		Vector3 normal = (go1->pos - go2->pos).Normalized();
-		go1->vel -= 2 * go1->vel.Dot(normal) * normal;
-		go1->vel *= 1.3;
-	}
-	else if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_GOAL)
-	{
-	}
-	return;
-}
-
-void SceneCollision::MakePillar(float x, float y, float thickness, GameObject::GAMEOBJECT_TYPE type)
-{
-	GameObject* go = FetchGO();
-	go->type = type;
-	go->active = true;
-	go->pos.Set(x, y, 0);
-	go->scale.Set(thickness, thickness, thickness);
-}
-
-void SceneCollision::MakeThinWall(float x, float y, float angleDeg, float thickness, float height)
-{
-	GameObject* go = FetchGO();
-	go->type = GameObject::GO_NONELASTIC_WALL;
-	go->active = true;
-	go->pos.Set(x, y, 0);
-	go->normal.Set(cosf(Math::DegreeToRadian(angleDeg)), sinf(Math::DegreeToRadian(angleDeg)), 0);
-	go->scale.Set(thickness, height, 1.f);
-
-	MakePillar(
-		go->pos.x - height * sinf(Math::DegreeToRadian(angleDeg)),
-		go->pos.y + height * cosf(Math::DegreeToRadian(angleDeg)),
-		thickness,
-		GameObject::GO_NONELASTIC_PILLAR);
-
-	MakePillar(
-		go->pos.x + height * sinf(Math::DegreeToRadian(angleDeg)),
-		go->pos.y - height * cosf(Math::DegreeToRadian(angleDeg)),
-		thickness,
-		GameObject::GO_NONELASTIC_PILLAR);
-}
-
-void SceneCollision::MakeThickWall(float x, float y, float angleDeg, float thickness, float height)
-{
-	angleDeg = Math::DegreeToRadian(angleDeg);
-
-	GameObject* go = FetchGO();
-	go->type = GameObject::GO_NONELASTIC_WALL;
-	go->active = true;
-	go->pos.Set(x, y);
-	go->normal.Set(cosf(angleDeg), sinf(angleDeg), 0);
-	go->scale.Set(thickness, height, 1.f);
-
-	GameObject* go2 = FetchGO();
-	go2->type = GameObject::GO_NONELASTIC_WALL;
-	go2->active = true;
-	go2->pos.Set(x, y);
-	go2->normal.Set(sinf(-angleDeg), cosf(-angleDeg), 0);
-	go2->scale.Set(height, thickness, 1.f);
-
-	MakePillar(x + (thickness - 0.0005f) * cosf(angleDeg) - (height + 0.0005f) * sinf(angleDeg),
-		y + (height - 0.0005f) * cosf(angleDeg) + (thickness + 0.0005f) * sinf(angleDeg),
-		0.1f,
-		GameObject::GO_NONELASTIC_PILLAR);
-	MakePillar(x + (-thickness + 0.0005f) * cosf(angleDeg) - (height + 0.0005f) * sinf(angleDeg),
-		y + (height - 0.0005f) * cosf(angleDeg) + (-thickness - 0.0005f) * sinf(angleDeg),
-		0.1f,
-		GameObject::GO_NONELASTIC_PILLAR);
-	MakePillar(x + (thickness - 0.0005f) * cosf(angleDeg) - (-height - 0.0005f) * sinf(angleDeg),
-		y + (-height + 0.0005f) * cosf(angleDeg) + (thickness - 0.0005f) * sinf(angleDeg),
-		0.1f,
-		GameObject::GO_NONELASTIC_PILLAR);
-	MakePillar(x + (-thickness + 0.0005f) * cosf(angleDeg) - (-height + 0.0005f) * sinf(angleDeg),
-		y + (-height + 0.0005f) * cosf(angleDeg) + (-thickness + 0.0005f) * sinf(angleDeg),
-		0.1f,
-		GameObject::GO_NONELASTIC_PILLAR);
-}
-
-void SceneCollision::MakeFlipper(float x, float y,Vector3 pivotPos, float defaultAngle, float angleSpeed, float thickness, float height)
-{
-	GameObject* go = FetchGO();
-	go->type = GameObject::GO_FLIPPER;
-	go->pivot = pivotPos;
-	go->scale.Set(thickness, height, thickness);
-	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
-	go->angularVelocity = angleSpeed;
-	
-	Vector3 PivToPos = Vector3(x, y, 0) - pivotPos;
-	float angle = Math::DegreeToRadian(defaultAngle);
-	go->pos.Set(
-		x,
-		y,
-		0
-	);
-
-	go = FetchGO();
-	go->type = GameObject::GO_FLIPPER_PILLAR;
-	go->pivot = pivotPos;
-	go->scale.Set(thickness, thickness, thickness);
-	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
-	go->angularVelocity = angleSpeed;
-	go->pos.Set(
-		x + height * cos(angle),
-		y + height * sin(angle),
-		0
-	);
-
-	go = FetchGO();
-	go->type = GameObject::GO_FLIPPER_PILLAR;
-	go->pivot = pivotPos;
-	go->scale.Set(thickness, thickness, thickness);
-	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
-	go->angularVelocity = angleSpeed;
-	go->pos.Set(
-		x + -height * cos(angle),
-		y + -height * sin(angle),
-		0
-	);
-}
+//void SceneCollision::MakePillar(float x, float y, float thickness, GameObject::GAMEOBJECT_TYPE type)
+//{
+//	GameObject* go = FetchGO();
+//	go->type = type;
+//	go->active = true;
+//	go->pos.Set(x, y, 0);
+//	go->scale.Set(thickness, thickness, thickness);
+//}
+//
+//void SceneCollision::MakeThinWall(float x, float y, float angleDeg, float thickness, float height)
+//{
+//	GameObject* go = FetchGO();
+//	go->type = GameObject::GO_NONELASTIC_WALL;
+//	go->active = true;
+//	go->pos.Set(x, y, 0);
+//	go->normal.Set(cosf(Math::DegreeToRadian(angleDeg)), sinf(Math::DegreeToRadian(angleDeg)), 0);
+//	go->scale.Set(thickness, height, 1.f);
+//
+//	MakePillar(
+//		go->pos.x - height * sinf(Math::DegreeToRadian(angleDeg)),
+//		go->pos.y + height * cosf(Math::DegreeToRadian(angleDeg)),
+//		thickness,
+//		GameObject::GO_NONELASTIC_PILLAR);
+//
+//	MakePillar(
+//		go->pos.x + height * sinf(Math::DegreeToRadian(angleDeg)),
+//		go->pos.y - height * cosf(Math::DegreeToRadian(angleDeg)),
+//		thickness,
+//		GameObject::GO_NONELASTIC_PILLAR);
+//}
+//
+//void SceneCollision::MakeThickWall(float x, float y, float angleDeg, float thickness, float height)
+//{
+//	angleDeg = Math::DegreeToRadian(angleDeg);
+//
+//	GameObject* go = FetchGO();
+//	go->type = GameObject::GO_NONELASTIC_WALL;
+//	go->active = true;
+//	go->pos.Set(x, y);
+//	go->normal.Set(cosf(angleDeg), sinf(angleDeg), 0);
+//	go->scale.Set(thickness, height, 1.f);
+//
+//	GameObject* go2 = FetchGO();
+//	go2->type = GameObject::GO_NONELASTIC_WALL;
+//	go2->active = true;
+//	go2->pos.Set(x, y);
+//	go2->normal.Set(sinf(-angleDeg), cosf(-angleDeg), 0);
+//	go2->scale.Set(height, thickness, 1.f);
+//
+//	MakePillar(x + (thickness - 0.0005f) * cosf(angleDeg) - (height + 0.0005f) * sinf(angleDeg),
+//		y + (height - 0.0005f) * cosf(angleDeg) + (thickness + 0.0005f) * sinf(angleDeg),
+//		0.1f,
+//		GameObject::GO_NONELASTIC_PILLAR);
+//	MakePillar(x + (-thickness + 0.0005f) * cosf(angleDeg) - (height + 0.0005f) * sinf(angleDeg),
+//		y + (height - 0.0005f) * cosf(angleDeg) + (-thickness - 0.0005f) * sinf(angleDeg),
+//		0.1f,
+//		GameObject::GO_NONELASTIC_PILLAR);
+//	MakePillar(x + (thickness - 0.0005f) * cosf(angleDeg) - (-height - 0.0005f) * sinf(angleDeg),
+//		y + (-height + 0.0005f) * cosf(angleDeg) + (thickness - 0.0005f) * sinf(angleDeg),
+//		0.1f,
+//		GameObject::GO_NONELASTIC_PILLAR);
+//	MakePillar(x + (-thickness + 0.0005f) * cosf(angleDeg) - (-height + 0.0005f) * sinf(angleDeg),
+//		y + (-height + 0.0005f) * cosf(angleDeg) + (-thickness + 0.0005f) * sinf(angleDeg),
+//		0.1f,
+//		GameObject::GO_NONELASTIC_PILLAR);
+//}
+//
+//void SceneCollision::MakeFlipper(float x, float y,Vector3 pivotPos, float defaultAngle, float angleSpeed, float thickness, float height)
+//{
+//	GameObject* go = FetchGO();
+//	go->type = GameObject::GO_FLIPPER;
+//	go->pivot = pivotPos;
+//	go->scale.Set(thickness, height, thickness);
+//	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
+//	go->angularVelocity = angleSpeed;
+//	
+//	Vector3 PivToPos = Vector3(x, y, 0) - pivotPos;
+//	float angle = Math::DegreeToRadian(defaultAngle);
+//	go->pos.Set(
+//		x,
+//		y,
+//		0
+//	);
+//
+//	go = FetchGO();
+//	go->type = GameObject::GO_FLIPPER_PILLAR;
+//	go->pivot = pivotPos;
+//	go->scale.Set(thickness, thickness, thickness);
+//	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
+//	go->angularVelocity = angleSpeed;
+//	go->pos.Set(
+//		x + height * cos(angle),
+//		y + height * sin(angle),
+//		0
+//	);
+//
+//	go = FetchGO();
+//	go->type = GameObject::GO_FLIPPER_PILLAR;
+//	go->pivot = pivotPos;
+//	go->scale.Set(thickness, thickness, thickness);
+//	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
+//	go->angularVelocity = angleSpeed;
+//	go->pos.Set(
+//		x + -height * cos(angle),
+//		y + -height * sin(angle),
+//		0
+//	);
+//}
 
 void SceneCollision::Update(double dt)
 {
@@ -503,8 +276,8 @@ void SceneCollision::Update(double dt)
 						ball = go2;
 						other = go;
 					}
-					if (CheckCollision(ball, other, dt) == true) {
-						CheckCollisionResponse(ball, other, dt);
+					if (GamePhysics::GetInstance()->CheckCollision(ball, other, dt) == true) {
+						GamePhysics::GetInstance()->CheckCollisionResponse(ball, other, dt);
 					}
 				}
 			}
@@ -579,27 +352,6 @@ void SceneCollision::RenderGO(GameObject *go)
 		}
 		modelStack.PopMatrix();
 		break;
-	case GameObject::GO_NONELASTIC_WALL:
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1, 1, 1), 1, 0.6, 0.3, 1);
-			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
-		}
-		modelStack.PopMatrix();
-		break;
-	case GameObject::GO_NONELASTIC_PILLAR:
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1, 1, 1), 1, 0.6, 0.3, 1);
-			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
-		}
-		modelStack.PopMatrix();
-		break;
 	case GameObject::GO_FLIPPER:
 		modelStack.PushMatrix();
 		{
@@ -618,39 +370,6 @@ void SceneCollision::RenderGO(GameObject *go)
 			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1, 0.5, 0.05), 1, 0.6, 0.3, 1);
 			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
-		}
-		modelStack.PopMatrix();
-		break;
-	case GameObject::GO_BOUNCER:
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1, 1, 0), 1, 0.6, 0.3, 1);
-			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
-		}
-		modelStack.PopMatrix();
-		break;
-	case GameObject::GO_DISPENSER:
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(0.7, 0.7, 0.7), 1, 0.6, 0.3, 1);
-			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
-		}
-		modelStack.PopMatrix();
-		break;
-	case GameObject::GO_GOAL:
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			
-			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(0.5, 0.5, 1), 1, 0.6, 0.3, 1);
-			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
 		}
 		modelStack.PopMatrix();
 		break;
@@ -688,10 +407,6 @@ void SceneCollision::Render()
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
 	}
 	RenderMesh(meshList[GEO_AXES], false);
-	if (m_ghost->active)
-	{
-		RenderGO(m_ghost);
-	}
 
 	for(std::vector<GameObject *>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
@@ -727,11 +442,6 @@ void SceneCollision::Exit()
 		GameObject *go = m_goList.back();
 		delete go;
 		m_goList.pop_back();
-	}
-	if(m_ghost)
-	{
-		delete m_ghost;
-		m_ghost = NULL;
 	}
 }
 

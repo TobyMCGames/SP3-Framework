@@ -40,7 +40,9 @@ void SceneTitle::Update(double dt)
 	float posX = x / w * 80; //convert (0,800) to (0,80)
 	float posY = 1 - (y / h) * 60; //convert (600,0) to (0,60)
 	PlayButton.Set(1, 1, 1);
-	if (posX > 37 && posX < 48 && posY > -49 && posY < -44)
+	HTPButton.Set(1, 1, 1);
+	QuitButton.Set(1, 1, 1);
+	if (posX > 37 && posX < 48 && posY > -33 && posY < -28)
 	{
 		PlayButton.Set(1, 0, 0);
 		//Mouse Section
@@ -53,6 +55,38 @@ void SceneTitle::Update(double dt)
 		{
 			bLButtonState = false;
 			GameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+		}
+	}
+
+	if (posX > 37 && posX < 48 && posY > -38 && posY < -34)
+	{
+		HTPButton.Set(1, 0, 0);
+		//Mouse Section
+		static bool bLButtonState = false;
+		if (!bLButtonState && Application::IsMousePressed(0))
+		{
+			bLButtonState = true;
+		}
+		else if (bLButtonState && !Application::IsMousePressed(0))
+		{
+			bLButtonState = false;
+			GameStateManager::GetInstance()->SetActiveGameState("HowToPlayState");
+		}
+	}
+
+	if (posX > 37 && posX < 48 && posY > -43 && posY < -39)
+	{
+		QuitButton.Set(1, 0, 0);
+		//Mouse Section
+		static bool bLButtonState = false;
+		if (!bLButtonState && Application::IsMousePressed(0))
+		{
+			bLButtonState = true;
+		}
+		else if (bLButtonState && !Application::IsMousePressed(0))
+		{
+			bLButtonState = false;
+			//Quit function thing yes
 		}
 	}
 	
@@ -85,23 +119,30 @@ void SceneTitle::Render()
 	RenderMesh(meshList[GEO_BACKGROUND], false);
 	modelStack.PopMatrix();
 
-	///Title Logo
+	//Title Logo
 	modelStack.PushMatrix();
 	{
-		modelStack.Translate(m_worldWidth / 2, m_worldHeight / 10 * 7, 0);
-		modelStack.Scale(30, 30, 30);
+		modelStack.Translate(m_worldWidth / 2 +3, m_worldHeight / 10 * 7, 0);
+		modelStack.Scale(60, 60, 60);
 		RenderMesh(meshList[GEO_TITLE], false);
 	}
 	modelStack.PopMatrix();
 	//On screen text
 	//Exercise 5a: Render m_lives, m_score
 	std::ostringstream ss;
-	ss << "Do you Draw the Way";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 5, 24, 20);
-
 	ss.str("");
 	ss << "Play";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), PlayButton, 4, 40, 10);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), PlayButton, 4, 39.5, 25);
+
+	std::ostringstream ss2;
+	ss2.str("");
+	ss2 << "How To Play";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), HTPButton, 4, 34.5, 20);
+
+	std::ostringstream ss3;
+	ss3.str("");
+	ss3 << "Quit";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss3.str(), QuitButton, 4, 39.5, 15);
 }
 
 void SceneTitle::Exit()
