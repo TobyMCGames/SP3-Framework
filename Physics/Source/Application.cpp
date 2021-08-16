@@ -14,6 +14,7 @@
 #include "GameStateManager.h"
 #include "SceneTitle.h"
 #include "SceneCollision.h"
+#include "SceneGUI.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -93,7 +94,7 @@ void Application::Init()
 	//Create a window and create its OpenGL context
 	m_width = 1920;
 	m_height = 1080;
-	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "Studio Project 3 Team 10", NULL, NULL);
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -123,8 +124,7 @@ void Application::Init()
 
 	// Create the game states
 	GameStateManager::GetInstance()->AddGameState("IntroState", new SceneTitle);
-	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneCollision);
-
+	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneGUI);
 	// Set active game State
 	GameStateManager::GetInstance()->SetActiveGameState("IntroState");
 }
