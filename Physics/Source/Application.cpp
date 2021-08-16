@@ -13,7 +13,6 @@
 
 #include "GameStateManager.h"
 #include "SceneTitle.h"
-#include "SceneCollision.h"
 #include "SceneGame.h"
 
 GLFWwindow* m_window;
@@ -124,7 +123,7 @@ void Application::Init()
 
 	// Create the game states
 	GameStateManager::GetInstance()->AddGameState("IntroState", new SceneTitle);
-	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneCollision);
+	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneGame);
 
 	// Set active game State
 	GameStateManager::GetInstance()->SetActiveGameState("IntroState");

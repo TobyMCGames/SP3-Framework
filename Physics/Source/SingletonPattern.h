@@ -14,7 +14,6 @@ public:
 		if (instance == nullptr)
 		{
 			instance = new T();
-			std::cout << "created new" << std::endl;
 		}
 		return instance;
 	}

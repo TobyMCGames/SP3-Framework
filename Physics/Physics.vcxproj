@@ -156,6 +156,7 @@
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\GameLevelBase.cpp" />
+    <ClCompile Include="Source\GameLevelManager.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\GamePhysics.cpp" />
     <ClCompile Include="Source\GameStateManager.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\GameLevelBase.h" />
+    <ClInclude Include="Source\GameLevelManager.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GamePhysics.h" />
     <ClInclude Include="Source\GameStateManager.h" />

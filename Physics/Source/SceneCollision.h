@@ -1,13 +1,12 @@
-#ifndef SCENE_COLLISION_H
-#define SCENE_COLLISION_H
+#ifndef GAME_LEVEL_COLLISION_H
+#define GAME_LEVEL_COLLISION_H
 
 #include "GameObject.h"
 #include <vector>
-#include "SceneBase.h"
-#include "Player.h"
+#include "GameLevelBase.h"
 #include "GamePhysics.h"
 
-class SceneCollision : public SceneBase
+class SceneCollision : public GameLevelBase
 {
 	static const int MIN_LINE_LENGTH = 2;
 	static const int MAX_LINE_LENGTH = 4;
@@ -44,9 +43,6 @@ protected:
 	float m_worldWidth;
 	float m_worldHeight;
 	int m_objectCount;
-
-	//Line Drawing
-	Player* player;
 
 
 

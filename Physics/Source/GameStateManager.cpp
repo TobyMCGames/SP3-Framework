@@ -78,6 +78,7 @@ bool GameStateManager::AddGameState(const std::string& _name, SceneBase* _scene)
 
 	// If nothing is wrong, then add the scene to our map
 	GameStateMap[_name] = _scene;
+	cout << "GameState " << _name << " was added" << endl;
 
 	return true;
 }
