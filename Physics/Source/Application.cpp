@@ -17,6 +17,7 @@
 #include "SceneGame.h"
 #include "SceneHTP.h"
 #include "SceneCredits.h"
+#include "SceneMap.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -133,11 +134,13 @@ void Application::Init()
 	GameStateManager::GetInstance()->AddGameState("HowToPlayState", new SceneHTP);
 	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneGame);
 	GameStateManager::GetInstance()->AddGameState("CreditsState", new SceneCredits);
+	GameStateManager::GetInstance()->AddGameState("testState", new SceneMap);
 
 
 	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneGUI);
 	// Set active game State
-	GameStateManager::GetInstance()->SetActiveGameState("IntroState");
+	//GameStateManager::GetInstance()->SetActiveGameState("IntroState");
+	GameStateManager::GetInstance()->SetActiveGameState("testState");
 }
 
 void Application::Run()

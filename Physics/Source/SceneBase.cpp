@@ -108,10 +108,10 @@ void SceneBase::Init()
 	}
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	meshList[GEO_BALL] = MeshBuilder::GenerateSphere("ball", Color(1, 1, 1), 10.f, 10.f, 1.f);
-	meshList[GEO_BALL]->material.kAmbient.Set(1, 0, 0);
-	meshList[GEO_BALL]->material.kDiffuse.Set(1, 0, 0);
-	meshList[GEO_BALL]->material.kSpecular.Set(1, 0, 0);
-	meshList[GEO_BALL]->material.kShininess = 1;
+//	meshList[GEO_BALL]->material.kAmbient.Set(1, 0, 0);
+	//meshList[GEO_BALL]->material.kDiffuse.Set(1, 0, 0);
+//	meshList[GEO_BALL]->material.kSpecular.Set(1, 0, 0);
+	//meshList[GEO_BALL]->material.kShininess = 1;
 	meshList[GEO_CYLINDER] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 1, 1), 20.f, 1.f, 1.f);
 	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 1 ,1), 2.f);
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
@@ -135,6 +135,10 @@ void SceneBase::Init()
 	meshList[GUI_STATS_BG]->textureID = LoadTGA("Image//GUI//Stats_background.tga");
 	meshList[GUI_ATK_ICON] = MeshBuilder::GenerateQuad("atkicon", Color(1, 1, 1));
 	meshList[GUI_ATK_ICON]->textureID = LoadTGA("Image//GUI//AtkIcon.tga");
+
+	// TILE
+	meshList[PASSIVE_TILE] = MeshBuilder::GenerateQuad("passivetile", Color(1, 1, 1));
+	meshList[PASSIVE_TILE]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
 
 
 	bLightEnabled = true;

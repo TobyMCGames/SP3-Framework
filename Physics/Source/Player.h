@@ -1,5 +1,6 @@
 #pragma once
 #include "SingletonPattern.h"
+#include "Entity.h"
 
 class Player : public SingletonPattern<Player>
 {
@@ -14,7 +15,7 @@ public:
 
 	Player();
 	~Player();
-
+	virtual void Responses(GameObject*);
 	
 
 protected:

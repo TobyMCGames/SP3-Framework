@@ -7,3 +7,7 @@ Player::Player()
 Player::~Player()
 {
 }
+
+void Player::Responses(GameObject*)
+{
+}

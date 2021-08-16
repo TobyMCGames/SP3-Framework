@@ -10,9 +10,14 @@ using namespace std;
 
 class GameLevelBase : public SceneBase
 {
+private:
+	const int TILEWIDTH = 7;
+	const int TILEHEIGHT = 7;
+
 protected:
 	vector<GameObject*>map;
 	Player* player;
+	
 public:
 	GameLevelBase();
 	~GameLevelBase();
@@ -20,7 +25,8 @@ public:
 	virtual void Update(double dt) = 0;
 	virtual void Render() = 0;
 	virtual void Exit() = 0;
-	bool SetMap(string);
+	bool loadMap(std::string file_path);
+
 };
 
 #endif

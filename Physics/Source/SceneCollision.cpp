@@ -31,8 +31,6 @@ void SceneCollision::Init()
 	Math::InitRNG();
 
 	//Exercise 1: initialize m_objectCount
-
-
 }
 
 GameObject* SceneCollision::FetchGO()

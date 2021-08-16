@@ -3,6 +3,7 @@
 
 #include "Vector3.h"
 
+
 struct GameObject
 {
 	enum GAMEOBJECT_TYPE
@@ -33,10 +34,9 @@ struct GameObject
 		GO_DEMONBALL,
 
 		// TILES
-
-
 		GO_TOTAL, //must be last
 	};
+
 	GAMEOBJECT_TYPE type;
 	Vector3 pos;
 	Vector3 vel;
@@ -64,6 +64,22 @@ struct GameObject
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
 	~GameObject();
+
 };
 
+struct dirt : public GameObject
+{
+	friend GameObject;
+	void Response(GameObject*) {};
+	dirt() { type = GAMEOBJECT_TYPE::GO_CUBE; };
+	~dirt() {};
+};
+
+struct passive_tile : public GameObject
+{
+	friend GameObject;
+	void Response(GameObject*) {};
+	passive_tile() { type = GAMEOBJECT_TYPE::GO_CUBE; };
+	~passive_tile() {};
+};
 #endif
