@@ -1,5 +1,6 @@
 #include "SceneBase.h"
 #include "Player.h"
+#include "GamePhysics.h"
 #include <vector>
 #include <string>
 using namespace std;
@@ -16,3 +17,4 @@ public:
 	virtual void Destroy() = 0;
 	bool SetMap(string);
 };
+
