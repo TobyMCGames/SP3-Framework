@@ -25,6 +25,7 @@ protected:
 
 	Color PlayButton;
 	Color HTPButton;
+	Color CreditsButton;
 	Color QuitButton;
 };
 

@@ -20,7 +20,7 @@ void SceneCredits::Init()
 	m_worldHeight = 100.f;
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
-	PlayButton.Set(1, 1, 1);
+	BackButton.Set(1, 1, 1);
 
 	Math::InitRNG();
 
@@ -39,10 +39,10 @@ void SceneCredits::Update(double dt)
 	unsigned h = Application::GetWindowHeight();
 	float posX = x / w * 80; //convert (0,800) to (0,80)
 	float posY = 1 - (y / h) * 60; //convert (600,0) to (0,60)
-	PlayButton.Set(1, 1, 1);
-	if (posX > 37 && posX < 48 && posY > -49 && posY < -44)
+	BackButton.Set(1, 1, 1);
+	if (posX > 28 && posX < 52 && posY > -59 && posY < -54)
 	{
-		PlayButton.Set(1, 0, 0);
+		BackButton.Set(1, 0, 0);
 		//Mouse Section
 		static bool bLButtonState = false;
 		if(!bLButtonState && Application::IsMousePressed(0))
@@ -52,7 +52,7 @@ void SceneCredits::Update(double dt)
 		else if(bLButtonState && !Application::IsMousePressed(0))
 		{
 			bLButtonState = false;
-			GameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			GameStateManager::GetInstance()->SetActiveGameState("IntroState");
 		}
 	}
 	
@@ -82,26 +82,15 @@ void SceneCredits::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth/2, m_worldHeight/2, -1);
 	modelStack.Scale(88, 55, 55);
-	RenderMesh(meshList[GEO_BACKGROUND], false);
+	RenderMesh(meshList[GEO_CREDITS], false);
 	modelStack.PopMatrix();
 
-	///Title Logo
-	modelStack.PushMatrix();
-	{
-		modelStack.Translate(m_worldWidth / 2, m_worldHeight / 10 * 7, 0);
-		modelStack.Scale(30, 30, 30);
-		RenderMesh(meshList[GEO_TITLE], false);
-	}
-	modelStack.PopMatrix();
 	//On screen text
 	//Exercise 5a: Render m_lives, m_score
 	std::ostringstream ss;
-	ss << "Do you Draw the Way";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 5, 24, 20);
-
 	ss.str("");
-	ss << "Play";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), PlayButton, 4, 40, 10);
+	ss << "<Back To Menu>";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), BackButton, 4, 29.5, 1);
 }
 
 void SceneCredits::Exit()

@@ -23,7 +23,7 @@ protected:
 	float m_worldWidth;
 	float m_worldHeight;
 
-	Color PlayButton;
+	Color BackButton;
 };
 
 #endif

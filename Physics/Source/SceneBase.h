@@ -59,6 +59,7 @@ public:
 		GUI_STATS_BG,
 		GUI_ATK_ICON,
 		GEO_CONTROLS,
+		GEO_CREDITS,
 
 		NUM_GEOMETRY,
 	};

@@ -123,6 +123,8 @@ void SceneBase::Init()
 	meshList[GEO_TITLE]->textureID = LoadTGA("Image//game_title.tga");
 	meshList[GEO_CONTROLS] = MeshBuilder::GenerateQuad("controls", Color(1, 1, 1), 2);
 	meshList[GEO_CONTROLS]->textureID = LoadTGA("Image//controls.tga");
+	meshList[GEO_CREDITS] = MeshBuilder::GenerateQuad("credits", Color(1, 1, 1), 2);
+	meshList[GEO_CREDITS]->textureID = LoadTGA("Image//credits.tga");
 
 	// SCENE GUI
 	meshList[GUI_HEART] = MeshBuilder::GenerateQuad("Hearts_sprite", Color(1, 1, 1));
