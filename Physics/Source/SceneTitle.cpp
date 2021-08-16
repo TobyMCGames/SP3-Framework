@@ -3,6 +3,8 @@
 #include "Application.h"
 #include <sstream>
 
+#include "GameStateManager.h"
+
 SceneTitle::SceneTitle()
 {
 }
@@ -50,8 +52,7 @@ void SceneTitle::Update(double dt)
 		else if(bLButtonState && !Application::IsMousePressed(0))
 		{
 			bLButtonState = false;
-			switchScene = true;
-			currentScene = 2;
+			GameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		}
 	}
 	

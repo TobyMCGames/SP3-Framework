@@ -4,10 +4,6 @@
 
 #include "timer.h"
 
-extern bool switchScene;
-extern int currentScene;
-extern bool results;
-
 class Application
 {
 public:

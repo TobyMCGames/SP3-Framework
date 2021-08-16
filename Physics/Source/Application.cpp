@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "GameStateManager.h"
 #include "SceneTitle.h"
 #include "SceneCollision.h"
 
@@ -92,7 +93,7 @@ void Application::Init()
 	//Create a window and create its OpenGL context
 	m_width = 1920;
 	m_height = 1080;
-	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -119,44 +120,22 @@ void Application::Init()
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		//return -1;
 	}
-}
 
-bool switchScene = false;
-int currentScene = 1;
-bool results = true;
+	// Create the game states
+	GameStateManager::GetInstance()->AddGameState("IntroState", new SceneTitle);
+	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneCollision);
+
+	// Set active game State
+	GameStateManager::GetInstance()->SetActiveGameState("IntroState");
+}
 
 void Application::Run()
 {
-	//Main Loop
-	Scene* Title = new SceneTitle();
-	/*Scene* GamePlay = new SceneAsteroid();
-	Scene* Result = new SceneResult();*/
-	Scene* Collision = new SceneCollision;
-	Scene *scene = Title;
-	Title->Init();
-	/*GamePlay->Init();
-	Result->Init();*/
-	Collision->Init();
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-		if (switchScene)
-		{
-			switch (currentScene)
-			{
-			case 1:
-				scene = Title;
-				break;
-			case 2:
-				scene = Collision;
-				break;
-			/*case 3:
-				scene = Result;
-				break;*/
-			}
-		}
-		scene->Update(m_timer.getElapsedTime());
-		scene->Render();
+		GameStateManager::GetInstance()->Update(m_timer.getElapsedTime());
+		GameStateManager::GetInstance()->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
@@ -164,14 +143,7 @@ void Application::Run()
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
 
 	} //Check if the ESC key had been pressed or if the window had been closed
-	Title->Exit();
-	/*GamePlay->Exit();
-	Result->Exit();*/
-	delete Title;
-	/*delete GamePlay;
-	delete Result;*/
-	Collision->Exit();
-	delete Collision;
+	GameStateManager::GetInstance()->Destroy();
 }
 
 void Application::Exit()
