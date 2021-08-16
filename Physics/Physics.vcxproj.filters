@@ -62,6 +62,9 @@
     <ClCompile Include="Source\GamePhysics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameLevelBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -122,6 +125,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GamePhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLevelBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
