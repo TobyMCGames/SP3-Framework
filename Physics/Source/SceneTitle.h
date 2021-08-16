@@ -4,13 +4,12 @@
 #include "GameObject.h"
 #include <vector>
 #include "SceneBase.h"
+#include "SingletonPattern.h"
 
-class SceneTitle : public SceneBase
+class SceneTitle : public SceneBase, public SingletonPattern<SceneTitle>
 {
-
+	friend SingletonPattern<SceneTitle>;
 public:
-	SceneTitle();
-	~SceneTitle();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -19,12 +18,15 @@ public:
 
 
 protected:
+	SceneTitle();
+	~SceneTitle();
 
 	float m_worldWidth;
 	float m_worldHeight;
 
 	Color PlayButton;
 	Color HTPButton;
+	Color CreditsButton;
 	Color QuitButton;
 };
 

@@ -5,17 +5,17 @@
 #include <vector>
 #include "GameLevelBase.h"
 #include "GamePhysics.h"
+#include "SingletonPattern.h"
 
-class SceneCollision : public GameLevelBase
+class SceneCollision : public GameLevelBase, public SingletonPattern<SceneCollision>
 {
+	friend SingletonPattern<SceneCollision>;
 	static const int MIN_LINE_LENGTH = 2;
 	static const int MAX_LINE_LENGTH = 4;
 	static const int LINE_THICKNESS = 1;
 	static const int DISPENSER_FORCE = 10;
 
 public:
-	SceneCollision();
-	~SceneCollision();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -35,6 +35,8 @@ public:
 	void MakeFlipper(float x, float y, Vector3 pivotPos, float defaultAngle, float angleSpeed, float thickness, float height);*/
 
 protected:
+	SceneCollision();
+	~SceneCollision();
 
 	//Physics
 	std::vector<GameObject *> m_goList;

@@ -41,6 +41,7 @@ void SceneTitle::Update(double dt)
 	float posY = 1 - (y / h) * 60; //convert (600,0) to (0,60)
 	PlayButton.Set(1, 1, 1);
 	HTPButton.Set(1, 1, 1);
+	CreditsButton.Set(1, 1, 1);
 	QuitButton.Set(1, 1, 1);
 	if (posX > 37 && posX < 48 && posY > -33 && posY < -28)
 	{
@@ -76,6 +77,22 @@ void SceneTitle::Update(double dt)
 
 	if (posX > 37 && posX < 48 && posY > -43 && posY < -39)
 	{
+		CreditsButton.Set(1, 0, 0);
+		//Mouse Section
+		static bool bLButtonState = false;
+		if (!bLButtonState && Application::IsMousePressed(0))
+		{
+			bLButtonState = true;
+		}
+		else if (bLButtonState && !Application::IsMousePressed(0))
+		{
+			bLButtonState = false;
+			GameStateManager::GetInstance()->SetActiveGameState("CreditsState");
+		}
+	}
+
+	if (posX > 37 && posX < 48 && posY > -48 && posY < -45)
+	{
 		QuitButton.Set(1, 0, 0);
 		//Mouse Section
 		static bool bLButtonState = false;
@@ -86,7 +103,7 @@ void SceneTitle::Update(double dt)
 		else if (bLButtonState && !Application::IsMousePressed(0))
 		{
 			bLButtonState = false;
-			//Quit function thing yes
+			//quit button function 
 		}
 	}
 	
@@ -134,15 +151,17 @@ void SceneTitle::Render()
 	ss << "Play";
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), PlayButton, 4, 39.5, 25);
 
-	std::ostringstream ss2;
-	ss2.str("");
-	ss2 << "How To Play";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), HTPButton, 4, 34.5, 20);
+	ss.str("");
+	ss << "How To Play";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), HTPButton, 4, 34.5, 20);
 
-	std::ostringstream ss3;
-	ss3.str("");
-	ss3 << "Quit";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss3.str(), QuitButton, 4, 39.5, 15);
+	ss.str("");
+	ss << "Credits";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), CreditsButton, 4, 38, 15);
+
+	ss.str("");
+	ss << "Quit";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), QuitButton, 4, 39.5, 10);
 }
 
 void SceneTitle::Exit()

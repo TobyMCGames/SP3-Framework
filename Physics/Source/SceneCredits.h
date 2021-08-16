@@ -4,13 +4,12 @@
 #include "GameObject.h"
 #include <vector>
 #include "SceneBase.h"
+#include "SingletonPattern.h"
 
-class SceneCredits : public SceneBase
+class SceneCredits : public SceneBase, public SingletonPattern<SceneCredits>
 {
-
+	friend SingletonPattern<SceneCredits>;
 public:
-	SceneCredits();
-	~SceneCredits();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -19,11 +18,13 @@ public:
 
 
 protected:
+	SceneCredits();
+	~SceneCredits();
 
 	float m_worldWidth;
 	float m_worldHeight;
 
-	Color PlayButton;
+	Color BackButton;
 };
 
 #endif

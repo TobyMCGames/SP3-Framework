@@ -13,7 +13,6 @@
 
 #include "GameStateManager.h"
 #include "SceneTitle.h"
-#include "SceneGUI.h"
 #include "SceneGame.h"
 #include "SceneHTP.h"
 #include "SceneCredits.h"
@@ -95,13 +94,13 @@ void Application::Init()
 
 
 	//Create a window and create its OpenGL context
-	m_width = 1920;
-	m_height = 1080;
-	m_window = glfwCreateWindow(m_width, m_height, "Studio Project 3 Team 10", NULL, NULL);
-
 	//m_width = 1920;
 	//m_height = 1080;
-	//m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
+	//m_window = glfwCreateWindow(m_width, m_height, "Studio Project 3 Team 10", NULL, NULL);
+
+	m_width = 1920;
+	m_height = 1080;
+	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -134,10 +133,8 @@ void Application::Init()
 	GameStateManager::GetInstance()->AddGameState("HowToPlayState", new SceneHTP);
 	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneGame);
 	GameStateManager::GetInstance()->AddGameState("CreditsState", new SceneCredits);
-	GameStateManager::GetInstance()->AddGameState("testState", new SceneMap);
 
 
-	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneGUI);
 	// Set active game State
 	//GameStateManager::GetInstance()->SetActiveGameState("IntroState");
 	GameStateManager::GetInstance()->SetActiveGameState("testState");
@@ -158,6 +155,7 @@ void Application::Run()
 
 	} //Check if the ESC key had been pressed or if the window had been closed
 	GameStateManager::GetInstance()->Destroy();
+	GameStateManager::DestroyInstance();
 }
 
 void Application::Exit()
