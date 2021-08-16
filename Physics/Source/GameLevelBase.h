@@ -1,17 +1,18 @@
 #include "SceneBase.h"
 #include "Player.h"
 #include <vector>
+#include <string>
+using namespace std;
 
 class GameLevelBase : public SceneBase
 {
 protected:
-	std::vector<GameObject*>map;
+	vector<GameObject*>map;
 	Player* player;
 public:
-	virtual void Init();
-	virtual void Update(double dt);
-	virtual void Render();
-	virtual void Destroy();
-	bool SetMap();
-	//bool SetMap(string);
+	virtual void Init() = 0;
+	virtual void Update(double dt) = 0;
+	virtual void Render() = 0;
+	virtual void Destroy() = 0;
+	bool SetMap(string);
 };
