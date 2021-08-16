@@ -13,7 +13,6 @@
 
 #include "GameStateManager.h"
 #include "SceneTitle.h"
-#include "SceneGUI.h"
 #include "SceneGame.h"
 #include "SceneHTP.h"
 #include "SceneCredits.h"
@@ -129,13 +128,11 @@ void Application::Init()
 	}
 
 	// Create the game states
-	GameStateManager::GetInstance()->AddGameState("IntroState", new SceneTitle);
-	GameStateManager::GetInstance()->AddGameState("HowToPlayState", new SceneHTP);
-	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneGame);
-	GameStateManager::GetInstance()->AddGameState("CreditsState", new SceneCredits);
+	GameStateManager::GetInstance()->AddGameState("IntroState", SceneTitle::GetInstance());
+	GameStateManager::GetInstance()->AddGameState("HowToPlayState", SceneHTP::GetInstance());
+	GameStateManager::GetInstance()->AddGameState("PlayGameState", SceneGame::GetInstance());
+	GameStateManager::GetInstance()->AddGameState("CreditsState", SceneCredits::GetInstance());
 
-
-	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneGUI);
 	// Set active game State
 	GameStateManager::GetInstance()->SetActiveGameState("IntroState");
 }
@@ -155,6 +152,7 @@ void Application::Run()
 
 	} //Check if the ESC key had been pressed or if the window had been closed
 	GameStateManager::GetInstance()->Destroy();
+	GameStateManager::DestroyInstance();
 }
 
 void Application::Exit()

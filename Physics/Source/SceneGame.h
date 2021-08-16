@@ -4,13 +4,12 @@
 #include "GameObject.h"
 #include <vector>
 #include "SceneBase.h"
+#include "SingletonPattern.h"
 
-class SceneGame : public SceneBase
+class SceneGame : public SceneBase, public SingletonPattern<SceneGame>
 {
-
+	friend SingletonPattern<SceneGame>;
 public:
-	SceneGame();
-	~SceneGame();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -19,6 +18,8 @@ public:
 
 
 protected:
+	SceneGame();
+	~SceneGame();
 
 };
 
