@@ -13,7 +13,7 @@
 
 #include "GameStateManager.h"
 #include "SceneTitle.h"
-#include "SceneCollision.h"
+#include "SceneGUI.h"
 #include "SceneGame.h"
 #include "SceneHTP.h"
 #include "SceneCredits.h"
@@ -96,7 +96,7 @@ void Application::Init()
 	//Create a window and create its OpenGL context
 	m_width = 1920;
 	m_height = 1080;
-	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "Studio Project 3 Team 10", NULL, NULL);
 
 	//m_width = 1920;
 	//m_height = 1080;
@@ -131,10 +131,11 @@ void Application::Init()
 	// Create the game states
 	GameStateManager::GetInstance()->AddGameState("IntroState", new SceneTitle);
 	GameStateManager::GetInstance()->AddGameState("HowToPlayState", new SceneHTP);
-	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneCollision);
+	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneGame);
 	GameStateManager::GetInstance()->AddGameState("CreditsState", new SceneCredits);
 
 
+	GameStateManager::GetInstance()->AddGameState("PlayGameState", new SceneGUI);
 	// Set active game State
 	GameStateManager::GetInstance()->SetActiveGameState("IntroState");
 }
