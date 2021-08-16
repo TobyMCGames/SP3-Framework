@@ -5,6 +5,7 @@
 #include <vector>
 #include "SceneBase.h"
 #include "Player.h"
+#include "GamePhysics.h"
 
 class SceneCollision : public SceneBase
 {
@@ -28,13 +29,11 @@ public:
 
 	GameObject* FetchGO();
 	void ReturnGO(GameObject *go);
-	bool CheckCollision(GameObject* go1, GameObject* go2, float dt);
-	void CheckCollisionResponse(GameObject* go1, GameObject* go2, float dt);
 
-	void MakePillar(float x, float  y, float thickness, GameObject::GAMEOBJECT_TYPE type);
+	/*void MakePillar(float x, float  y, float thickness, GameObject::GAMEOBJECT_TYPE type);
 	void MakeThinWall(float x, float y, float angleDeg, float thickness, float height);
 	void MakeThickWall(float x, float y, float angleDeg, float thickness, float height);
-	void MakeFlipper(float x, float y, Vector3 pivotPos, float defaultAngle, float angleSpeed, float thickness, float height);
+	void MakeFlipper(float x, float y, Vector3 pivotPos, float defaultAngle, float angleSpeed, float thickness, float height);*/
 
 protected:
 
@@ -44,7 +43,6 @@ protected:
 	float m_speed;
 	float m_worldWidth;
 	float m_worldHeight;
-	GameObject *m_ghost;
 	int m_objectCount;
 
 	//Line Drawing
@@ -52,9 +50,6 @@ protected:
 
 
 
-	//Auditing
-	float m1, m2;
-	Vector3 u1, u2, v1, v2;
 };
 
 #endif

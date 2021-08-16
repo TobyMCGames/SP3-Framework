@@ -11,6 +11,9 @@ struct GameObject
 		GO_BALL,
 		GO_CUBE,
 		GO_WALL,
+		GO_PILLAR,
+		GO_FLIPPER,
+		GO_FLIPPER_PILLAR,
 
 		// MOBS
 		GO_PLAYER,
