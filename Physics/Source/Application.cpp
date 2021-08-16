@@ -14,6 +14,7 @@
 #include "GameStateManager.h"
 #include "SceneTitle.h"
 #include "SceneCollision.h"
+#include "SceneGame.h"
 #include "SceneHTP.h"
 #include "SceneCredits.h"
 

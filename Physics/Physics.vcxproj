@@ -154,7 +154,10 @@
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Entity.cpp" />
+    <ClCompile Include="Source\GameLevelBase.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
+    <ClCompile Include="Source\GamePhysics.cpp" />
     <ClCompile Include="Source\GameStateManager.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
@@ -164,6 +167,7 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\SceneBase.cpp" />
     <ClCompile Include="Source\SceneCollision.cpp" />
+    <ClCompile Include="Source\SceneGame.cpp" />
     <ClCompile Include="Source\SceneCredits.cpp" />
     <ClCompile Include="Source\SceneHTP.cpp" />
     <ClCompile Include="Source\SceneTitle.cpp" />
@@ -173,7 +177,10 @@
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\Entity.h" />
+    <ClInclude Include="Source\GameLevelBase.h" />
     <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\GamePhysics.h" />
     <ClInclude Include="Source\GameStateManager.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
@@ -187,6 +194,7 @@
     <ClInclude Include="Source\SceneCollision.h" />
     <ClInclude Include="Source\SceneCredits.h" />
     <ClInclude Include="Source\SceneHTP.h" />
+    <ClInclude Include="Source\SceneGame.h" />
     <ClInclude Include="Source\SceneTitle.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\SingletonPattern.h" />
