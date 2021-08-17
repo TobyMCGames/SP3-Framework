@@ -59,7 +59,6 @@ void SceneGUI::Update(double dt)
 
 void SceneGUI::Render()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
