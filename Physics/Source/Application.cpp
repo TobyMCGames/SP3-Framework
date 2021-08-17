@@ -44,6 +44,13 @@ void resize_callback(GLFWwindow* window, int w, int h)
 	glViewport(0, 0, w, h);
 }
 
+double ScrollY;
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	ScrollY = yoffset;
+}
+
 bool Application::IsKeyPressed(unsigned short key)
 {
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
@@ -63,6 +70,12 @@ int Application::GetWindowWidth()
 int Application::GetWindowHeight()
 {
 	return m_height;
+}
+
+int Application::GetYScrollOffset()
+{
+	glfwSetScrollCallback(m_window, scroll_callback);
+	return ScrollY;
 }
 
 Application::Application()
@@ -148,6 +161,7 @@ void Application::Run()
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
+		ScrollY = 0;
 		glfwPollEvents();
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
 
