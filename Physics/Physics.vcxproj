@@ -175,7 +175,9 @@
     <ClCompile Include="Source\SceneHTP.cpp" />
     <ClCompile Include="Source\SceneTitle.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\SkeletonArcher.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
+    <ClCompile Include="Source\Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
@@ -204,8 +206,10 @@
     <ClInclude Include="Source\SceneTitle.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\SingletonPattern.h" />
+    <ClInclude Include="Source\SkeletonArcher.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
+    <ClInclude Include="Source\Zombie.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
