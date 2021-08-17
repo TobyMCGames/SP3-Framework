@@ -10,12 +10,12 @@ SkeletonArcher::~SkeletonArcher()
 
 }
 
-override void SkeletonArcher::Update(double dt)
+void SkeletonArcher::Update(double dt)
 {
-	return override void();
+	return;
 }
 
-override void SkeletonArcher::Response(GameObject*)
+void SkeletonArcher::Response(GameObject*)
 {
-	return override void();
+	return;
 }

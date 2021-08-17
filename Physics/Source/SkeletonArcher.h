@@ -9,6 +9,6 @@ protected:
 		NUM_STATES,
 	};
 public:
-	override void Update(double dt);
-	override void Response(GameObject*);
+	void Update(double dt);
+	void Response(GameObject*);
 };

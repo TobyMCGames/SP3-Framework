@@ -10,12 +10,12 @@ Zombie::~Zombie()
 
 }
 
-override void Zombie::Update(double dt)
+void Zombie::Update(double dt)
 {
-	return override void();
+	return;
 }
 
-override void Zombie::Response(GameObject*)
+void Zombie::Response(GameObject*)
 {
-	return override void();
+	return;
 }
