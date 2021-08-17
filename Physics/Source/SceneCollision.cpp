@@ -401,6 +401,7 @@ void SceneCollision::RenderGO(GameObject *go)
 		RenderMesh(meshList[GEO_CUBE], false);
 		modelStack.PopMatrix();
 		break;
+
 	case GameObject::SOIL_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
@@ -409,6 +410,7 @@ void SceneCollision::RenderGO(GameObject *go)
 		RenderMesh(meshList[GEO_CUBE], false);
 		modelStack.PopMatrix();
 		break;
+
 	case GameObject::GRASS_SOIL_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
@@ -417,6 +419,7 @@ void SceneCollision::RenderGO(GameObject *go)
 		RenderMesh(meshList[GEO_CUBE], false);
 		modelStack.PopMatrix();
 		break;
+
 	case GameObject::GRASS_SOIL_FLOWERS_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
