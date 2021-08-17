@@ -50,7 +50,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 			case '1':
 				temp = new passive_tile(GameObject::GAMEOBJECT_TYPE::STONE_BRICK_TILE);
 				temp->active = true;
-				temp->pos.Set(xOffset + temp->scale.x / 2 * TILEWIDTH - (TILEWIDTH/2.f), yOffset + temp->scale.y / 2 * TILEHEIGHT + (TILEHEIGHT/2.f), 0);
+				temp->pos.Set(xOffset + temp->scale.x / 2 * TILEWIDTH, yOffset + temp->scale.y / 2 * TILEHEIGHT, 0);
 				temp->vel.Set(0, 0, 0);
 				temp->scale.Set(TILEWIDTH, TILEHEIGHT, 1);
 				xOffset += TILEWIDTH;
@@ -65,7 +65,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				break;
 			case 'P':
 				player->GetInstance();
-				player->pos.Set((col - commacounter) * TILEWIDTH, ((linesinreverse.size() -row) * TILEHEIGHT), 0.1f);
+				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.1f);
 				xOffset += TILEWIDTH;
 				continue;
 			}
@@ -80,7 +80,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 		yOffset += TILEHEIGHT;
 		commacounter = 0;
 	}
-	m_worldWidth = highestcol * TILEWIDTH;
+	m_worldWidth = (highestcol * TILEWIDTH);
 	m_worldHeight = (linesinreverse.size())*TILEHEIGHT;
 	return true;
 }
