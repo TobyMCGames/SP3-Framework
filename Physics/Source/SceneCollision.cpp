@@ -29,7 +29,8 @@ void SceneCollision::Init()
 	player = Player::GetInstance();
 
 	Math::InitRNG();
-
+	loadMap("Maps//SideScrollmap.csv", m_worldWidth, m_worldHeight);
+	camera.Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), m_worldWidth, m_worldHeight, 80, 45);
 	//Exercise 1: initialize m_objectCount
 }
 
@@ -176,6 +177,7 @@ void SceneCollision::ReturnGO(GameObject *go)
 void SceneCollision::Update(double dt)
 {
 	SceneBase::Update(dt);
+	camera.Update(dt);
 	
 	if (Application::IsKeyPressed('9'))
 	{
@@ -373,6 +375,23 @@ void SceneCollision::RenderGO(GameObject *go)
 		}
 		modelStack.PopMatrix();
 		break;
+
+	case GameObject::STONE_BRICK_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[STONEBRICK_TILE], false);
+		modelStack.PopMatrix();
+		break;
+
+
+	case GameObject::BRICK_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[BRICK_TILE], false);
+		modelStack.PopMatrix();
+		break;
 	}
 }
 
@@ -381,12 +400,12 @@ void SceneCollision::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	//Calculating aspect ratio
-	m_worldHeight = 100.f;
-	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+	//m_worldHeight = 100.f;
+	//m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
-	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
+	projection.SetToOrtho(0,160.f, 0,90.f, -10, 10);
 	projectionStack.LoadMatrix(projection);
 	
 	// Camera matrix
@@ -410,7 +429,7 @@ void SceneCollision::Render()
 
 
 
-	for(std::vector<GameObject *>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
+	for(std::vector<GameObject *>::iterator it = map.begin(); it != map.end(); ++it)
 	{
 		GameObject *go = (GameObject *)*it;
 		if(go->active)
