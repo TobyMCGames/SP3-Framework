@@ -32,6 +32,9 @@ struct GameObject: public Prototype<GameObject>
 		GO_MAGICBALL,
 		GO_SKELEARROW,
 		GO_DEMONBALL,
+		GO_PORTAL,
+		GO_BOMB,
+		GO_TURRETBULLET,
 
 		// TILES
 		BRICK_TILE,
