@@ -138,21 +138,23 @@ void SceneGUI::Exit()
 
 void SceneGUI::renderGUI()
 {
-	float adjustX = 0;
 	std::ostringstream ss;
 	// render health icon
-	RenderMeshOnScreen(meshList[GUI_HEART],3+adjustX,57,3,3);
-	// render health bar
-	RenderMeshOnScreen(meshList[GUI_HEALTHBAR], 10 + adjustX,57,10,2); //the x value can be replaced by the player's health /10
+	RenderMeshOnScreen(meshList[GUI_HEART],3,57,3,3);
 
+	// render health bar
+	int health = Player::GetInstance()->health;
+	RenderMeshOnScreen(meshList[GUI_HEALTHBAR], 10.f - ((100.f - health)*0.05f) ,57, ((health*10.f)/100.f) ,2); //the x value can be replaced by the player's health /10
+	
 	
 	//ss << 10;
 	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str() , Color(1, 1, 1),4,38.5,50.5);
 
 	// render the energy Icon
-	RenderMeshOnScreen(meshList[GUI_ENERGY], 3 + adjustX,53,3,3);
+	RenderMeshOnScreen(meshList[GUI_ENERGY], 3,53,3,3);
+	float Mana = Player::GetInstance()->mana;
 	// render the energy bar 
-	RenderMeshOnScreen(meshList[GUI_ENERGYBAR],8.8 + adjustX,53,7.5,2);//the x value can be replaced by the player's health /20
+	RenderMeshOnScreen(meshList[GUI_ENERGYBAR],8.8f - ((100.f - Mana) * 3.8f/99.f),53,((Mana*7.5f)/100.f),2);//the x value can be replaced by the player's health /20
 
 	// render the backgroudn for the stats gui
 	//RenderMeshOnScreen(meshList[GUI_STATS_BG],39.75,52.5,85,15); 

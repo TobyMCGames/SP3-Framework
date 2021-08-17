@@ -25,11 +25,11 @@ public:
 
 	virtual void Update(double dt);
 	virtual void Response(GameObject*);
+	float mana;
 
 protected:
 	int Inventory[NUM_ITEMS];
 	Weapons curWeapon;
-	float mana;
 
 
 	int curItem;

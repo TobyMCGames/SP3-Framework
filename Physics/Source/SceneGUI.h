@@ -5,6 +5,7 @@
 #include <vector>
 #include "SceneBase.h"
 #include "SceneGame.h"
+#include "Player.h"
 
 class SceneGUI : public SceneBase, public SingletonPattern<SceneGUI>
 {
@@ -27,6 +28,7 @@ protected:
 	Color ContButton;
 	Color MenuButton;
 	Color QuitButton;
+
 };
 
 #endif
