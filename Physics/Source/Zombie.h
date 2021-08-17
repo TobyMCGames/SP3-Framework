@@ -1,7 +1,6 @@
 #include "Entity.h"
-#include "Prototype.h"
 
-class Zombie : public Entity, public Prototype<Zombie>
+class Zombie : public Entity
 {
 protected:
 	enum BEHAVIOUR
