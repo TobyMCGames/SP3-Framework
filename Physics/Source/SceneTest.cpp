@@ -1,0 +1,370 @@
+#include "SceneTest.h"
+#include "GL\glew.h"
+#include "Application.h"
+#include <sstream>
+#include "SceneCamera.h"
+
+SceneTest::SceneTest()
+{
+	std::cout << "Initialising" << std::endl;
+}
+
+SceneTest::~SceneTest()
+{
+}
+
+void SceneTest::Init()
+{
+	SceneBase::Init();
+	
+	//Calculating aspect ratio
+//	m_worldHeight = 100.f;
+//	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+
+	//Physics code here
+	m_speed = 2.7f;
+
+	m_objectCount = 0;
+
+	//Player Here
+	player = Player::GetInstance();
+
+	Math::InitRNG();
+	//Always init the map first then camera
+	loadMap("Maps//SideScrollmap.csv",m_worldWidth,m_worldHeight);
+	camera.Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0),m_worldWidth,m_worldHeight,80,45); 
+	
+
+}
+
+GameObject* SceneTest::FetchGO()
+{
+	//Exercise 2a: implement FetchGO()
+	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); it++)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go->active == false)
+		{
+			go->active = true;
+			//Exercise 2b: increase object count every time an object is set to active
+			m_objectCount++;
+			return go;
+		}
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		//m_goList.push_back(new GameObject(GameObject::GO_BALL));
+	}
+	//Exercise 2b: increase object count every time an object is set to active
+	m_goList.back()->active = true;
+	m_objectCount++;
+	return m_goList.back();
+}
+
+void SceneTest::ReturnGO(GameObject *go)
+{
+	//Exercise 3: implement ReturnGO()
+	go->active = false;
+	m_objectCount--;
+}
+
+
+void SceneTest::Update(double dt)
+{
+	SceneBase::Update(dt);
+	camera.Update(dt);
+
+	if (Application::IsKeyPressed('9'))
+	{
+		m_speed = Math::Max(0.f, m_speed - 0.1f);
+	}
+	if (Application::IsKeyPressed('0'))
+	{
+		m_speed += 0.1f;
+	}
+	if (Application::IsKeyPressed('R'))
+	{
+	}
+	//Changing Material
+	static bool EbuttonState = false;
+	if (Application::IsKeyPressed('E') && !EbuttonState)
+	{
+		EbuttonState = true;
+	}
+	else if (!Application::IsKeyPressed('E') && EbuttonState)
+	{
+		EbuttonState = false;
+	}
+	//Mouse Section
+	double x, y;
+	Application::GetCursorPos(&x, &y);
+	unsigned w = Application::GetWindowWidth();
+	unsigned h = Application::GetWindowHeight();
+	double PosX = (x / w) * m_worldWidth;
+	double PosY = m_worldHeight - (y / h) * m_worldHeight;
+	static bool bLButtonState = false;
+	if (!bLButtonState && Application::IsMousePressed(0))
+	{
+		bLButtonState = true;
+		std::cout << "LBUTTON DOWN" << std::endl;
+	}
+	else if (bLButtonState && !Application::IsMousePressed(0))
+	{
+		bLButtonState = false;
+	}
+	static bool bRButtonState = false;
+	if (Application::IsMousePressed(1))
+	{
+		if (!bRButtonState) {
+			bRButtonState = true;
+			std::cout << "RBUTTON DOWN" << std::endl;
+		}
+	}
+	else if (bRButtonState && !Application::IsMousePressed(1))
+	{
+		bRButtonState = false;
+	}
+
+	// ball Spawn
+	if (Application::IsKeyPressed(VK_SPACE))
+	{
+	}
+
+	// Erase Last Shape
+	static bool RButtonState = false;
+	if (Application::IsKeyPressed('Q') && !RButtonState)
+	{
+		RButtonState = true;
+	}
+	else if (!Application::IsKeyPressed('Q') && RButtonState)
+	{
+		RButtonState = false;
+	}
+
+	//Physics Simulation Section
+
+	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); it++)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go->active)
+		{
+			//Exercise 7: handle out of bound game objects
+			if (go->pos.x < 0 || go->pos.x > m_worldWidth ||
+				go->pos.y < 0 || go->pos.y > m_worldHeight)
+			{
+				ReturnGO(go);
+				continue;
+			}
+			//Exercise 8a: handle collision between GO_BALL and GO_BALL using velocity swap
+			for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_goList.end(); it2++)
+			{
+				GameObject* go2 = (GameObject*)*it2;
+				if (go == go2)
+				{
+					continue;
+				}
+				if (go2->active)
+				{
+					GameObject* ball = go;
+					GameObject* other = go2;
+					if (ball->type != GameObject::GO_BALL) {
+						ball = go2;
+						other = go;
+					}
+					if (GamePhysics::GetInstance()->CheckCollision(ball, other, dt) == true) {
+						GamePhysics::GetInstance()->CheckCollisionResponse(ball, other, dt);
+					}
+				}
+			}
+
+
+			//Exercise 8b: store values in auditing variables
+
+			//Exercise 10: handle collision using momentum swap instead
+
+			//Exercise 12: improve inner loop to prevent double collision
+
+			//Exercise 13: improve collision detection algorithm [solution to be given later] 
+
+			if (go->type == GameObject::GO_BALL)
+			{
+				go->pos += go->vel * dt * m_speed;
+				go->vel.y -= 9.8f * dt * m_speed;
+				go->vel -= go->vel * 5 / 100 * dt * m_speed;
+			}
+			else if (go->type == GameObject::GO_FLIPPER || go->type == GameObject::GO_FLIPPER_PILLAR)
+			{
+				float angle = go->angularVelocity * dt * m_speed;
+				Vector3 PivToPos = go->pos - go->pivot;
+				PivToPos.Rotate(angle);
+				go->pos.Set(
+					go->pivot.x + PivToPos.x,
+					go->pivot.y + PivToPos.y,
+					0
+				);
+
+				go->normal.Rotate(angle);
+			}
+		}
+	}
+}
+
+
+void SceneTest::RenderGO(GameObject *go)
+{
+	switch (go->type)
+	{
+	case GameObject::GO_BALL:
+		//Exercise 4: render a sphere using scale and pos
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			SceneBase::ChangeMat(SceneBase::GEO_BALL, Color(1, 1, 1), 1, 0.6, 0.3, 1);
+			RenderMesh(meshList[SceneBase::GEO_BALL], true);
+		}
+		modelStack.PopMatrix();
+		//Exercise 11: think of a way to give balls different colors
+		break;
+	case GameObject::GO_WALL:
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1, 0, 0.5), 1, 0.6, 0.3, 1);
+			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
+		}
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_PILLAR:
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1, 0, 0.5), 1, 0.6, 0.3, 1);
+			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
+		}
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_FLIPPER:
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1, 0.5, 0.05), 1, 0.6, 0.3, 1);
+			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
+		}
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_FLIPPER_PILLAR:
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1, 0.5, 0.05), 1, 0.6, 0.3, 1);
+			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
+		}
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::STONE_BRICK_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[STONEBRICK_TILE], false);
+		modelStack.PopMatrix();
+		break;
+
+
+	case GameObject::BRICK_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[BRICK_TILE], false);
+		modelStack.PopMatrix();
+		break;
+
+	}
+}
+
+void SceneTest::Render()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	//Calculating aspect ratio
+	//m_worldHeight = 100.f;
+	//m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+
+	// Projection matrix : Orthographic Projection
+	Mtx44 projection;
+	projection.SetToOrtho(0,160.f, 0,90.f, -10, 10);
+	projectionStack.LoadMatrix(projection);
+	
+	// Camera matrix
+	viewStack.LoadIdentity();
+	viewStack.LookAt(
+						camera.position.x, camera.position.y, camera.position.z,
+						camera.target.x, camera.target.y, camera.target.z,
+						camera.up.x, camera.up.y, camera.up.z
+					);
+	// Model matrix : an identity matrix (model will be at the origin)
+	modelStack.LoadIdentity();
+	
+	//Pass light
+	if (lights[0].type == Light::LIGHT_DIRECTIONAL)
+	{
+		Vector3 lightDir(lights[0].position.x, lights[0].position.y, lights[0].position.z);
+		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
+		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
+	}
+	RenderMesh(meshList[GEO_AXES], false);
+
+	for(std::vector<GameObject *>::iterator it = map.begin(); it != map.end(); ++it)
+	{
+		GameObject *go = (GameObject *)*it;
+		if(go->active)
+		{
+			RenderGO(go);
+		}
+	}
+
+	//On screen text
+
+	std::ostringstream ss;
+	//Exercise 5: Render m_objectCount
+	ss << "GameObject Count: " << m_objectCount;
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 12);
+	
+	ss.str("");
+	ss.precision(5);
+	ss << "FPS: " << fps;
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 3);
+	
+	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(0, 1, 0), 3, 0, 0);
+}
+
+void SceneTest::Exit()
+{
+	SceneBase::Exit();
+	//Cleanup GameObjects
+	while(m_goList.size() > 0)
+	{
+		GameObject *go = m_goList.back();
+		delete go;
+		m_goList.pop_back();
+	}
+}
+
+void SceneTest::ResetList(void)
+{
+	for (int i = 0; i < m_goList.size(); i++)
+	{
+		if (m_goList[i]->active == true)
+		{
+			m_goList[i]->active = false;
+			m_objectCount--;
+		}
+	}
+}

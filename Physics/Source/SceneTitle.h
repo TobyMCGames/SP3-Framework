@@ -15,7 +15,6 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-
 protected:
 	SceneTitle();
 	~SceneTitle();

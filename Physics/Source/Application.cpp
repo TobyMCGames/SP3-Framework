@@ -16,6 +16,7 @@
 #include "SceneGame.h"
 #include "SceneHTP.h"
 #include "SceneCredits.h"
+#include "SceneTest.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -113,8 +114,8 @@ void Application::Init()
 
 	m_width = 1920;
 	m_height = 1080;
-	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
-	//m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "The Timeless Hero", NULL, NULL);
+//	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
 	//If the window couldn't be created
 	if (!m_window)
 	{
@@ -146,6 +147,7 @@ void Application::Init()
 	GameStateManager::GetInstance()->AddGameState("HowToPlayState",SceneHTP::GetInstance());
 	GameStateManager::GetInstance()->AddGameState("PlayGameState",SceneGame::GetInstance());
 	GameStateManager::GetInstance()->AddGameState("CreditsState",SceneCredits::GetInstance());
+	GameStateManager::GetInstance()->AddGameState("TestState", SceneTest::GetInstance());
 
 
 	// Set active game State

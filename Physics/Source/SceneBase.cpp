@@ -100,7 +100,7 @@ void SceneBase::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
 
-	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0),0,0,0,0);
 
 	for(int i = 0; i < NUM_GEOMETRY; ++i)
 	{
@@ -145,9 +145,14 @@ void SceneBase::Init()
 	meshList[GUI_ATK_ICON]->textureID = LoadTGA("Image//GUI//AtkIcon.tga");
 
 	// TILE
-	meshList[PASSIVE_TILE] = MeshBuilder::GenerateQuad("passivetile", Color(1, 1, 1));
-	meshList[PASSIVE_TILE]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
+	//meshList[PASSIVE_TILE] = MeshBuilder::GenerateQuad("passivetile", Color(1, 1, 1));
+	//meshList[PASSIVE_TILE]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
 
+	meshList[STONEBRICK_TILE] = MeshBuilder::GenerateQuad("stonebrick", Color(1, 1, 1));
+	meshList[STONEBRICK_TILE]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
+
+	meshList[BRICK_TILE] = MeshBuilder::GenerateQuad("brick", Color(1, 1, 1));
+	meshList[BRICK_TILE]->textureID = LoadTGA("Image//TILE//Brick_Tile.tga");
 
 	bLightEnabled = true;
 }
