@@ -443,6 +443,8 @@ void SceneCollision::Exit()
 		delete go;
 		m_goList.pop_back();
 	}
+
+	DestroyInstance();
 }
 
 void SceneCollision::ResetList(void)

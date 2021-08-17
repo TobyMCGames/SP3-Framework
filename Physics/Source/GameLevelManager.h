@@ -12,10 +12,10 @@ protected:
 	GameLevelManager();
 	~GameLevelManager();
 
-	map< string, SceneBase*> GameLevelMap;
+	map< string, GameLevelBase*> GameLevelMap;
 
-	SceneBase* ActiveGameLevel;
-	SceneBase* NextGameLevel;
+	GameLevelBase* ActiveGameLevel;
+	GameLevelBase* NextGameLevel;
 
 public:
 	// Destroy this CGameLevelManager

@@ -9,6 +9,7 @@
 #include "Light.h"
 #include "GameObject.h"
 #include <vector>
+#include "SingletonPattern.h"
 
 class SceneBase : public Scene
 {
