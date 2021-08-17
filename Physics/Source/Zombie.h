@@ -9,6 +9,8 @@ protected:
 		NUM_STATES,
 	};
 public:
+	Zombie();
+	~Zombie();
 	void Update(double dt);
 	void Response(GameObject*);
 };

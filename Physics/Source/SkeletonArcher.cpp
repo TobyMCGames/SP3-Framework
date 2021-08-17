@@ -2,12 +2,12 @@
 
 SkeletonArcher::SkeletonArcher()
 {
-
+	return;
 }
 
 SkeletonArcher::~SkeletonArcher()
 {
-
+	return;
 }
 
 void SkeletonArcher::Update(double dt)

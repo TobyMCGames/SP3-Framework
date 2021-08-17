@@ -2,12 +2,12 @@
 
 Zombie::Zombie()
 {
-
+	return;
 }
 
 Zombie::~Zombie()
 {
-
+	return;
 }
 
 void Zombie::Update(double dt)

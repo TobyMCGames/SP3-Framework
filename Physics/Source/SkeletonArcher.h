@@ -9,6 +9,8 @@ protected:
 		NUM_STATES,
 	};
 public:
+	SkeletonArcher();
+	~SkeletonArcher();
 	void Update(double dt);
 	void Response(GameObject*);
 };
