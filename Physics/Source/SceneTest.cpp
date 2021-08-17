@@ -67,7 +67,7 @@ void SceneTest::ReturnGO(GameObject *go)
 }
 
 
-void SceneTest::Update(double dt)
+bool SceneTest::Update(double dt)
 {
 	SceneBase::Update(dt);
 	camera.Update(dt);
@@ -205,6 +205,8 @@ void SceneTest::Update(double dt)
 			}
 		}
 	}
+
+	return true;
 }
 
 

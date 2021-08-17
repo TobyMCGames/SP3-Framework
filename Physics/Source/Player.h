@@ -25,12 +25,15 @@ public:
 
 	virtual void Update(double dt);
 	virtual void Response(GameObject*);
+	float mana;
 	void setmaxpoint(Vector3 maxpoint);
 	Vector3 getmaxpoint();
 
 protected:
 	int Inventory[NUM_ITEMS];
 	Weapons curWeapon;
+
+
 	Vector3 maxpoint;
 	int curItem;
 	double scrollsnap;

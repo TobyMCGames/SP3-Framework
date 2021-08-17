@@ -4,7 +4,6 @@
 #include "GameObject.h"
 #include <vector>
 #include "SceneBase.h"
-#include "SingletonPattern.h"
 
 class SceneTitle : public SceneBase, public SingletonPattern<SceneTitle>
 {
@@ -12,7 +11,7 @@ class SceneTitle : public SceneBase, public SingletonPattern<SceneTitle>
 public:
 
 	virtual void Init();
-	virtual void Update(double dt);
+	virtual bool Update(double dt);
 	virtual void Render();
 	virtual void Exit();
 

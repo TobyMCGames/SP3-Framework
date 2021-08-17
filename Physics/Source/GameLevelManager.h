@@ -12,10 +12,10 @@ protected:
 	GameLevelManager();
 	~GameLevelManager();
 
-	map< string, SceneBase*> GameLevelMap;
+	map< string, GameLevelBase*> GameLevelMap;
 
-	SceneBase* ActiveGameLevel;
-	SceneBase* NextGameLevel;
+	GameLevelBase* ActiveGameLevel;
+	GameLevelBase* NextGameLevel;
 
 public:
 	// Destroy this CGameLevelManager
@@ -23,7 +23,7 @@ public:
 
 	// System Interface
 	// Update this class instance
-	void Update(const double dt);
+	bool Update(const double dt);
 	// Render this class instance
 	void Render(void);
 

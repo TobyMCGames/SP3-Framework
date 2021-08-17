@@ -153,7 +153,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Boomer.cpp" />
+    <ClCompile Include="Source\Bomb.cpp" />
+    <ClCompile Include="Source\Arrow.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\DemonLord.cpp" />
+    <ClCompile Include="Source\DisguisedEnemy.cpp" />
+    <ClCompile Include="Source\DemonBall.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\GameLevelBase.cpp" />
     <ClCompile Include="Source\GameLevelManager.cpp" />
@@ -162,10 +168,12 @@
     <ClCompile Include="Source\GameStateManager.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
+    <ClCompile Include="Source\MagicBall.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Portal.cpp" />
     <ClCompile Include="Source\Projectile.cpp" />
     <ClCompile Include="Source\SceneBase.cpp" />
     <ClCompile Include="Source\SceneCamera.cpp" />
@@ -177,13 +185,23 @@
     <ClCompile Include="Source\SceneTest.cpp" />
     <ClCompile Include="Source\SceneTitle.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\SkeleArrow.cpp" />
     <ClCompile Include="Source\SkeletonArcher.cpp" />
+    <ClCompile Include="Source\Spider.cpp" />
+    <ClCompile Include="Source\Turret.cpp" />
+    <ClCompile Include="Source\TurretBullet.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\Boomer.h" />
+    <ClInclude Include="Source\Bomb.h" />
+    <ClInclude Include="Source\Arrow.h" />
     <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\DemonLord.h" />
+    <ClInclude Include="Source\DisguisedEnemy.h" />
+    <ClInclude Include="Source\DemonBall.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\GameLevelBase.h" />
     <ClInclude Include="Source\GameLevelManager.h" />
@@ -193,10 +211,12 @@
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
+    <ClInclude Include="Source\MagicBall.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Portal.h" />
     <ClInclude Include="Source\Projectile.h" />
     <ClInclude Include="Source\Prototype.h" />
     <ClInclude Include="Source\PrototypeFactory.h" />
@@ -212,7 +232,11 @@
     <ClInclude Include="Source\SceneTitle.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\SingletonPattern.h" />
+    <ClInclude Include="Source\SkeleArrow.h" />
     <ClInclude Include="Source\SkeletonArcher.h" />
+    <ClInclude Include="Source\TurretBullet.h" />
+    <ClInclude Include="Source\Spider.h" />
+    <ClInclude Include="Source\Turret.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
     <ClInclude Include="Source\Zombie.h" />

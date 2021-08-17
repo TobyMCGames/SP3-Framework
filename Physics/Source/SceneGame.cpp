@@ -32,14 +32,14 @@ void SceneGame::Init()
 
 
 
-void SceneGame::Update(double dt)
+bool SceneGame::Update(double dt)
 {
 	static bool bLButtonState = false;
-	if (!bLButtonState && Application::IsKeyPressed('P'))
+	if (!bLButtonState && (Application::IsKeyPressed('P') || Application::IsKeyPressed(VK_ESCAPE)))
 	{
 		bLButtonState = true;
 	}
-	else if (bLButtonState && !Application::IsKeyPressed('P'))
+	else if (bLButtonState && (!Application::IsKeyPressed('P') && !Application::IsKeyPressed(VK_ESCAPE)))
 	{
 		bLButtonState = false;
 		SceneGUI::GetInstance()->RenderPause = true;
@@ -47,10 +47,14 @@ void SceneGame::Update(double dt)
 	}
 
 
-	if(!ispaused)
-		GameLevelManager::GetInstance()->Update(dt);
+	if (!ispaused)
+		if (GameLevelManager::GetInstance()->Update(dt) == false)
+			return false;
 
-	SceneGUI::GetInstance()->Update(dt);
+	if (SceneGUI::GetInstance()->Update(dt) == false)
+		return false;
+
+	return true;
 }
 
 

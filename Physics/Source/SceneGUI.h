@@ -4,8 +4,8 @@
 #include "GameObject.h"
 #include <vector>
 #include "SceneBase.h"
-#include "SingletonPattern.h"
 #include "SceneGame.h"
+#include "Player.h"
 
 class SceneGUI : public SceneBase, public SingletonPattern<SceneGUI>
 {
@@ -13,7 +13,7 @@ class SceneGUI : public SceneBase, public SingletonPattern<SceneGUI>
 public:
 
 	virtual void Init();
-	virtual void Update(double dt);
+	virtual bool Update(double dt);
 	virtual void Render();
 	virtual void Exit();
 	void renderGUI();
@@ -28,6 +28,7 @@ protected:
 	Color ContButton;
 	Color MenuButton;
 	Color QuitButton;
+
 };
 
 #endif

@@ -9,6 +9,7 @@
 #include "Light.h"
 #include "GameObject.h"
 #include <vector>
+#include "SingletonPattern.h"
 
 class SceneBase : public Scene
 {
@@ -51,6 +52,7 @@ public:
 		GEO_CYLINDER,
 		GEO_BACKGROUND,
 		GEO_TITLE,
+		GUI_BORDER,
 		GUI_PAUSE,
 		GUI_HEART,
 		GUI_CELLS,
@@ -73,7 +75,7 @@ public:
 	~SceneBase();
 
 	virtual void Init();
-	virtual void Update(double dt);
+	virtual bool Update(double dt);
 	virtual void Render();
 	virtual void Exit();
 

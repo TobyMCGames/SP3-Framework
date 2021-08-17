@@ -5,7 +5,6 @@
 #include <vector>
 #include "GameLevelBase.h"
 #include "GamePhysics.h"
-#include "SingletonPattern.h"
 
 class SceneCollision : public GameLevelBase, public SingletonPattern<SceneCollision>
 {
@@ -18,7 +17,7 @@ class SceneCollision : public GameLevelBase, public SingletonPattern<SceneCollis
 public:
 
 	virtual void Init();
-	virtual void Update(double dt);
+	virtual bool Update(double dt);
 	virtual void Render();
 	virtual void Exit();
 

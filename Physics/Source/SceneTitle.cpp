@@ -25,7 +25,7 @@ void SceneTitle::Init()
 	Math::InitRNG();
 
 }
-void SceneTitle::Update(double dt)
+bool SceneTitle::Update(double dt)
 {
 	SceneBase::Update(dt);
 
@@ -103,10 +103,12 @@ void SceneTitle::Update(double dt)
 		else if (bLButtonState && !Application::IsMousePressed(0))
 		{
 			bLButtonState = false;
+			return false;
 			//quit button function 
 		}
 	}
 	
+	return true;
 }
 
 void SceneTitle::Render()

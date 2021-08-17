@@ -17,17 +17,18 @@ void GameLevelManager::Destroy()
 	NextGameLevel = nullptr;
 
 	// Delete all scenes stored and empty the entire map
-	std::map<std::string, SceneBase*>::iterator it, end;
+	std::map<std::string, GameLevelBase*>::iterator it, end;
 	end = GameLevelMap.end();
 	for (it = GameLevelMap.begin(); it != end; ++it)
 	{
-		delete it->second;
+		GameLevelBase* level = it->second;
+		level->Exit();
 	}
 	// Clear the map
 	GameLevelMap.clear();
 }
 
-void GameLevelManager::Update(const double dt)
+bool GameLevelManager::Update(const double dt)
 {
 	// Check for change of scene
 	if (NextGameLevel != ActiveGameLevel)
@@ -47,10 +48,11 @@ void GameLevelManager::Update(const double dt)
 	// Update the active CGameLevel
 	if (ActiveGameLevel)
 	{
-		ActiveGameLevel->Update(dt);
+		if (ActiveGameLevel->Update(dt) == false)
+			return false;
 	}
 
-	return;
+	return true;
 }
 
 void GameLevelManager::Render(void)

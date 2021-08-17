@@ -5,11 +5,14 @@ Player::Player()
 	: curWeapon(BOW)
 	, curItem(0)
 	, scrollsnap(0)
+	, mana(100)
 {
 	for (int i = 0; i < NUM_ITEMS; i++)
 	{
 		Inventory[i] = 0;
 	}
+
+	health = 100;
 }
 
 Player::~Player()
