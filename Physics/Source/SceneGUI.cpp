@@ -22,7 +22,7 @@ void SceneGUI::Init()
 	m_worldHeight = 100.f;
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	Math::InitRNG();
-
+	RenderPause = false;
 }
 void SceneGUI::Update(double dt)
 {
@@ -38,23 +38,76 @@ void SceneGUI::Update(double dt)
 	unsigned h = Application::GetWindowHeight();
 	float posX = x / w * 80; //convert (0,800) to (0,80)
 	float posY = 1 - (y / h) * 60; //convert (600,0) to (0,60)
-	PlayButton.Set(1, 1, 1);
-	if (posX > 37 && posX < 48 && posY > -49 && posY < -44)
+	ContButton.Set(1, 1, 1);
+	MenuButton.Set(1, 1, 1);
+	QuitButton.Set(1, 1, 1);
+
+	static bool MouseState = false;
+	if (!MouseState && Application::IsMousePressed(0))
 	{
-		PlayButton.Set(1, 0, 0);
-		//Mouse Section
-		static bool bLButtonState = false;
-		if(!bLButtonState && Application::IsMousePressed(0))
+		MouseState = true;
+	}
+	else if (MouseState && !Application::IsMousePressed(0))
+	{
+		MouseState = false;
+		cout << "X: " << posX << ", " << "Y: " << posY << endl;
+	}
+
+	if (posX > 25 && posX < 40 && posY > -28 && posY < -25)
+	{
+		ContButton.Set(1, 0, 0);
+		static bool MouseState = false;
+		if(!MouseState && Application::IsMousePressed(0))
 		{
-			bLButtonState = true;
+			MouseState = true;
 		}
-		else if(bLButtonState && !Application::IsMousePressed(0))
+		else if(MouseState && !Application::IsMousePressed(0))
 		{
-			bLButtonState = false;
-			GameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			MouseState = false;
+			SceneGame::GetInstance()->ispaused = false;
+			RenderPause = false;
+		}
+	}
+	if (posX > 25 && posX < 50 && posY > -33 && posY < -30)
+	{
+		MenuButton.Set(1, 0, 0);
+		static bool MouseState = false;
+		if (!MouseState && Application::IsMousePressed(0))
+		{
+			MouseState = true;
+		}  
+		else if (MouseState && !Application::IsMousePressed(0))
+		{
+			MouseState = false;
+			GameStateManager::GetInstance()->SetActiveGameState("IntroState");
+		}
+	}
+	if (posX > 25 && posX < 40 && posY > -38 && posY < -35)
+	{
+		QuitButton.Set(1, 0, 0);
+		static bool MouseState = false;
+		if (!MouseState && Application::IsMousePressed(0))
+		{
+			MouseState = true;
+		}
+		else if (MouseState && !Application::IsMousePressed(0))
+		{
+			MouseState = false;
+
 		}
 	}
 	
+	static bool bLButtonState = false;
+	if (!bLButtonState && Application::IsKeyPressed('P') && SceneGame::GetInstance()->ispaused == true)
+	{
+		bLButtonState = true;
+	}
+	else if (bLButtonState && !Application::IsKeyPressed('P') && SceneGame::GetInstance()->ispaused == true)
+	{
+		SceneGame::GetInstance()->ispaused = false;
+		bLButtonState = false;
+		RenderPause = false;
+	}
 }
 
 void SceneGUI::Render()
@@ -108,4 +161,14 @@ void SceneGUI::renderGUI()
 	//render attack value
 	ss << 5; // player's attack value
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3,41.5,48.5);
+
+	if (RenderPause)
+	{
+		RenderMeshOnScreen(meshList[GUI_PAUSE], 40, 30, 80, 70);
+		RenderTextOnScreen(meshList[GEO_TEXT], "RESUME", ContButton, 3, 29, 30);
+		RenderTextOnScreen(meshList[GEO_TEXT], "MAIN MENU", MenuButton, 3, 29, 25);
+		RenderTextOnScreen(meshList[GEO_TEXT], "QUIT", QuitButton, 3, 29, 20);
+	}
 }
+
+

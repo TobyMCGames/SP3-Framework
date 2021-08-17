@@ -42,16 +42,17 @@ void Player::Update(double dt)
 	switch (curItem)
 	{
 	case TREE_SEED:
-		std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+		//std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
 		break;
 	case VINE_SEED:
-		std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+		//std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
 		break;
 	case BOMBS:
-		std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
+		//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
 		break;
 	default:
-		std::cout << "Invalid curItem in Player.cpp" << std::endl;
+		//std::cout << "Invalid curItem in Player.cpp" << std::endl;
+		break;
 	}
 }
 

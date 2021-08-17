@@ -5,6 +5,7 @@
 #include <vector>
 #include "SceneBase.h"
 #include "SingletonPattern.h"
+#include "SceneGame.h"
 
 class SceneGUI : public SceneBase, public SingletonPattern<SceneGUI>
 {
@@ -16,6 +17,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 	void renderGUI();
+	bool RenderPause;
 
 protected:
 	SceneGUI();
@@ -23,7 +25,9 @@ protected:
 
 	float m_worldWidth;
 	float m_worldHeight;
-	Color PlayButton;
+	Color ContButton;
+	Color MenuButton;
+	Color QuitButton;
 };
 
 #endif
