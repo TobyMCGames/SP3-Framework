@@ -29,6 +29,8 @@ public:
 protected:
 	int Inventory[NUM_ITEMS];
 	Weapons curWeapon;
+	float mana;
+
 
 	int curItem;
 	double scrollsnap;
