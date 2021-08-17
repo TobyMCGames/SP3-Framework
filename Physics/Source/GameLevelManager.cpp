@@ -28,7 +28,7 @@ void GameLevelManager::Destroy()
 	GameLevelMap.clear();
 }
 
-void GameLevelManager::Update(const double dt)
+bool GameLevelManager::Update(const double dt)
 {
 	// Check for change of scene
 	if (NextGameLevel != ActiveGameLevel)
@@ -48,10 +48,11 @@ void GameLevelManager::Update(const double dt)
 	// Update the active CGameLevel
 	if (ActiveGameLevel)
 	{
-		ActiveGameLevel->Update(dt);
+		if (ActiveGameLevel->Update(dt) == false)
+			return false;
 	}
 
-	return;
+	return true;
 }
 
 void GameLevelManager::Render(void)

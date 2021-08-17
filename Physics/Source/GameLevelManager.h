@@ -23,7 +23,7 @@ public:
 
 	// System Interface
 	// Update this class instance
-	void Update(const double dt);
+	bool Update(const double dt);
 	// Render this class instance
 	void Render(void);
 

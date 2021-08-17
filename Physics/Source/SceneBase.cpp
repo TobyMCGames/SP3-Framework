@@ -157,7 +157,7 @@ void SceneBase::Init()
 	bLightEnabled = true;
 }
 
-void SceneBase::Update(double dt)
+bool SceneBase::Update(double dt)
 {
 	//Keyboard Section
 	if(Application::IsKeyPressed('1'))
@@ -170,6 +170,8 @@ void SceneBase::Update(double dt)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
 	fps = (float)(1.f / dt);
+
+	return true;
 }
 
 void SceneBase::RenderText(Mesh* mesh, std::string text, Color color)

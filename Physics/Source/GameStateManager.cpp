@@ -27,7 +27,7 @@ void GameStateManager::Destroy()
 	GameStateMap.clear();
 }
 
-void GameStateManager::Update(const double dt)
+bool GameStateManager::Update(const double dt)
 {
 	// Check for change of scene
 	if (NextGameState != ActiveGameState)
@@ -47,10 +47,11 @@ void GameStateManager::Update(const double dt)
 	// Update the active CGameState
 	if (ActiveGameState)
 	{
-		ActiveGameState->Update(dt);
+		if (ActiveGameState->Update(dt) == false)
+			return false;
 	}
 
-	return;
+	return true;
 }
 
 void GameStateManager::Render(void)

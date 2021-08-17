@@ -11,7 +11,7 @@ class SceneCredits : public SceneBase, public SingletonPattern<SceneCredits>
 public:
 
 	virtual void Init();
-	virtual void Update(double dt);
+	virtual bool Update(double dt);
 	virtual void Render();
 	virtual void Exit();
 

@@ -25,7 +25,7 @@ void SceneCredits::Init()
 	Math::InitRNG();
 
 }
-void SceneCredits::Update(double dt)
+bool SceneCredits::Update(double dt)
 {
 	SceneBase::Update(dt);
 
@@ -56,6 +56,7 @@ void SceneCredits::Update(double dt)
 		}
 	}
 	
+	return true;
 }
 
 void SceneCredits::Render()

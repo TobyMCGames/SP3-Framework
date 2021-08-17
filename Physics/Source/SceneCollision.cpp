@@ -174,7 +174,7 @@ void SceneCollision::ReturnGO(GameObject *go)
 //	);
 //}
 
-void SceneCollision::Update(double dt)
+bool SceneCollision::Update(double dt)
 {
 	SceneBase::Update(dt);
 	camera.Update(dt);
@@ -314,6 +314,8 @@ void SceneCollision::Update(double dt)
 			}
 		}
 	}
+
+	return true;
 }
 
 

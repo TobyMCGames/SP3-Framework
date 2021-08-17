@@ -24,7 +24,7 @@ void SceneGUI::Init()
 	Math::InitRNG();
 	RenderPause = false;
 }
-void SceneGUI::Update(double dt)
+bool SceneGUI::Update(double dt)
 {
 	SceneBase::Update(dt);
 
@@ -93,21 +93,25 @@ void SceneGUI::Update(double dt)
 		else if (MouseState && !Application::IsMousePressed(0))
 		{
 			MouseState = false;
-
+			return false;
 		}
 	}
 	
 	static bool bLButtonState = false;
-	if (!bLButtonState && Application::IsKeyPressed('P') && SceneGame::GetInstance()->ispaused == true)
+	if (!bLButtonState && (Application::IsKeyPressed('P') || Application::IsKeyPressed(VK_ESCAPE))
+		&& SceneGame::GetInstance()->ispaused == true)
 	{
 		bLButtonState = true;
 	}
-	else if (bLButtonState && !Application::IsKeyPressed('P') && SceneGame::GetInstance()->ispaused == true)
+	else if (bLButtonState && !Application::IsKeyPressed('P') && !Application::IsKeyPressed(VK_ESCAPE)
+		&& SceneGame::GetInstance()->ispaused == true)
 	{
 		SceneGame::GetInstance()->ispaused = false;
 		bLButtonState = false;
 		RenderPause = false;
 	}
+
+	return true;
 }
 
 void SceneGUI::Render()

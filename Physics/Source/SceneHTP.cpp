@@ -25,7 +25,7 @@ void SceneHTP::Init()
 	Math::InitRNG();
 
 }
-void SceneHTP::Update(double dt)
+bool SceneHTP::Update(double dt)
 {
 	SceneBase::Update(dt);
 
@@ -55,7 +55,7 @@ void SceneHTP::Update(double dt)
 			GameStateManager::GetInstance()->SetActiveGameState("IntroState");
 		}
 	}
-	
+	return true;
 }
 
 void SceneHTP::Render()

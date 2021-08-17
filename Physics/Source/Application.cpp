@@ -157,10 +157,11 @@ void Application::Init()
 void Application::Run()
 {
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+	while (!glfwWindowShouldClose(m_window))
 	{
 
-		GameStateManager::GetInstance()->Update(m_timer.getElapsedTime());
+		if (GameStateManager::GetInstance()->Update(m_timer.getElapsedTime()) == false)
+			break;
 		GameStateManager::GetInstance()->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);

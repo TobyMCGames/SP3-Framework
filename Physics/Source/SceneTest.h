@@ -18,7 +18,7 @@ class SceneTest : public GameLevelBase, public SingletonPattern<SceneTest>
 public:
 
 	virtual void Init();
-	virtual void Update(double dt);
+	virtual bool Update(double dt);
 	virtual void Render();
 	virtual void Exit();
 
