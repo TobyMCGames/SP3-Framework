@@ -187,6 +187,7 @@
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\SkeleArrow.cpp" />
     <ClCompile Include="Source\SkeletonArcher.cpp" />
+    <ClCompile Include="Source\Spider.cpp" />
     <ClCompile Include="Source\TurretBullet.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\Zombie.cpp" />
