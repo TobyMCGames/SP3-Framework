@@ -131,6 +131,8 @@ void SceneBase::Init()
 	// SCENE GUI
 	meshList[GUI_PAUSE] = MeshBuilder::GenerateQuad("pauseScreen", Color(1, 1, 1));
 	meshList[GUI_PAUSE]->textureID = LoadTGA("Image/GUI/PauseScreen.tga");
+	meshList[GUI_BORDER] = MeshBuilder::GenerateQuad("Border", Color(1, 1, 1));
+	meshList[GUI_BORDER]->textureID = LoadTGA("Image/GUI/border.tga");
 	meshList[GUI_HEART] = MeshBuilder::GenerateQuad("Hearts_sprite", Color(1, 1, 1));
 	meshList[GUI_HEART]->textureID = LoadTGA("Image/GUI/Hearts_Icon.tga");
 	meshList[GUI_ENERGY] = MeshBuilder::GenerateQuad("Energy_Sprite", Color(1, 1, 1));
