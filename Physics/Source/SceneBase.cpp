@@ -117,14 +117,16 @@ void SceneBase::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 	meshList[GEO_TEXT]->material.kAmbient.Set(1, 0, 0);
+
+	//GAMESTATE PAGES
 	meshList[GEO_BACKGROUND] = MeshBuilder::GenerateQuad("background", Color(1, 1, 1), 2);
-	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//castle_background.tga");
+	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//GAMESTATES//castle_background.tga");
 	meshList[GEO_TITLE] = MeshBuilder::GenerateQuad("title", Color(1, 1, 1), 2);
-	meshList[GEO_TITLE]->textureID = LoadTGA("Image//game_title.tga");
+	meshList[GEO_TITLE]->textureID = LoadTGA("Image//GAMESTATES//game_title.tga");
 	meshList[GEO_CONTROLS] = MeshBuilder::GenerateQuad("controls", Color(1, 1, 1), 2);
-	meshList[GEO_CONTROLS]->textureID = LoadTGA("Image//controls.tga");
+	meshList[GEO_CONTROLS]->textureID = LoadTGA("Image//GAMESTATES//controls.tga");
 	meshList[GEO_CREDITS] = MeshBuilder::GenerateQuad("credits", Color(1, 1, 1), 2);
-	meshList[GEO_CREDITS]->textureID = LoadTGA("Image//credits.tga");
+	meshList[GEO_CREDITS]->textureID = LoadTGA("Image//GAMESTATES//credits.tga");
 
 	// SCENE GUI
 	meshList[GUI_HEART] = MeshBuilder::GenerateQuad("Hearts_sprite", Color(1, 1, 1));
