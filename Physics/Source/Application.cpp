@@ -23,6 +23,7 @@ const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 int m_width, m_height;
 
+
 //Define an error callback
 static void error_callback(int error, const char* description)
 {
@@ -45,6 +46,13 @@ void resize_callback(GLFWwindow* window, int w, int h)
 	glViewport(0, 0, w, h);
 }
 
+double ScrollY;
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	ScrollY = yoffset;
+}
+
 bool Application::IsKeyPressed(unsigned short key)
 {
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
@@ -64,6 +72,12 @@ int Application::GetWindowWidth()
 int Application::GetWindowHeight()
 {
 	return m_height;
+}
+
+int Application::GetYScrollOffset()
+{
+	glfwSetScrollCallback(m_window, scroll_callback);
+	return ScrollY;
 }
 
 Application::Application()
@@ -100,8 +114,8 @@ void Application::Init()
 
 	m_width = 1920;
 	m_height = 1080;
-	m_window = glfwCreateWindow(m_width, m_height, "Physics",NULL, NULL);
-
+	//m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "Physics", glfwGetPrimaryMonitor(), NULL);
 	//If the window couldn't be created
 	if (!m_window)
 	{
@@ -145,11 +159,13 @@ void Application::Run()
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
+
 		GameStateManager::GetInstance()->Update(m_timer.getElapsedTime());
 		GameStateManager::GetInstance()->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
+		ScrollY = 0;
 		glfwPollEvents();
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
 
@@ -165,3 +181,5 @@ void Application::Exit()
 	//Finalize and clean up GLFW
 	glfwTerminate();
 }
+
+
