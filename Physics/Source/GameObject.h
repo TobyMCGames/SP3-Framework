@@ -36,6 +36,10 @@ struct GameObject: public Prototype<GameObject>
 		// TILES
 		BRICK_TILE,
 		STONE_BRICK_TILE,
+		ROCK_TILE,
+		SOIL_TILE,
+		GRASS_SOIL_TILE,
+		GRASS_SOIL_FLOWERS_TILE,
 
 		GO_TOTAL, //must be last
 	};
