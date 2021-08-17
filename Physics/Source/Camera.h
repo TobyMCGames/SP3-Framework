@@ -9,10 +9,17 @@ public:
 	Vector3 position;
 	Vector3 target;
 	Vector3 up;
+	Vector3 view;
+	Vector3 right;
+	Vector3 CameraCenter;
+	Vector3 maxpoint;
+	float offsetX;
+	float offsetY;
 
 	Camera();
 	~Camera();
-	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
+	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up,float worldwidth,float worldheight,
+		float offsetX,float offsetY);
 	virtual void Reset();
 	virtual void Update(double dt);
 };

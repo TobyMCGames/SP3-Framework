@@ -17,11 +17,12 @@ void GameLevelManager::Destroy()
 	NextGameLevel = nullptr;
 
 	// Delete all scenes stored and empty the entire map
-	std::map<std::string, SceneBase*>::iterator it, end;
+	std::map<std::string, GameLevelBase*>::iterator it, end;
 	end = GameLevelMap.end();
 	for (it = GameLevelMap.begin(); it != end; ++it)
 	{
-		delete it->second;
+		GameLevelBase* level = it->second;
+		level->Exit();
 	}
 	// Clear the map
 	GameLevelMap.clear();

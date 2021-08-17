@@ -4,7 +4,6 @@
 #include "GameObject.h"
 #include <vector>
 #include "SceneBase.h"
-#include "SingletonPattern.h"
 #include "SceneGame.h"
 
 class SceneGUI : public SceneBase, public SingletonPattern<SceneGUI>
