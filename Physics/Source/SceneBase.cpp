@@ -100,7 +100,7 @@ void SceneBase::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
 
-	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0),0,0,0,0);
+	camera.Init(Vector3(0, 0, 1), Vector3(0, 0, 0), Vector3(0, 1, 0),0,0);
 
 	for(int i = 0; i < NUM_GEOMETRY; ++i)
 	{
@@ -153,6 +153,9 @@ void SceneBase::Init()
 
 	meshList[BRICK_TILE] = MeshBuilder::GenerateQuad("brick", Color(1, 1, 1));
 	meshList[BRICK_TILE]->textureID = LoadTGA("Image//TILE//Brick_Tile.tga");
+
+	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 0, 1));
+	//meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//Stalker_Active.png");
 
 	bLightEnabled = true;
 }

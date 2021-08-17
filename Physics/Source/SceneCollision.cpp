@@ -2,6 +2,7 @@
 #include "GL\glew.h"
 #include "Application.h"
 #include <sstream>
+#include "Player.h"
 
 SceneCollision::SceneCollision()
 {
@@ -27,10 +28,13 @@ void SceneCollision::Init()
 
 	//Player Here
 	player = Player::GetInstance();
-
+	player->type = GameObject::GAMEOBJECT_TYPE::GO_PLAYER;
+//	player->pos.Set(80, 45, 0.1f);
+	player->vel.Set(1.f, 1.f, 0);
+	player->scale.Set(5.f,5.f,1);
 	Math::InitRNG();
 	loadMap("Maps//SideScrollmap.csv", m_worldWidth, m_worldHeight);
-	camera.Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), m_worldWidth, m_worldHeight, 80, 45);
+	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
 	//Exercise 1: initialize m_objectCount
 }
 
@@ -177,7 +181,8 @@ void SceneCollision::ReturnGO(GameObject *go)
 void SceneCollision::Update(double dt)
 {
 	SceneBase::Update(dt);
-	camera.Update(dt);
+	camera.Update(dt,player);
+	player->Update(dt);
 	
 	if (Application::IsKeyPressed('9'))
 	{
@@ -246,7 +251,7 @@ void SceneCollision::Update(double dt)
 		RButtonState = false;
 	}
 
-	player->Update(dt);
+	//player->Update(dt);
 
 	//Physics Simulation Section
 
@@ -392,6 +397,12 @@ void SceneCollision::RenderGO(GameObject *go)
 		RenderMesh(meshList[BRICK_TILE], false);
 		modelStack.PopMatrix();
 		break;
+	case GameObject::GO_PLAYER:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_PLAYER], false);
+		modelStack.PopMatrix();
 	}
 }
 
@@ -427,8 +438,6 @@ void SceneCollision::Render()
 	}
 	RenderMesh(meshList[GEO_AXES], false);
 
-
-
 	for(std::vector<GameObject *>::iterator it = map.begin(); it != map.end(); ++it)
 	{
 		GameObject *go = (GameObject *)*it;
@@ -438,7 +447,9 @@ void SceneCollision::Render()
 		}
 	}
 
+	RenderGO(player);
 	//On screen text
+
 
 	std::ostringstream ss;
 	//Exercise 5: Render m_objectCount

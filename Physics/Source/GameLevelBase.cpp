@@ -63,6 +63,11 @@ bool GameLevelBase::loadMap(std::string file_path, float& m_worldWidth, float& m
 				temp->scale.Set(TILEWIDTH, TILEHEIGHT, 1);
 				xOffset += TILEWIDTH;
 				break;
+			case 'P':
+				player->GetInstance();
+				player->pos.Set((col - commacounter) * TILEWIDTH, ((linesinreverse.size() -row) * TILEHEIGHT), 0.1f);
+				xOffset += TILEWIDTH;
+				continue;
 			}
 			if ((col-commacounter) > highestcol)
 				highestcol = col - commacounter;
@@ -77,6 +82,7 @@ bool GameLevelBase::loadMap(std::string file_path, float& m_worldWidth, float& m
 	}
 	m_worldWidth = highestcol * TILEWIDTH;
 	m_worldHeight = (linesinreverse.size())*TILEHEIGHT;
+	player->setmaxpoint(Vector3(m_worldWidth, m_worldHeight, player->pos.z));
 	//m_worldHeight = (linesinreverse.size()) * TILEHEIGHT;
 	//m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	return true;

@@ -32,9 +32,7 @@ void SceneTest::Init()
 	Math::InitRNG();
 	//Always init the map first then camera
 	loadMap("Maps//SideScrollmap.csv",m_worldWidth,m_worldHeight);
-	camera.Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0),m_worldWidth,m_worldHeight,80,45); 
-	
-
+	camera.Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0),80,45); 
 }
 
 GameObject* SceneTest::FetchGO()

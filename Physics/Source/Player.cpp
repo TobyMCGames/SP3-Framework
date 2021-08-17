@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "Application.h"
-
+#include "GameLevelManager.h"
 Player::Player()
 	: curWeapon(BOW)
 	, curItem(0)
@@ -16,8 +16,33 @@ Player::~Player()
 {
 }
 
+
 void Player::Update(double dt)
 {
+	if (Application::IsKeyPressed('W'))
+	{
+		if (pos.y < maxpoint.y -scale.y/2)
+			pos.y += vel.y;
+	}
+
+	if (Application::IsKeyPressed('S'))
+	{
+		if (pos.y - vel.y > scale.y/2)
+			pos.y -=vel.y;
+	}
+
+	if (Application::IsKeyPressed('A'))
+	{
+		if (pos.x - vel.x > scale.x/2)
+			pos.x -= vel.x;
+	}
+
+	if (Application::IsKeyPressed('D'))
+	{
+		if (pos.x < maxpoint.x - scale.x/2)
+			pos.x += vel.x;
+	}
+
 	scrollsnap += Application::GetYScrollOffset();
 
 	if (scrollsnap > scrollSensitivity)
@@ -58,4 +83,14 @@ void Player::Update(double dt)
 
 void Player::Response(GameObject*)
 {
+}
+
+void Player::setmaxpoint(Vector3 maxpoint)
+{
+	this->maxpoint = maxpoint;
+}
+
+Vector3 Player::getmaxpoint()
+{
+	return maxpoint;
 }
