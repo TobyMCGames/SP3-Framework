@@ -196,5 +196,8 @@
     <ClInclude Include="Source\SkeletonArcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Prototype.h">
+      <Filter>DesignPatterns</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
