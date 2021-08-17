@@ -36,6 +36,7 @@ void SceneCollision::Init()
 	loadMap("Maps//SideScrollmap.csv");
 	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
 	//Exercise 1: initialize m_objectCount
+	
 }
 
 GameObject* SceneCollision::FetchGO()
@@ -183,7 +184,7 @@ bool SceneCollision::Update(double dt)
 	SceneBase::Update(dt);
 	camera.Update(dt,player);
 	player->Update(dt);
-	
+
 	if (Application::IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
@@ -480,6 +481,8 @@ void SceneCollision::Render()
 	for(std::vector<GameObject *>::iterator it = map.begin(); it != map.end(); ++it)
 	{
 		GameObject *go = (GameObject *)*it;
+		if (go == nullptr)
+			continue;
 		if(go->active)
 		{
 			RenderGO(go);

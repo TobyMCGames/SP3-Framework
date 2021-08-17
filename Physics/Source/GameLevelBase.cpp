@@ -46,6 +46,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				xOffset += TILEWIDTH;
 				if (col - commacounter > highestcol)
 					highestcol = col;
+				map.push_back(temp);
 				continue;
 			case '1':
 				temp = new passive_tile(GameObject::GAMEOBJECT_TYPE::STONE_BRICK_TILE);
