@@ -1,5 +1,10 @@
 #include "Zombie.h"
 #include "SkeletonArcher.h"
+#include "Spider.h"
+#include "Boomer.h"
+#include "Turret.h"
+#include "DisguisedEnemy.h"
+#include "DemonLord.h"
 
 class PrototypeFactory
 {
@@ -8,6 +13,11 @@ public:
 	{
 		ZOMBIE,
 		SKELE_ARCHER,
+		SPIDER,
+		BOOMER,
+		TURRET,
+		DISGUISED_ENEMY,
+		DEMON_LORD,
 
 		// leave this last
 		NUM_GAMEOBJECTS
