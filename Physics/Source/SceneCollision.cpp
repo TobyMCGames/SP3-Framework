@@ -18,8 +18,8 @@ void SceneCollision::Init()
 	SceneBase::Init();
 
 	//Calculating aspect ratio
-	m_worldHeight = 100.f;
-	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+	//m_worldHeight = 100.f;
+	//m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
 	//Physics code here
 	m_speed = 2.7f;
@@ -33,7 +33,7 @@ void SceneCollision::Init()
 	player->vel.Set(1.f, 1.f, 0);
 	player->scale.Set(5.f,5.f,1);
 	Math::InitRNG();
-	loadMap("Maps//SideScrollmap.csv", m_worldWidth, m_worldHeight);
+	loadMap("Maps//SideScrollmap.csv");
 	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
 	//Exercise 1: initialize m_objectCount
 }
@@ -405,6 +405,7 @@ void SceneCollision::RenderGO(GameObject *go)
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_PLAYER], false);
 		modelStack.PopMatrix();
+		break;
 
 	case GameObject::ROCK_TILE:
 		modelStack.PushMatrix();

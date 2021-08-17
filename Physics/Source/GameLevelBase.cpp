@@ -12,7 +12,7 @@ GameLevelBase::~GameLevelBase()
 
 }
 
-bool GameLevelBase::loadMap(std::string file_path, float& m_worldWidth, float& m_worldHeight)
+bool GameLevelBase::loadMap(std::string file_path)
 {
 	ifstream file;
 	file.open(file_path);
@@ -82,8 +82,15 @@ bool GameLevelBase::loadMap(std::string file_path, float& m_worldWidth, float& m
 	}
 	m_worldWidth = highestcol * TILEWIDTH;
 	m_worldHeight = (linesinreverse.size())*TILEHEIGHT;
-	player->setmaxpoint(Vector3(m_worldWidth, m_worldHeight, player->pos.z));
-	//m_worldHeight = (linesinreverse.size()) * TILEHEIGHT;
-	//m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	return true;
+}
+
+float GameLevelBase::getworldWidth()
+{
+	return m_worldWidth;
+}
+
+float GameLevelBase::getworldHeight()
+{
+	return m_worldHeight;
 }

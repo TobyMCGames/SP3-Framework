@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "Application.h"
 #include "Mtx44.h"
-#include "Player.h"
+#include "GameLevelManager.h"
 
 Camera::Camera()
 {
@@ -35,8 +35,12 @@ void Camera::Update(double dt, Player* player)
 {
 	if (player == nullptr)
 		return;
+	
+	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
+		GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
+		player->pos.z);
 
-	if ((player->pos.x > offsetX) && (player->pos.x < player->getmaxpoint().x - offsetX))
+	if ((player->pos.x > offsetX) && (player->pos.x <maxpoint.x - offsetX)) 
 	{
 		position.x = player->pos.x - offsetX;
 		target.x = player->pos.x - offsetX;
@@ -48,11 +52,11 @@ void Camera::Update(double dt, Player* player)
 	}
 	else if (player->pos.x >= offsetX)
 	{
-		position.x = player->getmaxpoint().x - offsetX*2;
-		target.x = player->getmaxpoint().x - offsetX*2;
+		position.x = maxpoint.x - offsetX*2;
+		target.x = maxpoint.x - offsetX*2;
 	}
 
-	if ((player->pos.y > offsetY) && (player->pos.y < (player->getmaxpoint().y - offsetY)))
+	if ((player->pos.y > offsetY) && (player->pos.y < (maxpoint.y - offsetY)))
 	{
 		position.y = player->pos.y - offsetY;
 		target.y = player->pos.y - offsetY;
@@ -64,72 +68,7 @@ void Camera::Update(double dt, Player* player)
 	}
 	else if (player->pos.y >= offsetY)
 	{
-		position.y = player->getmaxpoint().y - offsetY*2;
-		target.y = player->getmaxpoint().y - offsetY *2;
+		position.y = maxpoint.y - offsetY*2;
+		target.y = maxpoint.y - offsetY *2;
 	}
-		
-
-
-	/*if (player->pos.x < maxpoint.x - offsetX)
-	{
-		position += right.Normalize() * CAMERA_SPEED;
-		target += right.Normalize() * CAMERA_SPEED;
-	//	CameraCenter += right.Normalize() * CAMERA_SPEED;
-	}
-
-
-	if (player->pos.y < maxpoint.y - offsetY)
-	{
-		position += up.Normalize() * CAMERA_SPEED;
-		target += up.Normalize() * CAMERA_SPEED;
-		up += up.Normalize() *CAMERA_SPEED;
-		//CameraCenter += up.Normalize() * CAMERA_SPEED;
-	}
-
-
-	if (player->pos.y > offsetY)
-	{
-		position -= up.Normalize() * CAMERA_SPEED;
-		target -= up.Normalize() * CAMERA_SPEED;
-		//CameraCenter -= up.Normalize() * CAMERA_SPEED;
-	}
-	
-	*/
-
-	/*if (player->pos.x > offsetX) // left 
-	{
-		float diff = player->pos.x - offsetX;
-		position -= player->pos.x;
-		target -= right.Normalize() * CAMERA_SPEED;
-		//CameraCenter -= right.Normalize() * CAMERA_SPEED;
-	}
-
-	if (player->pos.x < maxpoint.x - offsetX) // right
-	{
-		float diff = (maxpoint.x - offsetX) - player->pos.x;
-		position += right.Normalize() * CAMERA_SPEED;
-		target += right.Normalize() * CAMERA_SPEED;
-	}
-
-
-	if (player->pos.y < maxpoint.y - offsetY) // up
-	{
-		float diff = (maxpoint.y - offsetY) - player->pos.y;
-		position = player->pos.y;
-		target += up.Normalize() * CAMERA_SPEED;
-		up += up.Normalize() * CAMERA_SPEED;
-	}
-
-
-	if (player->pos.y > offsetY) // down
-	{
-		float diff = player->pos.y - offsetY;
-		position = player->pos.y;
-		target -= up.Normalize() * CAMERA_SPEED;
-	}*/
-}
-
-void Camera::setPlayer(float playerposx, float playerposy)
-{
-	CameraCenter.Set(playerposx, playerposy, 0);
 }

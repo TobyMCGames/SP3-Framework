@@ -14,7 +14,6 @@ public:
 	Vector3 up;
 	Vector3 view;
 	Vector3 right;
-	Vector3 CameraCenter;
 	float offsetX;
 	float offsetY;
 	Camera();
@@ -22,7 +21,6 @@ public:
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up,float offsetX,float offsetY);
 	virtual void Reset();
 	virtual void Update(double dt,Player* player = nullptr);
-	void setPlayer(float playerposx,float playerposy);
 };
 
 #endif

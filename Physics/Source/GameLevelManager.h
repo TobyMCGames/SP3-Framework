@@ -32,5 +32,6 @@ public:
 	bool RemoveGameLevel(const std::string& _name);
 	bool SetActiveGameLevel(const std::string& _name);
 	bool CheckGameLevelExist(const std::string& _name);
+	GameLevelBase* getcurrentLevel();
 };
 

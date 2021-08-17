@@ -11,8 +11,8 @@ Player::Player()
 	{
 		Inventory[i] = 0;
 	}
-
 	health = 100;
+	
 }
 
 Player::~Player()
@@ -22,28 +22,40 @@ Player::~Player()
 
 void Player::Update(double dt)
 {
+	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
+								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
+								pos.z);
+
 	if (Application::IsKeyPressed('W'))
 	{
-		if (pos.y < maxpoint.y -scale.y/2)
+		if (pos.y + vel.y < maxpoint.y - scale.y / 2)
 			pos.y += vel.y;
+		else
+			pos.y = maxpoint.y - scale.y / 2;
 	}
 
 	if (Application::IsKeyPressed('S'))
 	{
-		if (pos.y - vel.y > scale.y/2)
-			pos.y -=vel.y;
+		if (pos.y - vel.y > scale.y / 2)
+			pos.y -= vel.y;
+		else
+			pos.y = scale.y / 2;
 	}
 
 	if (Application::IsKeyPressed('A'))
 	{
-		if (pos.x - vel.x > scale.x/2)
+		if (pos.x - vel.x > scale.x / 2)
 			pos.x -= vel.x;
+		else
+			pos.x = scale.x / 2;
 	}
 
 	if (Application::IsKeyPressed('D'))
 	{
-		if (pos.x < maxpoint.x - scale.x/2)
+		if (pos.x + vel.x < maxpoint.x - scale.x / 2)
 			pos.x += vel.x;
+		else
+			pos.x = maxpoint.x - scale.x / 2;
 	}
 
 	scrollsnap += Application::GetYScrollOffset();
@@ -86,14 +98,4 @@ void Player::Update(double dt)
 
 void Player::Response(GameObject*)
 {
-}
-
-void Player::setmaxpoint(Vector3 maxpoint)
-{
-	this->maxpoint = maxpoint;
-}
-
-Vector3 Player::getmaxpoint()
-{
-	return maxpoint;
 }
