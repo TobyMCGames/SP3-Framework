@@ -2,7 +2,7 @@
 #define TURRETBULLET_H
 
 #include "Projectile.h"
-class TurretBullet : public GameObject
+class TurretBullet : public Projectile
 {
 public:
 	virtual void Update(double dt);

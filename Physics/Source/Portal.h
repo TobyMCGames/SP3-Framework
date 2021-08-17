@@ -2,7 +2,7 @@
 #define PORTAL_H
 
 #include "Projectile.h"
-class Portal : public GameObject
+class Portal : public Projectile
 {
 public:
 	virtual void Update(double dt);

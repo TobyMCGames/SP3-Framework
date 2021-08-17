@@ -2,7 +2,7 @@
 #define BOMB_H
 
 #include "Projectile.h"
-class Bomb : public GameObject
+class Bomb : public Projectile
 {
 public:
 	virtual void Update(double dt);
