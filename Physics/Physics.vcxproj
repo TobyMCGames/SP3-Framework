@@ -156,6 +156,7 @@
     <ClCompile Include="Source\Boomer.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\DemonLord.cpp" />
+    <ClCompile Include="Source\DisguisedEnemy.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\GameLevelBase.cpp" />
     <ClCompile Include="Source\GameLevelManager.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Source\SceneTitle.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\SkeletonArcher.cpp" />
+    <ClCompile Include="Source\Spider.cpp" />
     <ClCompile Include="Source\Turret.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\Zombie.cpp" />
@@ -189,6 +191,7 @@
     <ClInclude Include="Source\Boomer.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\DemonLord.h" />
+    <ClInclude Include="Source\DisguisedEnemy.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\GameLevelBase.h" />
     <ClInclude Include="Source\GameLevelManager.h" />
@@ -218,6 +221,7 @@
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\SingletonPattern.h" />
     <ClInclude Include="Source\SkeletonArcher.h" />
+    <ClInclude Include="Source\Spider.h" />
     <ClInclude Include="Source\Turret.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
