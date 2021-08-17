@@ -98,6 +98,12 @@
     <ClCompile Include="Source\SceneCollision.cpp">
       <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SkeletonArcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Zombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -183,6 +189,18 @@
     </ClInclude>
     <ClInclude Include="Source\SceneCollision.h">
       <Filter>Header Files\GameLevels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Zombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SkeletonArcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Prototype.h">
+      <Filter>DesignPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PrototypeFactory.h">
+      <Filter>DesignPatterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

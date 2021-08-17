@@ -2,9 +2,9 @@
 #define GAME_OBJECT_H
 
 #include "Vector3.h"
+#include "Prototype.h"
 
-
-struct GameObject
+struct GameObject: public Prototype<GameObject>
 {
 	enum GAMEOBJECT_TYPE
 	{
