@@ -4,7 +4,9 @@
 #include "GameObject.h"
 #include <vector>
 #include "SceneBase.h"
+#include "SceneGUI.h"
 #include "SingletonPattern.h"
+#include "SceneGUI.h"
 
 class SceneGame : public SceneBase, public SingletonPattern<SceneGame>
 {
@@ -16,11 +18,11 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	bool ispaused;
 
 protected:
 	SceneGame();
 	~SceneGame();
-
 };
 
 #endif
