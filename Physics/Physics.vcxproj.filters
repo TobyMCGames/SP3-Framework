@@ -98,6 +98,12 @@
     <ClCompile Include="Source\SceneCollision.cpp">
       <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SceneTest.cpp">
+      <Filter>Source Files\GameLevels</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -183,6 +189,12 @@
     </ClInclude>
     <ClInclude Include="Source\SceneCollision.h">
       <Filter>Header Files\GameLevels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneTest.h">
+      <Filter>Header Files\GameLevels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneCamera.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

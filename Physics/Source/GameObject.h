@@ -34,6 +34,9 @@ struct GameObject
 		GO_DEMONBALL,
 
 		// TILES
+		BRICK_TILE,
+		STONE_BRICK_TILE,
+
 		GO_TOTAL, //must be last
 	};
 
@@ -80,6 +83,7 @@ struct passive_tile : public GameObject
 	friend GameObject;
 	void Response(GameObject*) {};
 	passive_tile() { type = GAMEOBJECT_TYPE::GO_CUBE; };
+	passive_tile(GAMEOBJECT_TYPE objtype) { this->type = objtype;}
 	~passive_tile() {};
 };
 #endif

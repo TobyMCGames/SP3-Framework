@@ -60,7 +60,9 @@ public:
 		GUI_ATK_ICON,
 		GEO_CONTROLS,
 		GEO_CREDITS,
-		PASSIVE_TILE,
+		//PASSIVE_TILE,
+		BRICK_TILE,
+		STONEBRICK_TILE,
 
 		NUM_GEOMETRY,
 	};
@@ -96,6 +98,7 @@ protected:
 	MS projectionStack;
 
 	Light lights[1];
+
 
 	bool bLightEnabled;
 

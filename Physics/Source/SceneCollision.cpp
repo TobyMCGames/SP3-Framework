@@ -396,7 +396,7 @@ void SceneCollision::Render()
 					);
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack.LoadIdentity();
-	
+
 	//Pass light
 	if (lights[0].type == Light::LIGHT_DIRECTIONAL)
 	{
@@ -405,6 +405,8 @@ void SceneCollision::Render()
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
 	}
 	RenderMesh(meshList[GEO_AXES], false);
+
+
 
 	for(std::vector<GameObject *>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
