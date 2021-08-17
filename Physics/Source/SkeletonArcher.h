@@ -1,5 +1,4 @@
 #include "Entity.h"
-#include "Prototype.h"
 
 class SkeletonArcher : public Entity
 {
