@@ -1,7 +1,7 @@
 #include "GamePhysics.h"
 
 GamePhysics::GamePhysics()
-	: gravity(Vector3(0, -9.8, 0))
+	: gravity(Vector3(0.f, -9.8f, 0.f))
 {
 }
 

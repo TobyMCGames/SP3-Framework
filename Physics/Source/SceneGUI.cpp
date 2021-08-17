@@ -6,6 +6,8 @@
 #include "GameStateManager.h"
 
 SceneGUI::SceneGUI()
+	: m_worldHeight(0)
+	, m_worldWidth(0)
 {
 }
 

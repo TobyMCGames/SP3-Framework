@@ -20,6 +20,7 @@ public:
 	static void GetCursorPos(double *xpos, double *ypos);
 	static int GetWindowWidth();
 	static int GetWindowHeight();
+	static int GetYScrollOffset();
 
 private:
 	Application();
