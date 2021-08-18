@@ -126,41 +126,41 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt)
 		
 		Vector3 CollisionNormal = (go2->normal.Cross(Vector3(0.f, 0.f, 1.f))).Normalized();
 		Vector3 bot_R = go2->pos + go2->normal * go2->scale.x / 2 + CollisionNormal * go2->scale.y / 2;
-		if ((bot_R - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) < go1->scale.x / 2 &&
-			(bot_R - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) > -go1->scale.x / 2)
+		if ((bot_R - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) <= go1->scale.x / 2 &&
+			(bot_R - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) >= -go1->scale.x / 2)
 		{
-			if ((bot_R - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) < go1->scale.x / 2 &&
-				(bot_R - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) > -go1->scale.x / 2)
+			if ((bot_R - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) <= go1->scale.x / 2 &&
+				(bot_R - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) >= -go1->scale.x / 2)
 			{
 				return true;
 			}
 		}
 		Vector3 bot_L = go2->pos - go2->normal * go2->scale.x / 2 + CollisionNormal * go2->scale.y / 2;
-		if ((bot_L - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) < go1->scale.x / 2 &&
-			(bot_L - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) > -go1->scale.x / 2)
+		if ((bot_L - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) <= go1->scale.x / 2 &&
+			(bot_L - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) >= -go1->scale.x / 2)
 		{
-			if ((bot_L - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) < go1->scale.x / 2 &&
-				(bot_L - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) > -go1->scale.x / 2)
+			if ((bot_L - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) <= go1->scale.x / 2 &&
+				(bot_L - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) >= -go1->scale.x / 2)
 			{
 				return true;
 			}
 		}
 		Vector3 top_R = go2->pos + go2->normal * go2->scale.x / 2 - CollisionNormal * go2->scale.y / 2;
-		if ((top_R - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) < go1->scale.x / 2 &&
-			(top_R - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) > -go1->scale.x / 2)
+		if ((top_R - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) <= go1->scale.x / 2 &&
+			(top_R - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) >= -go1->scale.x / 2)
 		{
-			if ((top_R - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) < go1->scale.x / 2 &&
-				(top_R - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) > -go1->scale.x / 2)
+			if ((top_R - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) <= go1->scale.x / 2 &&
+				(top_R - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) >= -go1->scale.x / 2)
 			{
 				return true;
 			}
 		}
 		Vector3 top_L = go2->pos - go2->normal * go2->scale.x / 2 - CollisionNormal * go2->scale.y / 2;
-		if ((top_L - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) < go1->scale.x / 2 &&
-			(top_L - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) > -go1->scale.x / 2)
+		if ((top_L - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) <= go1->scale.x / 2 &&
+			(top_L - go1->pos).Dot(Vector3(1.f, 0.f, 0.f)) >= -go1->scale.x / 2)
 		{
-			if ((top_L - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) < go1->scale.x / 2 &&
-				(top_L - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) > -go1->scale.x / 2)
+			if ((top_L - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) <= go1->scale.x / 2 &&
+				(top_L - go1->pos).Dot(Vector3(0.f, 1.f, 0.f)) >= -go1->scale.x / 2)
 			{
 				return true;
 			}
