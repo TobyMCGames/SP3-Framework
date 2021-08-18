@@ -179,6 +179,9 @@
     <ClCompile Include="Source\Tile.cpp">
       <Filter>Source Files\Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SpiderPoison.cpp">
+      <Filter>Source Files\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -324,6 +327,9 @@
     </ClInclude>
     <ClInclude Include="Source\Tile.h">
       <Filter>Header Files\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpiderPoison.h">
+      <Filter>Header Files\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
