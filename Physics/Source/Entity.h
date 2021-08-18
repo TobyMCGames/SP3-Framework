@@ -4,7 +4,7 @@
 #include <vector>
 #include "Projectile.h"
 
-class Entity : public GameObject
+class Entity : public GameObject, public Prototype<Entity>
 {
 protected:
 	enum STATES
@@ -15,13 +15,23 @@ protected:
 		NUM_STATES,
 	};
 
+	enum LOCATION
+	{
+		ON_GROUND,
+		IN_AIR
+	};
+
+	STATES curState;
+	LOCATION curLocation;
+
 
 public:
 	Entity();
 	~Entity();
+
 	std::vector<Projectile*> projectileVector;
-	virtual void Update(double dt) = 0;
-	virtual void Response(GameObject*) = 0;
+	virtual void Update(double dt);
+	virtual void Response(GameObject* go);
 };
 #endif
 

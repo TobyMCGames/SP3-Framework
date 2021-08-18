@@ -74,6 +74,9 @@ public:
 		GEO_STAFF,
 		GEO_PORTALGUN,
 
+		// Enemy
+		GEO_ZOMBIE,
+
 		//projectiles
 		GEO_ARROW,
 		GEO_MAGICBALL,

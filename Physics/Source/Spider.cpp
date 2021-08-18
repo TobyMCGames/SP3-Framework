@@ -17,5 +17,7 @@ void Spider::Update(double dt)
 
 void Spider::Response(GameObject*)
 {
+	std::cout << "Spiderresponse" << std::endl;
 	return;
 }
+

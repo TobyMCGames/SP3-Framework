@@ -2,6 +2,7 @@
 #include <fstream>
 #include "Application.h"
 #include "TileFactory.h"
+#include "PrototypeFactory.h"
 
 GameLevelBase::GameLevelBase()
 {
@@ -57,30 +58,34 @@ bool GameLevelBase::loadMap(std::string file_path)
 			case '1': // brick 
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2 , 0);
 				temp = TileFactory::getObject(TileFactory::TILE_LIST::BRICK,pos,vel,scale);
-			//	temp->pos.Set(xOffset * TILEWIDTH + temp->scale.x / 2, yOffset * TILEHEIGHT+ +temp->scale.y / 2, 0);
-				xOffset += TILEWIDTH;
 				break;
 			case '2': // stone brick
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2 , 0);
 				temp = TileFactory::getObject(TileFactory::TILE_LIST::STONEBRICK,pos,vel,scale);
-			//	temp->pos.Set(xOffset  * TILEWIDTH + temp->scale.x / 2, yOffset * TILEHEIGHT + temp->scale.y / 2, 0);
-				xOffset += TILEWIDTH;
 				break;
 			case '3': // spike 
 				pos.Set(xOffset  + scale.x / 2, yOffset + scale.y / 2, 0);
 				temp = TileFactory::getObject(TileFactory::TILE_LIST::SPIKE, pos, vel, scale);
-			//	temp->pos.Set(xOffset + temp->scale.x / 2 * TILEWIDTH, yOffset + temp->scale.y / 2 * TILEHEIGHT, 0);
-				xOffset += TILEWIDTH;
+				break;
+			case '4': // zombie
+				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
+				temp = PrototypeFactory::getObject(PrototypeFactory::ZOMBIE);
+				temp->type = GameObject::GO_ZOMBIE;
+				temp->pos = pos;
+				temp->scale = scale;
+				temp->vel = vel;
+				temp->active = true;
 				break;
 				
 			case 'P':
 				player->GetInstance();
 				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.1f);
+				player->vel.SetZero();
 				xOffset += TILEWIDTH;
 				map.push_back(temp);
 				continue;
 			}
-			
+			xOffset += TILEWIDTH;
 			if ((col-commacounter) > highestcol)
 				highestcol = col - commacounter;
 			if (temp != nullptr)

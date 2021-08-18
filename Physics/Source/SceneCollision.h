@@ -41,12 +41,10 @@ protected:
 	~SceneCollision();
 
 	//Physics
-	std::vector<GameObject *> m_goList;
+	//std::vector<GameObject *> m_goList;
 
 	float m_speed;
 	int m_objectCount;
-
-
 
 };
 

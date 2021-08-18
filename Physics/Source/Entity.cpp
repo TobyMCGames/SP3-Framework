@@ -1,6 +1,8 @@
 #include "Entity.h"
 
 Entity::Entity()
+	: curState(STATE_NORMAL)
+	, curLocation(ON_GROUND)
 {
 
 }
@@ -25,5 +27,4 @@ void Entity::Update(double dt)
 
 void Entity::Response(GameObject*)
 {
-
 }

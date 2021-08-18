@@ -17,5 +17,7 @@ void SkeletonArcher::Update(double dt)
 
 void SkeletonArcher::Response(GameObject*)
 {
+	std::cout << "Skarcher response" << std::endl;
 	return;
 }
+

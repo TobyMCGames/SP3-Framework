@@ -17,5 +17,7 @@ void DemonLord::Update(double dt)
 
 void DemonLord::Response(GameObject*)
 {
+	std::cout << "Dlord response" << std::endl;
 	return;
 }
+
