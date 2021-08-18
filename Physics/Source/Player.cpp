@@ -1,11 +1,14 @@
 #include "Player.h"
 #include "Application.h"
+#include "KeyboardController.h"
+#include "GLFW/glfw3.h"
 #include "GameLevelManager.h"
 Player::Player()
-	: curWeapon(BOW)
+	: curWeapon(STAFF)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
+	, cKeyboardController(NULL)
 {
 	for (int i = 0; i < NUM_ITEMS; i++)
 	{
@@ -15,6 +18,8 @@ Player::Player()
 	current_scene_worldheight = 90.f;
 	current_scene_worldwidth = current_scene_worldheight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
+	Default_Speed = 20;
+	cKeyboardController = CKeyboardController::GetInstance();
 }
 
 Player::~Player()
@@ -24,10 +29,11 @@ Player::~Player()
 
 void Player::Update(double dt)
 {
+	Entity::Update(dt);
+
 	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
 								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
 								pos.z);
-
 	double x, y;
 	Application::GetCursorPos(&x, &y);
 	int w = Application::GetWindowWidth();
@@ -41,40 +47,91 @@ void Player::Update(double dt)
 		playerToMouseDir.Normalize();
 		normal = playerToMouseDir;
 	}
-
-
-
-	if (Application::IsKeyPressed('W'))
+	vel.y = 0;
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_W))
 	{
-		if (pos.y + vel.y < maxpoint.y - scale.y / 2)
-			pos.y += vel.y;
-		else
-			pos.y = maxpoint.y - scale.y / 2;
+		if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
+			vel.y = Default_Speed;
 	}
 
-	if (Application::IsKeyPressed('S'))
+
+	static bool bLButtonState = false;
+	if (!bLButtonState && Application::IsMousePressed(0))
 	{
-		if (pos.y - vel.y > scale.y / 2)
-			pos.y -= vel.y;
-		else
-			pos.y = scale.y / 2;
+		bLButtonState = true;
+	}
+	else if (bLButtonState && !Application::IsMousePressed(0))
+	{
+		bLButtonState = false;
+		FireWeapon = true;
+
+		switch (curWeapon)
+		{
+		case BOW:
+			{
+				Projectile* arrow = new Arrow;
+				arrow->pos = pos;
+				arrow->normal = normal;
+				arrow->vel = 15;
+				arrow->scale.Set(1, 1, 1);
+				projectileVector.push_back(arrow);
+				cout << "arrow created" << endl;
+				break;
+			}
+		case STAFF:
+			{
+				Projectile* magicBall = new MagicBall;
+				magicBall->pos = pos;
+				magicBall->normal = normal;
+				magicBall->vel = 10;
+				magicBall->scale.Set(1, 1, 1);
+				projectileVector.push_back(magicBall);
+				cout << "Magic ball created" << endl;
+				break;
+			}
+		case PORTALGUN:
+			{
+				Projectile* portal = new Portal;
+				portal->pos = pos;
+				portal->normal = normal;
+				portal->vel = 15;
+				portal->scale.Set(1, 1, 1);
+				projectileVector.push_back(portal);
+				cout << "portal created" << endl;
+				break;
+			}
+		}
+	}
+	FireWeapon = false;
+
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_S))
+	{
+		if (pos.y - Default_Speed * dt > scale.y / 2)
+			vel.y = -Default_Speed;
 	}
 
-	if (Application::IsKeyPressed('A'))
+	vel.x = 0;
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
 	{
-		if (pos.x - vel.x > scale.x / 2)
-			pos.x -= vel.x;
-		else
-			pos.x = scale.x / 2;
+		if (pos.x - Default_Speed * dt > scale.x / 2)
+			vel.x = -Default_Speed;
 	}
 
-	if (Application::IsKeyPressed('D'))
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 	{
-		if (pos.x + vel.x < maxpoint.x - scale.x / 2)
-			pos.x += vel.x;
-		else
-			pos.x = maxpoint.x - scale.x / 2;
+		if (pos.x + Default_Speed * dt < maxpoint.x - scale.x / 2)
+			vel.x = Default_Speed;
 	}
+	
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+	{
+		vel.y += JumpForce;
+		curLocation = Entity::IN_AIR;
+
+	}
+
+	pos.x += vel.x * dt;
+	pos.y += vel.y * dt;
 
 	scrollsnap += Application::GetYScrollOffset();
 
@@ -114,9 +171,18 @@ void Player::Update(double dt)
 	}
 }
 
-void Player::Response(GameObject*)
+void Player::Response(GameObject* go)
 {
-
+	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
+	{
+		if (vel.x == 0 && go->normal.x != 0)
+		{
+			/*if (vel.y > 0)
+				vel.y = 0;
+			else
+			curLocation = ON_GROUND;*/
+		}
+	}
 }
 
 Player::Weapons Player::GetCurrentWeapon()

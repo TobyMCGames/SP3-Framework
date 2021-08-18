@@ -12,5 +12,5 @@ public:
 	Zombie();
 	~Zombie();
 	virtual void Update(double dt);
-	virtual void Response(GameObject*);
+	virtual void Response(GameObject* go);
 };

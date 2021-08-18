@@ -36,6 +36,9 @@
     <Filter Include="Source Files\Entities">
       <UniqueIdentifier>{bc99a27e-da4e-49d2-a42e-e5936f3966e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{b3fdc183-4ae6-43d0-8425-c3307fcf6c73}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Tiles">
       <UniqueIdentifier>{f5ec2f04-4969-4a30-a3af-3286bb49f8fc}</UniqueIdentifier>
     </Filter>
@@ -75,15 +78,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GamePhysics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Projectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameStateManager.cpp">
@@ -173,8 +167,8 @@
     <ClCompile Include="Source\Turret.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GamePhysics.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\KeyboardController.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="Source\Tile.cpp">
       <Filter>Source Files\Tiles</Filter>
@@ -321,6 +315,9 @@
     </ClInclude>
     <ClInclude Include="Source\Zombie.h">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\KeyboardController.h">
+      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="Source\TileFactory.h">
       <Filter>DesignPatterns</Filter>

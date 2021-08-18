@@ -1,7 +1,7 @@
 #include "GamePhysics.h"
 
 GamePhysics::GamePhysics()
-	: gravity(Vector3(0.f, -9.8f, 0.f))
+	: gravity(Vector3(0.f, -29.4f, 0.f))
 {
 }
 
@@ -237,6 +237,10 @@ void GamePhysics::CheckCollisionResponse(GameObject* go1, GameObject* go2, doubl
 
 		go1->vel -= 2 * difSpeed.Dot(CollisionNormal) * CollisionNormal;
 
+	}
+	else if (go1->type == GameObject::GO_PLAYER && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
+	{
+		go1->Response(go2);
 	}
 	return;
 }

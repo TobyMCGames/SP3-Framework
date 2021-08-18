@@ -6,6 +6,7 @@
 #include "GameLevelBase.h"
 #include "GamePhysics.h"
 #include "Player.h"
+#include "Entity.h"
 
 class SceneCollision : public GameLevelBase, public SingletonPattern<SceneCollision>
 {
@@ -25,6 +26,7 @@ public:
 	void ResetList(void);
 
 	void RenderGO(GameObject *go);
+
 
 	GameObject* FetchGO();
 	void ReturnGO(GameObject *go);

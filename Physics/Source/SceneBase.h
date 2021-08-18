@@ -77,6 +77,11 @@ public:
 		// Enemy
 		GEO_ZOMBIE,
 
+		//projectiles
+		GEO_ARROW,
+		GEO_MAGICBALL,
+		GEO_PORTAL,
+
 		NUM_GEOMETRY,
 	};
 public:

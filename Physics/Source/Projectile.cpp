@@ -2,7 +2,6 @@
 
 Projectile::Projectile()
 {
-
 }
 
 Projectile::~Projectile()
@@ -13,4 +12,8 @@ Projectile::~Projectile()
 void Projectile::Update(double dt)
 {
 
+}
+
+void Projectile::Response(GameObject* go)
+{
 }

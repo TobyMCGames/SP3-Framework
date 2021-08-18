@@ -12,5 +12,5 @@ public:
 	Spider();
 	~Spider();
 	virtual void Update(double dt);
-	virtual void Response(GameObject*);
+	virtual void Response(GameObject* go);
 };

@@ -2,12 +2,17 @@
 #include "SingletonPattern.h"
 #include "Entity.h"
 #include "GamePhysics.h"
+#include "Arrow.h"
+#include "MagicBall.h"
+#include "Portal.h"
+#include "KeyboardController.h"
 
 class Player : public Entity, public SingletonPattern<Player>
 {
 	friend SingletonPattern<Player>;
 
 	const int scrollSensitivity = 3;
+	const float JumpForce = 10;
 public:
 	enum Items
 	{
@@ -25,17 +30,17 @@ public:
 	};
 
 	virtual void Update(double dt);
-	virtual void Response(GameObject*);
+	virtual void Response(GameObject* go);
 	Player::Weapons GetCurrentWeapon();
 	float mana;
 	Vector3 mouseWorld;
 	Vector3 playerToMouseDir;
 
+	bool FireWeapon;
+
 protected:
 	int Inventory[NUM_ITEMS];
 	Weapons curWeapon;
-	
-
 
 	int curItem;
 	double scrollsnap;
@@ -43,5 +48,7 @@ protected:
 	float current_scene_worldheight;
 	Player();
 	~Player();
+
+	CKeyboardController* cKeyboardController;
 };
 

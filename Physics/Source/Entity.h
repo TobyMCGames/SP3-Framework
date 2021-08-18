@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 #include "GameObject.h"
+#include <vector>
+#include "Projectile.h"
 #include "Prototype.h"
 
 class Entity : public GameObject, public Prototype<Entity>
@@ -14,13 +16,23 @@ protected:
 		NUM_STATES,
 	};
 
-	Vector3 projectile;
+	enum LOCATION
+	{
+		ON_GROUND,
+		IN_AIR
+	};
+
+	STATES curState;
+	LOCATION curLocation;
+
+
 public:
 	Entity();
 	~Entity();
-	
+
+	std::vector<Projectile*> projectileVector;
 	virtual void Update(double dt);
-	virtual void Response(GameObject*);
+	virtual void Response(GameObject* go);
 };
 #endif
 

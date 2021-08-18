@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "KeyboardController.h"
+
 #include "GameStateManager.h"
 #include "SceneTitle.h"
 #include "SceneGame.h"
@@ -34,8 +36,9 @@ static void error_callback(int error, const char* description)
 //Define the key input callback
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
+	/*if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);*/
+	CKeyboardController::GetInstance()->Update(key, action);
 }
 
 
@@ -128,7 +131,7 @@ void Application::Init()
 	glfwMakeContextCurrent(m_window);
 
 	//Sets the key callback
-	//glfwSetKeyCallback(m_window, key_callback);
+	glfwSetKeyCallback(m_window, key_callback);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
 	glewExperimental = true; // Needed for core profile
@@ -173,6 +176,7 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 	GameStateManager::GetInstance()->Destroy();
 	GameStateManager::DestroyInstance();
+	CKeyboardController::DestroyInstance();
 }
 
 void Application::Exit()
