@@ -11,17 +11,20 @@ class PrototypeFactory
 public:
 	enum GAMEOBJECTS
 	{
+
+		// entities
 		ZOMBIE,
 		SKELE_ARCHER,
 		SPIDER,
 		BOOMER,
 		TURRET,
-		DISGUISED_ENEMY,
+		NYMPH,
 		DEMON_LORD,
 
 		// leave this last
 		NUM_GAMEOBJECTS
 	};
+
 	static GameObject* getObject(int choice);
 	PrototypeFactory();
 	~PrototypeFactory();
@@ -30,7 +33,7 @@ private:
 };
 
 GameObject* PrototypeFactory::Prototypes[] = {
-	new Zombie, new SkeletonArcher
+	new Zombie, new SkeletonArcher,new Spider, new Boomer,new Turret,new DisguisedEnemy,new DemonLord
 };
 
 GameObject* PrototypeFactory::getObject(int choice) {
@@ -44,6 +47,16 @@ PrototypeFactory::PrototypeFactory()
 
 PrototypeFactory::~PrototypeFactory()
 {
-	// delete array here
-	delete Prototypes;
+	// delete array here	
+	int arrsize = sizeof(Prototypes) / sizeof(Prototypes[0]);
+	for (int i = 0; i < arrsize; i++)
+	{
+		delete Prototypes[i];
+		Prototypes[i] = nullptr;
+	}
 }
+
+
+
+
+

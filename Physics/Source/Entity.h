@@ -1,3 +1,5 @@
+#ifndef ENTITY_H
+#define ENTITY_H
 #include "GameObject.h"
 //#include "Projectile.h"
 
@@ -14,6 +16,9 @@ protected:
 public:
 	Entity();
 	~Entity();
+	
 	virtual void Update(double dt) = 0;
 	virtual void Response(GameObject*) = 0;
 };
+#endif
+

@@ -1,6 +1,7 @@
 #include "GameLevelBase.h"
 #include <fstream>
 #include "Application.h"
+#include "TileFactory.h"
 
 GameLevelBase::GameLevelBase()
 {
@@ -23,6 +24,9 @@ bool GameLevelBase::loadMap(std::string file_path)
 	std::vector<std::string> linesinreverse;
 	int commacounter = 0;
 	int highestcol = 0;
+	Vector3 pos = Vector3(0, 0, 0);
+	Vector3 vel = Vector3(0, 0, 0);
+	Vector3 scale = Vector3(TILEWIDTH * 1.f, TILEHEIGHT*1.f, 1);
 	while (!file.eof()) {
 		char line[256];
 		file.getline(line, 256);
@@ -35,6 +39,8 @@ bool GameLevelBase::loadMap(std::string file_path)
 	{
 		for (unsigned int col = 0; col < 256; col++)
 		{
+			scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
+			vel = Vector3(0, 0, 0);
 			
 			temp = nullptr;
 			switch (linesinreverse[row][col])
@@ -48,28 +54,32 @@ bool GameLevelBase::loadMap(std::string file_path)
 					highestcol = col;
 				map.push_back(temp);
 				continue;
-			case '1':
-				temp = new passive_tile(GameObject::GAMEOBJECT_TYPE::STONE_BRICK_TILE);
-				temp->active = true;
-				temp->pos.Set(xOffset + temp->scale.x / 2 * TILEWIDTH, yOffset + temp->scale.y / 2 * TILEHEIGHT, 0);
-				temp->vel.Set(0, 0, 0);
-				temp->scale.Set(TILEWIDTH, TILEHEIGHT, 1);
+			case '1': // brick 
+				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2 , 0);
+				temp = TileFactory::getObject(TileFactory::TILE_LIST::BRICK,pos,vel,scale);
+			//	temp->pos.Set(xOffset * TILEWIDTH + temp->scale.x / 2, yOffset * TILEHEIGHT+ +temp->scale.y / 2, 0);
 				xOffset += TILEWIDTH;
 				break;
-			case '2':
-				temp = new passive_tile(GameObject::GAMEOBJECT_TYPE::BRICK_TILE);
-				temp->active = true;
-				temp->pos.Set(xOffset + temp->scale.x / 2 * TILEWIDTH, yOffset + temp->scale.y / 2 * TILEHEIGHT, 0);
-				temp->vel.Set(0, 0, 0);
-				temp->scale.Set(TILEWIDTH, TILEHEIGHT, 1);
+			case '2': // stone brick
+				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2 , 0);
+				temp = TileFactory::getObject(TileFactory::TILE_LIST::STONEBRICK,pos,vel,scale);
+			//	temp->pos.Set(xOffset  * TILEWIDTH + temp->scale.x / 2, yOffset * TILEHEIGHT + temp->scale.y / 2, 0);
 				xOffset += TILEWIDTH;
 				break;
+			case '3': // spike 
+				pos.Set(xOffset  + scale.x / 2, yOffset + scale.y / 2, 0);
+				temp = TileFactory::getObject(TileFactory::TILE_LIST::SPIKE, pos, vel, scale);
+			//	temp->pos.Set(xOffset + temp->scale.x / 2 * TILEWIDTH, yOffset + temp->scale.y / 2 * TILEHEIGHT, 0);
+				xOffset += TILEWIDTH;
+				break;
+				
 			case 'P':
 				player->GetInstance();
 				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.1f);
 				xOffset += TILEWIDTH;
 				continue;
 			}
+			
 			if ((col-commacounter) > highestcol)
 				highestcol = col - commacounter;
 			if (temp != nullptr)
@@ -94,4 +104,14 @@ float GameLevelBase::getworldWidth()
 float GameLevelBase::getworldHeight()
 {
 	return m_worldHeight;
+}
+
+int GameLevelBase::getTileWidth()
+{
+	return TILEWIDTH;
+}
+
+int GameLevelBase::getTileHeight()
+{
+	return TILEHEIGHT;
 }

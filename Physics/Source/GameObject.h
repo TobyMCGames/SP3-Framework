@@ -39,11 +39,11 @@ struct GameObject: public Prototype<GameObject>
 		// TILES
 		BRICK_TILE,
 		STONE_BRICK_TILE,
+		SPIKE_TILE,
 		ROCK_TILE,
 		SOIL_TILE,
 		GRASS_SOIL_TILE,
 		GRASS_SOIL_FLOWERS_TILE,
-
 		GO_TOTAL, //must be last
 	};
 
@@ -74,23 +74,6 @@ struct GameObject: public Prototype<GameObject>
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
 	~GameObject();
-
-};
-
-struct dirt : public GameObject
-{
-	friend GameObject;
-	void Response(GameObject*) {};
-	dirt() { type = GAMEOBJECT_TYPE::GO_CUBE; };
-	~dirt() {};
-};
-
-struct passive_tile : public GameObject
-{
-	friend GameObject;
-	void Response(GameObject*) {};
-	passive_tile() { type = GAMEOBJECT_TYPE::GO_CUBE; };
-	passive_tile(GAMEOBJECT_TYPE objtype) { this->type = objtype;}
-	~passive_tile() {};
+	void setTransform(Vector3 pos, Vector3 vel, Vector3 scale);
 };
 #endif

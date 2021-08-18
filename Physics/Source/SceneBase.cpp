@@ -150,14 +150,19 @@ void SceneBase::Init()
 	//meshList[PASSIVE_TILE] = MeshBuilder::GenerateQuad("passivetile", Color(1, 1, 1));
 	//meshList[PASSIVE_TILE]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
 
-	meshList[STONEBRICK_TILE] = MeshBuilder::GenerateQuad("stonebrick", Color(1, 1, 1));
-	meshList[STONEBRICK_TILE]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
+	meshList[GEO_STONEBRICK] = MeshBuilder::GenerateQuad("stonebrick", Color(1, 1, 1));
+	meshList[GEO_STONEBRICK]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
 
-	meshList[BRICK_TILE] = MeshBuilder::GenerateQuad("brick", Color(1, 1, 1));
-	meshList[BRICK_TILE]->textureID = LoadTGA("Image//TILE//Brick_Tile.tga");
+	meshList[GEO_BRICK] = MeshBuilder::GenerateQuad("brick", Color(1, 1, 1));
+	meshList[GEO_BRICK]->textureID = LoadTGA("Image//TILE//Brick_Tile.tga");
+
+	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
+	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
 
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 0, 1));
 	//meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//Stalker_Active.png");
+
+
 
 	bLightEnabled = true;
 }

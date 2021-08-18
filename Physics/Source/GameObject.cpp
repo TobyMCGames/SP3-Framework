@@ -18,3 +18,12 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue)
 GameObject::~GameObject()
 {
 }
+
+void GameObject::setTransform(Vector3 pos, Vector3 vel, Vector3 scale)
+{
+	this->pos = pos;
+	this->vel = vel;
+	this->scale = scale;
+}
+
+

@@ -31,6 +31,8 @@ public:
 	bool loadMap(std::string file_path);
 	float getworldWidth();
 	float getworldHeight();
+	int getTileWidth();
+	int getTileHeight();
 
 };
 

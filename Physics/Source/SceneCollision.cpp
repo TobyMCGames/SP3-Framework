@@ -388,7 +388,7 @@ void SceneCollision::RenderGO(GameObject *go)
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[STONEBRICK_TILE], false);
+		RenderMesh(meshList[GEO_STONEBRICK], false);
 		modelStack.PopMatrix();
 		break;
 
@@ -397,9 +397,17 @@ void SceneCollision::RenderGO(GameObject *go)
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[BRICK_TILE], false);
+		RenderMesh(meshList[GEO_BRICK], false);
 		modelStack.PopMatrix();
 		break;
+	case GameObject::SPIKE_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_SPIKE], false);
+		modelStack.PopMatrix();
+		break;
+
 	case GameObject::GO_PLAYER:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
@@ -411,6 +419,7 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::ROCK_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(0.7, 0.7, 0.7), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -420,6 +429,7 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::SOIL_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(1, 0.4, 0.4), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -429,6 +439,7 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::GRASS_SOIL_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(0.7, 1, 0), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -438,6 +449,7 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::GRASS_SOIL_FLOWERS_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(0.7, 1, 0), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);

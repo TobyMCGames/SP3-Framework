@@ -36,6 +36,12 @@
     <Filter Include="Source Files\Entities">
       <UniqueIdentifier>{bc99a27e-da4e-49d2-a42e-e5936f3966e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tiles">
+      <UniqueIdentifier>{f5ec2f04-4969-4a30-a3af-3286bb49f8fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tiles">
+      <UniqueIdentifier>{0859aa2c-9382-433c-99a6-45cd81ab6fd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -169,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Source\GamePhysics.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tile.cpp">
+      <Filter>Source Files\Tiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +318,12 @@
     </ClInclude>
     <ClInclude Include="Source\Zombie.h">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TileFactory.h">
+      <Filter>DesignPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tile.h">
+      <Filter>Header Files\Tiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
