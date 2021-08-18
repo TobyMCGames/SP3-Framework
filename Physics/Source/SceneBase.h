@@ -74,6 +74,11 @@ public:
 		GEO_STAFF,
 		GEO_PORTALGUN,
 
+		//projectiles
+		GEO_ARROW,
+		GEO_MAGICBALL,
+		GEO_PORTAL,
+
 		NUM_GEOMETRY,
 	};
 public:

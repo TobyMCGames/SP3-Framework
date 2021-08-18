@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "GameLevelManager.h"
 Player::Player()
-	: curWeapon(BOW)
+	: curWeapon(STAFF)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
@@ -24,6 +24,8 @@ Player::~Player()
 
 void Player::Update(double dt)
 {
+	Entity::Update(dt);
+
 	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
 								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
 								pos.z);
@@ -40,6 +42,54 @@ void Player::Update(double dt)
 	normal = playerToMouseDir;
 
 
+	static bool bLButtonState = false;
+	if (!bLButtonState && Application::IsMousePressed(0))
+	{
+		bLButtonState = true;
+	}
+	else if (bLButtonState && !Application::IsMousePressed(0))
+	{
+		bLButtonState = false;
+		FireWeapon = true;
+
+		switch (curWeapon)
+		{
+		case BOW:
+			{
+				Projectile* arrow = new Arrow;
+				arrow->pos = pos;
+				arrow->normal = normal;
+				arrow->vel = 15;
+				arrow->scale.Set(1, 1, 1);
+				projectileVector.push_back(arrow);
+				cout << "arrow created" << endl;
+				break;
+			}
+		case STAFF:
+			{
+				Projectile* magicBall = new MagicBall;
+				magicBall->pos = pos;
+				magicBall->normal = normal;
+				magicBall->vel = 10;
+				magicBall->scale.Set(1, 1, 1);
+				projectileVector.push_back(magicBall);
+				cout << "Magic ball created" << endl;
+				break;
+			}
+		case PORTALGUN:
+			{
+				Projectile* portal = new Portal;
+				portal->pos = pos;
+				portal->normal = normal;
+				portal->vel = 15;
+				portal->scale.Set(1, 1, 1);
+				projectileVector.push_back(portal);
+				cout << "portal created" << endl;
+				break;
+			}
+		}
+	}
+	FireWeapon = false;
 
 	if (Application::IsKeyPressed('W'))
 	{
@@ -115,7 +165,7 @@ void Player::Response(GameObject*)
 {
 }
 
-int Player::GetCurrentWeapon()
+Player::Weapons Player::GetCurrentWeapon()
 {
 	return curWeapon;
 }

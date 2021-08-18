@@ -466,6 +466,15 @@ void SceneCollision::RenderGO(GameObject *go)
 		modelStack.PopMatrix();
 		break;
 
+	case GameObject::GO_ARROW:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+		break;
+
 	case GameObject::ROCK_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);

@@ -2,6 +2,9 @@
 #include "SingletonPattern.h"
 #include "Entity.h"
 #include "GamePhysics.h"
+#include "Arrow.h"
+#include "MagicBall.h"
+#include "Portal.h"
 
 class Player : public Entity, public SingletonPattern<Player>
 {
@@ -26,17 +29,17 @@ public:
 
 	virtual void Update(double dt);
 	virtual void Response(GameObject*);
-	int GetCurrentWeapon();
+	Player::Weapons GetCurrentWeapon();
 	float mana;
 
 	Vector3 mouseWorld;
 	Vector3 playerToMouseDir;
 
+	bool FireWeapon;
+
 protected:
 	int Inventory[NUM_ITEMS];
 	Weapons curWeapon;
-	
-
 
 	int curItem;
 	double scrollsnap;

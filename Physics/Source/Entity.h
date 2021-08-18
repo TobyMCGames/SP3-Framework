@@ -1,7 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 #include "GameObject.h"
-//#include "Projectile.h"
+#include <vector>
+#include "Projectile.h"
 
 class Entity : public GameObject
 {
@@ -14,11 +15,11 @@ protected:
 		NUM_STATES,
 	};
 
-	Vector3 projectile;
+
 public:
 	Entity();
 	~Entity();
-	
+	std::vector<Projectile*> projectileVector;
 	virtual void Update(double dt) = 0;
 	virtual void Response(GameObject*) = 0;
 };
