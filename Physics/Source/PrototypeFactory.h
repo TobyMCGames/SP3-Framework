@@ -26,7 +26,7 @@ public:
 		NUM_GAMEOBJECTS
 	};
 
-	static Entity* getObject(int choice);
+	static Entity* getObject(int choice,Vector3 pos, Vector3 vel, Vector3 scale);
 	PrototypeFactory();
 	~PrototypeFactory();
 private:
@@ -37,8 +37,38 @@ Entity* PrototypeFactory::Prototypes[] = {
 	new Zombie, new SkeletonArcher,new Spider, new Boomer,new Turret,new DisguisedEnemy,new DemonLord
 };
 
-Entity* PrototypeFactory::getObject(int choice) {
-	return Prototypes[choice]->clone();
+Entity* PrototypeFactory::getObject(int choice,Vector3 pos,Vector3 vel,Vector3 scale) {
+	Entity* newEntity = Prototypes[choice]->clone();
+	newEntity->pos = pos;
+	newEntity->scale = scale;
+	newEntity->vel = vel;
+	newEntity->active = true;
+	switch (choice)
+	{
+		case ZOMBIE:
+			newEntity->type = GameObject::GO_ZOMBIE;
+			break;
+		case SKELE_ARCHER:	
+			newEntity->type = GameObject::GO_SKELEARCHER;
+			break;
+		case SPIDER:
+			newEntity->type = GameObject::GO_SPIDER;
+			break;
+		case BOOMER:
+			newEntity->type = GameObject::GO_BOOMER;
+			break;
+		case TURRET:
+			newEntity->type = GameObject::GO_TURRET;
+			break;
+		case NYMPH:
+			newEntity->type = GameObject::GO_NYMPH;
+			break;
+		case DEMON_LORD:
+			newEntity->type = GameObject::GO_DEMONLORD;
+			break;
+	}
+	return newEntity;
+
 }
 
 PrototypeFactory::PrototypeFactory()

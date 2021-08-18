@@ -26,6 +26,7 @@ struct GameObject
 		GO_TURRET,
 		GO_SPIDER,
 		GO_BOOMER,
+		GO_NYMPH,
 		GO_DEMONLORD,
 
 		// PROJECTILES
