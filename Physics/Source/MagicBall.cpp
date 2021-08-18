@@ -3,17 +3,21 @@
 
 MagicBall::MagicBall()
 {
+
 }
 
 MagicBall::~MagicBall()
 {
+
 }
 
 void MagicBall::Update(double dt)
 {
 	pos += vel * dt;
+
 }
 
 void MagicBall::Response(GameObject* go)
 {
+
 }
