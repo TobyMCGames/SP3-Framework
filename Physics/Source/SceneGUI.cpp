@@ -2,6 +2,7 @@
 #include "GL\glew.h"
 #include "Application.h"
 #include <sstream>
+#include "GLFW/glfw3.h"
 
 #include "GameStateManager.h"
 
@@ -53,62 +54,65 @@ bool SceneGUI::Update(double dt)
 		cout << "X: " << posX << ", " << "Y: " << posY << endl;
 	}
 
-	if (posX > 25 && posX < 40 && posY > -28 && posY < -25)
+	if (RenderPause)
 	{
-		ContButton.Set(1, 0, 0);
-		static bool MouseState = false;
-		if(!MouseState && Application::IsMousePressed(0))
+		if (posX > 25 && posX < 40 && posY > -28 && posY < -25)
 		{
-			MouseState = true;
+			ContButton.Set(1, 0, 0);
+			static bool MouseState = false;
+			if (!MouseState && Application::IsMousePressed(0))
+			{
+				MouseState = true;
+			}
+			else if (MouseState && !Application::IsMousePressed(0))
+			{
+				MouseState = false;
+				SceneGame::GetInstance()->ispaused = false;
+				RenderPause = false;
+			}
 		}
-		else if(MouseState && !Application::IsMousePressed(0))
+		if (posX > 25 && posX < 50 && posY > -33 && posY < -30)
 		{
-			MouseState = false;
+			MenuButton.Set(1, 0, 0);
+			static bool MouseState = false;
+			if (!MouseState && Application::IsMousePressed(0))
+			{
+				MouseState = true;
+			}
+			else if (MouseState && !Application::IsMousePressed(0))
+			{
+				MouseState = false;
+				GameStateManager::GetInstance()->SetActiveGameState("IntroState");
+			}
+		}
+		if (posX > 25 && posX < 40 && posY > -38 && posY < -35)
+		{
+			QuitButton.Set(1, 0, 0);
+			static bool MouseState = false;
+			if (!MouseState && Application::IsMousePressed(0))
+			{
+				MouseState = true;
+			}
+			else if (MouseState && !Application::IsMousePressed(0))
+			{
+				MouseState = false;
+				return false;
+			}
+		}
+
+		static bool bLButtonState = false;
+		if (!bLButtonState && (cKeyboardController->IsKeyPressed(GLFW_KEY_P) || cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE))
+			&& SceneGame::GetInstance()->ispaused == true)
+		{
+			bLButtonState = true;
+		}
+		else if (bLButtonState && (!cKeyboardController->IsKeyPressed(GLFW_KEY_P) && !cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE))
+			&& SceneGame::GetInstance()->ispaused == true)
+		{
 			SceneGame::GetInstance()->ispaused = false;
+			bLButtonState = false;
 			RenderPause = false;
 		}
-	}
-	if (posX > 25 && posX < 50 && posY > -33 && posY < -30)
-	{
-		MenuButton.Set(1, 0, 0);
-		static bool MouseState = false;
-		if (!MouseState && Application::IsMousePressed(0))
-		{
-			MouseState = true;
-		}  
-		else if (MouseState && !Application::IsMousePressed(0))
-		{
-			MouseState = false;
-			GameStateManager::GetInstance()->SetActiveGameState("IntroState");
-		}
-	}
-	if (posX > 25 && posX < 40 && posY > -38 && posY < -35)
-	{
-		QuitButton.Set(1, 0, 0);
-		static bool MouseState = false;
-		if (!MouseState && Application::IsMousePressed(0))
-		{
-			MouseState = true;
-		}
-		else if (MouseState && !Application::IsMousePressed(0))
-		{
-			MouseState = false;
-			return false;
-		}
-	}
-	
-	static bool bLButtonState = false;
-	if (!bLButtonState && (Application::IsKeyPressed('P') || Application::IsKeyPressed(VK_ESCAPE))
-		&& SceneGame::GetInstance()->ispaused == true)
-	{
-		bLButtonState = true;
-	}
-	else if (bLButtonState && !Application::IsKeyPressed('P') && !Application::IsKeyPressed(VK_ESCAPE)
-		&& SceneGame::GetInstance()->ispaused == true)
-	{
-		SceneGame::GetInstance()->ispaused = false;
-		bLButtonState = false;
-		RenderPause = false;
 	}
 
 	return true;

@@ -18,7 +18,7 @@ Player::Player()
 	current_scene_worldheight = 90.f;
 	current_scene_worldwidth = current_scene_worldheight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
-	Default_Speed = 20;
+	Default_Speed = 15;
 	cKeyboardController = CKeyboardController::GetInstance();
 }
 
@@ -47,13 +47,6 @@ void Player::Update(double dt)
 		playerToMouseDir.Normalize();
 		normal = playerToMouseDir;
 	}
-	vel.y = 0;
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_W))
-	{
-		if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
-			vel.y = Default_Speed;
-	}
-
 
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -104,34 +97,44 @@ void Player::Update(double dt)
 	}
 	FireWeapon = false;
 
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_S))
+
+	/*if (cKeyboardController->IsKeyPressed(GLFW_KEY_W))
+	{
+		if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
+			vel.y = Default_Speed;
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_S))
 	{
 		if (pos.y - Default_Speed * dt > scale.y / 2)
 			vel.y = -Default_Speed;
 	}
+	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_W) && !cKeyboardController->IsKeyPressed(GLFW_KEY_S))
+	{
+		vel.y = 0;
+	}*/
 
-	vel.x = 0;
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
 	{
 		if (pos.x - Default_Speed * dt > scale.x / 2)
 			vel.x = -Default_Speed;
 	}
 
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
 	{
-		if (pos.x + Default_Speed * dt < maxpoint.x - scale.x / 2)
+		if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
 			vel.x = Default_Speed;
 	}
+	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+	{
+		vel.x = 0;
+	}
 	
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
 	{
 		vel.y += JumpForce;
-		curLocation = Entity::IN_AIR;
+		curLocation = IN_AIR;
 
 	}
-
-	pos.x += vel.x * dt;
-	pos.y += vel.y * dt;
 
 	scrollsnap += Application::GetYScrollOffset();
 
@@ -169,6 +172,11 @@ void Player::Update(double dt)
 		//std::cout << "Invalid curItem in Player.cpp" << std::endl;
 		break;
 	}
+	if (curLocation == IN_AIR)
+	{
+		cout << "In air" << endl;
+	}
+	curLocation = IN_AIR;
 }
 
 void Player::Response(GameObject* go)
@@ -177,10 +185,8 @@ void Player::Response(GameObject* go)
 	{
 		if (vel.x == 0 && go->normal.x != 0)
 		{
-			/*if (vel.y > 0)
-				vel.y = 0;
-			else
-			curLocation = ON_GROUND;*/
+			if (vel.y == 0)
+				curLocation = ON_GROUND;
 		}
 	}
 }
