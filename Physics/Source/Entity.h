@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include <vector>
 #include "Projectile.h"
+#include "Prototype.h"
 
 class Entity : public GameObject, public Prototype<Entity>
 {
