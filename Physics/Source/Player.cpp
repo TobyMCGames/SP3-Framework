@@ -1,18 +1,22 @@
 #include "Player.h"
 #include "Application.h"
+#include "KeyboardController.h"
+#include "GLFW/glfw3.h"
 #include "GameLevelManager.h"
 Player::Player()
 	: curWeapon(BOW)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
+	, cKeyboardController(NULL)
 {
 	for (int i = 0; i < NUM_ITEMS; i++)
 	{
 		Inventory[i] = 0;
 	}
 	health = 100;
-	
+	Default_Speed = 20;
+	cKeyboardController = CKeyboardController::GetInstance();
 }
 
 Player::~Player()
@@ -25,38 +29,41 @@ void Player::Update(double dt)
 	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
 								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
 								pos.z);
-
-	if (Application::IsKeyPressed('W'))
+	vel.y = 0;
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_W))
 	{
-		if (pos.y + vel.y < maxpoint.y - scale.y / 2)
-			pos.y += vel.y;
-		else
-			pos.y = maxpoint.y - scale.y / 2;
+		if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
+			vel.y = Default_Speed;
 	}
 
-	if (Application::IsKeyPressed('S'))
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_S))
 	{
-		if (pos.y - vel.y > scale.y / 2)
-			pos.y -= vel.y;
-		else
-			pos.y = scale.y / 2;
+		if (pos.y - Default_Speed * dt > scale.y / 2)
+			vel.y = -Default_Speed;
 	}
 
-	if (Application::IsKeyPressed('A'))
+	vel.x = 0;
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
 	{
-		if (pos.x - vel.x > scale.x / 2)
-			pos.x -= vel.x;
-		else
-			pos.x = scale.x / 2;
+		if (pos.x - Default_Speed * dt > scale.x / 2)
+			vel.x = -Default_Speed;
 	}
 
-	if (Application::IsKeyPressed('D'))
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 	{
-		if (pos.x + vel.x < maxpoint.x - scale.x / 2)
-			pos.x += vel.x;
-		else
-			pos.x = maxpoint.x - scale.x / 2;
+		if (pos.x + Default_Speed * dt < maxpoint.x - scale.x / 2)
+			vel.x = Default_Speed;
 	}
+	
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+	{
+		vel.y += JumpForce;
+		curLocation = Entity::IN_AIR;
+
+	}
+
+	pos.x += vel.x * dt;
+	pos.y += vel.y * dt;
 
 	scrollsnap += Application::GetYScrollOffset();
 
@@ -96,6 +103,16 @@ void Player::Update(double dt)
 	}
 }
 
-void Player::Response(GameObject*)
+void Player::Response(GameObject* go)
 {
+	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
+	{
+		if (vel.x == 0 && go->normal.x != 0)
+		{
+			/*if (vel.y > 0)
+				vel.y = 0;
+			else
+			curLocation = ON_GROUND;*/
+		}
+	}
 }

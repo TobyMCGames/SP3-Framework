@@ -12,5 +12,5 @@ public:
 	DisguisedEnemy();
 	~DisguisedEnemy();
 	void Update(double dt);
-	void Response(GameObject*);
+	void Response(GameObject* go);
 };

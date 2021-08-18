@@ -253,8 +253,6 @@ bool SceneCollision::Update(double dt)
 		RButtonState = false;
 	}
 
-	//player->Update(dt);
-
 	//Physics Simulation Section
 	// Check for gameObjects within screen only
 	//Find how many tiles screen is away from left side
@@ -284,66 +282,15 @@ bool SceneCollision::Update(double dt)
 			{
 				if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt))
 				{
-					cout << "Collided with tiles" << endl;
+					GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt);
+					cout << "Collided" << endl;
 				}
 
 			}
 		}
 	}
 
-	//for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); it++)
-	//{
-	//	GameObject* go = (GameObject*)*it;
-	//	if (go->active)
-	//	{
-	//		//Exercise 7: handle out of bound game objects
-	//		if (go->pos.x < 0 || go->pos.x > m_worldWidth ||
-	//			go->pos.y < 0 || go->pos.y > m_worldHeight)
-	//		{
-	//			ReturnGO(go);
-	//			continue;
-	//		}
-	//		//Exercise 8a: handle collision between GO_BALL and GO_BALL using velocity swap
-	//		for (std::vector<GameObject*>::iterator it2 = it + 1; it2 != m_goList.end(); it2++)
-	//		{
-	//			GameObject* go2 = (GameObject*)*it2;
-	//			if (go == go2)
-	//			{
-	//				continue;
-	//			}
-	//			if (go2->active)
-	//			{
-	//				GameObject* ball = go;
-	//				GameObject* other = go2;
-	//				if (ball->type != GameObject::GO_BALL) {
-	//					ball = go2;
-	//					other = go;
-	//				}
-	//				if (GamePhysics::GetInstance()->CheckCollision(ball, other, dt) == true) {
-	//					GamePhysics::GetInstance()->CheckCollisionResponse(ball, other, dt);
-	//				}
-	//			}
-	//		}
-	//		if (go->type == GameObject::GO_BALL)
-	//		{
-	//			go->pos += go->vel * dt * m_speed;
-	//			go->vel.y -= 9.8f * dt * m_speed;
-	//			go->vel -= go->vel * 5 / 100 * dt * m_speed;
-	//		}
-	//		else if (go->type == GameObject::GO_FLIPPER || go->type == GameObject::GO_FLIPPER_PILLAR)
-	//		{
-	//			float angle = go->angularVelocity * dt * m_speed;
-	//			Vector3 PivToPos = go->pos - go->pivot;
-	//			PivToPos.Rotate(angle);
-	//			go->pos.Set(
-	//				go->pivot.x + PivToPos.x,
-	//				go->pivot.y + PivToPos.y,
-	//				0
-	//			);
-	//			go->normal.Rotate(angle);
-	//		}
-	//	}
-	//}
+	player->Update(dt);
 
 	return true;
 }

@@ -1,12 +1,14 @@
 #pragma once
 #include "SingletonPattern.h"
 #include "Entity.h"
+#include "KeyboardController.h"
 
 class Player : public Entity, public SingletonPattern<Player>
 {
 	friend SingletonPattern<Player>;
 
 	const int scrollSensitivity = 3;
+	const float JumpForce = 10;
 public:
 	enum Items
 	{
@@ -24,7 +26,7 @@ public:
 	};
 
 	virtual void Update(double dt);
-	virtual void Response(GameObject*);
+	virtual void Response(GameObject* go);
 	float mana;
 
 
@@ -39,5 +41,7 @@ protected:
 	float current_scene_worldheight;
 	Player();
 	~Player();
+
+	CKeyboardController* cKeyboardController;
 };
 

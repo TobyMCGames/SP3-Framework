@@ -12,5 +12,5 @@ public:
 	Turret();
 	~Turret();
 	void Update(double dt);
-	void Response(GameObject*);
+	void Response(GameObject* go);
 };

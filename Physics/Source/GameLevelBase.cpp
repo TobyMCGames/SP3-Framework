@@ -67,6 +67,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 			case 'P':
 				player->GetInstance();
 				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.1f);
+				player->vel.SetZero();
 				xOffset += TILEWIDTH;
 				map.push_back(temp);
 				continue;
