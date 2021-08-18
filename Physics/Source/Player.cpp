@@ -4,7 +4,7 @@
 #include "GLFW/glfw3.h"
 #include "GameLevelManager.h"
 Player::Player()
-	: curWeapon(STAFF)
+	: curWeapon(BOW)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)

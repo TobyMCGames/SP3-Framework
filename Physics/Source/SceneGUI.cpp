@@ -53,7 +53,7 @@ bool SceneGUI::Update(double dt)
 		cout << "X: " << posX << ", " << "Y: " << posY << endl;
 	}
 
-	if (posX > 25 && posX < 40 && posY > -28 && posY < -25)
+	if (posX > 25 && posX < 40 && posY > -28 && posY < -25 && SceneGame::GetInstance()->ispaused)
 	{
 		ContButton.Set(1, 0, 0);
 		static bool MouseState = false;
@@ -68,7 +68,7 @@ bool SceneGUI::Update(double dt)
 			RenderPause = false;
 		}
 	}
-	if (posX > 25 && posX < 50 && posY > -33 && posY < -30)
+	if (posX > 25 && posX < 50 && posY > -33 && posY < -30 && SceneGame::GetInstance()->ispaused)
 	{
 		MenuButton.Set(1, 0, 0);
 		static bool MouseState = false;
@@ -82,7 +82,7 @@ bool SceneGUI::Update(double dt)
 			GameStateManager::GetInstance()->SetActiveGameState("IntroState");
 		}
 	}
-	if (posX > 25 && posX < 40 && posY > -38 && posY < -35)
+	if (posX > 25 && posX < 40 && posY > -38 && posY < -35 && SceneGame::GetInstance()->ispaused)
 	{
 		QuitButton.Set(1, 0, 0);
 		static bool MouseState = false;
