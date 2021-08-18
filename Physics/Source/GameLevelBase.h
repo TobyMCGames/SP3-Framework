@@ -12,8 +12,8 @@ using namespace std;
 class GameLevelBase : public SceneBase
 {
 private:
-	const int TILEWIDTH = 5;
-	const int TILEHEIGHT = 5;
+	const float TILEWIDTH = 5;
+	const float TILEHEIGHT = 5;
 
 protected:
 	vector<GameObject*>map;
@@ -31,7 +31,8 @@ public:
 	bool loadMap(std::string file_path);
 	float getworldWidth();
 	float getworldHeight();
-
+	float getTileWidth();
+	float getTileHeight();
 };
 
 #endif
