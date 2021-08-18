@@ -30,7 +30,7 @@ void SceneBase::Init()
 	// Accept fragment if it closer to the camera than the former one
 	glDepthFunc(GL_LESS); 
 	
-	glEnable(GL_CULL_FACE);
+	glDisable(GL_CULL_FACE);
 	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -158,6 +158,15 @@ void SceneBase::Init()
 
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 0, 1));
 	//meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//Stalker_Active.png");
+
+	//Weapons
+	meshList[GEO_BOW] = MeshBuilder::GenerateQuad("bow", Color(1, 1, 1));
+	meshList[GEO_BOW]->textureID = LoadTGA("Image//WEAPONS//bow.tga");
+	meshList[GEO_STAFF] = MeshBuilder::GenerateQuad("staff", Color(1, 1, 1));
+	meshList[GEO_STAFF]->textureID = LoadTGA("Image//WEAPONS//staff_red.tga");
+	meshList[GEO_PORTALGUN] = MeshBuilder::GenerateQuad("portal gun", Color(1, 1, 1));
+	meshList[GEO_PORTALGUN]->textureID = LoadTGA("Image//WEAPONS//portal_gun.tga");
+	
 
 	bLightEnabled = true;
 }

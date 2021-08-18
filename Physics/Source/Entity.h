@@ -11,6 +11,8 @@ protected:
 		STATE_FROZEN,
 		NUM_STATES,
 	};
+
+	Vector3 projectile;
 public:
 	Entity();
 	~Entity();

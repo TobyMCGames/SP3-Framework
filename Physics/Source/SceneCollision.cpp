@@ -402,9 +402,35 @@ void SceneCollision::RenderGO(GameObject *go)
 		break;
 	case GameObject::GO_PLAYER:
 		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_PLAYER], false);
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			RenderMesh(meshList[GEO_PLAYER], false);
+			modelStack.PushMatrix();
+			{
+				modelStack.Translate(0, 0, 1);
+				if(go->normal.x >= 0)
+					modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+				else
+				{
+					//if plan to flip player, remove this line below
+					modelStack.Rotate(180, 0, 1, 0);
+					modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, -go->normal.x)), 0, 0, 1);
+				}
+				modelStack.PushMatrix();
+				{
+					modelStack.Translate(0.5, 0, 0);
+					if(player->GetCurrentWeapon() == Player::BOW)
+						RenderMesh(meshList[GEO_BOW], false);
+					else if (player->GetCurrentWeapon() == Player::STAFF)
+						RenderMesh(meshList[GEO_STAFF], false);
+					else if(player->GetCurrentWeapon() == Player::PORTALGUN)
+						RenderMesh(meshList[GEO_PORTALGUN], false);
+				}
+				modelStack.PopMatrix();
+			}
+			modelStack.PopMatrix();
+		}
 		modelStack.PopMatrix();
 		break;
 
