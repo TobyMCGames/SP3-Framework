@@ -3,6 +3,7 @@
 #include "KeyboardController.h"
 #include "GLFW/glfw3.h"
 #include "GameLevelManager.h"
+#include "ProjectileFactory.h"
 Player::Player()
 	: curWeapon(STAFF)
 	, curItem(0)
@@ -45,7 +46,7 @@ void Player::Update(double dt)
 	if (playerToMouseDir.x != 0 && playerToMouseDir.y != 0)
 	{
 		playerToMouseDir.Normalize();
-		normal = playerToMouseDir;
+		normal = playerToMouseDir.Normalized();
 	}
 	vel.y = 0;
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_W))
@@ -69,34 +70,31 @@ void Player::Update(double dt)
 		{
 		case BOW:
 			{
-				Projectile* arrow = new Arrow;
-				arrow->pos = pos;
-				arrow->normal = normal;
-				arrow->vel = 15;
-				arrow->scale.Set(1, 1, 1);
-				projectileVector.push_back(arrow);
+			Projectile* arrow =
+				ProjectileFactory::getObject
+				(ProjectileFactory::PROJECTILE_TYPES::PTYPE_ARROW, pos,normal*15, scale,normal);
+				//projectileVector.push_back(arrow);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
 			}
 		case STAFF:
 			{
-				Projectile* magicBall = new MagicBall;
-				magicBall->pos = pos;
-				magicBall->normal = normal;
-				magicBall->vel = 10;
-				magicBall->scale.Set(1, 1, 1);
-				projectileVector.push_back(magicBall);
+				Projectile* magicBall = 
+					ProjectileFactory::getObject
+					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_MAGICBALL, pos,normal*10, scale, normal);;
+				//projectileVector.push_back(magicBall);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 				cout << "Magic ball created" << endl;
 				break;
 			}
 		case PORTALGUN:
 			{
-				Projectile* portal = new Portal;
-				portal->pos = pos;
-				portal->normal = normal;
-				portal->vel = 15;
-				portal->scale.Set(1, 1, 1);
-				projectileVector.push_back(portal);
+				Projectile* portal = 
+					ProjectileFactory::getObject
+					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_PORTAL, pos,normal*5, scale, normal);
+				//projectileVector.push_back(portal);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 				cout << "portal created" << endl;
 				break;
 			}

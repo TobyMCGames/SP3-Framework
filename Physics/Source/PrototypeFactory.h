@@ -1,3 +1,4 @@
+#pragma once
 #include "Zombie.h"
 #include "SkeletonArcher.h"
 #include "Spider.h"

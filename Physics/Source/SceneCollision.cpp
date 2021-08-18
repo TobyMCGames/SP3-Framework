@@ -43,7 +43,7 @@ void SceneCollision::Init()
 GameObject* SceneCollision::FetchGO()
 {
 	//Exercise 2a: implement FetchGO()
-	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); it++)
+	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
 		if (go->active == false)
@@ -59,9 +59,9 @@ GameObject* SceneCollision::FetchGO()
 		//m_goList.push_back(new GameObject(GameObject::GO_BALL));
 	}
 	//Exercise 2b: increase object count every time an object is set to active
-	m_goList.back()->active = true;
+	map.back()->active = true;
 	m_objectCount++;
-	return m_goList.back();
+	return map.back();
 }
 
 void SceneCollision::ReturnGO(GameObject *go)
@@ -186,6 +186,11 @@ bool SceneCollision::Update(double dt)
 	camera.Update(dt,player);
 	player->Update(dt);
 
+	for (int i = 0; i < projectileList.size(); i++)
+	{
+		projectileList[i]->Update(dt);
+	}
+
 	if (Application::IsKeyPressed('9'))
 	{
 		m_speed = Math::Max(0.f, m_speed - 0.1f);
@@ -289,9 +294,6 @@ bool SceneCollision::Update(double dt)
 			}
 		}
 	}
-
-	player->Update(dt);
-
 	return true;
 }
 
@@ -416,16 +418,24 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::GO_ARROW:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_MAGICBALL:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_MAGICBALL], false);
 		modelStack.PopMatrix();
 		break;
 
 	case GameObject::ROCK_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Rotate(Math::RadianToDegree((go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(0.7f, 0.7f, 0.7f), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -435,7 +445,7 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::SOIL_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Rotate(Math::RadianToDegree((go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(1.f, 0.4f, 0.4f), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -445,7 +455,7 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::GRASS_SOIL_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(0.7f, 1.f, 0.f), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -455,7 +465,7 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::GRASS_SOIL_FLOWERS_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(0.7f, 1.f, 0.f), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -504,21 +514,41 @@ void SceneCollision::Render()
 	}
 	RenderMesh(meshList[GEO_AXES], false);
 
-	for(std::vector<GameObject *>::iterator it = map.begin(); it != map.end(); ++it)
+	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
 	{
-		GameObject *go = (GameObject *)*it;
+		GameObject* go = (GameObject*)*it;
 		if (go == nullptr)
 			continue;
-		if(go->active)
+		if (go->active)
 		{
 			RenderGO(go);
 		}
 	}
 
+	for (std::vector<Entity*>::iterator it = EntityList.begin(); it != EntityList.end(); it++)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go == nullptr)
+			continue;
+		if (go->active)
+		{
+			RenderGO(go);
+		}
+	}
 
-
+	for (std::vector<Projectile*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go == nullptr)
+			continue;
+		if (go->active)
+		{
+			RenderGO(go);
+		}
+	}
 
 	RenderGO(player);
+
 	//On screen text
 	
 
@@ -531,7 +561,7 @@ void SceneCollision::Render()
 	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 3);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3,40,40);
 	
 	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(0, 1, 0), 3, 0, 0);
 
@@ -541,24 +571,30 @@ void SceneCollision::Exit()
 {
 	SceneBase::Exit();
 	//Cleanup GameObjects
-	while(m_goList.size() > 0)
+	while(map.size() > 0)
 	{
-		GameObject *go = m_goList.back();
+		GameObject *go = map.back();
 		delete go;
-		m_goList.pop_back();
+		map.pop_back();
 	}
 
 	DestroyInstance();
 }
-
+/*
 void SceneCollision::ResetList(void)
 {
-	for (int i = 0; i < m_goList.size(); i++)
+	for (int i = 0; i < map.size(); i++)
 	{
-		if (m_goList[i]->active == true)
+		if (map[i]->active == true)
 		{
-			m_goList[i]->active = false;
+			map[i]->active = false;
 			m_objectCount--;
 		}
 	}
-}
+	for (int i = 0; i < EntityList.size(); i++)
+	{
+		delete EntityList[i];
+		EntityList[i] = nullptr;
+		EntityList.pop_back(i );
+	}
+}*/

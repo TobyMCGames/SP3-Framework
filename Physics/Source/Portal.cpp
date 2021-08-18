@@ -13,7 +13,7 @@ void Portal::Update(double dt)
 	pos += vel * dt;
 }
 
-void Portal::Response(GameObject*)
+void Portal::Response(GameObject* go)
 {
 }
 

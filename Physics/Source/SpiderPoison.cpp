@@ -15,7 +15,7 @@ void SpiderPoison::Update(double dt)
 
 }
 
-void SpiderPoison::Response(GameObject*)
+void SpiderPoison::Response(GameObject* go)
 {
 
 }

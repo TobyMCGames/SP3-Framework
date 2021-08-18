@@ -1,3 +1,4 @@
+#pragma once
 #include "Entity.h"
 
 class DisguisedEnemy : public Entity

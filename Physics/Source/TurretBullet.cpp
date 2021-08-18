@@ -15,7 +15,7 @@ void TurretBullet::Update(double dt)
 
 }
 
-void TurretBullet::Response(GameObject*)
+void TurretBullet::Response(GameObject* go)
 {
 
 }

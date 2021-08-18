@@ -172,7 +172,7 @@ void SceneBase::Init()
 	meshList[GEO_ARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
 	meshList[GEO_ARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow.tga");
 	meshList[GEO_MAGICBALL] = MeshBuilder::GenerateQuad("magicball", Color(1, 1, 1));
-	meshList[GEO_MAGICBALL]->textureID = LoadTGA("Image//PROJECTILES//magic_ball.tga");
+	meshList[GEO_MAGICBALL]->textureID = LoadTGA("Image//PROJECTILES//energy_ball.tga");
 	meshList[GEO_PORTAL] = MeshBuilder::GenerateQuad("portal", Color(1, 1, 1));
 	meshList[GEO_PORTAL]->textureID = LoadTGA("Image//PROJECTILES//portal.tga");
 	
