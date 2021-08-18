@@ -2,10 +2,12 @@
 #define GAME_OBJECT_H
 
 #include "Vector3.h"
-#include "Prototype.h"
 
-struct GameObject: public Prototype<GameObject>
+
+struct GameObject
 {
+
+
 	enum GAMEOBJECT_TYPE
 	{
 		GO_NONE = 0,
@@ -74,6 +76,7 @@ struct GameObject: public Prototype<GameObject>
 	float Default_Speed;
 
 	virtual void Response(GameObject*) = 0;
+	
 
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);

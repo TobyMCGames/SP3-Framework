@@ -17,5 +17,7 @@ void Turret::Update(double dt)
 
 void Turret::Response(GameObject*)
 {
+	std::cout << "Turret response" << std::endl;
 	return;
 }
+

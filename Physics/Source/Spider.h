@@ -11,6 +11,6 @@ protected:
 public:
 	Spider();
 	~Spider();
-	void Update(double dt);
-	void Response(GameObject*);
+	virtual void Update(double dt);
+	virtual void Response(GameObject*);
 };

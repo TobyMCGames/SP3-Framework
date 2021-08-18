@@ -113,9 +113,10 @@ void Player::Update(double dt)
 
 void Player::Response(GameObject*)
 {
+
 }
 
-int Player::GetCurrentWeapon()
+Player::Weapons Player::GetCurrentWeapon()
 {
 	return curWeapon;
 }

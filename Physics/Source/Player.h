@@ -26,9 +26,8 @@ public:
 
 	virtual void Update(double dt);
 	virtual void Response(GameObject*);
-	int GetCurrentWeapon();
+	Player::Weapons GetCurrentWeapon();
 	float mana;
-
 	Vector3 mouseWorld;
 	Vector3 playerToMouseDir;
 

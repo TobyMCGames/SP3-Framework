@@ -17,5 +17,6 @@ void Zombie::Update(double dt)
 
 void Zombie::Response(GameObject*)
 {
+	std::cout << "zombie response" << std::endl;
 	return;
 }

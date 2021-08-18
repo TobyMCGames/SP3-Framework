@@ -6,6 +6,8 @@
 #include "DisguisedEnemy.h"
 #include "DemonLord.h"
 
+
+
 class PrototypeFactory
 {
 public:
@@ -25,18 +27,18 @@ public:
 		NUM_GAMEOBJECTS
 	};
 
-	static GameObject* getObject(int choice);
+	static Entity* getObject(int choice);
 	PrototypeFactory();
 	~PrototypeFactory();
 private:
-	static GameObject* Prototypes[NUM_GAMEOBJECTS];
+	static Entity* Prototypes[NUM_GAMEOBJECTS];
 };
 
-GameObject* PrototypeFactory::Prototypes[] = {
+Entity* PrototypeFactory::Prototypes[] = {
 	new Zombie, new SkeletonArcher,new Spider, new Boomer,new Turret,new DisguisedEnemy,new DemonLord
 };
 
-GameObject* PrototypeFactory::getObject(int choice) {
+Entity* PrototypeFactory::getObject(int choice) {
 	return Prototypes[choice]->clone();
 }
 

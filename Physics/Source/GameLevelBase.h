@@ -17,6 +17,7 @@ private:
 
 protected:
 	vector<GameObject*>map;
+	vector<GameObject*> m_goList;
 	Player* player;
 	float m_worldWidth;
 	float m_worldHeight;

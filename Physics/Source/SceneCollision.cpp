@@ -451,7 +451,7 @@ void SceneCollision::RenderGO(GameObject *go)
 				}
 				modelStack.PushMatrix();
 				{
-					modelStack.Translate(0.5, 0, 0);
+					modelStack.Translate(0.5, 0, 0); 
 					if(player->GetCurrentWeapon() == Player::BOW)
 						RenderMesh(meshList[GEO_BOW], false);
 					else if (player->GetCurrentWeapon() == Player::STAFF)
@@ -505,6 +505,14 @@ void SceneCollision::RenderGO(GameObject *go)
 		RenderMesh(meshList[GEO_CUBE], false);
 		modelStack.PopMatrix();
 		break;
+
+	case GameObject::GO_ZOMBIE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_ZOMBIE], false);
+		modelStack.PopMatrix();
+		break;
 	}
 }
 
@@ -551,8 +559,12 @@ void SceneCollision::Render()
 		}
 	}
 
+
+
+
 	RenderGO(player);
 	//On screen text
+	
 
 
 	std::ostringstream ss;

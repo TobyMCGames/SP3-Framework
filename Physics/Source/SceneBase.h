@@ -74,6 +74,9 @@ public:
 		GEO_STAFF,
 		GEO_PORTALGUN,
 
+		// Enemy
+		GEO_ZOMBIE,
+
 		NUM_GEOMETRY,
 	};
 public:
