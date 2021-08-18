@@ -9,6 +9,7 @@
 
 #include "SceneGUI.h"
 SceneGame::SceneGame()
+	: ispaused(false)
 {
 }
 
