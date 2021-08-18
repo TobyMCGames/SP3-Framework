@@ -69,12 +69,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				break;
 			case '4': // zombie
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				temp = PrototypeFactory::getObject(PrototypeFactory::ZOMBIE);
-				temp->type = GameObject::GO_ZOMBIE;
-				temp->pos = pos;
-				temp->scale = scale;
-				temp->vel = vel;
-				temp->active = true;
+				temp = PrototypeFactory::getObject(PrototypeFactory::ZOMBIE,pos,vel,scale);
 				break;
 				
 			case 'P':
