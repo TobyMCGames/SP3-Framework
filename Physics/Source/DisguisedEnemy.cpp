@@ -17,5 +17,7 @@ void DisguisedEnemy::Update(double dt)
 
 void DisguisedEnemy::Response(GameObject*)
 {
+	std::cout << "DEnemy response" << std::endl;
 	return;
 }
+

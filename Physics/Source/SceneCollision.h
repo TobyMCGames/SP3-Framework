@@ -5,6 +5,7 @@
 #include <vector>
 #include "GameLevelBase.h"
 #include "GamePhysics.h"
+#include "Player.h"
 
 class SceneCollision : public GameLevelBase, public SingletonPattern<SceneCollision>
 {
@@ -38,12 +39,10 @@ protected:
 	~SceneCollision();
 
 	//Physics
-	std::vector<GameObject *> m_goList;
+	//std::vector<GameObject *> m_goList;
 
 	float m_speed;
 	int m_objectCount;
-
-
 
 };
 

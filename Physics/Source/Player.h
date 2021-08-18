@@ -27,14 +27,17 @@ public:
 
 	virtual void Update(double dt);
 	virtual void Response(GameObject* go);
+	Player::Weapons GetCurrentWeapon();
 	float mana;
-
+	Vector3 mouseWorld;
+	Vector3 playerToMouseDir;
 
 protected:
 	int Inventory[NUM_ITEMS];
 	Weapons curWeapon;
-
 	
+
+
 	int curItem;
 	double scrollsnap;
 	float current_scene_worldwidth;

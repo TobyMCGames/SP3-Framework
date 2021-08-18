@@ -17,5 +17,6 @@ void Boomer::Update(double dt)
 
 void Boomer::Response(GameObject*)
 {
+	std::cout << "Boomer response" << std::endl;
 	return;
 }

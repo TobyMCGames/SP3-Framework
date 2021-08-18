@@ -2,10 +2,12 @@
 #define GAME_OBJECT_H
 
 #include "Vector3.h"
-#include "Prototype.h"
 
-struct GameObject: public Prototype<GameObject>
+
+struct GameObject
 {
+
+
 	enum GAMEOBJECT_TYPE
 	{
 		GO_NONE = 0,
@@ -40,6 +42,7 @@ struct GameObject: public Prototype<GameObject>
 		PASSIVE_TILE_START = 100,
 		BRICK_TILE,
 		STONE_BRICK_TILE,
+		SPIKE_TILE,
 		ROCK_TILE,
 		SOIL_TILE,
 		GRASS_SOIL_TILE,
@@ -73,27 +76,11 @@ struct GameObject: public Prototype<GameObject>
 	float Default_Speed;
 
 	virtual void Response(GameObject*) = 0;
+	
 
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
 	~GameObject();
-
-};
-
-struct dirt : public GameObject
-{
-	friend GameObject;
-	void Response(GameObject*) {};
-	dirt() { type = GAMEOBJECT_TYPE::GO_CUBE; };
-	~dirt() {};
-};
-
-struct passive_tile : public GameObject
-{
-	friend GameObject;
-	void Response(GameObject*) {};
-	passive_tile() { type = GAMEOBJECT_TYPE::GO_CUBE; };
-	passive_tile(GAMEOBJECT_TYPE objtype) { this->type = objtype;}
-	~passive_tile() {};
+	void setTransform(Vector3 pos, Vector3 vel, Vector3 scale);
 };
 #endif

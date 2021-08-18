@@ -189,6 +189,8 @@
     <ClCompile Include="Source\SkeleArrow.cpp" />
     <ClCompile Include="Source\SkeletonArcher.cpp" />
     <ClCompile Include="Source\Spider.cpp" />
+    <ClCompile Include="Source\SpiderPoison.cpp" />
+    <ClCompile Include="Source\Tile.cpp" />
     <ClCompile Include="Source\Turret.cpp" />
     <ClCompile Include="Source\TurretBullet.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
@@ -236,6 +238,9 @@
     <ClInclude Include="Source\SingletonPattern.h" />
     <ClInclude Include="Source\SkeleArrow.h" />
     <ClInclude Include="Source\SkeletonArcher.h" />
+    <ClInclude Include="Source\SpiderPoison.h" />
+    <ClInclude Include="Source\Tile.h" />
+    <ClInclude Include="Source\TileFactory.h" />
     <ClInclude Include="Source\TurretBullet.h" />
     <ClInclude Include="Source\Spider.h" />
     <ClInclude Include="Source\Turret.h" />

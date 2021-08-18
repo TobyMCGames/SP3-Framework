@@ -39,6 +39,12 @@
     <Filter Include="Input">
       <UniqueIdentifier>{b3fdc183-4ae6-43d0-8425-c3307fcf6c73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tiles">
+      <UniqueIdentifier>{f5ec2f04-4969-4a30-a3af-3286bb49f8fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tiles">
+      <UniqueIdentifier>{0859aa2c-9382-433c-99a6-45cd81ab6fd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -163,6 +169,12 @@
     </ClCompile>
     <ClCompile Include="Source\KeyboardController.cpp">
       <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tile.cpp">
+      <Filter>Source Files\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpiderPoison.cpp">
+      <Filter>Source Files\Projectiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +318,15 @@
     </ClInclude>
     <ClInclude Include="Source\KeyboardController.h">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TileFactory.h">
+      <Filter>DesignPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tile.h">
+      <Filter>Header Files\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpiderPoison.h">
+      <Filter>Header Files\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

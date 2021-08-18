@@ -1,8 +1,8 @@
-template <typename T>
-
+template<typename T>
 class Prototype
 {
 public:
+	
 	T* clone()
 	{
 		return new T;

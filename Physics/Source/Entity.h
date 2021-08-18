@@ -1,7 +1,9 @@
+#ifndef ENTITY_H
+#define ENTITY_H
 #include "GameObject.h"
-//#include "Projectile.h"
+#include "Prototype.h"
 
-class Entity : public GameObject
+class Entity : public GameObject, public Prototype<Entity>
 {
 protected:
 	enum STATES
@@ -21,9 +23,14 @@ protected:
 	STATES curState;
 	LOCATION curLocation;
 
+
+	Vector3 projectile;
 public:
 	Entity();
 	~Entity();
-	virtual void Update(double dt) = 0;
-	virtual void Response(GameObject* go) = 0;
+	
+	virtual void Update(double dt);
+	virtual void Response(GameObject* go);
 };
+#endif
+

@@ -30,7 +30,7 @@ void SceneBase::Init()
 	// Accept fragment if it closer to the camera than the former one
 	glDepthFunc(GL_LESS); 
 	
-	glEnable(GL_CULL_FACE);
+	glDisable(GL_CULL_FACE);
 	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -146,14 +146,30 @@ void SceneBase::Init()
 	//meshList[PASSIVE_TILE] = MeshBuilder::GenerateQuad("passivetile", Color(1, 1, 1));
 	//meshList[PASSIVE_TILE]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
 
-	meshList[STONEBRICK_TILE] = MeshBuilder::GenerateQuad("stonebrick", Color(1, 1, 1));
-	meshList[STONEBRICK_TILE]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
+	meshList[GEO_STONEBRICK] = MeshBuilder::GenerateQuad("stonebrick", Color(1, 1, 1));
+	meshList[GEO_STONEBRICK]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
 
-	meshList[BRICK_TILE] = MeshBuilder::GenerateQuad("brick", Color(1, 1, 1));
-	meshList[BRICK_TILE]->textureID = LoadTGA("Image//TILE//Brick_Tile.tga");
+	meshList[GEO_BRICK] = MeshBuilder::GenerateQuad("brick", Color(1, 1, 1));
+	meshList[GEO_BRICK]->textureID = LoadTGA("Image//TILE//Brick_Tile.tga");
+
+	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
+	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
 
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 0, 1));
 	//meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//Stalker_Active.png");
+
+	//Weapons
+	meshList[GEO_BOW] = MeshBuilder::GenerateQuad("bow", Color(1, 1, 1));
+	meshList[GEO_BOW]->textureID = LoadTGA("Image//WEAPONS//bow.tga");
+	meshList[GEO_STAFF] = MeshBuilder::GenerateQuad("staff", Color(1, 1, 1));
+	meshList[GEO_STAFF]->textureID = LoadTGA("Image//WEAPONS//staff_red.tga");
+	meshList[GEO_PORTALGUN] = MeshBuilder::GenerateQuad("portal gun", Color(1, 1, 1));
+	meshList[GEO_PORTALGUN]->textureID = LoadTGA("Image//WEAPONS//portal_gun.tga");
+
+	// Enemy
+	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateQuad("Zombie", Color(1, 1, 1));
+	meshList[GEO_ZOMBIE]->textureID = LoadTGA("Image//Enemy//Zombie_Right.tga");
+	
 
 	bLightEnabled = true;
 }

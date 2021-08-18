@@ -6,34 +6,38 @@
 #include "DisguisedEnemy.h"
 #include "DemonLord.h"
 
+
+
 class PrototypeFactory
 {
 public:
 	enum GAMEOBJECTS
 	{
+		// entities
 		ZOMBIE,
 		SKELE_ARCHER,
 		SPIDER,
 		BOOMER,
 		TURRET,
-		DISGUISED_ENEMY,
+		NYMPH,
 		DEMON_LORD,
 
 		// leave this last
 		NUM_GAMEOBJECTS
 	};
-	static GameObject* getObject(int choice);
+
+	static Entity* getObject(int choice);
 	PrototypeFactory();
 	~PrototypeFactory();
 private:
-	static GameObject* Prototypes[NUM_GAMEOBJECTS];
+	static Entity* Prototypes[NUM_GAMEOBJECTS];
 };
 
-GameObject* PrototypeFactory::Prototypes[] = {
-	new Zombie, new SkeletonArcher
+Entity* PrototypeFactory::Prototypes[] = {
+	new Zombie, new SkeletonArcher,new Spider, new Boomer,new Turret,new DisguisedEnemy,new DemonLord
 };
 
-GameObject* PrototypeFactory::getObject(int choice) {
+Entity* PrototypeFactory::getObject(int choice) {
 	return Prototypes[choice]->clone();
 }
 
@@ -44,6 +48,16 @@ PrototypeFactory::PrototypeFactory()
 
 PrototypeFactory::~PrototypeFactory()
 {
-	// delete array here
-	delete Prototypes;
+	// delete array here	
+	int arrsize = sizeof(Prototypes) / sizeof(Prototypes[0]);
+	for (int i = 0; i < arrsize; i++)
+	{
+		delete Prototypes[i];
+		Prototypes[i] = nullptr;
+	}
 }
+
+
+
+
+

@@ -19,5 +19,4 @@ void Entity::Update(double dt)
 
 void Entity::Response(GameObject*)
 {
-
 }

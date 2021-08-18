@@ -11,6 +11,6 @@ protected:
 public:
 	DemonLord();
 	~DemonLord();
-	void Update(double dt);
-	void Response(GameObject* go);
+	virtual void Update(double dt);
+	virtual void Response(GameObject*  go);
 };
