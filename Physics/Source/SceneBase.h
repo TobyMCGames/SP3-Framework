@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include <vector>
 #include "SingletonPattern.h"
+#include "KeyboardController.h"
 
 class SceneBase : public Scene
 {
@@ -102,6 +103,7 @@ public:
 	void FontLoader(std::string file_path);
 
 	Camera camera;
+	CKeyboardController* cKeyboardController;
 
 protected:
 	unsigned m_vertexArrayID;

@@ -32,7 +32,7 @@ void SceneCollision::Init()
 	player->type = GameObject::GAMEOBJECT_TYPE::GO_PLAYER;
 //	player->pos.Set(80, 45, 0.1f);
 	player->vel.Set(1.f, 1.f, 0);
-	player->scale.Set(5.f,5.f,1);
+	player->scale.Set(4.5f,4.5f,1);
 	Math::InitRNG();
 	loadMap("Maps//SideScrollmap.csv");
 	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
@@ -70,115 +70,6 @@ void SceneCollision::ReturnGO(GameObject *go)
 	go->active = false;
 	m_objectCount--;
 }
-
-//void SceneCollision::MakePillar(float x, float y, float thickness, GameObject::GAMEOBJECT_TYPE type)
-//{
-//	GameObject* go = FetchGO();
-//	go->type = type;
-//	go->active = true;
-//	go->pos.Set(x, y, 0);
-//	go->scale.Set(thickness, thickness, thickness);
-//}
-//
-//void SceneCollision::MakeThinWall(float x, float y, float angleDeg, float thickness, float height)
-//{
-//	GameObject* go = FetchGO();
-//	go->type = GameObject::GO_NONELASTIC_WALL;
-//	go->active = true;
-//	go->pos.Set(x, y, 0);
-//	go->normal.Set(cosf(Math::DegreeToRadian(angleDeg)), sinf(Math::DegreeToRadian(angleDeg)), 0);
-//	go->scale.Set(thickness, height, 1.f);
-//
-//	MakePillar(
-//		go->pos.x - height * sinf(Math::DegreeToRadian(angleDeg)),
-//		go->pos.y + height * cosf(Math::DegreeToRadian(angleDeg)),
-//		thickness,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//
-//	MakePillar(
-//		go->pos.x + height * sinf(Math::DegreeToRadian(angleDeg)),
-//		go->pos.y - height * cosf(Math::DegreeToRadian(angleDeg)),
-//		thickness,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//}
-//
-//void SceneCollision::MakeThickWall(float x, float y, float angleDeg, float thickness, float height)
-//{
-//	angleDeg = Math::DegreeToRadian(angleDeg);
-//
-//	GameObject* go = FetchGO();
-//	go->type = GameObject::GO_NONELASTIC_WALL;
-//	go->active = true;
-//	go->pos.Set(x, y);
-//	go->normal.Set(cosf(angleDeg), sinf(angleDeg), 0);
-//	go->scale.Set(thickness, height, 1.f);
-//
-//	GameObject* go2 = FetchGO();
-//	go2->type = GameObject::GO_NONELASTIC_WALL;
-//	go2->active = true;
-//	go2->pos.Set(x, y);
-//	go2->normal.Set(sinf(-angleDeg), cosf(-angleDeg), 0);
-//	go2->scale.Set(height, thickness, 1.f);
-//
-//	MakePillar(x + (thickness - 0.0005f) * cosf(angleDeg) - (height + 0.0005f) * sinf(angleDeg),
-//		y + (height - 0.0005f) * cosf(angleDeg) + (thickness + 0.0005f) * sinf(angleDeg),
-//		0.1f,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//	MakePillar(x + (-thickness + 0.0005f) * cosf(angleDeg) - (height + 0.0005f) * sinf(angleDeg),
-//		y + (height - 0.0005f) * cosf(angleDeg) + (-thickness - 0.0005f) * sinf(angleDeg),
-//		0.1f,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//	MakePillar(x + (thickness - 0.0005f) * cosf(angleDeg) - (-height - 0.0005f) * sinf(angleDeg),
-//		y + (-height + 0.0005f) * cosf(angleDeg) + (thickness - 0.0005f) * sinf(angleDeg),
-//		0.1f,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//	MakePillar(x + (-thickness + 0.0005f) * cosf(angleDeg) - (-height + 0.0005f) * sinf(angleDeg),
-//		y + (-height + 0.0005f) * cosf(angleDeg) + (-thickness + 0.0005f) * sinf(angleDeg),
-//		0.1f,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//}
-//
-//void SceneCollision::MakeFlipper(float x, float y,Vector3 pivotPos, float defaultAngle, float angleSpeed, float thickness, float height)
-//{
-//	GameObject* go = FetchGO();
-//	go->type = GameObject::GO_FLIPPER;
-//	go->pivot = pivotPos;
-//	go->scale.Set(thickness, height, thickness);
-//	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
-//	go->angularVelocity = angleSpeed;
-//	
-//	Vector3 PivToPos = Vector3(x, y, 0) - pivotPos;
-//	float angle = Math::DegreeToRadian(defaultAngle);
-//	go->pos.Set(
-//		x,
-//		y,
-//		0
-//	);
-//
-//	go = FetchGO();
-//	go->type = GameObject::GO_FLIPPER_PILLAR;
-//	go->pivot = pivotPos;
-//	go->scale.Set(thickness, thickness, thickness);
-//	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
-//	go->angularVelocity = angleSpeed;
-//	go->pos.Set(
-//		x + height * cos(angle),
-//		y + height * sin(angle),
-//		0
-//	);
-//
-//	go = FetchGO();
-//	go->type = GameObject::GO_FLIPPER_PILLAR;
-//	go->pivot = pivotPos;
-//	go->scale.Set(thickness, thickness, thickness);
-//	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
-//	go->angularVelocity = angleSpeed;
-//	go->pos.Set(
-//		x + -height * cos(angle),
-//		y + -height * sin(angle),
-//		0
-//	);
-//}
 
 bool SceneCollision::Update(double dt)
 {
@@ -258,6 +149,7 @@ bool SceneCollision::Update(double dt)
 		RButtonState = false;
 	}
 
+	player->vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 	//Physics Simulation Section
 	// Check for gameObjects within screen only
 	//Find how many tiles screen is away from left side
@@ -285,15 +177,18 @@ bool SceneCollision::Update(double dt)
 			int TileSpace = j * XTilesInWorld + i;
 			if (map[TileSpace] != nullptr)
 			{
-				if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt))
+				if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt, m_speed))
 				{
-					GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt);
+					GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt, m_speed);
 					cout << "Collided" << endl;
+					break;
 				}
 
 			}
 		}
 	}
+
+	player->pos += player->vel * dt * m_speed;
 	return true;
 }
 

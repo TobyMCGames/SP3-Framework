@@ -10,6 +10,7 @@
 #include <sstream>
 
 SceneBase::SceneBase()
+	: cKeyboardController(NULL)
 {
 	for (int i = 0; i < 256; ++i) {
 		textWidth[i] = NULL;
@@ -22,6 +23,8 @@ SceneBase::~SceneBase()
 
 void SceneBase::Init()
 {
+	cKeyboardController = CKeyboardController::GetInstance();
+
 	FontLoader("Image//FontData.csv");
 	// Black background
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
