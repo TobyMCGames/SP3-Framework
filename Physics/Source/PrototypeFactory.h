@@ -13,7 +13,6 @@ class PrototypeFactory
 public:
 	enum GAMEOBJECTS
 	{
-
 		// entities
 		ZOMBIE,
 		SKELE_ARCHER,

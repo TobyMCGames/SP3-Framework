@@ -36,8 +36,11 @@ void Player::Update(double dt)
 	mouseWorld += GameLevelManager::GetInstance()->getcurrentLevel()->camera.position;
 	playerToMouseDir = (mouseWorld - pos);
 	playerToMouseDir.z = 0;
-	playerToMouseDir.Normalize();
-	normal = playerToMouseDir;
+	if (playerToMouseDir.x != 0 && playerToMouseDir.y != 0)
+	{
+		playerToMouseDir.Normalize();
+		normal = playerToMouseDir;
+	}
 
 
 

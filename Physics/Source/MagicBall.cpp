@@ -3,16 +3,20 @@
 
 MagicBall::MagicBall()
 {
+
 }
 
 MagicBall::~MagicBall()
 {
+
 }
 
 void MagicBall::Update(double dt)
 {
+
 }
 
 void MagicBall::Response(GameObject* go)
 {
+
 }
