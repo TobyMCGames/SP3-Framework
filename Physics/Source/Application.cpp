@@ -74,7 +74,7 @@ int Application::GetWindowHeight()
 	return m_height;
 }
 
-int Application::GetYScrollOffset()
+double Application::GetYScrollOffset()
 {
 	glfwSetScrollCallback(m_window, scroll_callback);
 	return ScrollY;

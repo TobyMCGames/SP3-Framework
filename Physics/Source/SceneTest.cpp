@@ -220,7 +220,7 @@ void SceneTest::RenderGO(GameObject *go)
 		{
 			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_BALL, Color(1, 1, 1), 1, 0.6, 0.3, 1);
+			SceneBase::ChangeMat(SceneBase::GEO_BALL, Color(1.f, 1.f, 1.f), 1.f, 0.6f, 0.3f, 1.f);
 			RenderMesh(meshList[SceneBase::GEO_BALL], true);
 		}
 		modelStack.PopMatrix();
@@ -232,7 +232,7 @@ void SceneTest::RenderGO(GameObject *go)
 			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1, 0, 0.5), 1, 0.6, 0.3, 1);
+			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1.f, 0.f, 0.5f), 1.f, 0.6f, 0.3f, 1.f);
 			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
 		}
 		modelStack.PopMatrix();
@@ -242,7 +242,7 @@ void SceneTest::RenderGO(GameObject *go)
 		{
 			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1, 0, 0.5), 1, 0.6, 0.3, 1);
+			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1.f, 0.f, 0.5f), 1.f, 0.6f, 0.3f, 1.f);
 			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
 		}
 		modelStack.PopMatrix();
@@ -253,7 +253,7 @@ void SceneTest::RenderGO(GameObject *go)
 			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1, 0.5, 0.05), 1, 0.6, 0.3, 1);
+			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1.f, 0.5f, 0.05f), 1.f, 0.6f, 0.3f, 1.f);
 			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
 		}
 		modelStack.PopMatrix();
@@ -263,7 +263,7 @@ void SceneTest::RenderGO(GameObject *go)
 		{
 			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1, 0.5, 0.05), 1, 0.6, 0.3, 1);
+			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1.f, 0.5f, 0.05f), 1.f, 0.6f, 0.3f, 1.f);
 			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
 		}
 		modelStack.PopMatrix();

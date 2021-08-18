@@ -12,7 +12,9 @@ Player::Player()
 		Inventory[i] = 0;
 	}
 	health = 100;
-	
+	current_scene_worldheight = 90.f;
+	current_scene_worldwidth = current_scene_worldheight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
+
 }
 
 Player::~Player()
@@ -25,6 +27,19 @@ void Player::Update(double dt)
 	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
 								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
 								pos.z);
+
+	double x, y;
+	Application::GetCursorPos(&x, &y);
+	int w = Application::GetWindowWidth();
+	int h = Application::GetWindowHeight();
+	mouseWorld = Vector3((x / w) * current_scene_worldwidth, current_scene_worldheight - (y / h) * current_scene_worldheight);
+	mouseWorld += GameLevelManager::GetInstance()->getcurrentLevel()->camera.position;
+	playerToMouseDir = (mouseWorld - pos);
+	playerToMouseDir.z = 0;
+	playerToMouseDir.Normalize();
+	normal = playerToMouseDir;
+
+
 
 	if (Application::IsKeyPressed('W'))
 	{
@@ -99,3 +114,10 @@ void Player::Update(double dt)
 void Player::Response(GameObject*)
 {
 }
+
+int Player::GetCurrentWeapon()
+{
+	return curWeapon;
+}
+
+

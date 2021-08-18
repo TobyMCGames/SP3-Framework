@@ -37,6 +37,7 @@ struct GameObject: public Prototype<GameObject>
 		GO_TURRETBULLET,
 
 		// TILES
+		PASSIVE_TILE_START = 100,
 		BRICK_TILE,
 		STONE_BRICK_TILE,
 		SPIKE_TILE,
@@ -44,6 +45,9 @@ struct GameObject: public Prototype<GameObject>
 		SOIL_TILE,
 		GRASS_SOIL_TILE,
 		GRASS_SOIL_FLOWERS_TILE,
+
+		PASSIVE_TILE_END = 199,
+
 		GO_TOTAL, //must be last
 	};
 

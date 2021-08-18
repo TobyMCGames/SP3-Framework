@@ -37,7 +37,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 	GameObject* temp = nullptr;
 	for (int row = linesinreverse.size() - 1; row >= 0; row--)
 	{
-		for (unsigned int col = 0; col < 256; col++)
+		for (int col = 0; col < 256; col++)
 		{
 			scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
 			vel = Vector3(0, 0, 0);
@@ -77,6 +77,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				player->GetInstance();
 				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.1f);
 				xOffset += TILEWIDTH;
+				map.push_back(temp);
 				continue;
 			}
 			
@@ -106,12 +107,12 @@ float GameLevelBase::getworldHeight()
 	return m_worldHeight;
 }
 
-int GameLevelBase::getTileWidth()
+float GameLevelBase::getTileWidth()
 {
 	return TILEWIDTH;
 }
 
-int GameLevelBase::getTileHeight()
+float GameLevelBase::getTileHeight()
 {
 	return TILEHEIGHT;
 }

@@ -69,6 +69,11 @@ public:
 		GEO_STONEBRICK,
 		GEO_SPIKE,
 
+		//weapons
+		GEO_BOW,
+		GEO_STAFF,
+		GEO_PORTALGUN,
+
 		NUM_GEOMETRY,
 	};
 public:
@@ -88,13 +93,13 @@ public:
 	void ChangeMat(int idx, Color color, float ambient, float diffuse, float specular, float Shiny);
 	void FontLoader(std::string file_path);
 
+	Camera camera;
+
 protected:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];
 	unsigned m_programID;
 	unsigned m_parameters[U_TOTAL];
-
-	Camera camera;
 
 	int textWidth[256];
 
