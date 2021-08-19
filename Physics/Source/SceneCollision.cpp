@@ -79,7 +79,7 @@ bool SceneCollision::Update(double dt)
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
-		projectileList[i]->Update(dt);
+		projectileList[i]->Update(dt, m_speed);
 	}
 
 	if (Application::IsKeyPressed('9'))

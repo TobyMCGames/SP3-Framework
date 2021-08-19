@@ -8,7 +8,7 @@ Portal::~Portal()
 {
 }
 
-void Portal::Update(double dt)
+void Portal::Update(double dt, float m_speed)
 {
 	pos += vel * dt;
 }
