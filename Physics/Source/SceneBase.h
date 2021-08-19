@@ -76,6 +76,9 @@ public:
 		GEO_STAFF,
 		GEO_PORTALGUN,
 
+		//Interactive objects
+		GEO_WEAPON_STATION,
+
 		// Enemy
 		GEO_ZOMBIE,
 		GEO_SKELETONARCHER,

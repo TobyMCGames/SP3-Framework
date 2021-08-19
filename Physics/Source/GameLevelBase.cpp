@@ -155,8 +155,9 @@ bool GameLevelBase::loadMap(std::string file_path)
 				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.1f);
 				player->vel.SetZero();
 				xOffset += TILEWIDTH;
-				map.push_back(temp);
-				continue;
+				tempEntity = player;
+				isEntity = true;
+				break;
 			}
 			xOffset += TILEWIDTH;
 			if ((col-commacounter) > highestcol)
@@ -200,6 +201,106 @@ float GameLevelBase::getTileWidth()
 float GameLevelBase::getTileHeight()
 {
 	return TILEHEIGHT;
+}
+
+bool GameLevelBase::CheckWithinScreen(GameObject* go)
+{
+	if (go->pos.x + go->scale.x / 2 < camera.position.x ||
+		go->pos.x - go->scale.x / 2 > camera.position.x + XTILE_SCREEN * TILEWIDTH ||
+		go->pos.y + go->scale.y / 2 < camera.position.y ||
+		go->pos.y - go->scale.y / 2 > camera.position.y + YTILE_SCREEN * TILEHEIGHT)
+	{
+		return false;
+	}
+	return true;
+}
+
+void GameLevelBase::CollisionChecks(double dt, float m_speed)
+{
+	/// Find Camera Tile Displacement in World Space
+	//Find how many tiles screen is away from left side
+	int XnumTiles = (camera.position.x - fmod(camera.position.x, getTileWidth())) / getTileWidth();
+	int XTilesInScr;
+	if (fmod(camera.position.x, getTileWidth()) > 0)
+		XTilesInScr = 33;
+	else
+		XTilesInScr = 32;
+
+	//Find how many tiles screen is away from bottom
+	int YnumTiles = (camera.position.y - fmod(camera.position.y, getTileHeight())) / getTileHeight();
+	int YTilesInScr;
+	if (fmod(camera.position.y, getTileHeight()) > 0)
+		YTilesInScr = 19;
+	else
+		YTilesInScr = 18;
+
+	int XTilesInWorld = getworldWidth() / getTileWidth();
+	int YTilesInWorld = getworldHeight() / getTileHeight();
+
+	/////////////////////////////////////////////////////////////
+
+	for (int i = 0; i < EntityList.size(); i++)
+	{
+		AdvanceGO* mob1 = EntityList[i];
+		if (mob1 != nullptr)
+		{
+			if (CheckWithinScreen(mob1))
+			{
+				for (int j = XnumTiles; j < XnumTiles + XTilesInScr; j++)
+				{
+					for (int k = YnumTiles; k < YnumTiles + YTilesInScr; k++)
+					{
+						int TileSpace = k * XTilesInWorld + j;
+						if (map[TileSpace] != nullptr)
+						{
+							if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, m_speed))
+							{
+								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, m_speed);
+								//cout << "Collided" << endl;
+								break;
+							}
+
+						}
+					}
+				}
+				std::vector<int> cleanUpVector;
+				for (int j = 0; j < projectileList.size(); j++)
+				{
+					AdvanceGO* projectile;
+					projectile = projectileList[j];
+					if (projectile != nullptr)
+					{
+						if (CheckWithinScreen(projectile))
+						{
+							if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, m_speed))
+							{
+								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, m_speed);
+							}
+						}
+						else
+						{
+							delete projectile;
+							projectileList[j] = nullptr;
+							cleanUpVector.push_back(j);
+						}
+					}
+					else
+					{
+						cout << "projectile was null in projectile list" << endl;
+					}
+				}
+				for (int j = 0; j < cleanUpVector.size(); j++)
+				{
+					projectileList.erase(projectileList.begin() + cleanUpVector[j]);
+				}
+				cleanUpVector.clear();
+			}
+		}
+		else
+		{
+			cout << "There was a null entity1" << endl;
+		}
+	}
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
