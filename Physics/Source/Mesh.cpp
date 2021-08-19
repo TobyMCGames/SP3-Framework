@@ -45,7 +45,7 @@ void Mesh::Render()
 	else if(mode == DRAW_TRIANGLE_STRIP)
 		glDrawElements(GL_TRIANGLE_STRIP, indexSize, GL_UNSIGNED_INT, 0);
 	else
-		glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES,indexSize, GL_UNSIGNED_INT, 0);
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);

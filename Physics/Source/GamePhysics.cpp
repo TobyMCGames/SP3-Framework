@@ -155,7 +155,6 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				return true;
 			}
 		}
-
 		// Check Bottom Left of player
 		Vector3 Newbot_L = go1NewPos + Vector3(-go1->scale.x / 2, -go1->scale.y / 2, 0);
 		// If Move Down collides
