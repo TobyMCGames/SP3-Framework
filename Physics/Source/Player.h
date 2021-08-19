@@ -43,6 +43,9 @@ public:
 
 	bool FireWeapon;
 
+	// Slow down time mechanic
+	float TimeSpeed;
+	bool SlowTime;
 
 protected:
 	int Inventory[NUM_ITEMS];
