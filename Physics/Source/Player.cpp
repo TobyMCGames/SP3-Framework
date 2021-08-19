@@ -23,6 +23,7 @@ Player::Player()
 	Default_Speed = 15;
 	cKeyboardController = CKeyboardController::GetInstance();
 	FireWeapon = false;
+	arrowSound = createIrrKlangDevice();
 }
 
 Player::~Player()
@@ -62,6 +63,7 @@ void Player::Update(double dt, float m_speed)
 		{
 		case BOW:
 			{
+			arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
 			Projectile* arrow = 
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
 					pos + (normal*scale.x), normal, scale, normal);
@@ -191,6 +193,13 @@ void Player::Response(GameObject* go)
 		{
 			curLocation = ON_GROUND;
 		}
+	}
+}
+
+void Player::SetSounds()
+{
+	if (!arrowSound) {
+		arrowSound = createIrrKlangDevice();
 	}
 }
 
