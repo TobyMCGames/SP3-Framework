@@ -13,12 +13,8 @@ Zombie::~Zombie()
 
 void Zombie::Update(double dt, float m_speed)
 {
-	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
-		GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
-		pos.z);
-	if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
-		vel.x = Default_Speed;
-	cout << pos << endl;
+	vel.x = 15;
+	pos += vel * dt * m_speed;
 }
 
 void Zombie::Response(GameObject* go)
