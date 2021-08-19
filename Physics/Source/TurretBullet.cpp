@@ -10,7 +10,7 @@ TurretBullet::~TurretBullet()
 
 }
 
-void TurretBullet::Update(double dt)
+void TurretBullet::Update(double dt, float m_speed)
 {
 
 }

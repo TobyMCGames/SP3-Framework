@@ -10,7 +10,7 @@ DemonBall::~DemonBall()
 {
 }
 
-void DemonBall::Update(double dt)
+void DemonBall::Update(double dt, float m_speed)
 {
 }
 

@@ -78,7 +78,7 @@ bool SceneCollision::Update(double dt)
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
-		projectileList[i]->Update(dt);
+		projectileList[i]->Update(dt, m_speed);
 	}
 	
 	for (int i = 0; i < EntityList.size(); i++)
@@ -267,8 +267,6 @@ void SceneCollision::Render()
 
 	//On screen text
 	
-
-
 	std::ostringstream ss;
 	//Exercise 5: Render m_objectCount
 	ss << "GameObject Count: " << m_objectCount;

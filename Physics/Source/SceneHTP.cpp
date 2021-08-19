@@ -40,7 +40,7 @@ bool SceneHTP::Update(double dt)
 	float posX = x / w * 80; //convert (0,800) to (0,80)
 	float posY = 1 - (y / h) * 60; //convert (600,0) to (0,60)
 	BackButton.Set(1, 1, 1);
-	if (posX > 7 && posX < 18 && posY > -53 && posY < -48)
+	if (posX > 7 && posX < 18 && posY > -57 && posY < -52)
 	{
 		BackButton.Set(1, 0, 0);
 		//Mouse Section
@@ -98,7 +98,7 @@ void SceneHTP::Render()
 	std::ostringstream ss;
 	ss.str("");
 	ss << "<Back";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), BackButton, 4, 7, 5);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), BackButton, 4, 7, 2);
 }
 
 void SceneHTP::Exit()

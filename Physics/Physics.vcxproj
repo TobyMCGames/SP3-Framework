@@ -196,6 +196,7 @@
     <ClCompile Include="Source\Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AdvanceGO.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Boomer.h" />
     <ClInclude Include="Source\Bomb.h" />

@@ -10,7 +10,7 @@ private:
 public:
 	DemonBall();
 	~DemonBall();
-	virtual void Update(double dt);
+	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
 
 };

@@ -162,7 +162,7 @@ void SceneBase::Init()
 	meshList[GEO_BOW] = MeshBuilder::GenerateQuad("bow", Color(1, 1, 1));
 	meshList[GEO_BOW]->textureID = LoadTGA("Image//WEAPONS//bow.tga");
 	meshList[GEO_STAFF] = MeshBuilder::GenerateQuad("staff", Color(1, 1, 1));
-	meshList[GEO_STAFF]->textureID = LoadTGA("Image//WEAPONS//staff_red.tga");
+	meshList[GEO_STAFF]->textureID = LoadTGA("Image//WEAPONS//staff_blue.tga");
 	meshList[GEO_PORTALGUN] = MeshBuilder::GenerateQuad("portal gun", Color(1, 1, 1));
 	meshList[GEO_PORTALGUN]->textureID = LoadTGA("Image//WEAPONS//portal_gun.tga");
 
