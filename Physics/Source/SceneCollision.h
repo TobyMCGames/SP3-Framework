@@ -39,7 +39,6 @@ protected:
 	//Physics
 	//std::vector<GameObject *> m_goList;
 
-	float m_speed;
 	int m_objectCount;
 };
 

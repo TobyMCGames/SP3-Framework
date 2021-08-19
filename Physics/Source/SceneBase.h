@@ -12,6 +12,7 @@
 #include "SingletonPattern.h"
 #include "KeyboardController.h"
 
+
 class SceneBase : public Scene
 {
 public:
@@ -74,6 +75,9 @@ public:
 		GEO_BOW,
 		GEO_STAFF,
 		GEO_PORTALGUN,
+
+		//Interactive objects
+		GEO_WEAPON_STATION,
 
 		// Enemy
 		GEO_ZOMBIE,

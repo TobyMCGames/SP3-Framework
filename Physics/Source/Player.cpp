@@ -23,11 +23,20 @@ Player::Player()
 	Default_Speed = 15;
 	cKeyboardController = CKeyboardController::GetInstance();
 	FireWeapon = false;
+
+	// Slow down time mechanic
+	TimeSpeed = 1.f;
+	SlowTime = false;
+
+	//SOUNDS
 	arrowSound = createIrrKlangDevice();
+	magicballSound = createIrrKlangDevice();
+	portal = createIrrKlangDevice();
 }
 
 Player::~Player()
 {
+
 }
 
 
@@ -48,6 +57,16 @@ void Player::Update(double dt, float m_speed)
 	{
 		playerToMouseDir.Normalize();
 		normal = playerToMouseDir.Normalized();
+	}
+
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	{
+		m_speed = 1.f;
+	}
+
+	if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
+	{
+		m_speed = 2.7f;
 	}
 
 	static bool bLButtonState = false;
@@ -73,6 +92,7 @@ void Player::Update(double dt, float m_speed)
 			}
 		case STAFF:
 			{
+			magicballSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Magic_Ball.wav", false);
 			Projectile* magicBall =
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
 					pos + (normal * scale.x), normal, scale, normal);
@@ -83,6 +103,7 @@ void Player::Update(double dt, float m_speed)
 			}
 		case PORTALGUN:
 			{
+			portal->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Portal_2.wav", false);
 				Projectile* portal = 
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
 						pos + (normal * scale.x), normal, scale, normal);
@@ -93,9 +114,6 @@ void Player::Update(double dt, float m_speed)
 		}
 	}
 	FireWeapon = false;
-
-
-	
 
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
 	{
@@ -121,7 +139,6 @@ void Player::Update(double dt, float m_speed)
 			vel.x = -Default_Speed;
 	}
 
-	
 	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
 	{
 		vel.x = 0;
@@ -196,16 +213,14 @@ void Player::Response(GameObject* go)
 	}
 }
 
-void Player::SetSounds()
-{
-	if (!arrowSound) {
-		arrowSound = createIrrKlangDevice();
-	}
-}
+//void Player::SetSounds()
+//{
+//	if (!arrowSound) {
+//		arrowSound = createIrrKlangDevice();
+//	}
+//}
 
 Player::Weapons Player::GetCurrentWeapon()
 {
 	return curWeapon;
 }
-
-
