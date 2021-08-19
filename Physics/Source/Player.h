@@ -6,6 +6,10 @@
 #include "MagicBall.h"
 #include "Portal.h"
 #include "KeyboardController.h"
+#include "irrKlang.h"
+
+using namespace irrklang;
+#pragma comment(lib, "irrKlang.lib")
 
 class Player : public Entity, public SingletonPattern<Player>
 {
@@ -32,12 +36,14 @@ public:
 
 	virtual void Update(double dt);
 	virtual void Response(GameObject* go);
+	void SetSounds();
 	Player::Weapons GetCurrentWeapon();
 	float mana;
 	Vector3 mouseWorld;
 	Vector3 playerToMouseDir;
 
 	bool FireWeapon;
+
 
 protected:
 	int Inventory[NUM_ITEMS];
@@ -51,5 +57,8 @@ protected:
 	~Player();
 
 	CKeyboardController* cKeyboardController;
+
+	//Player sounds
+	ISoundEngine* arrowSound;
 };
 

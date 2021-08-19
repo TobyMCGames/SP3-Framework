@@ -5,7 +5,7 @@
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
 Player::Player()
-	: curWeapon(Player::STAFF)
+	: curWeapon(Player::BOW)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
@@ -22,6 +22,7 @@ Player::Player()
 
 	Default_Speed = 15;
 	cKeyboardController = CKeyboardController::GetInstance();
+	arrowSound = createIrrKlangDevice();
 }
 
 Player::~Player()
@@ -63,6 +64,7 @@ void Player::Update(double dt)
 		{
 		case BOW:
 			{
+			arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
 			Vector3 vel = playerToMouseDir * ArrowForce;
 			Projectile* arrow = 
 				ProjectileFactory::getObject
@@ -190,6 +192,13 @@ void Player::Response(GameObject* go)
 	{
 		if (vel.y == 0)
 			curLocation = ON_GROUND;
+	}
+}
+
+void Player::SetSounds()
+{
+	if (!arrowSound) {
+		arrowSound = createIrrKlangDevice();
 	}
 }
 
