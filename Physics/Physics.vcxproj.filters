@@ -331,5 +331,8 @@
     <ClInclude Include="Source\ProjectileFactory.h">
       <Filter>DesignPatterns</Filter>
     </ClInclude>
+    <ClInclude Include="Source\AdvanceGO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
