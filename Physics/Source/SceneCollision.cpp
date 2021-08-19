@@ -516,13 +516,9 @@ void SceneCollision::Render()
 	}
 
 
-
-
 	RenderGO(player);
 	//On screen text
 	
-
-
 	std::ostringstream ss;
 	//Exercise 5: Render m_objectCount
 	ss << "GameObject Count: " << m_objectCount;

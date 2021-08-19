@@ -55,6 +55,7 @@ void Player::Update(double dt)
 	}
 
 
+
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
 	{
