@@ -5,7 +5,7 @@
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
 Player::Player()
-	: curWeapon(Player::STAFF)
+	: curWeapon(Player::BOW)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
@@ -62,7 +62,6 @@ void Player::Update(double dt, float m_speed)
 		{
 		case BOW:
 			{
-			Vector3 vel = playerToMouseDir * ArrowForce;
 			Projectile* arrow = 
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
 					pos + (normal*scale.x), normal, scale, normal);

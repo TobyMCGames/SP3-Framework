@@ -14,12 +14,12 @@ Projectile* ProjectileFactory::produceProjectile(PROJECTILE_TYPES projectileType
 	switch (projectileType)
 	{
 	case PTYPE_ARROW:
-		newProjectile->type = GameObject::GO_ARROW;
 		newProjectile = new Arrow();
+		newProjectile->type = GameObject::GO_ARROW;
 		break;
 	case PTYPE_BOMB:
-		newProjectile->type = GameObject::GO_BOMB;
 		newProjectile = new Bomb();
+		newProjectile->type = GameObject::GO_BOMB;
 		break;
 	case PTYPE_DEMONBALL:
 		newProjectile = new DemonBall();

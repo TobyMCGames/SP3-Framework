@@ -13,7 +13,6 @@ class Player : public Entity, public SingletonPattern<Player>
 
 	const int scrollSensitivity = 3;
 	const float JumpForce = 22;
-	const float ArrowForce = 30;
 public:
 	enum Items
 	{
