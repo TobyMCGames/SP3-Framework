@@ -6,6 +6,7 @@
 #include "SceneBase.h"
 #include "SceneGUI.h"
 
+
 class SceneGame : public SceneBase, public SingletonPattern<SceneGame>
 {
 	friend SingletonPattern<SceneGame>;
@@ -15,7 +16,6 @@ public:
 	virtual bool Update(double dt);
 	virtual void Render();
 	virtual void Exit();
-
 	bool ispaused;
 
 protected:
