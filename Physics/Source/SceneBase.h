@@ -12,6 +12,7 @@
 #include "SingletonPattern.h"
 #include "KeyboardController.h"
 
+
 class SceneBase : public Scene
 {
 public:

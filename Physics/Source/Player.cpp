@@ -5,7 +5,7 @@
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
 Player::Player()
-	: curWeapon(Player::BOW)
+	: curWeapon(Player::PORTALGUN)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
@@ -23,7 +23,11 @@ Player::Player()
 	Default_Speed = 15;
 	cKeyboardController = CKeyboardController::GetInstance();
 	FireWeapon = false;
+
+	//SOUNDS
 	arrowSound = createIrrKlangDevice();
+	magicballSound = createIrrKlangDevice();
+	portal = createIrrKlangDevice();
 }
 
 Player::~Player()
@@ -73,6 +77,7 @@ void Player::Update(double dt, float m_speed)
 			}
 		case STAFF:
 			{
+			magicballSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Magic_Ball.wav", false);
 			Projectile* magicBall =
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
 					pos + (normal * scale.x), normal, scale, normal);
@@ -83,6 +88,7 @@ void Player::Update(double dt, float m_speed)
 			}
 		case PORTALGUN:
 			{
+			portal->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Portal_2.wav", false);
 				Projectile* portal = 
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
 						pos + (normal * scale.x), normal, scale, normal);
@@ -196,12 +202,12 @@ void Player::Response(GameObject* go)
 	}
 }
 
-void Player::SetSounds()
-{
-	if (!arrowSound) {
-		arrowSound = createIrrKlangDevice();
-	}
-}
+//void Player::SetSounds()
+//{
+//	if (!arrowSound) {
+//		arrowSound = createIrrKlangDevice();
+//	}
+//}
 
 Player::Weapons Player::GetCurrentWeapon()
 {

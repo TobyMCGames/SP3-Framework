@@ -35,7 +35,7 @@ public:
 
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
-	void SetSounds();
+	//void SetSounds();
 	Player::Weapons GetCurrentWeapon();
 	float mana;
 	Vector3 mouseWorld;
@@ -59,5 +59,7 @@ protected:
 
 	//Player sounds
 	ISoundEngine* arrowSound;
+	ISoundEngine* magicballSound;
+	ISoundEngine* portal;
 };
 
