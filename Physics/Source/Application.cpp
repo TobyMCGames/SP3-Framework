@@ -63,6 +63,7 @@ bool Application::IsMousePressed(unsigned short key) //0 - Left, 1 - Right, 2 - 
 {
 	return glfwGetMouseButton(m_window, key) != 0;
 }
+
 void Application::GetCursorPos(double *xpos, double *ypos)
 {
 	glfwGetCursorPos(m_window, xpos, ypos);
