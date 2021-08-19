@@ -10,9 +10,8 @@ private:
 public:
 	MagicBall();
 	~MagicBall();
-	virtual void Update(double dt, float m_speed);
+	virtual void Update(double dt, float GAMESPEED);
 	virtual void Response(GameObject* go);
-
 };
 
 #endif
