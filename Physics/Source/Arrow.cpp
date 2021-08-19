@@ -7,16 +7,18 @@ Arrow::Arrow()
 
 Arrow::~Arrow()
 {
+
 }
 
-void Arrow::Update(double dt, float m_speed)
+void Arrow::Update(double dt, float GAMESPEED)
 {
-	pos += vel * dt * m_speed;
-	vel += (GamePhysics::GetInstance()->gravity) * dt * m_speed;
+	pos += vel * dt * GAMESPEED;
+	vel += (GamePhysics::GetInstance()->gravity) * dt * GAMESPEED;
 	normal = vel.Normalized();
 }
 
 void Arrow::Response(GameObject* go)
 {
+
 }
 

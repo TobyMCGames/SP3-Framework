@@ -36,6 +36,7 @@ Player::Player()
 
 Player::~Player()
 {
+
 }
 
 
@@ -56,6 +57,16 @@ void Player::Update(double dt, float m_speed)
 	{
 		playerToMouseDir.Normalize();
 		normal = playerToMouseDir.Normalized();
+	}
+
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	{
+		m_speed = 1.f;
+	}
+
+	if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
+	{
+		m_speed = 2.7f;
 	}
 
 	static bool bLButtonState = false;
@@ -104,9 +115,6 @@ void Player::Update(double dt, float m_speed)
 	}
 	FireWeapon = false;
 
-
-	
-
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
 	{
 		vel.y += JumpForce;
@@ -131,7 +139,6 @@ void Player::Update(double dt, float m_speed)
 			vel.x = -Default_Speed;
 	}
 
-	
 	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
 	{
 		vel.x = 0;
@@ -217,5 +224,3 @@ Player::Weapons Player::GetCurrentWeapon()
 {
 	return curWeapon;
 }
-
-
