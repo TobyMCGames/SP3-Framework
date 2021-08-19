@@ -2,6 +2,7 @@
 #include "GL\glew.h"
 #include "Application.h"
 #include <sstream>
+#include "GLFW/glfw3.h"
 
 #include "GameStateManager.h"
 #include "GameLevelManager.h"
@@ -19,6 +20,9 @@ SceneGame::~SceneGame()
 
 void SceneGame::Init()
 {
+	// Init keyboard
+	cKeyboardController = CKeyboardController::GetInstance();
+
 	// Init GUI
 	SceneGUI::GetInstance()->Init();
 
@@ -36,11 +40,11 @@ void SceneGame::Init()
 bool SceneGame::Update(double dt)
 {
 	static bool bLButtonState = false;
-	if (!bLButtonState && (Application::IsKeyPressed('P') || Application::IsKeyPressed(VK_ESCAPE)))
+	if (!bLButtonState && (cKeyboardController->IsKeyPressed(GLFW_KEY_P) || cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE)))
 	{
 		bLButtonState = true;
 	}
-	else if (bLButtonState && (!Application::IsKeyPressed('P') && !Application::IsKeyPressed(VK_ESCAPE)))
+	else if (bLButtonState && (!cKeyboardController->IsKeyPressed(GLFW_KEY_P) && !cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE)))
 	{
 		bLButtonState = false;
 		SceneGUI::GetInstance()->RenderPause = true;

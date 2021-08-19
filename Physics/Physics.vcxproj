@@ -222,6 +222,7 @@
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Portal.h" />
     <ClInclude Include="Source\Projectile.h" />
+    <ClInclude Include="Source\ProjectileFactory.h" />
     <ClInclude Include="Source\Prototype.h" />
     <ClInclude Include="Source\PrototypeFactory.h" />
     <ClInclude Include="Source\Scene.h" />

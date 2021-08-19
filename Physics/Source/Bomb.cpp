@@ -12,7 +12,7 @@ void Bomb::Update(double dt)
 {
 }
 
-void Bomb::Response(GameObject*)
+void Bomb::Response(GameObject* go)
 {
 }
 

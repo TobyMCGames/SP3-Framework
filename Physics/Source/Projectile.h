@@ -1,16 +1,17 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 #include "GameObject.h"
+#include "Prototype.h"
 
-class Projectile : public GameObject
+class Projectile : public GameObject, public Prototype<Projectile>
 {
 protected:
 
 public:
 	Projectile();
 	~Projectile();
-	virtual void Update(double dt) = 0;
-	virtual void Response(GameObject* go) = 0;
+	virtual void Update(double dt);
+	virtual void Response(GameObject* go);
 };
 
 #endif

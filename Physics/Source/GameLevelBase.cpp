@@ -36,6 +36,8 @@ bool GameLevelBase::loadMap(std::string file_path)
 	}
 	float xOffset = 0, yOffset = 0;
 	GameObject* temp = nullptr;
+	Entity* tempEntity = nullptr;
+	bool isEntity = false;
 	for (int row = linesinreverse.size() - 1; row >= 0; row--)
 	{
 		for (int col = 0; col < 256; col++)
@@ -44,6 +46,8 @@ bool GameLevelBase::loadMap(std::string file_path)
 			vel = Vector3(0, 0, 0);
 			
 			temp = nullptr;
+			tempEntity = nullptr;
+			isEntity = false;
 			switch (linesinreverse[row][col])
 			{
 			case ',':
@@ -69,7 +73,9 @@ bool GameLevelBase::loadMap(std::string file_path)
 				break;
 			case '4': // zombie
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				temp = PrototypeFactory::getObject(PrototypeFactory::ZOMBIE,pos,vel,scale);
+				tempEntity = PrototypeFactory::getObject(PrototypeFactory::ZOMBIE,pos,vel,scale);
+				temp = tempEntity;
+				isEntity = true;
 				break;
 				
 			case 'P':
@@ -84,7 +90,14 @@ bool GameLevelBase::loadMap(std::string file_path)
 			if ((col-commacounter) > highestcol)
 				highestcol = col - commacounter;
 			if (temp != nullptr)
+			{
 				map.push_back(temp);
+			}
+			else if (isEntity == true)
+			{
+				map.push_back(nullptr);
+				EntityList.push_back(tempEntity);
+			}	
 			else
 				break;
 		}
@@ -115,4 +128,9 @@ float GameLevelBase::getTileWidth()
 float GameLevelBase::getTileHeight()
 {
 	return TILEHEIGHT;
+}
+
+std::vector<Projectile*>* GameLevelBase::getProjectileList()
+{
+	return &projectileList;
 }

@@ -6,8 +6,6 @@
 
 struct GameObject
 {
-
-
 	enum GAMEOBJECT_TYPE
 	{
 		GO_NONE = 0,
@@ -37,6 +35,7 @@ struct GameObject
 		GO_DEMONBALL,
 		GO_PORTAL,
 		GO_BOMB,
+		GO_SPIDERPOISON,
 		GO_TURRETBULLET,
 
 		// TILES
@@ -78,7 +77,6 @@ struct GameObject
 
 	virtual void Response(GameObject*) = 0;
 	
-
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
 	~GameObject();

@@ -32,7 +32,7 @@ void SceneCollision::Init()
 	player->type = GameObject::GAMEOBJECT_TYPE::GO_PLAYER;
 //	player->pos.Set(80, 45, 0.1f);
 	player->vel.Set(1.f, 1.f, 0);
-	player->scale.Set(5.f,5.f,1);
+	player->scale.Set(4.5f,4.5f,1);
 	Math::InitRNG();
 	loadMap("Maps//SideScrollmap.csv");
 	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
@@ -43,7 +43,7 @@ void SceneCollision::Init()
 GameObject* SceneCollision::FetchGO()
 {
 	//Exercise 2a: implement FetchGO()
-	for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); it++)
+	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
 		if (go->active == false)
@@ -59,9 +59,9 @@ GameObject* SceneCollision::FetchGO()
 		//m_goList.push_back(new GameObject(GameObject::GO_BALL));
 	}
 	//Exercise 2b: increase object count every time an object is set to active
-	m_goList.back()->active = true;
+	map.back()->active = true;
 	m_objectCount++;
-	return m_goList.back();
+	return map.back();
 }
 
 void SceneCollision::ReturnGO(GameObject *go)
@@ -71,120 +71,16 @@ void SceneCollision::ReturnGO(GameObject *go)
 	m_objectCount--;
 }
 
-//void SceneCollision::MakePillar(float x, float y, float thickness, GameObject::GAMEOBJECT_TYPE type)
-//{
-//	GameObject* go = FetchGO();
-//	go->type = type;
-//	go->active = true;
-//	go->pos.Set(x, y, 0);
-//	go->scale.Set(thickness, thickness, thickness);
-//}
-//
-//void SceneCollision::MakeThinWall(float x, float y, float angleDeg, float thickness, float height)
-//{
-//	GameObject* go = FetchGO();
-//	go->type = GameObject::GO_NONELASTIC_WALL;
-//	go->active = true;
-//	go->pos.Set(x, y, 0);
-//	go->normal.Set(cosf(Math::DegreeToRadian(angleDeg)), sinf(Math::DegreeToRadian(angleDeg)), 0);
-//	go->scale.Set(thickness, height, 1.f);
-//
-//	MakePillar(
-//		go->pos.x - height * sinf(Math::DegreeToRadian(angleDeg)),
-//		go->pos.y + height * cosf(Math::DegreeToRadian(angleDeg)),
-//		thickness,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//
-//	MakePillar(
-//		go->pos.x + height * sinf(Math::DegreeToRadian(angleDeg)),
-//		go->pos.y - height * cosf(Math::DegreeToRadian(angleDeg)),
-//		thickness,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//}
-//
-//void SceneCollision::MakeThickWall(float x, float y, float angleDeg, float thickness, float height)
-//{
-//	angleDeg = Math::DegreeToRadian(angleDeg);
-//
-//	GameObject* go = FetchGO();
-//	go->type = GameObject::GO_NONELASTIC_WALL;
-//	go->active = true;
-//	go->pos.Set(x, y);
-//	go->normal.Set(cosf(angleDeg), sinf(angleDeg), 0);
-//	go->scale.Set(thickness, height, 1.f);
-//
-//	GameObject* go2 = FetchGO();
-//	go2->type = GameObject::GO_NONELASTIC_WALL;
-//	go2->active = true;
-//	go2->pos.Set(x, y);
-//	go2->normal.Set(sinf(-angleDeg), cosf(-angleDeg), 0);
-//	go2->scale.Set(height, thickness, 1.f);
-//
-//	MakePillar(x + (thickness - 0.0005f) * cosf(angleDeg) - (height + 0.0005f) * sinf(angleDeg),
-//		y + (height - 0.0005f) * cosf(angleDeg) + (thickness + 0.0005f) * sinf(angleDeg),
-//		0.1f,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//	MakePillar(x + (-thickness + 0.0005f) * cosf(angleDeg) - (height + 0.0005f) * sinf(angleDeg),
-//		y + (height - 0.0005f) * cosf(angleDeg) + (-thickness - 0.0005f) * sinf(angleDeg),
-//		0.1f,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//	MakePillar(x + (thickness - 0.0005f) * cosf(angleDeg) - (-height - 0.0005f) * sinf(angleDeg),
-//		y + (-height + 0.0005f) * cosf(angleDeg) + (thickness - 0.0005f) * sinf(angleDeg),
-//		0.1f,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//	MakePillar(x + (-thickness + 0.0005f) * cosf(angleDeg) - (-height + 0.0005f) * sinf(angleDeg),
-//		y + (-height + 0.0005f) * cosf(angleDeg) + (-thickness + 0.0005f) * sinf(angleDeg),
-//		0.1f,
-//		GameObject::GO_NONELASTIC_PILLAR);
-//}
-//
-//void SceneCollision::MakeFlipper(float x, float y,Vector3 pivotPos, float defaultAngle, float angleSpeed, float thickness, float height)
-//{
-//	GameObject* go = FetchGO();
-//	go->type = GameObject::GO_FLIPPER;
-//	go->pivot = pivotPos;
-//	go->scale.Set(thickness, height, thickness);
-//	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
-//	go->angularVelocity = angleSpeed;
-//	
-//	Vector3 PivToPos = Vector3(x, y, 0) - pivotPos;
-//	float angle = Math::DegreeToRadian(defaultAngle);
-//	go->pos.Set(
-//		x,
-//		y,
-//		0
-//	);
-//
-//	go = FetchGO();
-//	go->type = GameObject::GO_FLIPPER_PILLAR;
-//	go->pivot = pivotPos;
-//	go->scale.Set(thickness, thickness, thickness);
-//	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
-//	go->angularVelocity = angleSpeed;
-//	go->pos.Set(
-//		x + height * cos(angle),
-//		y + height * sin(angle),
-//		0
-//	);
-//
-//	go = FetchGO();
-//	go->type = GameObject::GO_FLIPPER_PILLAR;
-//	go->pivot = pivotPos;
-//	go->scale.Set(thickness, thickness, thickness);
-//	go->normal = Vector3(0, 1, 0).Rotate(defaultAngle);
-//	go->angularVelocity = angleSpeed;
-//	go->pos.Set(
-//		x + -height * cos(angle),
-//		y + -height * sin(angle),
-//		0
-//	);
-//}
-
 bool SceneCollision::Update(double dt)
 {
 	SceneBase::Update(dt);
 	camera.Update(dt,player);
 	player->Update(dt);
+
+	for (int i = 0; i < projectileList.size(); i++)
+	{
+		projectileList[i]->Update(dt);
+	}
 
 	if (Application::IsKeyPressed('9'))
 	{
@@ -253,6 +149,7 @@ bool SceneCollision::Update(double dt)
 		RButtonState = false;
 	}
 
+	player->vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 	//Physics Simulation Section
 	// Check for gameObjects within screen only
 	//Find how many tiles screen is away from left side
@@ -280,18 +177,18 @@ bool SceneCollision::Update(double dt)
 			int TileSpace = j * XTilesInWorld + i;
 			if (map[TileSpace] != nullptr)
 			{
-				if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt))
+				if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt, m_speed))
 				{
-					GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt);
+					GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt, m_speed);
 					cout << "Collided" << endl;
+					break;
 				}
 
 			}
 		}
 	}
 
-	player->Update(dt);
-
+	player->pos += player->vel * dt * m_speed;
 	return true;
 }
 
@@ -416,16 +313,24 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::GO_ARROW:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_MAGICBALL:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_MAGICBALL], false);
 		modelStack.PopMatrix();
 		break;
 
 	case GameObject::ROCK_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Rotate(Math::RadianToDegree((go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(0.7f, 0.7f, 0.7f), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -435,7 +340,7 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::SOIL_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Rotate(Math::RadianToDegree((go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(1.f, 0.4f, 0.4f), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -445,7 +350,7 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::GRASS_SOIL_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(0.7f, 1.f, 0.f), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -455,7 +360,7 @@ void SceneCollision::RenderGO(GameObject *go)
 	case GameObject::GRASS_SOIL_FLOWERS_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::DegreeToRadian(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(0.7f, 1.f, 0.f), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
@@ -504,19 +409,41 @@ void SceneCollision::Render()
 	}
 	RenderMesh(meshList[GEO_AXES], false);
 
-	for(std::vector<GameObject *>::iterator it = map.begin(); it != map.end(); ++it)
+	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
 	{
-		GameObject *go = (GameObject *)*it;
+		GameObject* go = (GameObject*)*it;
 		if (go == nullptr)
 			continue;
-		if(go->active)
+		if (go->active)
 		{
 			RenderGO(go);
 		}
 	}
 
+	for (std::vector<Entity*>::iterator it = EntityList.begin(); it != EntityList.end(); it++)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go == nullptr)
+			continue;
+		if (go->active)
+		{
+			RenderGO(go);
+		}
+	}
+
+	for (std::vector<Projectile*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go == nullptr)
+			continue;
+		if (go->active)
+		{
+			RenderGO(go);
+		}
+	}
 
 	RenderGO(player);
+
 	//On screen text
 	
 	std::ostringstream ss;
@@ -527,7 +454,7 @@ void SceneCollision::Render()
 	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 3);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3,40,40);
 	
 	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(0, 1, 0), 3, 0, 0);
 
@@ -537,24 +464,30 @@ void SceneCollision::Exit()
 {
 	SceneBase::Exit();
 	//Cleanup GameObjects
-	while(m_goList.size() > 0)
+	while(map.size() > 0)
 	{
-		GameObject *go = m_goList.back();
+		GameObject *go = map.back();
 		delete go;
-		m_goList.pop_back();
+		map.pop_back();
 	}
 
 	DestroyInstance();
 }
-
+/*
 void SceneCollision::ResetList(void)
 {
-	for (int i = 0; i < m_goList.size(); i++)
+	for (int i = 0; i < map.size(); i++)
 	{
-		if (m_goList[i]->active == true)
+		if (map[i]->active == true)
 		{
-			m_goList[i]->active = false;
+			map[i]->active = false;
 			m_objectCount--;
 		}
 	}
-}
+	for (int i = 0; i < EntityList.size(); i++)
+	{
+		delete EntityList[i];
+		EntityList[i] = nullptr;
+		EntityList.pop_back(i );
+	}
+}*/

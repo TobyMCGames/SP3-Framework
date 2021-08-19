@@ -3,6 +3,7 @@
 #include "KeyboardController.h"
 #include "GLFW/glfw3.h"
 #include "GameLevelManager.h"
+#include "ProjectileFactory.h"
 Player::Player()
 	: curWeapon(BOW)
 	, curItem(0)
@@ -18,7 +19,7 @@ Player::Player()
 	current_scene_worldheight = 90.f;
 	current_scene_worldwidth = current_scene_worldheight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
-	Default_Speed = 20;
+	Default_Speed = 15;
 	cKeyboardController = CKeyboardController::GetInstance();
 }
 
@@ -45,16 +46,8 @@ void Player::Update(double dt)
 	if (playerToMouseDir.x != 0 && playerToMouseDir.y != 0)
 	{
 		playerToMouseDir.Normalize();
-		normal = playerToMouseDir;
+		normal = playerToMouseDir.Normalized();
 	}
-	vel.y = 0;
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_W))
-	{
-		if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
-			vel.y = Default_Speed;
-	}
-
-
 
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -70,34 +63,31 @@ void Player::Update(double dt)
 		{
 		case BOW:
 			{
-				Projectile* arrow = new Arrow;
-				arrow->pos = pos;
-				arrow->normal = normal;
-				arrow->vel = 15;
-				arrow->scale.Set(1, 1, 1);
-				projectileVector.push_back(arrow);
+			Projectile* arrow =
+				ProjectileFactory::getObject
+				(ProjectileFactory::PROJECTILE_TYPES::PTYPE_ARROW, pos,normal*15, scale,normal);
+				//projectileVector.push_back(arrow);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
 			}
 		case STAFF:
 			{
-				Projectile* magicBall = new MagicBall;
-				magicBall->pos = pos;
-				magicBall->normal = normal;
-				magicBall->vel = 10;
-				magicBall->scale.Set(1, 1, 1);
-				projectileVector.push_back(magicBall);
+				Projectile* magicBall = 
+					ProjectileFactory::getObject
+					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_MAGICBALL, pos,normal*10, scale, normal);;
+				//projectileVector.push_back(magicBall);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 				cout << "Magic ball created" << endl;
 				break;
 			}
 		case PORTALGUN:
 			{
-				Projectile* portal = new Portal;
-				portal->pos = pos;
-				portal->normal = normal;
-				portal->vel = 15;
-				portal->scale.Set(1, 1, 1);
-				projectileVector.push_back(portal);
+				Projectile* portal = 
+					ProjectileFactory::getObject
+					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_PORTAL, pos,normal*5, scale, normal);
+				//projectileVector.push_back(portal);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 				cout << "portal created" << endl;
 				break;
 			}
@@ -105,34 +95,44 @@ void Player::Update(double dt)
 	}
 	FireWeapon = false;
 
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_S))
+
+	/*if (cKeyboardController->IsKeyPressed(GLFW_KEY_W))
+	{
+		if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
+			vel.y = Default_Speed;
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_S))
 	{
 		if (pos.y - Default_Speed * dt > scale.y / 2)
 			vel.y = -Default_Speed;
 	}
+	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_W) && !cKeyboardController->IsKeyPressed(GLFW_KEY_S))
+	{
+		vel.y = 0;
+	}*/
 
-	vel.x = 0;
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
 	{
 		if (pos.x - Default_Speed * dt > scale.x / 2)
 			vel.x = -Default_Speed;
 	}
 
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
 	{
-		if (pos.x + Default_Speed * dt < maxpoint.x - scale.x / 2)
+		if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
 			vel.x = Default_Speed;
 	}
+	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+	{
+		vel.x = 0;
+	}
 	
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
 	{
 		vel.y += JumpForce;
-		curLocation = Entity::IN_AIR;
+		curLocation = IN_AIR;
 
 	}
-
-	pos.x += vel.x * dt;
-	pos.y += vel.y * dt;
 
 	scrollsnap += Application::GetYScrollOffset();
 
@@ -170,6 +170,11 @@ void Player::Update(double dt)
 		//std::cout << "Invalid curItem in Player.cpp" << std::endl;
 		break;
 	}
+	if (curLocation == IN_AIR)
+	{
+		cout << "In air" << endl;
+	}
+	curLocation = IN_AIR;
 }
 
 void Player::Response(GameObject* go)
@@ -178,10 +183,8 @@ void Player::Response(GameObject* go)
 	{
 		if (vel.x == 0 && go->normal.x != 0)
 		{
-			/*if (vel.y > 0)
-				vel.y = 0;
-			else
-			curLocation = ON_GROUND;*/
+			if (vel.y == 0)
+				curLocation = ON_GROUND;
 		}
 	}
 }

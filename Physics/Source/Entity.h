@@ -1,5 +1,6 @@
 #ifndef ENTITY_H
 #define ENTITY_H
+#pragma once
 #include "GameObject.h"
 #include <vector>
 #include "Projectile.h"
@@ -25,12 +26,10 @@ protected:
 	STATES curState;
 	LOCATION curLocation;
 
-
 public:
 	Entity();
 	~Entity();
-
-	std::vector<Projectile*> projectileVector;
+	std::vector<Projectile*> getprojectileVector();
 	virtual void Update(double dt);
 	virtual void Response(GameObject* go);
 };

@@ -17,7 +17,8 @@ private:
 
 protected:
 	vector<GameObject*>map;
-	vector<GameObject*> m_goList;
+	vector<Entity*> EntityList;
+	vector<Projectile*> projectileList;
 	Player* player;
 	float m_worldWidth;
 	float m_worldHeight;
@@ -34,6 +35,7 @@ public:
 	float getworldHeight();
 	float getTileWidth();
 	float getTileHeight();
+	std::vector<Projectile*>* getProjectileList();
 };
 
 #endif

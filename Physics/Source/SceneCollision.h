@@ -23,7 +23,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	void ResetList(void);
+	//void ResetList(void);
 
 	void RenderGO(GameObject *go);
 

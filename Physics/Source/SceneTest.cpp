@@ -169,8 +169,8 @@ bool SceneTest::Update(double dt)
 						ball = go2;
 						other = go;
 					}
-					if (GamePhysics::GetInstance()->CheckCollision(ball, other, dt) == true) {
-						GamePhysics::GetInstance()->CheckCollisionResponse(ball, other, dt);
+					if (GamePhysics::GetInstance()->CheckCollision(ball, other, dt, m_speed) == true) {
+						GamePhysics::GetInstance()->CheckCollisionResponse(ball, other, dt, m_speed);
 					}
 				}
 			}

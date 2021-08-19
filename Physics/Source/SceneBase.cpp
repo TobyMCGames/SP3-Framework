@@ -10,6 +10,7 @@
 #include <sstream>
 
 SceneBase::SceneBase()
+	: cKeyboardController(NULL)
 {
 	for (int i = 0; i < 256; ++i) {
 		textWidth[i] = NULL;
@@ -22,6 +23,8 @@ SceneBase::~SceneBase()
 
 void SceneBase::Init()
 {
+	cKeyboardController = CKeyboardController::GetInstance();
+
 	FontLoader("Image//FontData.csv");
 	// Black background
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -172,7 +175,7 @@ void SceneBase::Init()
 	meshList[GEO_ARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
 	meshList[GEO_ARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow.tga");
 	meshList[GEO_MAGICBALL] = MeshBuilder::GenerateQuad("magicball", Color(1, 1, 1));
-	meshList[GEO_MAGICBALL]->textureID = LoadTGA("Image//PROJECTILES//magic_ball.tga");
+	meshList[GEO_MAGICBALL]->textureID = LoadTGA("Image//PROJECTILES//energy_ball.tga");
 	meshList[GEO_PORTAL] = MeshBuilder::GenerateQuad("portal", Color(1, 1, 1));
 	meshList[GEO_PORTAL]->textureID = LoadTGA("Image//PROJECTILES//portal.tga");
 	
