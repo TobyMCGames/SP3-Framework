@@ -291,7 +291,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 				}
 				for (int j = 0; j < cleanUpVector.size(); j++)
 				{
-					projectileList.erase(projectileList.begin() + cleanUpVector[j]);
+					projectileList.erase(projectileList.begin() + cleanUpVector[j] - j);
 				}
 				cleanUpVector.clear();
 			}
