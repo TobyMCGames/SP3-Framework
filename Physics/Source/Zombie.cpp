@@ -16,6 +16,7 @@ Zombie::~Zombie()
 void Zombie::Update(double dt, float m_speed)
 {
 	pos += vel * dt * m_speed;
+	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 	switch (currState)
 	{
 	case IDLE:
