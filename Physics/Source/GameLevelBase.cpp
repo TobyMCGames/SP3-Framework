@@ -7,6 +7,7 @@
 GameLevelBase::GameLevelBase()
 {
 	zOffset = 0;
+	m_speed = GAMESPEED;
 }
 
 GameLevelBase::~GameLevelBase()

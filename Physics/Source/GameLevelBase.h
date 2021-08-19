@@ -32,10 +32,12 @@ public:
 	virtual void Exit() = 0;
 	virtual void RenderPlayer();
 	bool loadMap(std::string file_path);
+	const float GAMESPEED = 2.7f;
 	float getworldWidth();
 	float getworldHeight();
 	float getTileWidth();
 	float getTileHeight();
+	float m_speed;
 	std::vector<AdvanceGO*>* getProjectileList();
 };
 
