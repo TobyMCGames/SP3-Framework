@@ -67,7 +67,6 @@ void Player::Update(double dt)
 			Projectile* arrow =
 				ProjectileFactory::getObject
 				(ProjectileFactory::PROJECTILE_TYPES::PTYPE_ARROW, pos,normal*15, scale,normal);
-				//projectileVector.push_back(arrow);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
@@ -76,8 +75,7 @@ void Player::Update(double dt)
 			{
 				Projectile* magicBall = 
 					ProjectileFactory::getObject
-					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_MAGICBALL, pos,normal*10, scale, normal);;
-				//projectileVector.push_back(magicBall);
+					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_MAGICBALL, pos,normal*10, scale, normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 				cout << "Magic ball created" << endl;
 				break;
@@ -87,7 +85,6 @@ void Player::Update(double dt)
 				Projectile* portal = 
 					ProjectileFactory::getObject
 					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_PORTAL, pos,normal*5, scale, normal);
-				//projectileVector.push_back(portal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 				cout << "portal created" << endl;
 				break;
@@ -97,6 +94,38 @@ void Player::Update(double dt)
 	FireWeapon = false;
 
 
+	
+
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+	{
+		vel.y += JumpForce;
+		curLocation = IN_AIR;
+
+	}
+
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) && cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+	{
+		vel.x = 0;
+	}
+
+	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+	{
+		if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
+			vel.x = Default_Speed;
+	}
+
+	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
+	{
+		if (pos.x - Default_Speed * dt > scale.x / 2)
+			vel.x = -Default_Speed;
+	}
+
+	
+	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+	{
+		vel.x = 0;
+	}
+	
 	/*if (cKeyboardController->IsKeyPressed(GLFW_KEY_W))
 	{
 		if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
@@ -111,29 +140,6 @@ void Player::Update(double dt)
 	{
 		vel.y = 0;
 	}*/
-
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
-	{
-		if (pos.x - Default_Speed * dt > scale.x / 2)
-			vel.x = -Default_Speed;
-	}
-
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-	{
-		if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
-			vel.x = Default_Speed;
-	}
-	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-	{
-		vel.x = 0;
-	}
-	
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
-	{
-		vel.y += JumpForce;
-		curLocation = IN_AIR;
-
-	}
 
 	scrollsnap += Application::GetYScrollOffset();
 
