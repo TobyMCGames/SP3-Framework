@@ -17,6 +17,7 @@ struct GameObject
 		GO_FLIPPER_PILLAR,
 
 		// MOBS
+		ENTITY_START,
 		GO_PLAYER,
 		GO_PLAYERCLONE,
 		GO_SKELEARCHER,
@@ -26,7 +27,7 @@ struct GameObject
 		GO_BOOMER,
 		GO_NYMPH,
 		GO_DEMONLORD,
-
+		ENTITY_END,
 		// PROJECTILES
 
 		GO_ARROW,

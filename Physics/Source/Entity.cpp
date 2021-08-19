@@ -13,8 +13,6 @@ Entity::~Entity()
 }
 
 
-
-
 void Entity::Update(double dt)
 {
 

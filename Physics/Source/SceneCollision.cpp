@@ -180,7 +180,7 @@ bool SceneCollision::Update(double dt)
 				if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt, m_speed))
 				{
 					GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt, m_speed);
-					cout << "Collided" << endl;
+					//cout << "Collided" << endl;
 					break;
 				}
 
@@ -379,6 +379,41 @@ void SceneCollision::RenderGO(GameObject *go)
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_ZOMBIE], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_SKELEARCHER:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_SKELETONARCHER], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_SPIDER:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_SPIDER], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_NYMPH:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_NYMPH], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_TURRET:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_TURRET], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_BOOMER:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_BOOMER], false);
 		modelStack.PopMatrix();
 		break;
 	}

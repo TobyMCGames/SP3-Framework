@@ -1,22 +1,28 @@
 #include "Zombie.h"
+#include "GameLevelManager.h"
 
 Zombie::Zombie()
 {
-	return;
+	Default_Speed = 15;
 }
 
 Zombie::~Zombie()
 {
-	return;
+	//return;
 }
 
 void Zombie::Update(double dt)
 {
-	return;
+	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
+		GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
+		pos.z);
+	if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
+		vel.x = Default_Speed;
+	cout << pos << endl;
 }
 
 void Zombie::Response(GameObject*)
 {
 	std::cout << "zombie response" << std::endl;
-	return;
+	//return;
 }

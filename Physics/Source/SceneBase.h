@@ -77,6 +77,12 @@ public:
 
 		// Enemy
 		GEO_ZOMBIE,
+		GEO_SKELETONARCHER,
+		GEO_SPIDER,
+		GEO_BOOMER,
+		GEO_NYMPH,
+		GEO_TURRET,
+		GEO_DEMONLORD,
 
 		//projectiles
 		GEO_ARROW,

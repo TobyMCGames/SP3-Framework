@@ -178,7 +178,7 @@ void Player::Update(double dt)
 	}
 	if (curLocation == IN_AIR)
 	{
-		cout << "In air" << endl;
+		//cout << "In air" << endl;
 	}
 	curLocation = IN_AIR;
 }
