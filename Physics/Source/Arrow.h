@@ -8,7 +8,7 @@ class Arrow : public Projectile
 public:
 	Arrow();
 	~Arrow();
-	virtual void Update(double dt, float GAMESPEED);
+	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
 };
 

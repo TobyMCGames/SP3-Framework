@@ -62,22 +62,23 @@ void Player::Update(double dt, float m_speed)
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
 		SlowTime = true;
+		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
 	}
-
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
 	{
 		SlowTime = false;
+		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
 	}
 
-	if (SlowTime)
+	/*if (SlowTime)
 	{
-		m_speed = 1.f;
+		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
 	}
 
 	if (!SlowTime)
 	{
-		m_speed = 2.7f;
-	}
+		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
+	}*/
 
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
