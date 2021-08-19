@@ -2,7 +2,7 @@
 
 TurretBullet::TurretBullet()
 {
-
+	speed = 10.f;
 }
 
 TurretBullet::~TurretBullet()

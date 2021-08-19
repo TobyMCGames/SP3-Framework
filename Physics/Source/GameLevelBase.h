@@ -17,8 +17,8 @@ private:
 
 protected:
 	vector<GameObject*>map;
-	vector<Entity*> EntityList;
-	vector<Projectile*> projectileList;
+	vector<AdvanceGO*> EntityList;
+	vector<AdvanceGO*> projectileList;
 	Player* player;
 	float m_worldWidth;
 	float m_worldHeight;
@@ -30,12 +30,13 @@ public:
 	virtual bool Update(double dt) = 0;
 	virtual void Render() = 0;
 	virtual void Exit() = 0;
+	virtual void RenderPlayer();
 	bool loadMap(std::string file_path);
 	float getworldWidth();
 	float getworldHeight();
 	float getTileWidth();
 	float getTileHeight();
-	std::vector<Projectile*>* getProjectileList();
+	std::vector<AdvanceGO*>* getProjectileList();
 };
 
 #endif

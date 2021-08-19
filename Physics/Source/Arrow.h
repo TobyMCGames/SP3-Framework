@@ -1,6 +1,6 @@
 #ifndef ARROW_H
 #define ARROW_H
-#pragma once
+
 #include "Projectile.h"
 
 class Arrow : public Projectile
@@ -10,6 +10,7 @@ public:
 	~Arrow();
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
+
 };
 
 #endif

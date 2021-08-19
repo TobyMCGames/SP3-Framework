@@ -3,6 +3,7 @@
 
 DemonBall::DemonBall()
 {
+	speed = 10.f;
 }
 
 DemonBall::~DemonBall()
@@ -11,8 +12,10 @@ DemonBall::~DemonBall()
 
 void DemonBall::Update(double dt, float m_speed)
 {
+	pos += vel * dt * m_speed;
 }
 
 void DemonBall::Response(GameObject* go)
 {
 }
+

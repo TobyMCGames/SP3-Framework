@@ -2,6 +2,7 @@
 
 Portal::Portal()
 {
+	speed = 10.f;
 }
 
 Portal::~Portal()

@@ -11,13 +11,3 @@ Entity::~Entity()
 {
 	// clean up later please 
 }
-
-
-void Entity::Update(double dt)
-{
-
-}
-
-void Entity::Response(GameObject*)
-{
-}

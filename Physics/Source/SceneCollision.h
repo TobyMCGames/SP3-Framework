@@ -24,10 +24,6 @@ public:
 	virtual void Exit();
 
 	//void ResetList(void);
-
-	void RenderGO(GameObject *go);
-
-
 	GameObject* FetchGO();
 	void ReturnGO(GameObject *go);
 
@@ -45,7 +41,6 @@ protected:
 
 	float m_speed;
 	int m_objectCount;
-
 };
 
 #endif

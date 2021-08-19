@@ -1,12 +1,12 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 #pragma once
-#include "GameObject.h"
+#include "AdvanceGO.h"
 #include <vector>
 #include "Projectile.h"
 #include "Prototype.h"
 
-class Entity : public GameObject, public Prototype<Entity>
+class Entity : public AdvanceGO
 {
 protected:
 	enum STATES
@@ -29,9 +29,8 @@ protected:
 public:
 	Entity();
 	~Entity();
-	std::vector<Projectile*> getprojectileVector();
-	virtual void Update(double dt);
-	virtual void Response(GameObject* go);
+	virtual void Update(double dt, float m_speed)=0;
+	virtual void Response(GameObject* go)=0;
 };
 #endif
 

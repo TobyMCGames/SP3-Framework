@@ -2,16 +2,51 @@
 #include <fstream>
 #include "Application.h"
 #include "TileFactory.h"
-#include "PrototypeFactory.h"
+#include "EntityFactory.h"
 
 GameLevelBase::GameLevelBase()
 {
-
+	zOffset = 0;
 }
 
 GameLevelBase::~GameLevelBase()
 {
 
+}
+
+void GameLevelBase::RenderPlayer()
+{
+	modelStack.PushMatrix();
+	{
+		modelStack.Translate(player->pos.x, player->pos.y, player->pos.z + zOffset);
+		modelStack.Scale(player->scale.x,player->scale.y,player->scale.z);
+		RenderMesh(meshList[GEO_PLAYER], false);
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(0, 0, 1);
+			if (player->normal.x >= 0)
+				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y,player->normal.x)), 0, 0, 1);
+			else
+			{
+				//if plan to flip player, remove this line below
+				modelStack.Rotate(180, 0, 1, 0);
+				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y, -player->normal.x)), 0, 0, 1);
+			}
+			modelStack.PushMatrix();
+			{
+				modelStack.Translate(0.5, 0, 0);
+				if (player->GetCurrentWeapon() == Player::BOW)
+					RenderMesh(meshList[GEO_BOW], false);
+				else if (player->GetCurrentWeapon() == Player::STAFF)
+					RenderMesh(meshList[GEO_STAFF], false);
+				else if (player->GetCurrentWeapon() == Player::PORTALGUN)
+					RenderMesh(meshList[GEO_PORTALGUN], false);
+			}
+			modelStack.PopMatrix();
+		}
+		modelStack.PopMatrix();
+	}
+	modelStack.PopMatrix();
 }
 
 bool GameLevelBase::loadMap(std::string file_path)
@@ -73,43 +108,43 @@ bool GameLevelBase::loadMap(std::string file_path)
 				break;
 			case '4': // zombie
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::ZOMBIE,pos,vel,scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '5': // Skeleton Archer
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::SKELE_ARCHER, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '6': // Spider
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::SPIDER, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '7': // Nymph
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::NYMPH, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '8': // Turret
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::TURRET, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::TURRET, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '9': // Boomer
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::BOOMER, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '10': // Demon Lord
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::DEMON_LORD, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
@@ -125,7 +160,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 			xOffset += TILEWIDTH;
 			if ((col-commacounter) > highestcol)
 				highestcol = col - commacounter;
-			if (temp != nullptr)
+			if (temp != nullptr && isEntity == false) 
 			{
 				map.push_back(temp);
 			}
@@ -166,7 +201,7 @@ float GameLevelBase::getTileHeight()
 	return TILEHEIGHT;
 }
 
-std::vector<Projectile*>* GameLevelBase::getProjectileList()
+std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
 {
 	return &projectileList;
 }

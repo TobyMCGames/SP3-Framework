@@ -10,12 +10,12 @@ DemonLord::~DemonLord()
 	return;
 }
 
-void DemonLord::Update(double dt)
+void DemonLord::Update(double dt,float m_speed)
 {
 	return;
 }
 
-void DemonLord::Response(GameObject*)
+void DemonLord::Response(GameObject* go) 
 {
 	std::cout << "Dlord response" << std::endl;
 	return;

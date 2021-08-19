@@ -22,6 +22,7 @@ Player::Player()
 
 	Default_Speed = 15;
 	cKeyboardController = CKeyboardController::GetInstance();
+	FireWeapon = false;
 	arrowSound = createIrrKlangDevice();
 }
 
@@ -30,10 +31,8 @@ Player::~Player()
 }
 
 
-void Player::Update(double dt)
+void Player::Update(double dt, float m_speed)
 {
-	Entity::Update(dt);
-
 	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
 								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
 								pos.z);
@@ -67,17 +66,18 @@ void Player::Update(double dt)
 			arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
 			Vector3 vel = playerToMouseDir * ArrowForce;
 			Projectile* arrow = 
-				ProjectileFactory::getObject
-				(ProjectileFactory::PROJECTILE_TYPES::PTYPE_ARROW, pos, vel, scale,normal);
+				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
+					pos + (normal*scale.x), normal, scale, normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
 			}
 		case STAFF:
 			{
-				Projectile* magicBall = 
-					ProjectileFactory::getObject
-					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_MAGICBALL, pos,normal*10, scale, normal);
+			Projectile* magicBall =
+				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
+					pos + (normal * scale.x), normal, scale, normal);
+
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 				cout << "Magic ball created" << endl;
 				break;
@@ -85,8 +85,8 @@ void Player::Update(double dt)
 		case PORTALGUN:
 			{
 				Projectile* portal = 
-					ProjectileFactory::getObject
-					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_PORTAL, pos,normal*5, scale, normal);
+					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
+						pos + (normal * scale.x), normal, scale, normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 				cout << "portal created" << endl;
 				break;
@@ -191,7 +191,9 @@ void Player::Response(GameObject* go)
 	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
 	{
 		if (vel.y == 0)
+		{
 			curLocation = ON_GROUND;
+		}
 	}
 }
 
