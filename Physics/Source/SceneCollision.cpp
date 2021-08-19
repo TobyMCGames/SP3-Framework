@@ -7,11 +7,12 @@
 
 SceneCollision::SceneCollision()
 {
-	std::cout << "Initialising" << std::endl;
+	std::cout << "Initialising SceneCollision" << std::endl;
 }
 
 SceneCollision::~SceneCollision()
 {
+
 }
 
 void SceneCollision::Init()
@@ -71,17 +72,17 @@ void SceneCollision::ReturnGO(GameObject *go)
 bool SceneCollision::Update(double dt)
 {
 	SceneBase::Update(dt);
-	camera.Update(dt,player);
-	player->Update(dt,m_speed);
+	camera.Update(dt, player);
+	player->Update(dt, GAMESPEED);
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
-		projectileList[i]->Update(dt, m_speed);
+		projectileList[i]->Update(dt, GAMESPEED);
 	}
 	
 	for (int i = 0; i < EntityList.size(); i++)
 	{
-		EntityList[i]->Update(dt,m_speed);
+		EntityList[i]->Update(dt, GAMESPEED);
 	}
 
 	if (Application::IsKeyPressed('9'))
@@ -151,7 +152,7 @@ bool SceneCollision::Update(double dt)
 		RButtonState = false;
 	}
 
-	player->vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
+	player->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
 	//Physics Simulation Section
 	// Check for gameObjects within screen only
 	//Find how many tiles screen is away from left side
@@ -179,9 +180,9 @@ bool SceneCollision::Update(double dt)
 			int TileSpace = j * XTilesInWorld + i;
 			if (map[TileSpace] != nullptr)
 			{
-				if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt, m_speed))
+				if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt, GAMESPEED))
 				{
-					GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt, m_speed);
+					GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt, GAMESPEED);
 					//cout << "Collided" << endl;
 					break;
 				}
@@ -190,7 +191,7 @@ bool SceneCollision::Update(double dt)
 		}
 	}
 
-	player->pos += player->vel * dt * m_speed;
+	player->pos += player->vel * dt * GAMESPEED;
 	return true;
 }
 

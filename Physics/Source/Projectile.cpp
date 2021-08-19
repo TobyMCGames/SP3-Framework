@@ -9,8 +9,6 @@ Projectile::~Projectile()
 
 }
 
-
-
 float Projectile::getProjectileSpeed()
 {
 	return speed;
