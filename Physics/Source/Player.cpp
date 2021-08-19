@@ -105,13 +105,18 @@ void Player::Update(double dt)
 
 	}
 
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) && cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+	{
+		vel.x = 0;
+	}
+
+	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
 	{
 		if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
 			vel.x = Default_Speed;
 	}
 
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
+	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
 	{
 		if (pos.x - Default_Speed * dt > scale.x / 2)
 			vel.x = -Default_Speed;
