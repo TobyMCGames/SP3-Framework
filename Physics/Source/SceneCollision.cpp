@@ -312,21 +312,28 @@ void SceneCollision::RenderGO(GameObject *go)
 
 	case GameObject::GO_ARROW:
 		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z - 0.1);
 		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_CUBE], false);
+		RenderMesh(meshList[GEO_ARROW], false);
 		modelStack.PopMatrix();
 		break;
 	case GameObject::GO_MAGICBALL:
 		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z - 0.1);
 		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_MAGICBALL], false);
 		modelStack.PopMatrix();
 		break;
-
+	case GameObject::GO_PORTAL:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z - 0.1);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_PORTAL], false);
+		modelStack.PopMatrix();
+		break;
 	case GameObject::ROCK_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);

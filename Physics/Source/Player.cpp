@@ -66,7 +66,6 @@ void Player::Update(double dt)
 			Projectile* arrow =
 				ProjectileFactory::getObject
 				(ProjectileFactory::PROJECTILE_TYPES::PTYPE_ARROW, pos,normal*15, scale,normal);
-				//projectileVector.push_back(arrow);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
@@ -75,8 +74,7 @@ void Player::Update(double dt)
 			{
 				Projectile* magicBall = 
 					ProjectileFactory::getObject
-					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_MAGICBALL, pos,normal*10, scale, normal);;
-				//projectileVector.push_back(magicBall);
+					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_MAGICBALL, pos,normal*10, scale, normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 				cout << "Magic ball created" << endl;
 				break;
@@ -86,7 +84,6 @@ void Player::Update(double dt)
 				Projectile* portal = 
 					ProjectileFactory::getObject
 					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_PORTAL, pos,normal*5, scale, normal);
-				//projectileVector.push_back(portal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 				cout << "portal created" << endl;
 				break;
