@@ -10,7 +10,7 @@ SpiderPoison::~SpiderPoison()
 
 }
 
-void SpiderPoison::Update(double dt)
+void SpiderPoison::Update(double dt, float m_speed)
 {
 
 }

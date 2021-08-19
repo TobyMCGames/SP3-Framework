@@ -11,7 +11,7 @@ MagicBall::~MagicBall()
 
 }
 
-void MagicBall::Update(double dt)
+void MagicBall::Update(double dt, float m_speed)
 {
 	pos += vel * dt;
 

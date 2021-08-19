@@ -8,7 +8,7 @@ Bomb::~Bomb()
 {
 }
 
-void Bomb::Update(double dt)
+void Bomb::Update(double dt, float m_speed)
 {
 }
 

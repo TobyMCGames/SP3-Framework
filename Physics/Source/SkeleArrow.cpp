@@ -9,7 +9,7 @@ SkeleArrow::~SkeleArrow()
 {
 }
 
-void SkeleArrow::Update(double dt)
+void SkeleArrow::Update(double dt, float m_speed)
 {
 }
 

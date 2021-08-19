@@ -8,7 +8,7 @@ class MagicBall : public Projectile
 public:
 	MagicBall();
 	~MagicBall();
-	virtual void Update(double dt);
+	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
 };
 

@@ -59,14 +59,14 @@ void Player::Update(double dt)
 	{
 		bLButtonState = false;
 		FireWeapon = true;
-
 		switch (curWeapon)
 		{
 		case BOW:
 			{
-			Projectile* arrow =
+			Vector3 vel = playerToMouseDir * ArrowForce;
+			Projectile* arrow = 
 				ProjectileFactory::getObject
-				(ProjectileFactory::PROJECTILE_TYPES::PTYPE_ARROW, pos,normal*15, scale,normal);
+				(ProjectileFactory::PROJECTILE_TYPES::PTYPE_ARROW, pos, vel, scale,normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
