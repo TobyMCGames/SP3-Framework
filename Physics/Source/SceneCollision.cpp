@@ -37,7 +37,6 @@ void SceneCollision::Init()
 	loadMap("Maps//SideScrollmap.csv");
 	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
 	//Exercise 1: initialize m_objectCount
-	
 }
 
 GameObject* SceneCollision::FetchGO()
@@ -80,6 +79,11 @@ bool SceneCollision::Update(double dt)
 	for (int i = 0; i < projectileList.size(); i++)
 	{
 		projectileList[i]->Update(dt);
+	}
+	
+	for (int i = 0; i < EntityList.size(); i++)
+	{
+		EntityList[i]->Update(dt);
 	}
 
 	if (Application::IsKeyPressed('9'))
@@ -180,7 +184,7 @@ bool SceneCollision::Update(double dt)
 				if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt, m_speed))
 				{
 					GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt, m_speed);
-					cout << "Collided" << endl;
+					//cout << "Collided" << endl;
 					break;
 				}
 
@@ -192,190 +196,6 @@ bool SceneCollision::Update(double dt)
 	return true;
 }
 
-
-void SceneCollision::RenderGO(GameObject *go)
-{
-	switch(go->type)
-	{
-	case GameObject::GO_BALL:
-		//Exercise 4: render a sphere using scale and pos
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_BALL, Color(1.f, 1.f, 1.f), 1.f, 0.6f, 0.3f, 1.f);
-			RenderMesh(meshList[SceneBase::GEO_BALL], true);
-		}
-		modelStack.PopMatrix();
-		//Exercise 11: think of a way to give balls different colors
-		break;
-	case GameObject::GO_WALL:
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1.f, 0.f, 0.5f), 1.f, 0.6f, 0.3f, 1.f);
-			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
-		}
-		modelStack.PopMatrix();
-		break;
-	case GameObject::GO_PILLAR:
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1.f, 0.f, 0.5f), 1.f, 0.6f, 0.3f, 1.f);
-			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
-		}
-		modelStack.PopMatrix();
-		break;
-	case GameObject::GO_FLIPPER:
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1.f, 0.5f, 0.05f), 1.f, 0.6f, 0.3f, 1.f);
-			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
-		}
-		modelStack.PopMatrix();
-		break;
-	case GameObject::GO_FLIPPER_PILLAR:
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1.f, 0.5f, 0.05f), 1.f, 0.6f, 0.3f, 1.f);
-			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
-		}
-		modelStack.PopMatrix();
-		break;
-
-	case GameObject::STONE_BRICK_TILE:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_STONEBRICK], false);
-		modelStack.PopMatrix();
-		break;
-
-
-	case GameObject::BRICK_TILE:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_BRICK], false);
-		modelStack.PopMatrix();
-		break;
-	case GameObject::SPIKE_TILE:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_SPIKE], false);
-		modelStack.PopMatrix();
-		break;
-
-	case GameObject::GO_PLAYER:
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-			RenderMesh(meshList[GEO_PLAYER], false);
-			modelStack.PushMatrix();
-			{
-				modelStack.Translate(0, 0, 1);
-				if(go->normal.x >= 0)
-					modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-				else
-				{
-					//if plan to flip player, remove this line below
-					modelStack.Rotate(180, 0, 1, 0);
-					modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, -go->normal.x)), 0, 0, 1);
-				}
-				modelStack.PushMatrix();
-				{
-					modelStack.Translate(0.5, 0, 0); 
-					if(player->GetCurrentWeapon() == Player::BOW)
-						RenderMesh(meshList[GEO_BOW], false);
-					else if (player->GetCurrentWeapon() == Player::STAFF)
-						RenderMesh(meshList[GEO_STAFF], false);
-					else if(player->GetCurrentWeapon() == Player::PORTALGUN)
-						RenderMesh(meshList[GEO_PORTALGUN], false);
-				}
-				modelStack.PopMatrix();
-			}
-			modelStack.PopMatrix();
-		}
-		modelStack.PopMatrix();
-		break;
-
-	case GameObject::GO_ARROW:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_CUBE], false);
-		modelStack.PopMatrix();
-		break;
-	case GameObject::GO_MAGICBALL:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_MAGICBALL], false);
-		modelStack.PopMatrix();
-		break;
-
-	case GameObject::ROCK_TILE:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::RadianToDegree((go->normal.y, go->normal.x)), 0, 0, 1);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		ChangeMat(GEO_CUBE, Color(0.7f, 0.7f, 0.7f), 1.f, 0.6f, 0.3f, 1.f);
-		RenderMesh(meshList[GEO_CUBE], false);
-		modelStack.PopMatrix();
-		break;
-
-	case GameObject::SOIL_TILE:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::RadianToDegree((go->normal.y, go->normal.x)), 0, 0, 1);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		ChangeMat(GEO_CUBE, Color(1.f, 0.4f, 0.4f), 1.f, 0.6f, 0.3f, 1.f);
-		RenderMesh(meshList[GEO_CUBE], false);
-		modelStack.PopMatrix();
-		break;
-
-	case GameObject::GRASS_SOIL_TILE:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		ChangeMat(GEO_CUBE, Color(0.7f, 1.f, 0.f), 1.f, 0.6f, 0.3f, 1.f);
-		RenderMesh(meshList[GEO_CUBE], false);
-		modelStack.PopMatrix();
-		break;
-
-	case GameObject::GRASS_SOIL_FLOWERS_TILE:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		ChangeMat(GEO_CUBE, Color(0.7f, 1.f, 0.f), 1.f, 0.6f, 0.3f, 1.f);
-		RenderMesh(meshList[GEO_CUBE], false);
-		modelStack.PopMatrix();
-		break;
-
-	case GameObject::GO_ZOMBIE:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_ZOMBIE], false);
-		modelStack.PopMatrix();
-		break;
-	}
-}
 
 void SceneCollision::Render()
 {
@@ -408,7 +228,7 @@ void SceneCollision::Render()
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
 	}
 	RenderMesh(meshList[GEO_AXES], false);
-
+	zOffset = 0;
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
@@ -430,6 +250,7 @@ void SceneCollision::Render()
 			RenderGO(go);
 		}
 	}
+	RenderPlayer();
 
 	for (std::vector<Projectile*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
 	{
@@ -442,7 +263,7 @@ void SceneCollision::Render()
 		}
 	}
 
-	RenderGO(player);
+	
 
 	//On screen text
 	

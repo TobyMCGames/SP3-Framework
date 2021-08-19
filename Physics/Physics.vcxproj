@@ -183,7 +183,6 @@
     <ClCompile Include="Source\SceneGame.cpp" />
     <ClCompile Include="Source\SceneCredits.cpp" />
     <ClCompile Include="Source\SceneHTP.cpp" />
-    <ClCompile Include="Source\SceneTest.cpp" />
     <ClCompile Include="Source\SceneTitle.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\SkeleArrow.cpp" />
@@ -233,7 +232,6 @@
     <ClInclude Include="Source\SceneHTP.h" />
     <ClInclude Include="Source\SceneGame.h" />
     <ClInclude Include="Source\SceneGUI.h" />
-    <ClInclude Include="Source\SceneTest.h" />
     <ClInclude Include="Source\SceneTitle.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\SingletonPattern.h" />

@@ -5,11 +5,14 @@
 
 class DemonBall : public Projectile
 {
+private:
+
 public:
 	DemonBall();
 	~DemonBall();
 	virtual void Update(double dt);
 	virtual void Response(GameObject* go);
+
 };
 
 #endif

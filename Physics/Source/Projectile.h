@@ -6,12 +6,13 @@
 class Projectile : public GameObject, public Prototype<Projectile>
 {
 protected:
-
+	float speed;
 public:
 	Projectile();
 	~Projectile();
 	virtual void Update(double dt);
 	virtual void Response(GameObject* go);
+	float getProjectileSpeed();
 };
 
 #endif

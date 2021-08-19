@@ -30,6 +30,7 @@ public:
 	virtual bool Update(double dt) = 0;
 	virtual void Render() = 0;
 	virtual void Exit() = 0;
+	virtual void RenderPlayer();
 	bool loadMap(std::string file_path);
 	float getworldWidth();
 	float getworldHeight();

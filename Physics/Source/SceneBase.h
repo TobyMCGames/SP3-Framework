@@ -123,6 +123,7 @@ protected:
 	bool bLightEnabled;
 
 	float fps;
+	float zOffset;
 };
 
 #endif

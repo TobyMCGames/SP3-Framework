@@ -24,7 +24,7 @@ SceneBase::~SceneBase()
 void SceneBase::Init()
 {
 	cKeyboardController = CKeyboardController::GetInstance();
-
+	zOffset = 0.f;
 	FontLoader("Image//FontData.csv");
 	// Black background
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -331,6 +331,157 @@ void SceneBase::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, fl
 	viewStack.PopMatrix();
 	modelStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST);
+}
+
+void SceneBase::RenderGO(GameObject* go)
+{
+	switch (go->type)
+	{
+	case GameObject::GO_BALL:
+		//Exercise 4: render a sphere using scale and pos
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z+zOffset);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			SceneBase::ChangeMat(SceneBase::GEO_BALL, Color(1.f, 1.f, 1.f), 1.f, 0.6f, 0.3f, 1.f);
+			RenderMesh(meshList[SceneBase::GEO_BALL], true);
+		}
+		modelStack.PopMatrix();
+		//Exercise 11: think of a way to give balls different colors
+		break;
+	case GameObject::GO_WALL:
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1.f, 0.f, 0.5f), 1.f, 0.6f, 0.3f, 1.f);
+			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
+		}
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_PILLAR:
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1.f, 0.f, 0.5f), 1.f, 0.6f, 0.3f, 1.f);
+			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
+		}
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_FLIPPER:
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+			modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			SceneBase::ChangeMat(SceneBase::GEO_CUBE, Color(1.f, 0.5f, 0.05f), 1.f, 0.6f, 0.3f, 1.f);
+			RenderMesh(meshList[SceneBase::GEO_CUBE], true);
+		}
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_FLIPPER_PILLAR:
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			SceneBase::ChangeMat(SceneBase::GEO_CYLINDER, Color(1.f, 0.5f, 0.05f), 1.f, 0.6f, 0.3f, 1.f);
+			RenderMesh(meshList[SceneBase::GEO_CYLINDER], true);
+		}
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::STONE_BRICK_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_STONEBRICK], false);
+		modelStack.PopMatrix();
+		break;
+
+
+	case GameObject::BRICK_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_BRICK], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::SPIKE_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_SPIKE], false);
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::GO_ARROW:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_MAGICBALL:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_MAGICBALL], false);
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::ROCK_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Rotate(Math::RadianToDegree((go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		ChangeMat(GEO_CUBE, Color(0.7f, 0.7f, 0.7f), 1.f, 0.6f, 0.3f, 1.f);
+		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::SOIL_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Rotate(Math::RadianToDegree((go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		ChangeMat(GEO_CUBE, Color(1.f, 0.4f, 0.4f), 1.f, 0.6f, 0.3f, 1.f);
+		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::GRASS_SOIL_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		ChangeMat(GEO_CUBE, Color(0.7f, 1.f, 0.f), 1.f, 0.6f, 0.3f, 1.f);
+		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::GRASS_SOIL_FLOWERS_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		ChangeMat(GEO_CUBE, Color(0.7f, 1.f, 0.f), 1.f, 0.6f, 0.3f, 1.f);
+		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::GO_ZOMBIE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_ZOMBIE], false);
+		modelStack.PopMatrix();
+		break;
+	}
+	zOffset += 0.001f;
 }
 
 void SceneBase::ChangeMat(int idx, Color color, float ambient, float diffuse, float specular, float Shiny)

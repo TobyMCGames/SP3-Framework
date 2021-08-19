@@ -10,6 +10,7 @@ public:
 	~Arrow();
 	virtual void Update(double dt);
 	virtual void Response(GameObject* go);
+
 };
 
 #endif

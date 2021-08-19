@@ -5,7 +5,7 @@
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
 Player::Player()
-	: curWeapon(BOW)
+	: curWeapon(STAFF)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
@@ -21,6 +21,7 @@ Player::Player()
 
 	Default_Speed = 15;
 	cKeyboardController = CKeyboardController::GetInstance();
+	FireWeapon = false;
 }
 
 Player::~Player()
@@ -65,7 +66,7 @@ void Player::Update(double dt)
 			{
 			Projectile* arrow =
 				ProjectileFactory::getObject
-				(ProjectileFactory::PROJECTILE_TYPES::PTYPE_ARROW, pos,normal*15, scale,normal);
+				(ProjectileFactory::PROJECTILE_TYPES::PTYPE_ARROW, pos+(scale.x *normal),normal, scale,normal);
 				//projectileVector.push_back(arrow);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
@@ -75,7 +76,7 @@ void Player::Update(double dt)
 			{
 				Projectile* magicBall = 
 					ProjectileFactory::getObject
-					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_MAGICBALL, pos,normal*10, scale, normal);;
+					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_MAGICBALL, pos + (scale.x * normal),normal, scale, normal);;
 				//projectileVector.push_back(magicBall);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 				cout << "Magic ball created" << endl;
@@ -85,7 +86,7 @@ void Player::Update(double dt)
 			{
 				Projectile* portal = 
 					ProjectileFactory::getObject
-					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_PORTAL, pos,normal*5, scale, normal);
+					(ProjectileFactory::PROJECTILE_TYPES::PTYPE_PORTAL, pos + (scale.x * normal),normal,scale,normal);
 				//projectileVector.push_back(portal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 				cout << "portal created" << endl;

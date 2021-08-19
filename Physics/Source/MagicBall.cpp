@@ -3,7 +3,7 @@
 
 MagicBall::MagicBall()
 {
-
+	speed = 5.f;
 }
 
 MagicBall::~MagicBall()
@@ -21,3 +21,5 @@ void MagicBall::Response(GameObject* go)
 {
 
 }
+
+

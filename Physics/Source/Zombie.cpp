@@ -12,6 +12,7 @@ Zombie::~Zombie()
 
 void Zombie::Update(double dt)
 {
+	std::cout << "i am zombie" << std::endl;
 	return;
 }
 

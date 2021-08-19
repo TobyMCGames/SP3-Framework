@@ -6,12 +6,47 @@
 
 GameLevelBase::GameLevelBase()
 {
-
+	zOffset = 0;
 }
 
 GameLevelBase::~GameLevelBase()
 {
 
+}
+
+void GameLevelBase::RenderPlayer()
+{
+	modelStack.PushMatrix();
+	{
+		modelStack.Translate(player->pos.x, player->pos.y, player->pos.z + zOffset);
+		modelStack.Scale(player->scale.x,player->scale.y,player->scale.z);
+		RenderMesh(meshList[GEO_PLAYER], false);
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(0, 0, 1);
+			if (player->normal.x >= 0)
+				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y,player->normal.x)), 0, 0, 1);
+			else
+			{
+				//if plan to flip player, remove this line below
+				modelStack.Rotate(180, 0, 1, 0);
+				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y, -player->normal.x)), 0, 0, 1);
+			}
+			modelStack.PushMatrix();
+			{
+				modelStack.Translate(0.5, 0, 0);
+				if (player->GetCurrentWeapon() == Player::BOW)
+					RenderMesh(meshList[GEO_BOW], false);
+				else if (player->GetCurrentWeapon() == Player::STAFF)
+					RenderMesh(meshList[GEO_STAFF], false);
+				else if (player->GetCurrentWeapon() == Player::PORTALGUN)
+					RenderMesh(meshList[GEO_PORTALGUN], false);
+			}
+			modelStack.PopMatrix();
+		}
+		modelStack.PopMatrix();
+	}
+	modelStack.PopMatrix();
 }
 
 bool GameLevelBase::loadMap(std::string file_path)

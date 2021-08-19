@@ -40,7 +40,7 @@ Projectile* ProjectileFactory::getObject(int choice,Vector3 pos,Vector3 vel,Vect
 	Projectile* newProjectile = Prototypes[choice]->clone();
 	newProjectile->pos = pos;
 	newProjectile->scale = scale;
-	newProjectile->vel = vel;
+	newProjectile->vel = vel * newProjectile->getProjectileSpeed();
 	newProjectile->active = true;
 	newProjectile->normal = normal;
 	switch (choice)

@@ -29,7 +29,6 @@ protected:
 public:
 	Entity();
 	~Entity();
-	std::vector<Projectile*> getprojectileVector();
 	virtual void Update(double dt);
 	virtual void Response(GameObject* go);
 };

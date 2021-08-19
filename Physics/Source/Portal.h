@@ -4,9 +4,11 @@
 #include "Projectile.h"
 class Portal : public Projectile
 {
+private:
 public:
 	virtual void Update(double dt);
-	virtual void Response(GameObject*);
+	virtual void Response(GameObject* go);
+
 	Portal();
 	~Portal();
 };

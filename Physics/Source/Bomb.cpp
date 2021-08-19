@@ -2,6 +2,7 @@
 
 Bomb::Bomb()
 {
+	speed = 10.f;
 }
 
 Bomb::~Bomb()
