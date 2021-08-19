@@ -24,6 +24,10 @@ Player::Player()
 	cKeyboardController = CKeyboardController::GetInstance();
 	FireWeapon = false;
 
+	// Slow down time mechanic
+	TimeSpeed = 1.f;
+	SlowTime = false;
+
 	//SOUNDS
 	arrowSound = createIrrKlangDevice();
 	magicballSound = createIrrKlangDevice();

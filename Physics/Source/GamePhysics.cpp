@@ -241,7 +241,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			}
 		}
 	}
-	else if (go1->type == GameObject::GO_PLAYER && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
+	else if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END) && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
 	{
 		Vector3 go1NewPos = go1->pos + go1->vel * dt * m_speed;
 		//Vector3 go2NewPos = go2->pos + go2->vel * dt;
@@ -251,9 +251,9 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 		Vector3 Newbot_R = go1NewPos + Vector3(go1->scale.x / 2, -go1->scale.y / 2, 0);
 		// If Move Down collides
 		Check_Corner.Set(go1->pos.x + go1->scale.x / 2, Newbot_R.y, 0);
-		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) < go2->scale.x / 2)
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
 		{
-			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) < go2->scale.y / 2)
+			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				go1->vel.y *= -0.05;
 				if (go1->vel.y < 0.1)
@@ -265,9 +265,9 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 		}
 		// If Move right collides
 		Check_Corner.Set(Newbot_R.x, go1->pos.y - go1->scale.y / 2, 0);
-		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) < go2->scale.x / 2)
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
 		{
-			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) < go2->scale.y / 2)
+			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				go1->vel.x *= -0.1;
 				if (go1->vel.x < 0.1)
@@ -282,9 +282,9 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 		Vector3 Newbot_L = go1NewPos + Vector3(-go1->scale.x / 2, -go1->scale.y / 2, 0);
 		// If Move Down collides
 		Check_Corner.Set(go1->pos.x - go1->scale.x / 2, Newbot_L.y, 0);
-		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) < go2->scale.x / 2)
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
 		{
-			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) < go2->scale.y / 2)
+			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				go1->vel.y *= -0.05;
 				if (go1->vel.y < 0.1)
@@ -296,9 +296,9 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 		}
 		// If Move Left collides
 		Check_Corner.Set(Newbot_L.x, go1->pos.y - go1->scale.y / 2, 0);
-		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) < go2->scale.x / 2)
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
 		{
-			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) < go2->scale.y / 2)
+			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				go1->vel.x *= -0.1;
 				if (go1->vel.x > -0.1)
@@ -313,9 +313,9 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 		Vector3 Newtop_R = go1NewPos + Vector3(go1->scale.x / 2, go1->scale.y / 2, 0);
 		// If Move right collides
 		Check_Corner.Set(Newtop_R.x, go1->pos.y + go1->scale.y / 2, 0);
-		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) < go2->scale.x / 2)
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
 		{
-			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) < go2->scale.y / 2)
+			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				go1->vel.x *= -0.1;
 				if (go1->vel.x < 0.1)
@@ -327,9 +327,9 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 		}
 		// If Move Up collides
 		Check_Corner.Set(go1->pos.x + go1->scale.x / 2, Newtop_R.y, 0);
-		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) < go2->scale.x / 2)
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
 		{
-			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) < go2->scale.y / 2)
+			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				go1->vel.y *= 0.1;
 				return true;
@@ -340,9 +340,9 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 		Vector3 Newtop_L = go1NewPos + Vector3(-go1->scale.x / 2, go1->scale.y / 2, 0);
 		// If Move Left collides
 		Check_Corner.Set(Newtop_L.x, go1->pos.y + go1->scale.y / 2, 0);
-		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) < go2->scale.x / 2)
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
 		{
-			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) < go2->scale.y / 2)
+			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				go1->vel.x *= -0.1;
 				if (go1->vel.x > -0.1)
@@ -354,9 +354,9 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 		}
 		// If Move Up collides
 		Check_Corner.Set(go1->pos.x - go1->scale.x / 2, Newtop_L.y, 0);
-		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) < go2->scale.x / 2)
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
 		{
-			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) < go2->scale.y / 2)
+			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				go1->vel.y *= 0.1;
 				return true;
@@ -435,7 +435,7 @@ void GamePhysics::CheckCollisionResponse(GameObject* go1, GameObject* go2, doubl
 		go1->vel -= 2 * difSpeed.Dot(CollisionNormal) * CollisionNormal;
 
 	}
-	else if (go1->type == GameObject::GO_PLAYER && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
+	else if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END) && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
 	{
 		go1->Response(go2);
 	}

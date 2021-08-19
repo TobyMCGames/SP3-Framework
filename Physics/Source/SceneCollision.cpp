@@ -23,8 +23,6 @@ void SceneCollision::Init()
 	//m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
 	//Physics code here
-	m_speed = 2.7f;
-
 	m_objectCount = 0;
 
 	//Player Here
@@ -157,41 +155,41 @@ bool SceneCollision::Update(double dt)
 	//Physics Simulation Section
 	// Check for gameObjects within screen only
 	//Find how many tiles screen is away from left side
-	int XnumTiles = (camera.position.x - fmod(camera.position.x, getTileWidth())) / getTileWidth();
-	int XTilesInScr;
-	if (fmod(camera.position.x, getTileWidth()) > 0)
-		XTilesInScr = 33;
-	else
-		XTilesInScr = 32;
+	//int XnumTiles = (camera.position.x - fmod(camera.position.x, getTileWidth())) / getTileWidth();
+	//int XTilesInScr;
+	//if (fmod(camera.position.x, getTileWidth()) > 0)
+	//	XTilesInScr = 33;
+	//else
+	//	XTilesInScr = 32;
 
-	int YnumTiles = (camera.position.y - fmod(camera.position.y, getTileHeight())) / getTileHeight();
-	int YTilesInScr;
-	if (fmod(camera.position.y, getTileHeight()) > 0)
-		YTilesInScr = 19;
-	else
-		YTilesInScr = 18;
+	//int YnumTiles = (camera.position.y - fmod(camera.position.y, getTileHeight())) / getTileHeight();
+	//int YTilesInScr;
+	//if (fmod(camera.position.y, getTileHeight()) > 0)
+	//	YTilesInScr = 19;
+	//else
+	//	YTilesInScr = 18;
 
 
-	int XTilesInWorld = getworldWidth() / getTileWidth();
-	int YTilesInWorld = getworldHeight() / getTileHeight();
-	for (int i = XnumTiles; i < XnumTiles + XTilesInScr; i++)
-	{
-		for (int j = YnumTiles; j < YnumTiles + YTilesInScr; j++)
-		{
-			int TileSpace = j * XTilesInWorld + i;
-			if (map[TileSpace] != nullptr)
-			{
-				if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt, m_speed))
-				{
-					GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt, m_speed);
-					//cout << "Collided" << endl;
-					break;
-				}
+	//int XTilesInWorld = getworldWidth() / getTileWidth();
+	//int YTilesInWorld = getworldHeight() / getTileHeight();
+	//for (int i = XnumTiles; i < XnumTiles + XTilesInScr; i++)
+	//{
+	//	for (int j = YnumTiles; j < YnumTiles + YTilesInScr; j++)
+	//	{
+	//		int TileSpace = j * XTilesInWorld + i;
+	//		if (map[TileSpace] != nullptr)
+	//		{
+	//			if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt, m_speed))
+	//			{
+	//				GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt, m_speed);
+	//				//cout << "Collided" << endl;
+	//				break;
+	//			}
 
-			}
-		}
-	}
-
+	//		}
+	//	}
+	//}
+	CollisionChecks(dt, m_speed);
 	player->pos += player->vel * dt * m_speed;
 	return true;
 }

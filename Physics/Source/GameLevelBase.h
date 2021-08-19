@@ -15,6 +15,9 @@ private:
 	const float TILEWIDTH = 5;
 	const float TILEHEIGHT = 5;
 
+	const int YTILE_SCREEN = 18;
+	const int XTILE_SCREEN = 32;
+
 protected:
 	vector<GameObject*>map;
 	vector<AdvanceGO*> EntityList;
@@ -32,10 +35,17 @@ public:
 	virtual void Exit() = 0;
 	virtual void RenderPlayer();
 	bool loadMap(std::string file_path);
+	const float GAMESPEED = 2.7f;
 	float getworldWidth();
 	float getworldHeight();
 	float getTileWidth();
 	float getTileHeight();
+	
+	
+	bool CheckWithinScreen(GameObject* go);
+	void CollisionChecks(double dt, float m_speed);
+
+	float m_speed;
 	std::vector<AdvanceGO*>* getProjectileList();
 };
 
