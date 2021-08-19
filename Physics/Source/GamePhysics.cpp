@@ -441,3 +441,28 @@ void GamePhysics::CheckCollisionResponse(GameObject* go1, GameObject* go2, doubl
 	}
 	return;
 }
+
+bool GamePhysics::AABB(GameObject* go1, GameObject* go2)
+{
+	bool collided = false;
+	Vector3 go1min, go1max,go2min,go2max;
+	go1min = go1->pos;
+	go1max = go1->pos;
+	go1min.x -= go1->scale.x * 0.5f;
+	go1min.y -= go1->scale.y * 0.5f;
+	go1max.x += go1->scale.x * 0.5f;
+	go1max.y += go1->scale.y *0.5f;
+
+	go2min.x -= go2->scale.x *0.5f;
+	go2min.y -= go2->scale.y *0.5f;
+	go2max.x += go2->scale.x *0.5f;
+	go2max.y += go2->scale.y *0.5f;
+
+	bool collisionX = go1min.x <= go2max.x && go1max.x >= go2min.x;
+	bool collisionY = go1min.y <= go2max.y && go1max.y >= go2min.y;
+	if (collisionX && collisionY)
+	{
+		std::cout << "collision happened" << std::endl;
+		return true;
+	}
+}

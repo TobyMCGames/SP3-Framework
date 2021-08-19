@@ -35,7 +35,7 @@ public:
 
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
-	void SetSounds();
+	//void SetSounds();
 	Player::Weapons GetCurrentWeapon();
 	float mana;
 	Vector3 mouseWorld;
@@ -43,6 +43,9 @@ public:
 
 	bool FireWeapon;
 
+	// Slow down time mechanic
+	float TimeSpeed;
+	bool SlowTime;
 
 protected:
 	int Inventory[NUM_ITEMS];
@@ -59,5 +62,7 @@ protected:
 
 	//Player sounds
 	ISoundEngine* arrowSound;
+	ISoundEngine* magicballSound;
+	ISoundEngine* portal;
 };
 

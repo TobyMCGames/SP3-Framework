@@ -23,8 +23,6 @@ void SceneCollision::Init()
 	//m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
 	//Physics code here
-	m_speed = 2.7f;
-
 	m_objectCount = 0;
 
 	//Player Here
