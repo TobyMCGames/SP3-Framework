@@ -1,6 +1,6 @@
 #ifndef MAGICBALL_H
 #define MAGICBALL_H
-#pragma once
+
 #include "Projectile.h"
 
 class MagicBall : public Projectile

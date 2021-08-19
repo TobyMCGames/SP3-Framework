@@ -1,6 +1,6 @@
 #ifndef SKELEARROW_H
 #define SKELEARROW_H
-#pragma once
+
 #include "Projectile.h"
 
 class SkeleArrow : public Projectile

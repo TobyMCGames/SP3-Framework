@@ -2,7 +2,7 @@
 #include <fstream>
 #include "Application.h"
 #include "TileFactory.h"
-#include "PrototypeFactory.h"
+#include "EntityFactory.h"
 
 GameLevelBase::GameLevelBase()
 {
@@ -108,7 +108,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				break;
 			case '4': // zombie
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::ZOMBIE,pos,vel,scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
@@ -124,7 +124,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 			xOffset += TILEWIDTH;
 			if ((col-commacounter) > highestcol)
 				highestcol = col - commacounter;
-			if (temp != nullptr)
+			if (temp != nullptr && isEntity == false) 
 			{
 				map.push_back(temp);
 			}
@@ -165,7 +165,7 @@ float GameLevelBase::getTileHeight()
 	return TILEHEIGHT;
 }
 
-std::vector<Projectile*>* GameLevelBase::getProjectileList()
+std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
 {
 	return &projectileList;
 }

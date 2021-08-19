@@ -13,8 +13,7 @@ MagicBall::~MagicBall()
 
 void MagicBall::Update(double dt, float m_speed)
 {
-	pos += vel * dt;
-
+	pos += vel * dt * m_speed;
 }
 
 void MagicBall::Response(GameObject* go)

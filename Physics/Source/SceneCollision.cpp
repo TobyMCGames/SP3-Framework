@@ -74,7 +74,7 @@ bool SceneCollision::Update(double dt)
 {
 	SceneBase::Update(dt);
 	camera.Update(dt,player);
-	player->Update(dt);
+	player->Update(dt,m_speed);
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
@@ -83,7 +83,7 @@ bool SceneCollision::Update(double dt)
 	
 	for (int i = 0; i < EntityList.size(); i++)
 	{
-		EntityList[i]->Update(dt);
+		EntityList[i]->Update(dt,m_speed);
 	}
 
 	if (Application::IsKeyPressed('9'))
@@ -240,7 +240,7 @@ void SceneCollision::Render()
 		}
 	}
 
-	for (std::vector<Entity*>::iterator it = EntityList.begin(); it != EntityList.end(); it++)
+	for (std::vector<AdvanceGO*>::iterator it = EntityList.begin(); it != EntityList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
 		if (go == nullptr)
@@ -252,7 +252,7 @@ void SceneCollision::Render()
 	}
 	RenderPlayer();
 
-	for (std::vector<Projectile*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
+	for (std::vector<AdvanceGO*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
 		if (go == nullptr)

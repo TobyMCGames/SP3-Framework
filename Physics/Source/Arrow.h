@@ -1,6 +1,6 @@
 #ifndef ARROW_H
 #define ARROW_H
-#pragma once
+
 #include "Projectile.h"
 
 class Arrow : public Projectile

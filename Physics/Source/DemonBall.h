@@ -1,6 +1,6 @@
 #ifndef DEMONBALL_H
 #define DEMONBALL_H
-#pragma once
+
 #include "Projectile.h"
 
 class DemonBall : public Projectile

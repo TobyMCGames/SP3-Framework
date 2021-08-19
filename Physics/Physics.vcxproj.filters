@@ -173,6 +173,12 @@
     <ClCompile Include="Source\SpiderPoison.cpp">
       <Filter>Source Files\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ProjectileFactory.cpp">
+      <Filter>DesignPatterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EntityFactory.cpp">
+      <Filter>DesignPatterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -256,9 +262,6 @@
     <ClInclude Include="Source\Prototype.h">
       <Filter>DesignPatterns</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PrototypeFactory.h">
-      <Filter>DesignPatterns</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Arrow.h">
       <Filter>Header Files\Projectiles</Filter>
     </ClInclude>
@@ -327,6 +330,9 @@
     </ClInclude>
     <ClInclude Include="Source\AdvanceGO.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EntityFactory.h">
+      <Filter>DesignPatterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
