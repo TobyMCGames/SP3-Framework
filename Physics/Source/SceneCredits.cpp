@@ -40,7 +40,7 @@ bool SceneCredits::Update(double dt)
 	float posX = x / w * 80; //convert (0,800) to (0,80)
 	float posY = 1 - (y / h) * 60; //convert (600,0) to (0,60)
 	BackButton.Set(1, 1, 1);
-	if (posX > 28 && posX < 52 && posY > -59 && posY < -54)
+	if (posX > 7 && posX < 18 && posY > -57 && posY < -52)
 	{
 		BackButton.Set(1, 0, 0);
 		//Mouse Section
@@ -88,10 +88,14 @@ void SceneCredits::Render()
 
 	//On screen text
 	//Exercise 5a: Render m_lives, m_score
-	std::ostringstream ss;
+	/*std::ostringstream ss;
 	ss.str("");
 	ss << "<Back To Menu>";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), BackButton, 4, 29.5, 1);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), BackButton, 4, 29.5, 1);*/
+	std::ostringstream ss;
+	ss.str("");
+	ss << "<Back";
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), BackButton, 4, 7, 2);
 }
 
 void SceneCredits::Exit()
