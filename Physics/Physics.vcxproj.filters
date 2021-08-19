@@ -110,9 +110,6 @@
     <ClCompile Include="Source\SceneCollision.cpp">
       <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneTest.cpp">
-      <Filter>Source Files\GameLevels</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -175,6 +172,12 @@
     </ClCompile>
     <ClCompile Include="Source\SpiderPoison.cpp">
       <Filter>Source Files\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectileFactory.cpp">
+      <Filter>DesignPatterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EntityFactory.cpp">
+      <Filter>DesignPatterns</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,16 +256,10 @@
     <ClInclude Include="Source\SceneCollision.h">
       <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneTest.h">
-      <Filter>Header Files\GameLevels</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SceneCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Prototype.h">
-      <Filter>DesignPatterns</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PrototypeFactory.h">
       <Filter>DesignPatterns</Filter>
     </ClInclude>
     <ClInclude Include="Source\Arrow.h">
@@ -333,6 +330,9 @@
     </ClInclude>
     <ClInclude Include="Source\AdvanceGO.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EntityFactory.h">
+      <Filter>DesignPatterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

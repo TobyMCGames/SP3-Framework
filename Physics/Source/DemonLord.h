@@ -12,6 +12,6 @@ protected:
 public:
 	DemonLord();
 	~DemonLord();
-	virtual void Update(double dt);
+	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject*  go);
 };

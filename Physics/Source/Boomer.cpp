@@ -10,12 +10,12 @@ Boomer::~Boomer()
 	return;
 }
 
-void Boomer::Update(double dt)
+void Boomer::Update(double dt, float m_speed)
 {
 	return;
 }
 
-void Boomer::Response(GameObject*)
+void Boomer::Response(GameObject* go)
 {
 	std::cout << "Boomer response" << std::endl;
 	return;

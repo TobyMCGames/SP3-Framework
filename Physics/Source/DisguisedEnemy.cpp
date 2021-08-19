@@ -10,12 +10,12 @@ DisguisedEnemy::~DisguisedEnemy()
 	return;
 }
 
-void DisguisedEnemy::Update(double dt)
+void DisguisedEnemy::Update(double dt, float m_speed)
 {
 	return;
 }
 
-void DisguisedEnemy::Response(GameObject*)
+void DisguisedEnemy::Response(GameObject* go)
 {
 	std::cout << "DEnemy response" << std::endl;
 	return;

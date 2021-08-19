@@ -2,8 +2,6 @@
 #define GAME_OBJECT_H
 
 #include "Vector3.h"
-
-
 struct GameObject
 {
 	enum GAMEOBJECT_TYPE

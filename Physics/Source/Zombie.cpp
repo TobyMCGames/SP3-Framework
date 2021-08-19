@@ -11,7 +11,7 @@ Zombie::~Zombie()
 	//return;
 }
 
-void Zombie::Update(double dt)
+void Zombie::Update(double dt, float m_speed)
 {
 	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
 		GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
@@ -21,7 +21,7 @@ void Zombie::Update(double dt)
 	cout << pos << endl;
 }
 
-void Zombie::Response(GameObject*)
+void Zombie::Response(GameObject* go)
 {
 	std::cout << "zombie response" << std::endl;
 	//return;

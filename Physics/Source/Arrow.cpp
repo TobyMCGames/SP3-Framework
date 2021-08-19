@@ -2,6 +2,7 @@
 
 Arrow::Arrow()
 {
+	speed = 10.f;
 }
 
 Arrow::~Arrow()
@@ -16,3 +17,4 @@ void Arrow::Update(double dt, float m_speed)
 void Arrow::Response(GameObject* go)
 {
 }
+
