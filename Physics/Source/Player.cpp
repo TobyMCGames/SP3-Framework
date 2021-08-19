@@ -5,11 +5,12 @@
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
 Player::Player()
-	: curWeapon(BOW)
+	: curWeapon(Player::STAFF)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
 	, cKeyboardController(NULL)
+	, FireWeapon(false)
 {
 	for (int i = 0; i < NUM_ITEMS; i++)
 	{
