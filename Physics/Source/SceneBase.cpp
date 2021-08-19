@@ -155,8 +155,8 @@ void SceneBase::Init()
 	meshList[GEO_BRICK]->textureID = LoadTGA("Image//TILE//Brick_Tile.tga");
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
-	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 0, 1));
-	//meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//Stalker_Active.png");
+	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 1, 1));
+	meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//player.tga");
 
 	//Weapons
 	meshList[GEO_BOW] = MeshBuilder::GenerateQuad("bow", Color(1, 1, 1));
@@ -168,8 +168,17 @@ void SceneBase::Init()
 
 	// Enemy
 	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateQuad("Zombie", Color(1, 1, 1));
-	meshList[GEO_ZOMBIE]->textureID = LoadTGA("Image//Enemy//Zombie_Right.tga");
-	
+	meshList[GEO_ZOMBIE]->textureID = LoadTGA("Image//Enemy//Zombie.tga");
+	meshList[GEO_SKELETONARCHER] = MeshBuilder::GenerateQuad("skeleton archer", Color(1, 1, 1));
+	meshList[GEO_SKELETONARCHER]->textureID = LoadTGA("Image//Enemy//skeleton.tga");
+	meshList[GEO_SPIDER] = MeshBuilder::GenerateQuad("Spider", Color(1, 1, 1));
+	meshList[GEO_SPIDER]->textureID = LoadTGA("Image//Enemy//spider.tga");
+	meshList[GEO_NYMPH] = MeshBuilder::GenerateQuad("Nymph", Color(1, 1, 1));
+	meshList[GEO_NYMPH]->textureID = LoadTGA("Image//Enemy//nymph.tga");
+	meshList[GEO_TURRET] = MeshBuilder::GenerateQuad("turret", Color(1, 1, 1));
+	meshList[GEO_TURRET]->textureID = LoadTGA("Image//Enemy//turret.tga");
+	meshList[GEO_BOOMER] = MeshBuilder::GenerateQuad("boomer", Color(1, 1, 1));
+	meshList[GEO_BOOMER]->textureID = LoadTGA("Image//Enemy//boomer.tga");
 
 	//Weapons
 	meshList[GEO_ARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));

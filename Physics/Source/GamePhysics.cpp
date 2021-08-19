@@ -119,7 +119,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 
 		}
 	}
-	else if (go1->type == GameObject::GO_PLAYER && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
+	else if (go1->type == GameObject::GO_PLAYER && (go2->type > GameObject::ENTITY_START && go2->type < GameObject::ENTITY_END))
 	{
 		Vector3 go1NewPos = go1->pos + go1->vel * dt * m_speed;
 		//Vector3 go2NewPos = go2->pos + go2->vel * dt;
@@ -134,7 +134,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				//go1->pos.y = go2->pos.y + (go2->scale.y + go1->scale.y) / 2;
-				go1->vel.y = -go1->vel.y * 0.1;
+				go1->vel.y *= -0.05;
 				if (go1->vel.y < 0.1)
 				{
 					go1->vel.y = 0;
@@ -149,7 +149,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				//go1->pos.x = go2->pos.x + (-go2->scale.x - go1->scale.x) / 2;
-				go1->vel.x = -go1->vel.x * 0.1;
+				go1->vel.x *= -0.1;
 				if (go1->vel.x < -0.1)
 				{
 					go1->vel.x = 0;
@@ -167,7 +167,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				//go1->pos.y = go2->pos.y + (go2->scale.y + go1->scale.y) / 2;
-				go1->vel.y = -go1->vel.y * 0.1;
+				go1->vel.y *= -0.05;
 				if (go1->vel.y < 0.1)
 				{
 					go1->vel.y = 0;
@@ -182,7 +182,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				//go1->pos.x = go2->pos.x + (go2->scale.x + go1->scale.x) / 2;
-				go1->vel.x = -go1->vel.x;
+				go1->vel.x *= -0.1;
 				if (go1->vel.x < 0.1)
 				{
 					go1->vel.x = 0;
@@ -200,7 +200,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				//go1->pos.x = go2->pos.x + (- go2->scale.x - go1->scale.x) / 2;
-				go1->vel.x = -go1->vel.x;
+				go1->vel.x *= -0.1;
 				if (go1->vel.x < -0.1)
 				{
 					go1->vel.x = 0;
@@ -233,7 +233,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				//go1->pos.x = go2->pos.x + (go2->scale.x + go1->scale.x) / 2;
-				go1->vel.x = -go1->vel.x;
+				go1->vel.x *= -0.1;
 				if (go1->vel.x < 0.1)
 				{
 					go1->vel.x = 0;
@@ -256,6 +256,104 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				return true;
 			}
 		}
+	}
+	else if (go1->type == GameObject::GO_PLAYER && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
+	{
+	Vector3 go1NewPos = go1->pos + go1->vel * dt * m_speed;
+	//Vector3 go2NewPos = go2->pos + go2->vel * dt;
+	Vector3 Check_Corner;
+
+	// Check Bottom Right of player
+	Vector3 Newbot_R = go1NewPos + Vector3(go1->scale.x / 2, -go1->scale.y / 2, 0);
+	// If Move right collides
+	Check_Corner.Set(Newbot_R.x, go1->pos.y - go1->scale.y / 2, 0);
+	if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
+	{
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
+		{
+			go1->vel.x = 0;
+			return true;
+		}
+	}
+	// If Move Down collides
+	Check_Corner.Set(go1->pos.x + go1->scale.x / 2, Newbot_R.y, 0);
+	if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
+	{
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
+		{
+			go1->vel.y = 0;
+			return true;
+		}
+	}
+
+	// Check Bottom Left of player
+	Vector3 Newbot_L = go1NewPos + Vector3(-go1->scale.x / 2, -go1->scale.y / 2, 0);
+	// If Move Left collides
+	Check_Corner.Set(Newbot_L.x, go1->pos.y - go1->scale.y / 2, 0);
+	if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
+	{
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
+		{
+			go1->vel.x = 0;
+			return true;
+		}
+	}
+	// If Move Down collides
+	Check_Corner.Set(go1->pos.x - go1->scale.x / 2, Newbot_L.y, 0);
+	if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
+	{
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
+		{
+			go1->vel.y = 0;
+			return true;
+		}
+	}
+
+	// Check Top Right of player
+	Vector3 Newtop_R = go1NewPos + Vector3(go1->scale.x / 2, go1->scale.y / 2, 0);
+	// If Move right collides
+	Check_Corner.Set(Newtop_R.x, go1->pos.y + go1->scale.y / 2, 0);
+	if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
+	{
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
+		{
+			go1->vel.x = 0;
+			return true;
+		}
+	}
+	// If Move Up collides
+	Check_Corner.Set(go1->pos.x + go1->scale.x / 2, Newtop_R.y, 0);
+	if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
+	{
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
+		{
+			go1->vel.y = 0;
+			return true;
+		}
+	}
+
+	// Check Top Left of player
+	Vector3 Newtop_L = go1NewPos + Vector3(-go1->scale.x / 2, go1->scale.y / 2, 0);
+	// If Move Left collides
+	Check_Corner.Set(Newtop_L.x, go1->pos.y + go1->scale.y / 2, 0);
+	if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
+	{
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
+		{
+			go1->vel.x = 0;
+			return true;
+		}
+	}
+	// If Move Up collides
+	Check_Corner.Set(go1->pos.x - go1->scale.x / 2, Newtop_L.y, 0);
+	if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
+	{
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
+		{
+			go1->vel.y = 0;
+			return true;
+		}
+	}
 	}
 	return false;
 }
