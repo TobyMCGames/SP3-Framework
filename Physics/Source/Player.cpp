@@ -5,7 +5,7 @@
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
 Player::Player()
-	: curWeapon(Player::PORTALGUN)
+	: curWeapon(Player::BOW)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)

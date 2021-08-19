@@ -7,8 +7,14 @@ protected:
 	enum BEHAVIOUR
 	{
 		// insert more states here
+		IDLE,
+		PATROL,
+		ATTACK,
 		NUM_STATES,
 	};
+	int StateCounter;
+	const int MaxStateCounter = 60;
+	BEHAVIOUR currState;
 public:
 	Zombie();
 	~Zombie();
