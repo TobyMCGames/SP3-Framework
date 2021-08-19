@@ -114,37 +114,37 @@ bool GameLevelBase::loadMap(std::string file_path)
 				break;
 			case '5': // Skeleton Archer
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::SKELE_ARCHER, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '6': // Spider
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::SPIDER, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '7': // Nymph
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::NYMPH, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '8': // Turret
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::TURRET, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::TURRET, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '9': // Boomer
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::BOOMER, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
 			case '10': // Demon Lord
 				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = PrototypeFactory::getObject(PrototypeFactory::DEMON_LORD, pos, vel, scale);
+				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
 				temp = tempEntity;
 				isEntity = true;
 				break;
