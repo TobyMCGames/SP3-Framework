@@ -189,7 +189,9 @@ void Player::Response(GameObject* go)
 	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
 	{
 		if (vel.y == 0)
+		{
 			curLocation = ON_GROUND;
+		}
 	}
 }
 
