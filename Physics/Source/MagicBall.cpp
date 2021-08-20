@@ -4,6 +4,7 @@
 MagicBall::MagicBall()
 {
 	speed = 50.f;
+	scale.Set(5, 5, 1);
 }
 
 MagicBall::~MagicBall()
@@ -18,7 +19,7 @@ void MagicBall::Update(double dt, float GAMESPEED)
 
 void MagicBall::Response(GameObject* go)
 {
-
+	this->active = false;
 }
 
 

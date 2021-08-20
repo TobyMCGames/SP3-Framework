@@ -70,6 +70,7 @@ public:
 		GEO_PLAYER,
 		GEO_STONEBRICK,
 		GEO_SPIKE,
+		GEO_ROTATED_TILE,
 
 		//weapons
 		GEO_BOW,

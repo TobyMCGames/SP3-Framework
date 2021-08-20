@@ -17,7 +17,7 @@ public:
 		PTYPE_TURRETBULLET,
 		NUM_PROJECTILES,
 	};
-	Projectile* produceProjectile(PROJECTILE_TYPES projectileType, Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal);	
+	Projectile* produceProjectile(PROJECTILE_TYPES projectileType, Vector3 pos, Vector3 vel, Vector3 normal);	
 };
 
 

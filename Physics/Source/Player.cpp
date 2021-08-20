@@ -5,7 +5,7 @@
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
 Player::Player()
-	: curWeapon(Player::BOW)
+	: curWeapon(Player::PORTALGUN)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
@@ -28,10 +28,11 @@ Player::Player()
 	TimeSpeed = 1.f;
 	SlowTime = false;
 
-	//SOUNDS
-	arrowSound = createIrrKlangDevice();
+	//SOUNDS do not create a device every time, create one put it in gamelevelmanager and thats it it will handle all the sound 
+	// have a soundinfo clas so you dont have to load the soundfile in everytime u want to use it.
+	/*arrowSound = createIrrKlangDevice();
 	magicballSound = createIrrKlangDevice();
-	portal = createIrrKlangDevice();
+	portal = createIrrKlangDevice();*/
 }
 
 Player::~Player()
@@ -42,7 +43,7 @@ Player::~Player()
 
 void Player::Update(double dt, float m_speed)
 {
-	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
+	Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
 								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
 								pos.z);
 	double x, y;
@@ -82,20 +83,20 @@ void Player::Update(double dt, float m_speed)
 		{
 		case BOW:
 			{
-			arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
+		//	arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
 			Projectile* arrow = 
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
-					pos + (normal*scale.x), normal, scale, normal);
+					pos + (normal*scale.x), normal,normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
 			}
 		case STAFF:
 			{
-			magicballSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Magic_Ball.wav", false);
+		//	magicballSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Magic_Ball.wav", false);
 			Projectile* magicBall =
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
-					pos + (normal * scale.x), normal, scale, normal);
+					pos + (normal * scale.x), normal, normal);
 
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 				cout << "Magic ball created" << endl;
@@ -103,10 +104,10 @@ void Player::Update(double dt, float m_speed)
 			}
 		case PORTALGUN:
 			{
-			portal->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Portal_2.wav", false);
+		//	portal->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Portal_2.wav", false);
 				Projectile* portal = 
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-						pos + (normal * scale.x), normal, scale, normal);
+						pos + (normal * scale.x), normal, normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 				cout << "portal created" << endl;
 				break;

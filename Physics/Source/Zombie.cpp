@@ -16,6 +16,7 @@ Zombie::~Zombie()
 void Zombie::Update(double dt, float m_speed)
 {
 	pos += vel * dt * m_speed;
+	std::cout << this->normal << std::endl;
 	switch (currState)
 	{
 	case IDLE:
@@ -80,6 +81,11 @@ void Zombie::Update(double dt, float m_speed)
 
 void Zombie::Response(GameObject* go)
 {
-	std::cout << "zombie response" << std::endl;	
+	//std::cout << "zombie response" << std::endl;	
 	//return;
+	if (go->type > GameObject::PROJECTILES_START && go->type < GameObject::PROJECTILE_END)
+	{
+		std::cout << "ow why you bully me" << std::endl;
+		// take damage
+	}
 }

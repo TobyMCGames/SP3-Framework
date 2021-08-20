@@ -149,7 +149,6 @@ bool GameLevelBase::loadMap(std::string file_path)
 				temp = tempEntity;
 				isEntity = true;
 				break;
-				
 			case 'P':
 				player->GetInstance();
 				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.1f);
@@ -164,11 +163,13 @@ bool GameLevelBase::loadMap(std::string file_path)
 				highestcol = col - commacounter;
 			if (temp != nullptr && isEntity == false) 
 			{
+				temp->active = true;
 				map.push_back(temp);
 			}
 			else if (isEntity == true)
 			{
 				map.push_back(nullptr);
+				tempEntity->active = true;
 				EntityList.push_back(tempEntity);
 			}	
 			else
@@ -220,7 +221,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 	/// Find Camera Tile Displacement in World Space
 	//Find how many tiles screen is away from left side
 	int XnumTiles = (camera.position.x - fmod(camera.position.x, getTileWidth())) / getTileWidth();
-	int XTilesInScr;
+	int XTilesInScr =NULL;
 	if (fmod(camera.position.x, getTileWidth()) > 0)
 		XTilesInScr = 33;
 	else
@@ -239,7 +240,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 
 	/////////////////////////////////////////////////////////////
 
-	for (int i = 0; i < EntityList.size(); i++)
+	for (int i = 0; i < EntityList.size(); i++) // entity collision check
 	{
 		AdvanceGO* mob1 = EntityList[i];
 		if (mob1 != nullptr)
@@ -263,37 +264,26 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 						}
 					}
 				}
-				std::vector<int> cleanUpVector;
+				
 				for (int j = 0; j < projectileList.size(); j++)
 				{
-					AdvanceGO* projectile;
-					projectile = projectileList[j];
-					if (projectile != nullptr)
+					if ((projectileList[j] == nullptr) || (projectileList[j]->active != true))
 					{
-						if (CheckWithinScreen(projectile))
+						continue;
+					}
+					if (CheckWithinScreen(projectileList[j]))
+					{
+						if (GamePhysics::GetInstance()->CheckCollision(mob1,projectileList[j], dt, m_speed))
 						{
-							if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, m_speed))
-							{
-								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, m_speed);
-							}
-						}
-						else
-						{
-							delete projectile;
-							projectileList[j] = nullptr;
-							cleanUpVector.push_back(j);
+							GamePhysics::GetInstance()->CheckCollisionResponse(mob1,projectileList[j], dt, m_speed);
 						}
 					}
 					else
 					{
-						cout << "projectile was null in projectile list" << endl;
+						projectileList[j]->active = false;
 					}
 				}
-				for (int j = 0; j < cleanUpVector.size(); j++)
-				{
-					projectileList.erase(projectileList.begin() + cleanUpVector[j]);
-				}
-				cleanUpVector.clear();
+				cleanProjectileList();
 			}
 		}
 		else
@@ -301,7 +291,116 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 			cout << "There was a null entity1" << endl;
 		}
 	}
+
+	for (int i = 0; i < projectileList.size(); i++) // projectile collision check
+	{
+		AdvanceGO* projectile = projectileList[i];
+		if (projectile != nullptr)
+		{
+			if (CheckWithinScreen(projectileList[i]))
+			{
+				for (int j = XnumTiles; j < XnumTiles + XTilesInScr; j++) // check for within the screen. can limit somemore.
+				{
+					for (int k = YnumTiles; k < YnumTiles + YTilesInScr; k++)
+					{
+						int TileSpace = k * XTilesInWorld + j;
+						if (map[TileSpace] != nullptr)
+						{
+							if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, m_speed))
+							{
+								GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, m_speed);
+								//cout << "Collided" << endl;
+								break;
+							}
+						}
+					}
+				}
+			}
+			else
+				projectile->active = false;
+		}
+	}
 }
+
+void GameLevelBase::cleanmapLists()
+{
+	int deletedamt = 0;
+	int vecSize = map.size();
+	if (vecSize == 0)
+		return;
+	int previndex = 0;
+	while (true)
+	{
+		for (int i = previndex; i < map.size(); i++)
+		{
+			if (map[i] == nullptr)
+			{
+				map.erase(map.begin() + i);
+			}
+			else if (map[i]->active == false)
+			{
+				delete map[i];
+				map.erase(map.begin() + i);
+				previndex = i;
+			}
+		}
+		break;
+	}
+}
+
+void GameLevelBase::cleanEntityList()
+{
+	int deletedamt = 0;
+	int vecSize = EntityList.size();
+	if (vecSize == 0)
+		return;
+	int previndex = 0;
+	while (true)
+	{
+		for (int i = previndex; i < EntityList.size(); i++)
+		{
+			if (EntityList[i] == nullptr)
+			{
+				EntityList.erase(EntityList.begin() + i);
+			}
+			else if (EntityList[i]->active == false)
+			{
+				delete  EntityList[i];
+				EntityList.erase(EntityList.begin() + i);
+				previndex = i;
+			}
+		}
+		break;
+
+	}
+}
+
+void GameLevelBase::cleanProjectileList()
+{
+	int deletedamt = 0;
+	int vecSize = projectileList.size();
+	if (vecSize == 0)
+		return;
+	int previndex = 0; 
+	while (true)
+	{
+		for (int i = previndex; i < projectileList.size(); i++)
+		{
+			if (projectileList[i] == nullptr)
+			{
+				projectileList.erase(projectileList.begin() + i);
+			}
+			else if (projectileList[i]->active == false)
+			{
+				delete projectileList[i];
+				projectileList.erase(projectileList.begin() + i);
+				previndex = i;
+			}
+		}
+		break;
+	}
+}
+
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
 {

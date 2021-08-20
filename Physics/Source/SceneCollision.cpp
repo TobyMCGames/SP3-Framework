@@ -262,8 +262,6 @@ void SceneCollision::Render()
 		}
 	}
 
-	
-
 	//On screen text
 	
 	std::ostringstream ss;

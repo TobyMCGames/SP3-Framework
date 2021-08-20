@@ -3,6 +3,7 @@
 Arrow::Arrow()
 {
 	speed = 30.f;
+	scale.Set(5.f,2, 1);
 }
 
 Arrow::~Arrow()
@@ -19,6 +20,6 @@ void Arrow::Update(double dt, float GAMESPEED)
 
 void Arrow::Response(GameObject* go)
 {
-
+	this->active = false;
 }
 
