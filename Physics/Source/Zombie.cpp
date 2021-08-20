@@ -132,8 +132,7 @@ void Zombie::Response(GameObject* go)
 	}
 }
 
-
-void Zombie::FlipHorizontalDirection(void)
-{
-	vel.x *= -1;
-}
+//void Zombie::FlipHorizontalDirection(void)
+//{
+//	vel.x *= -1;
+//}
