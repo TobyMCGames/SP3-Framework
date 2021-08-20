@@ -46,10 +46,13 @@ Projectile* ProjectileFactory::produceProjectile(PROJECTILE_TYPES projectileType
 		newProjectile->type = GameObject::GO_TURRETBULLET;
 		break;		
 	}
-	newProjectile->pos = pos;
-	newProjectile->vel = vel * newProjectile->getProjectileSpeed();
-	newProjectile->scale = scale;
-	newProjectile->normal = normal;
-	newProjectile->active = true;
+	if (newProjectile != nullptr)
+	{
+		newProjectile->pos = pos;
+		newProjectile->vel = vel * newProjectile->Default_Speed;
+		newProjectile->scale = scale;
+		newProjectile->normal = normal;
+		newProjectile->active = true;
+	}
 	return newProjectile;
 }

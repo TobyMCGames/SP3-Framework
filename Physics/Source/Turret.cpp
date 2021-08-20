@@ -35,3 +35,8 @@ void Turret::Response(GameObject* go)
 
 }
 
+void Turret::dead()
+{
+	this->active = false;
+}
+

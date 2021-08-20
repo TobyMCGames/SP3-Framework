@@ -18,3 +18,8 @@ void SkeletonArcher::Response(GameObject* go)
 {
 }
 
+void SkeletonArcher::dead()
+{
+	this->active = false;
+}
+

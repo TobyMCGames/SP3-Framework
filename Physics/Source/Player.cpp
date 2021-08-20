@@ -39,6 +39,11 @@ Player::~Player()
 
 }
 
+void Player::dead()
+{
+	// handle restart level, go to main menu, dead screen idk 
+}
+
 
 void Player::Update(double dt, float m_speed)
 {
@@ -219,6 +224,16 @@ void Player::Response(GameObject* go)
 		if (vel.y == 0)
 		{
 			curLocation = ON_GROUND;
+		}
+	}
+	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
+		(go->type == GameObject::GO_ZOMBIE))
+	{
+		takeDamage(go->damage);
+
+		if (health <= 0)
+		{
+			dead();
 		}
 	}
 }

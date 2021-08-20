@@ -2,7 +2,7 @@
 
 SpiderPoison::SpiderPoison()
 {
-	speed = 10.f;
+	Default_Speed = 10.f;
 }
 
 SpiderPoison::~SpiderPoison()

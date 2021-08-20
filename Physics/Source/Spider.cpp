@@ -9,6 +9,7 @@ Spider::Spider()
 	attackTimer = 0;
 	speedBoostTimer = 0;
 	speedBoost = 5;
+	health = 100;
 	return;
 }
 
@@ -102,7 +103,21 @@ void Spider::Update(double dt, float m_speed)
 
 void Spider::Response(GameObject* go)
 {
-	//std::cout << "Spider: response" << std::endl;
-	return;
+	if (go->type == GameObject::GO_ARROW ||
+		go->type == GameObject::GO_PORTAL ||
+		go->type == GameObject::GO_MAGICBALL)// player damage zombie
+	{
+		takeDamage(go->damage);
+
+		if (health <= 0)
+		{
+			dead();
+		}
+	}
+}
+
+void Spider::dead()
+{
+	this->active = false;
 }
 

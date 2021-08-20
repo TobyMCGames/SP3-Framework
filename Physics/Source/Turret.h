@@ -12,10 +12,11 @@ protected:
 		NUM_STATES,
 	};
 	float shootCounter;
-	const float MaxFirerate = 1.f;
+	const float MaxFirerate = 5.f;
 public:
 	Turret();
 	~Turret();
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
+	virtual void dead();
 };

@@ -2,7 +2,8 @@
 
 Arrow::Arrow()
 {
-	speed = 30.f;
+	Default_Speed = 30.f;
+	damage = 10;
 }
 
 Arrow::~Arrow()
