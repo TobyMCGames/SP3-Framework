@@ -519,6 +519,20 @@ void SceneBase::RenderGO(GameObject* go)
 		RenderMesh(meshList[GEO_ZOMBIE], false);
 		modelStack.PopMatrix();
 		break;
+	case GameObject::GO_SKELEARCHER:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_SKELETONARCHER], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_SPIDER:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_SPIDER], false);
+		modelStack.PopMatrix();
+		break;
 	case GameObject::GO_TURRET:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
