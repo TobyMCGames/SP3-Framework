@@ -139,29 +139,6 @@ void Zombie::Response(GameObject* go)
 }
 
 
-bool Zombie::CheckDirection(DIRECTION direction)
-{
-	if (direction == LEFT)
-	{
-		if (vel.x < 0)
-			return true;
-		else if (vel.x > 0)
-			return false;
-	}
-	else if(direction == RIGHT)
-	{
-		if (vel.x > 0)
-			return true;
-		else if (vel.x < 0)
-			return false;
-	}
-	else
-	{
-		cout << "Direction unknown bruhhh" << endl;
-	}
-	return false;
-}
-
 void Zombie::FlipHorizontalDirection(void)
 {
 	vel.x *= -1;

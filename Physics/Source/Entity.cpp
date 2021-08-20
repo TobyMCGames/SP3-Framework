@@ -14,5 +14,29 @@ Entity::~Entity()
 }
 
 
+bool Entity::CheckDirection(DIRECTION direction)
+{
+	if (direction == LEFT)
+	{
+		if (vel.x < 0)
+			return true;
+		else if (vel.x > 0)
+			return false;
+	}
+	else if (direction == RIGHT)
+	{
+		if (vel.x > 0)
+			return true;
+		else if (vel.x < 0)
+			return false;
+	}
+	else
+	{
+		std::cout << "Direction unknown bruhhh" << std::endl;
+	}
+		
+	return false;
+}
+
 
 
