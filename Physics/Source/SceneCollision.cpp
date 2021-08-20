@@ -92,7 +92,10 @@ bool SceneCollision::Update(double dt)
 		if (EntityList[i]->type == GameObject::GO_PLAYER)
 			EntityList[i]->Update(dt, GAMESPEED);
 		else
-			EntityList[i]->Update(dt, m_speed);
+		{
+			if (CheckWithinScreen(EntityList[i]))
+				EntityList[i]->Update(dt, m_speed);
+		}
 	}
 
 	if (Application::IsKeyPressed('9'))
