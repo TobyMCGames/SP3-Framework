@@ -74,7 +74,7 @@ void Spider::Update(double dt, float m_speed)
 			{
 				vel.x = -Default_Speed;
 			}
-			// jump if player is higher than spider
+			// uncomment this section to make spider jump
 			/*if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
 			{
 				vel.y += JumpForce;
@@ -102,7 +102,6 @@ void Spider::Response(GameObject* go)
 {
 	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
 	{
-		// uncomment this to make spides jump (also need to uncomment a section above)
 		if (vel.y == 0)
 		{
 			curLocation = ON_GROUND;
