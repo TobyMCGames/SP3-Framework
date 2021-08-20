@@ -579,6 +579,12 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_WEAPON_STATION], false);
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(0, 1.f, 0);
+			RenderMesh(meshList[GEO_BOW], false);
+		}
+		modelStack.PopMatrix();
 		modelStack.PopMatrix();
 		break;
 	case GameObject::WEAPON_STATION_STAFF:
@@ -586,6 +592,12 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_WEAPON_STATION], false);
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(0, 1.f, 0);
+			RenderMesh(meshList[GEO_STAFF], false);
+		}
+		modelStack.PopMatrix();
 		modelStack.PopMatrix();
 		break;
 	case GameObject::WEAPON_STATION_PORTAL:
@@ -593,6 +605,12 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_WEAPON_STATION], false);
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(0, 1.f, 0);
+			RenderMesh(meshList[GEO_PORTALGUN], false);
+		}
+		modelStack.PopMatrix();
 		modelStack.PopMatrix();
 		break;
 	}
