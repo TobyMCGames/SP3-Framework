@@ -7,7 +7,7 @@ class Portal : public Projectile
 private:
 
 public:
-	virtual void Update(double dt, float GAMESPEED);
+	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject*);
 	Portal();
 	~Portal();
