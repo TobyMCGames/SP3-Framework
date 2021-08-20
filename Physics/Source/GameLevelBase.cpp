@@ -163,12 +163,15 @@ bool GameLevelBase::loadMap(std::string file_path)
 				highestcol = col - commacounter;
 			if (temp != nullptr && isEntity == false) 
 			{
+				temp->active = true;
 				map.push_back(temp);
 			}
 			else if (isEntity == true)
 			{
 				map.push_back(nullptr);
+				tempEntity->active = true;
 				EntityList.push_back(tempEntity);
+			
 			}	
 			else
 				break;
@@ -284,13 +287,15 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 					projectile = projectileList[j];
 					if (projectile != nullptr)
 					{
+						if (projectile->active == false)
+							continue;
 						if (CheckWithinScreen(projectile))
 						{
 							if (projectile->type == GameObject::GO_ARROW ||
 								projectile->type == GameObject::GO_MAGICBALL ||
 								projectile->type == GameObject::GO_PORTAL)
 							{
-								if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, GAMESPEED))
+								if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt,1))
 								{
 									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, GAMESPEED);
 								}
@@ -302,8 +307,35 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, m_speed);
 								}
 							}
+
+							for (int j = XnumTiles; j < XnumTiles + XTilesInScr; j++)
+							{
+								for (int k = YnumTiles; k < YnumTiles + YTilesInScr; k++)
+								{
+									int TileSpace = k * XTilesInWorld + j;
+									if (map[TileSpace] != nullptr)
+									{
+										if (projectile->type == GameObject::GO_ARROW ||
+											projectile->type == GameObject::GO_MAGICBALL ||
+											projectile->type == GameObject::GO_PORTAL)
+										{
+											if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace] ,dt, GAMESPEED))
+											{
+												GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, GAMESPEED);
+											}
+										}
+										else
+										{
+											if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, m_speed))
+											{
+												GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, m_speed);
+											}
+										}
+									}
+								}
+							}
 						}
-						else
+						else // delete projectile if they are no longer on screen
 						{
 							delete projectile;
 							projectileList[j] = nullptr;

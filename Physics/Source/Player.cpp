@@ -29,9 +29,9 @@ Player::Player()
 	SlowTime = false;
 
 	//SOUNDS
-	arrowSound = createIrrKlangDevice();
-	magicballSound = createIrrKlangDevice();
-	portal = createIrrKlangDevice();
+	//arrowSound = createIrrKlangDevice();
+	//magicballSound = createIrrKlangDevice();
+	//portal = createIrrKlangDevice();
 }
 
 Player::~Player()
@@ -93,7 +93,7 @@ void Player::Update(double dt, float m_speed)
 		{
 		case BOW:
 			{
-			arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
+			//arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
 			Projectile* arrow = 
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
 					pos + (normal*scale.x), normal, scale, normal);
@@ -103,7 +103,7 @@ void Player::Update(double dt, float m_speed)
 			}
 		case STAFF:
 			{
-			magicballSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Magic_Ball.wav", false);
+		//	magicballSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Magic_Ball.wav", false);
 			Projectile* magicBall =
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
 					pos + (normal * scale.x), normal, scale, normal);
@@ -114,7 +114,7 @@ void Player::Update(double dt, float m_speed)
 			}
 		case PORTALGUN:
 			{
-			portal->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Portal_2.wav", false);
+		// 	portal->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Portal_2.wav", false);
 				Projectile* portal = 
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
 						pos + (normal * scale.x), normal, scale, normal);
@@ -130,7 +130,6 @@ void Player::Update(double dt, float m_speed)
 	{
 		vel.y += JumpForce;
 		curLocation = IN_AIR;
-
 	}
 
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) && cKeyboardController->IsKeyPressed(GLFW_KEY_D))
