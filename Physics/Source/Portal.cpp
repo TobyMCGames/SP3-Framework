@@ -2,7 +2,7 @@
 
 Portal::Portal()
 {
-	speed = 100.f;
+	Default_Speed = 100.f;
 }
 
 Portal::~Portal()

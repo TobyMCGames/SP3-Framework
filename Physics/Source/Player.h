@@ -57,6 +57,7 @@ protected:
 	float current_scene_worldheight;
 	Player();
 	~Player();
+	virtual void dead();
 
 	CKeyboardController* cKeyboardController;
 

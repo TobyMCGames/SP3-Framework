@@ -21,3 +21,8 @@ void DemonLord::Response(GameObject* go)
 	return;
 }
 
+void DemonLord::dead()
+{
+	this->active = false;
+}
+

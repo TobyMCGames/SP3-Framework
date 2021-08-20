@@ -4,11 +4,13 @@
 Zombie::Zombie()
 	:currState(BEHAVIOUR::IDLE)
 {
-	Default_Speed = 5;
+	Default_Speed = 2;
 	StateCounter = 0;
 	attackTimer = 0;
 	speedBoostTimer = 0;
 	speedBoost = 5;
+	health = 70;
+	damage = 15;
 }
 
 Zombie::~Zombie()
@@ -130,6 +132,22 @@ void Zombie::Response(GameObject* go)
 			}
 		}
 	}
+	if (go->type == GameObject::GO_ARROW ||
+		go->type == GameObject::GO_PORTAL ||
+		go->type == GameObject::GO_MAGICBALL) // player damage zombie
+	{
+		takeDamage(go->damage);
+
+		if (health <= 0)
+		{
+			dead();
+		}
+	}
+}
+
+void Zombie::dead()
+{
+	this->active = false;
 }
 
 

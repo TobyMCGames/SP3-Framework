@@ -9,6 +9,7 @@ Spider::Spider()
 	attackTimer = 0;
 	speedBoostTimer = 0;
 	speedBoost = 5;
+	health = 100;
 	return;
 }
 
@@ -102,7 +103,42 @@ void Spider::Update(double dt, float m_speed)
 
 void Spider::Response(GameObject* go)
 {
-	//std::cout << "Spider: response" << std::endl;
+	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
+	{
+		if (currState == PATROL)
+		{
+			//check direction
+			if (CheckDirection(LEFT) == true)
+			{
+				curDirection = LEFT;
+			}
+			else if (CheckDirection(RIGHT) == true)
+			{
+				curDirection = RIGHT;
+			}
+			else
+			{
+				if (curDirection == LEFT)
+				{
+					curDirection = RIGHT;
+				}
+				else
+					curDirection = LEFT;
+
+			}
+		}
+	}
+	if (go->type == GameObject::GO_ARROW ||
+		go->type == GameObject::GO_PORTAL ||
+		go->type == GameObject::GO_MAGICBALL)// player damage zombie
+	{
+		takeDamage(go->damage);
+
+		if (health <= 0)
+		{
+			dead();
+		}
+	}
 	return;
 }
 

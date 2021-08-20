@@ -195,6 +195,8 @@ void SceneBase::Init()
 	//enemy projectiles
 	meshList[GEO_TURRETBULLET] = MeshBuilder::GenerateQuad("turret bullet", Color(1, 1, 1));
 	meshList[GEO_TURRETBULLET]->textureID = LoadTGA("Image//PROJECTILES//turret_bullet.tga");
+	meshList[GEO_SKELEARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
+	meshList[GEO_SKELEARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow.tga");
 	
 
 	bLightEnabled = true;
@@ -441,6 +443,7 @@ void SceneBase::RenderGO(GameObject* go)
 		RenderMesh(meshList[GEO_ARROW], false);
 		modelStack.PopMatrix();
 		break;
+
 	case GameObject::GO_MAGICBALL:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -456,6 +459,15 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_PORTAL], false);
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::GO_SKELEARROW:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_SKELEARROW], false);
 		modelStack.PopMatrix();
 		break;
 
@@ -521,9 +533,29 @@ void SceneBase::RenderGO(GameObject* go)
 		break;
 	case GameObject::GO_SKELEARCHER:
 		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_SKELETONARCHER], false);
+		{
+			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+			modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+			RenderMesh(meshList[GEO_SKELETONARCHER], false);
+			modelStack.PushMatrix();
+			{
+				modelStack.Translate(0, 0, 1);
+				if (go->normal.x >= 0)
+					modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+				else
+				{
+					modelStack.Rotate(180, 0, 1, 0);
+					modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, -go->normal.x)), 0, 0, 1);
+				}
+				modelStack.PushMatrix();
+				{
+					modelStack.Translate(0.5, 0, 0);
+					RenderMesh(meshList[GEO_BOW], false);
+				}
+				modelStack.PopMatrix();
+			}
+			modelStack.PopMatrix();
+		}
 		modelStack.PopMatrix();
 		break;
 	case GameObject::GO_SPIDER:

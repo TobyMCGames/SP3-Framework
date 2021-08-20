@@ -9,9 +9,12 @@ protected:
 		// insert more states here
 		NUM_STATES,
 	};
+	int shootCounter;
+	const int MaxFirerate = 60;
 public:
 	SkeletonArcher();
 	~SkeletonArcher();
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
+	virtual void dead();
 };

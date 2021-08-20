@@ -38,5 +38,10 @@ bool Entity::CheckDirection(DIRECTION direction)
 	return false;
 }
 
+void Entity::takeDamage(int damage)
+{
+	this->health -= damage;
+}
+
 
 
