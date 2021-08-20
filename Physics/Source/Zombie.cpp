@@ -34,7 +34,7 @@ void Zombie::Update(double dt, float m_speed)
 		{
 			
 		}
-		StateCounter++;
+		StateCounter += dt * m_speed;
 		break;
 	case PATROL:
 		if (StateCounter > MaxStateCounter)
@@ -63,7 +63,7 @@ void Zombie::Update(double dt, float m_speed)
 			else
 				vel.x = -Default_Speed;
 		}
-		StateCounter++;
+		StateCounter += dt * m_speed;
 		break;
 	case ATTACK:
 		if ((pos - Player::GetInstance()->pos).Length() <= 30)
@@ -91,7 +91,7 @@ void Zombie::Update(double dt, float m_speed)
 				cout << "ATTACK: Reset Counter " << StateCounter << endl;
 			}
 		}
-		StateCounter++;
+		StateCounter += dt * m_speed;
 	default:
 		break;
 	}
