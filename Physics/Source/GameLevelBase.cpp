@@ -219,26 +219,16 @@ bool GameLevelBase::CheckWithinScreen(GameObject* go)
 
 void GameLevelBase::CollisionChecks(double dt, float m_speed)
 {
-	/// Find Camera Tile Displacement in World Space
-	//Find how many tiles screen is away from left side
-	int XnumTiles = (camera.position.x - fmod(camera.position.x, getTileWidth())) / getTileWidth();
-	int XTilesInScr;
-	if (fmod(camera.position.x, getTileWidth()) > 0)
-		XTilesInScr = 33;
-	else
-		XTilesInScr = 32;
-
-	//Find how many tiles screen is away from bottom
-	int YnumTiles = (camera.position.y - fmod(camera.position.y, getTileHeight())) / getTileHeight();
-	int YTilesInScr;
-	if (fmod(camera.position.y, getTileHeight()) > 0)
-		YTilesInScr = 19;
-	else
-		YTilesInScr = 18;
 
 	int XTilesInWorld = getworldWidth() / getTileWidth();
 	int YTilesInWorld = getworldHeight() / getTileHeight();
 
+	float LP = 0.f;
+	int XnumTiles = 0;
+	int XTilesAround = 0;
+	float BP = 0.f;
+	int YnumTiles = 0;
+	int YTilesAround = 0;
 	/////////////////////////////////////////////////////////////
 
 	for (int i = 0; i < EntityList.size(); i++)
@@ -248,36 +238,77 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 		{
 			if (CheckWithinScreen(mob1))
 			{
-				for (int j = XnumTiles; j < XnumTiles + XTilesInScr; j++)
+				Vector3 FuturePos = mob1->pos + mob1->vel * dt * m_speed;
+				//Find how many tiles mob is away from left side
+				LP = FuturePos.x - mob1->scale.x / 2;
+				XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
+				if (XnumTiles > 0)
 				{
-					for (int k = YnumTiles; k < YnumTiles + YTilesInScr; k++)
+					XnumTiles -= 1;
+				}
+				XTilesAround = (mob1->scale.x - fmod(mob1->scale.x, getTileWidth())) / getTileWidth();
+				if (fmod(mob1->scale.x, getTileWidth()) > 0)
+					XTilesAround += 3;
+				else
+					XTilesAround += 2;
+				if (XnumTiles <= 0)
+				{
+					XTilesAround -= 1;
+				}
+
+				//Find how many tiles screen is away from bottom
+				BP = FuturePos.y - mob1->scale.y /2;
+				YnumTiles = (BP - fmod(BP, getTileHeight())) / getTileHeight();
+				if (YnumTiles > 0)
+				{
+					YnumTiles -= 1;
+				}
+				YTilesAround = (mob1->scale.y - fmod(mob1->scale.y, getTileHeight())) / getTileHeight();
+				if (fmod(mob1->scale.y, getTileHeight()) > 0)
+					YTilesAround += 3;
+				else
+					YTilesAround += 2;
+				if (YnumTiles <= 0)
+				{
+					YTilesAround -= 1;
+				}
+
+				for (int j = XnumTiles; j < XnumTiles + XTilesAround; j++)
+				{
+					if (j > XTilesInWorld || j < 0)
+						continue;
+					for (int k = YnumTiles; k < YnumTiles + YTilesAround; k++)
 					{
+						if (k > YTilesInWorld || k < 0)
+							continue;
+
 						int TileSpace = k * XTilesInWorld + j;
-						if (map[TileSpace] != nullptr)
+						if (map[TileSpace] == nullptr)
+							continue;
+						
+						if (mob1->type == GameObject::GO_PLAYER)
 						{
-							if (mob1->type == GameObject::GO_PLAYER)
+							if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, GAMESPEED))
 							{
-								if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, GAMESPEED))
-								{
-									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, GAMESPEED);
-									//cout << "Collided" << endl;
-									break;
-								}
+								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, GAMESPEED);
+								//cout << "Collided" << endl;
+								break;
+							}
+						}
+						else
+						{
+							if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, m_speed))
+							{
+								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, m_speed);
+								//cout << "Collided" << endl;
+								break;
 							}
 							else
 							{
-								if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, m_speed))
-								{
-									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, m_speed);
-									//cout << "Collided" << endl;
-									break;
-								}
-								else
-								{
-									//cout << "Im Falling" << endl;
-								}
+								//cout << "Im Falling" << endl;
 							}
 						}
+						
 					}
 				}
 				std::vector<int> cleanUpVector;
@@ -308,30 +339,72 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 								}
 							}
 
-							for (int j = XnumTiles; j < XnumTiles + XTilesInScr; j++)
+							FuturePos = projectile->pos + projectile->vel * dt * m_speed;
+							Vector3 FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
+							float angle = atan2f(FutureN.y, FutureN.y);
+							//Find how many tiles mob is away from left side
+							LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) / 2;
+							XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
+							if (XnumTiles > 0)
 							{
-								for (int k = YnumTiles; k < YnumTiles + YTilesInScr; k++)
+								XnumTiles -= 1;
+							}
+							XTilesAround = (projectile->scale.x - fmod(projectile->scale.x, getTileWidth())) / getTileWidth();
+							if (fmod(projectile->scale.x, getTileWidth()) > 0)
+								XTilesAround += 3;
+							else
+								XTilesAround += 2;
+							if (XnumTiles <= 0)
+							{
+								XTilesAround -= 1;
+							}
+
+							//Find how many tiles screen is away from bottom
+							BP = FuturePos.y - (projectile->scale.x * sin(angle) + projectile->scale.y * cos(angle)) / 2;
+							YnumTiles = (BP - fmod(BP, getTileHeight())) / getTileHeight();
+							if (YnumTiles > 0)
+							{
+								YnumTiles -= 1;
+							}
+							YTilesAround = (projectile->scale.y - fmod(projectile->scale.y, getTileHeight())) / getTileHeight();
+							if (fmod(projectile->scale.y, getTileHeight()) > 0)
+								YTilesAround += 3;
+							else
+								YTilesAround += 2;
+							if (YnumTiles <= 0)
+							{
+								YTilesAround -= 1;
+							}
+
+							for (int j = XnumTiles; j < XnumTiles + XTilesAround; j++)
+							{
+								if (j > XTilesInWorld || j < 0)
+									continue;
+								for (int k = YnumTiles; k < YnumTiles + YTilesAround; k++)
 								{
+									if (k > YTilesInWorld || k < 0)
+										continue;
 									int TileSpace = k * XTilesInWorld + j;
-									if (map[TileSpace] != nullptr)
+									if (map[TileSpace] == nullptr)
+										continue;
+
+									if (projectile->type == GameObject::GO_ARROW ||
+										projectile->type == GameObject::GO_MAGICBALL ||
+										projectile->type == GameObject::GO_PORTAL)
 									{
-										if (projectile->type == GameObject::GO_ARROW ||
-											projectile->type == GameObject::GO_MAGICBALL ||
-											projectile->type == GameObject::GO_PORTAL)
+										if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace] ,dt, GAMESPEED))
 										{
-											if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace] ,dt, GAMESPEED))
-											{
-												GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, GAMESPEED);
-											}
-										}
-										else
-										{
-											if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, m_speed))
-											{
-												GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, m_speed);
-											}
+											GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, GAMESPEED);
 										}
 									}
+									else
+									{
+										if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, m_speed))
+										{
+											GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, m_speed);
+										}
+									}
+									
 								}
 							}
 						}
