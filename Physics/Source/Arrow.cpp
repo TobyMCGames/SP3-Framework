@@ -11,10 +11,10 @@ Arrow::~Arrow()
 
 }
 
-void Arrow::Update(double dt, float GAMESPEED)
+void Arrow::Update(double dt, float m_speed)
 {
-	pos += vel * dt * GAMESPEED;
-	vel += (GamePhysics::GetInstance()->gravity) * dt * GAMESPEED;
+	pos += vel * dt * m_speed;
+	vel += (GamePhysics::GetInstance()->gravity) * dt * m_speed;
 	normal = vel.Normalized();
 }
 

@@ -153,7 +153,6 @@ bool GameLevelBase::loadMap(std::string file_path)
 				player->GetInstance();
 				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.1f);
 				player->vel.SetZero();
-				xOffset += TILEWIDTH;
 				tempEntity = player;
 				isEntity = true;
 				break;
@@ -254,21 +253,77 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 						int TileSpace = k * XTilesInWorld + j;
 						if (map[TileSpace] != nullptr)
 						{
-							if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, m_speed))
+							if (mob1->type == GameObject::GO_PLAYER)
 							{
-								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, m_speed);
-								//cout << "Collided" << endl;
-								break;
+								if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, GAMESPEED))
+								{
+									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, GAMESPEED);
+									//cout << "Collided" << endl;
+									break;
+								}
 							}
-
+							else
+							{
+								if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, m_speed))
+								{
+									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, m_speed);
+									//cout << "Collided" << endl;
+									break;
+								}
+								else
+								{
+									cout << "Im Falling" << endl;
+								}
+							}
 						}
 					}
 				}
-				
+				std::vector<int> cleanUpVector;
 				for (int j = 0; j < projectileList.size(); j++)
 				{
 					if ((projectileList[j] == nullptr) || (projectileList[j]->active != true))
 					{
+						if (CheckWithinScreen(projectile))
+						{
+							if (projectile->type == GameObject::GO_ARROW ||
+								projectile->type == GameObject::GO_MAGICBALL ||
+								projectile->type == GameObject::GO_PORTAL)
+							{
+								if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, GAMESPEED))
+								{
+									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, GAMESPEED);
+								}
+							}
+							else
+							{
+								if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, m_speed))
+								{
+									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, m_speed);
+								}
+							}
+						}
+						else
+						{
+							delete projectile;
+							projectileList[j] = nullptr;
+							cleanUpVector.push_back(j);
+						}
+					}
+					else
+					{
+						cout << "projectile was null in projectile list" << endl;
+					}
+				}
+				for (int j = 0; j < cleanUpVector.size(); j++)
+				{
+					projectileList.erase(projectileList.begin() + cleanUpVector[j] - j);
+				}
+				cleanUpVector.clear();
+			}
+		}
+		else
+		{
+			cout << "There was a null entity1" << endl;
 						continue;
 					}
 					if (CheckWithinScreen(projectileList[j]))
