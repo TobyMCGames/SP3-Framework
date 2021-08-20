@@ -81,11 +81,39 @@ void Zombie::Update(double dt, float m_speed)
 
 void Zombie::Response(GameObject* go)
 {
-	//std::cout << "zombie response" << std::endl;	
-	//return;
-	if (go->type > GameObject::PROJECTILES_START && go->type < GameObject::PROJECTILE_END)
+	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
 	{
-		std::cout << "ow why you bully me" << std::endl;
-		// take damage
+		if (vel.y == 0)
+		{
+			curLocation = ON_GROUND;
+		}
+
+		if (currState == PATROL)
+		{
+			//check direction
+			if (CheckDirection(LEFT) == true)
+			{
+				curDirection = LEFT;
+			}
+			else if (CheckDirection(RIGHT) == true)
+			{
+				curDirection = RIGHT;
+			}
+			else
+			{
+				if (curDirection == LEFT)
+				{
+					curDirection = RIGHT;
+				}
+				else
+					curDirection = LEFT;
+				
+			}
+		}
 	}
 }
+
+//void Zombie::FlipHorizontalDirection(void)
+//{
+//	vel.x *= -1;
+//}
