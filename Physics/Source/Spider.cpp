@@ -103,6 +103,31 @@ void Spider::Update(double dt, float m_speed)
 
 void Spider::Response(GameObject* go)
 {
+	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
+	{
+		if (currState == PATROL)
+		{
+			//check direction
+			if (CheckDirection(LEFT) == true)
+			{
+				curDirection = LEFT;
+			}
+			else if (CheckDirection(RIGHT) == true)
+			{
+				curDirection = RIGHT;
+			}
+			else
+			{
+				if (curDirection == LEFT)
+				{
+					curDirection = RIGHT;
+				}
+				else
+					curDirection = LEFT;
+
+			}
+		}
+	}
 	if (go->type == GameObject::GO_ARROW ||
 		go->type == GameObject::GO_PORTAL ||
 		go->type == GameObject::GO_MAGICBALL)// player damage zombie
@@ -114,10 +139,6 @@ void Spider::Response(GameObject* go)
 			dead();
 		}
 	}
-}
-
-void Spider::dead()
-{
-	this->active = false;
+	return;
 }
 
