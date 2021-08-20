@@ -42,6 +42,7 @@ Player::~Player()
 void Player::dead()
 {
 	// handle restart level, go to main menu, dead screen idk 
+	health = 100;
 }
 
 

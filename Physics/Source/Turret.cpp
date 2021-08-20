@@ -4,7 +4,7 @@
 
 Turret::Turret()
 {
-	shootCounter = 0.f;
+	shootCounter = 0.2f;
 	
 }
 

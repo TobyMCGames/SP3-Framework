@@ -51,6 +51,174 @@ void GameLevelBase::RenderPlayer()
 	modelStack.PopMatrix();
 }
 
+bool GameLevelBase::loadLegend(std::string file_path)
+{
+	ifstream file;
+	std::string skey;
+	std::string svalue;
+	std::pair<std::string, int> dictpair;
+	file.open(file_path);
+	if (!file.is_open()) {
+		cout << "File can not be opened" << endl;
+		return false;
+	}
+	bool value = false;
+	bool rowdone = false;
+	while (!file.eof())
+	{
+		char line[256];
+		file.getline(line, 256);
+		skey = "";
+		svalue = "";
+		for (int i = 0; i < 256; i++)
+		{
+			if (rowdone == true)
+			{
+				rowdone = false;
+				value = false;
+				break;
+			}
+			switch (line[i])
+			{
+			case ',':
+				if (value == false)
+				{
+					dictpair.first = skey;
+					value = true;
+				}
+				else
+				{
+					dictpair.second = std::stoi(svalue);
+					Legend.insert(dictpair);
+					rowdone = true;
+				}
+				break;
+			default:
+				if (value == false)
+					skey += line[i];
+				else
+					svalue += line[i];
+				break;
+			}
+		}
+	}	
+}
+
+GameObject* GameLevelBase::getdictionaryObject(std::string key,Vector3 pos,Vector3 vel,Vector3 scale,Vector3 normal)
+{
+	std::map<std::string,int>::iterator it;
+	int value = 0;
+	bool validKey = false;
+	if (key == "p")
+		return nullptr;
+
+	for (it = Legend.begin(); it != Legend.end(); it++)
+	{
+		if (key == it->first) 
+		{
+			value = it->second;
+			validKey = true;
+			break; 
+		}
+	}
+	if (validKey == true)
+	{
+		bool isEntity = false;
+		GameObject* temp = nullptr;
+		Entity* tempentity = nullptr;
+		switch (value)
+		{
+			case 0: // nullptr
+				map.push_back(nullptr);
+				return nullptr;
+				break;
+			case 1: // brick
+			{
+				temp = TileFactory::getObject(TileFactory::BRICK, pos, vel, scale);
+				isEntity = false;
+			}
+			break;
+
+			case 2: // stone brick
+			{
+				temp = TileFactory::getObject(TileFactory::STONEBRICK, pos, vel, scale);
+				isEntity = false;
+			}
+			break;
+
+			case 3: // spike
+			{
+				temp = TileFactory::getObject(TileFactory::SPIKE, pos, vel, scale);
+				isEntity = false;
+			}
+			break;
+
+			case 4: // zombie
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 5: // skele archer
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 6: // spider
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 7: // nymph
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 8: // turret
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::TURRET, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 9: // boomer 
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 10: // demon lord
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
+				isEntity = true;
+			}			
+		}
+		if (isEntity == true)
+		{
+			tempentity->active = true;
+			EntityList.push_back(tempentity);
+			map.push_back(nullptr);
+			return tempentity;
+			
+		}
+		else if (temp != nullptr)
+		{
+			temp->active = true;
+			map.push_back(temp);
+			return temp;
+		}
+	}
+	return nullptr;
+}
+
 bool GameLevelBase::loadMap(std::string file_path)
 {
 	ifstream file;
@@ -65,117 +233,62 @@ bool GameLevelBase::loadMap(std::string file_path)
 	Vector3 pos = Vector3(0, 0, 0);
 	Vector3 vel = Vector3(0, 0, 0);
 	Vector3 scale = Vector3(TILEWIDTH * 1.f, TILEHEIGHT*1.f, 1);
-	while (!file.eof()) {
+	Vector3	normal = Vector3(1, 0,0);
+	while (!file.eof()) 
+	{
 		char line[256];
 		file.getline(line, 256);
 		if (!file.eof())
 			linesinreverse.push_back(line);
 	}
 	float xOffset = 0, yOffset = 0;
-	GameObject* temp = nullptr;
-	Entity* tempEntity = nullptr;
-	bool isEntity = false;
+	std::string key = "";
+
 	for (int row = linesinreverse.size() - 1; row >= 0; row--)
 	{
-		for (int col = 0; col < 256; col++)
+		for (int col = 0; col < linesinreverse[row].size(); col++)
 		{
-			scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
-			vel = Vector3(0, 0, 0);
-			
-			temp = nullptr;
-			tempEntity = nullptr;
-			isEntity = false;
-			switch (linesinreverse[row][col])
+			if (linesinreverse[row][col] == ',' && key != "P")
 			{
-			case ',':
+				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
+				scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
+				getdictionaryObject(key, pos, vel, scale, normal);
+				key = "";
 				commacounter++;
-				continue;
-			case '0':
 				xOffset += TILEWIDTH;
-				if (col - commacounter > highestcol)
-					highestcol = col;
-				map.push_back(temp);
-				continue;
-			case '1': // brick 
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2 , 0);
-				temp = TileFactory::getObject(TileFactory::TILE_LIST::BRICK,pos,vel,scale);
-				break;
-			case '2': // stone brick
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2 , 0);
-				temp = TileFactory::getObject(TileFactory::TILE_LIST::STONEBRICK,pos,vel,scale);
-				break;
-			case '3': // spike 
-				pos.Set(xOffset  + scale.x / 2, yOffset + scale.y / 2, 0);
-				temp = TileFactory::getObject(TileFactory::TILE_LIST::SPIKE, pos, vel, scale);
-				break;
-			case '4': // zombie
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '5': // Skeleton Archer
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '6': // Spider
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '7': // Nymph
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '8': // Turret
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::TURRET, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '9': // Boomer
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '10': // Demon Lord
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-				
-			case 'P':
-				player->GetInstance();
-				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.0f);
-				player->vel.SetZero();
-				tempEntity = player;
-				isEntity = true;
-				break;
 			}
-			xOffset += TILEWIDTH;
-			if ((col-commacounter) > highestcol)
-				highestcol = col - commacounter;
-			if (temp != nullptr && isEntity == false) 
+			else if (key != "P")
 			{
-				temp->active = true;
-				map.push_back(temp);
+				key += linesinreverse[row][col];
+				if (col == linesinreverse[row].size() - 1)
+				{
+					pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
+					scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
+					getdictionaryObject(key, pos, vel, scale, normal);
+					key = "";
+					commacounter++;
+					xOffset += TILEWIDTH;
+				}
 			}
-			else if (isEntity == true)
+			if (linesinreverse[row][col] == ',')
 			{
-				map.push_back(nullptr);
-				tempEntity->active = true;
-				EntityList.push_back(tempEntity);
-			
-			}	
-			else
-				break;
+				if (key == "P")
+				{
+					player->GetInstance();
+					player->pos.Set(commacounter * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size()-1 - row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.0f);
+					player->vel.SetZero();
+					player->scale.Set(TILEWIDTH, TILEHEIGHT, 1);
+					player->normal.Set(1, 0, 0);
+					player->active = true;
+					EntityList.push_back(player);
+					map.push_back(nullptr);
+					commacounter++;
+					key = "";
+					xOffset += TILEWIDTH;
+				}
+			}
+			if ((commacounter) > highestcol)
+				highestcol = commacounter;
 		}
 		xOffset = 0;
 		yOffset += TILEHEIGHT;
