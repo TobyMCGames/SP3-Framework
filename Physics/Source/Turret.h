@@ -11,8 +11,8 @@ protected:
 		SHOOT,
 		NUM_STATES,
 	};
-	int shootCounter;
-	const int MaxFirerate = 20;
+	float shootCounter;
+	const float MaxFirerate = 1.f;
 public:
 	Turret();
 	~Turret();

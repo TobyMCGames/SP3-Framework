@@ -4,7 +4,7 @@
 
 Turret::Turret()
 {
-	shootCounter = 0;
+	shootCounter = 0.f;
 	
 }
 
@@ -23,9 +23,10 @@ void Turret::Update(double dt, float m_speed)
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_TURRETBULLET,
 					pos - (normal * scale.x), -normal, scale, normal);
 			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bullet);
-			shootCounter = 0;
+			shootCounter = 0.f;
 		}
-		shootCounter++;
+		shootCounter += dt * m_speed;
+		cout << shootCounter << endl;
 	}
 }
 
