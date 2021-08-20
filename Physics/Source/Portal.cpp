@@ -3,6 +3,7 @@
 Portal::Portal()
 {
 	Default_Speed = 100.f;
+	scale.Set(5, 5, 1);
 }
 
 Portal::~Portal()
