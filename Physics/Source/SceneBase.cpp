@@ -191,6 +191,10 @@ void SceneBase::Init()
 	meshList[GEO_MAGICBALL]->textureID = LoadTGA("Image//PROJECTILES//energy_ball.tga");
 	meshList[GEO_PORTAL] = MeshBuilder::GenerateQuad("portal", Color(1, 1, 1));
 	meshList[GEO_PORTAL]->textureID = LoadTGA("Image//PROJECTILES//portal.tga");
+
+	//enemy projectiles
+	meshList[GEO_TURRETBULLET] = MeshBuilder::GenerateQuad("turret bullet", Color(1, 1, 1));
+	meshList[GEO_TURRETBULLET]->textureID = LoadTGA("Image//PROJECTILES//turret_bullet.tga");
 	
 
 	bLightEnabled = true;
@@ -455,6 +459,15 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack.PopMatrix();
 		break;
 
+	case GameObject::GO_TURRETBULLET:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y+0.7, go->pos.z + zOffset);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_TURRETBULLET], false);
+		modelStack.PopMatrix();
+		break;
+
 	case GameObject::ROCK_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -504,6 +517,13 @@ void SceneBase::RenderGO(GameObject* go)
 			modelStack.Rotate(0, 0, 1, 0);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_ZOMBIE], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_TURRET:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_TURRET], false);
 		modelStack.PopMatrix();
 		break;
 	}

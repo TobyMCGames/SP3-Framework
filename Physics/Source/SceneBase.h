@@ -93,6 +93,10 @@ public:
 		GEO_MAGICBALL,
 		GEO_PORTAL,
 
+		//enemy projectiles
+		GEO_TURRETBULLET,
+		GEO_SKELEARROW,
+
 		NUM_GEOMETRY,
 	};
 public:

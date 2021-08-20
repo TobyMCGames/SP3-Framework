@@ -7,8 +7,12 @@ protected:
 	enum BEHAVIOUR
 	{
 		// insert more states here
+		SCANNING,
+		SHOOT,
 		NUM_STATES,
 	};
+	int shootCounter;
+	const int MaxFirerate = 20;
 public:
 	Turret();
 	~Turret();
