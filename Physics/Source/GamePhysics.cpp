@@ -17,9 +17,6 @@ void GamePhysics::Update(GameObject* go, double dt, float m_speed)
 
 bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, float m_speed)
 {
-	if (go1->active == false || go2->active == false)
-		return false;
-
 	if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_BALL)
 	{
 		if ((go1->pos - go2->pos).LengthSquared() <= (go1->scale.x + go2->scale.x) * (go1->scale.x + go2->scale.x))
@@ -365,25 +362,6 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			}
 		}
 	}
-	if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END) &&
-		(go2->type > GameObject::PROJECTILES_START && go2->type < GameObject::PROJECTILE_END))
-	{
-		if (AABB(go1, go2))
-		{
-			go1->Response(go2);
-			go2->Response(go1);
-			return true;
-		}
-	}
-	else if ((go1->type > GameObject::PROJECTILES_START && go1->type < GameObject::PROJECTILE_END) &&
-		(go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
-	{
-		if (AABB(go1, go2))
-		{
-			go1->Response(go2);
-			go2->Response(go1);
-		}
-	}
 	return false;
 }
 
@@ -460,42 +438,24 @@ void GamePhysics::CheckCollisionResponse(GameObject* go1, GameObject* go2, doubl
 	{
 		go1->Response(go2);
 	}
-	else if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END) && (go2->type > GameObject::PROJECTILES_START && go2->type < GameObject::PROJECTILE_END))
-	{
-		go1->Response(go2); // take damage;
-		go2->Response(go1); // deactivate projectile
-	}
-	else if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END)
-		&& (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
-	{
-		go1->Response(go2);
-		go2->Response(go1);
-	}
-	// projectile -> tile
-	else if ((go1->type > GameObject::PROJECTILES_START && go1->type < GameObject::PROJECTILE_END)
-		&& (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
-	{
-		go1->Response(go2);
-	}
+	return;
 }
 
 bool GamePhysics::AABB(GameObject* go1, GameObject* go2)
 {
-
-	Vector3 go1min, go1max,go2min,go2max;	
+	bool collided = false;
+	Vector3 go1min, go1max,go2min,go2max;
 	go1min = go1->pos;
 	go1max = go1->pos;
-	go1min.x -= go1->scale.x * 0.5;
-	go1min.y -= go1->scale.y * 0.5 - go1->normal.y;
-	go1max.x += go1->scale.x * 0.5;
-	go1max.y += go1->scale.y * 0.5 + go1->normal.y;
+	go1min.x -= go1->scale.x * 0.5f;
+	go1min.y -= go1->scale.y * 0.5f;
+	go1max.x += go1->scale.x * 0.5f;
+	go1max.y += go1->scale.y *0.5f;
 
-	go2min = go2->pos;
-	go2max = go2->pos;
-	go2min.x -= go2->scale.x * 0.5;
-	go2min.y -= go2->scale.y * 0.5 - go2->normal.y;
-	go2max.x += go2->scale.x * 0.5;
-	go2max.y += go2->scale.y * 0.5 + go2->normal.y;
+	go2min.x -= go2->scale.x *0.5f;
+	go2min.y -= go2->scale.y *0.5f;
+	go2max.x += go2->scale.x *0.5f;
+	go2max.y += go2->scale.y *0.5f;
 
 	bool collisionX = go1min.x <= go2max.x && go1max.x >= go2min.x;
 	bool collisionY = go1min.y <= go2max.y && go1max.y >= go2min.y;
@@ -504,6 +464,4 @@ bool GamePhysics::AABB(GameObject* go1, GameObject* go2)
 		std::cout << "collision happened" << std::endl;
 		return true;
 	}
-	else
-		return false;
 }

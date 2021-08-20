@@ -70,7 +70,6 @@ public:
 		GEO_PLAYER,
 		GEO_STONEBRICK,
 		GEO_SPIKE,
-		GEO_ROTATED_TILE,
 
 		//weapons
 		GEO_BOW,
@@ -93,6 +92,10 @@ public:
 		GEO_ARROW,
 		GEO_MAGICBALL,
 		GEO_PORTAL,
+
+		//enemy projectiles
+		GEO_TURRETBULLET,
+		GEO_SKELEARROW,
 
 		NUM_GEOMETRY,
 	};

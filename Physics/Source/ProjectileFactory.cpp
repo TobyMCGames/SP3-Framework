@@ -8,7 +8,7 @@
 #include "SpiderPoison.h"
 #include "TurretBullet.h"
 
-Projectile* ProjectileFactory::produceProjectile(PROJECTILE_TYPES projectileType, Vector3 pos, Vector3 vel, Vector3 normal)
+Projectile* ProjectileFactory::produceProjectile(PROJECTILE_TYPES projectileType, Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal)
 {
 	Projectile* newProjectile = nullptr;
 	switch (projectileType)
@@ -48,6 +48,7 @@ Projectile* ProjectileFactory::produceProjectile(PROJECTILE_TYPES projectileType
 	}
 	newProjectile->pos = pos;
 	newProjectile->vel = vel * newProjectile->getProjectileSpeed();
+	newProjectile->scale = scale;
 	newProjectile->normal = normal;
 	newProjectile->active = true;
 	return newProjectile;

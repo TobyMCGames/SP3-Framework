@@ -5,7 +5,7 @@
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
 Player::Player()
-	: curWeapon(Player::PORTALGUN)
+	: curWeapon(Player::BOW)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
@@ -25,14 +25,13 @@ Player::Player()
 	FireWeapon = false;
 
 	// Slow down time mechanic
-	TimeSpeed = 1.f;
+	TimeSpeed = 1.f; // is this variable even used?
 	SlowTime = false;
 
-	//SOUNDS do not create a device every time, create one put it in gamelevelmanager and thats it it will handle all the sound 
-	// have a soundinfo clas so you dont have to load the soundfile in everytime u want to use it.
-	/*arrowSound = createIrrKlangDevice();
+	//SOUNDS
+	arrowSound = createIrrKlangDevice();
 	magicballSound = createIrrKlangDevice();
-	portal = createIrrKlangDevice();*/
+	portal = createIrrKlangDevice();
 }
 
 Player::~Player()
@@ -43,7 +42,7 @@ Player::~Player()
 
 void Player::Update(double dt, float m_speed)
 {
-	Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
+	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
 								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
 								pos.z);
 	double x, y;
@@ -63,22 +62,23 @@ void Player::Update(double dt, float m_speed)
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
 		SlowTime = true;
+		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
 	}
-
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
 	{
 		SlowTime = false;
+		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
 	}
 
-	if (SlowTime)
+	/*if (SlowTime)
 	{
-		m_speed = 1.f;
+		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
 	}
 
 	if (!SlowTime)
 	{
-		m_speed = 2.7f;
-	}
+		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
+	}*/
 
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -93,20 +93,20 @@ void Player::Update(double dt, float m_speed)
 		{
 		case BOW:
 			{
-		//	arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
+			arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
 			Projectile* arrow = 
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
-					pos + (normal*scale.x), normal,normal);
+					pos + (normal*scale.x), normal, scale, normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
 			}
 		case STAFF:
 			{
-		//	magicballSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Magic_Ball.wav", false);
+			magicballSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Magic_Ball.wav", false);
 			Projectile* magicBall =
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
-					pos + (normal * scale.x), normal, normal);
+					pos + (normal * scale.x), normal, scale, normal);
 
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 				cout << "Magic ball created" << endl;
@@ -114,10 +114,10 @@ void Player::Update(double dt, float m_speed)
 			}
 		case PORTALGUN:
 			{
-		//	portal->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Portal_2.wav", false);
+			portal->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Portal_2.wav", false);
 				Projectile* portal = 
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-						pos + (normal * scale.x), normal, normal);
+						pos + (normal * scale.x), normal, scale, normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 				cout << "portal created" << endl;
 				break;

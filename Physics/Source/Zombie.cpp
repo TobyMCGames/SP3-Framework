@@ -6,6 +6,9 @@ Zombie::Zombie()
 {
 	Default_Speed = 5;
 	StateCounter = 0;
+	attackTimer = 0;
+	speedBoostTimer = 0;
+	speedBoost = 5;
 }
 
 Zombie::~Zombie()
@@ -15,8 +18,7 @@ Zombie::~Zombie()
 
 void Zombie::Update(double dt, float m_speed)
 {
-	pos += vel * dt * m_speed;
-	std::cout << this->normal << std::endl;
+	//pos += vel * dt * m_speed;
 	switch (currState)
 	{
 	case IDLE:
@@ -28,18 +30,23 @@ void Zombie::Update(double dt, float m_speed)
 		}
 		else
 		{
-			vel = 0;
+			pos.y += vel.y * dt * m_speed;
 		}
 		StateCounter++;
 		break;
 	case PATROL:
 		if (StateCounter > MaxStateCounter)
 		{
+			/*if (CheckDirection(LEFT))
+			{
+				curDirection = RIGHT;
+			}
+			else
+				curDirection = LEFT;*/
 			currState = IDLE;
 			StateCounter = 0;
 			cout << "switching to Idle state" << endl;
 		}
-		//vel.x = 15;
 		else if ((pos - Player::GetInstance()->pos).Length() <= 30)
 		{
 			currState = ATTACK;
@@ -48,7 +55,12 @@ void Zombie::Update(double dt, float m_speed)
 		}
 		else
 		{
-			vel.x = Default_Speed;
+			if(curDirection == RIGHT)
+				vel.x = Default_Speed;
+			else
+				vel.x = -Default_Speed;
+
+			pos += vel * dt * m_speed;
 		}
 		StateCounter++;
 		break;
@@ -63,6 +75,12 @@ void Zombie::Update(double dt, float m_speed)
 			{
 				vel.x = -Default_Speed;
 			}
+			if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
+			{
+				vel.y += JumpForce;
+				curLocation = IN_AIR;
+			}
+			pos += vel * dt * m_speed;
 		}
 		else 
 		{
@@ -77,6 +95,7 @@ void Zombie::Update(double dt, float m_speed)
 	default:
 		break;
 	}
+	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 }
 
 void Zombie::Response(GameObject* go)
@@ -113,7 +132,8 @@ void Zombie::Response(GameObject* go)
 	}
 }
 
-//void Zombie::FlipHorizontalDirection(void)
-//{
-//	vel.x *= -1;
-//}
+
+void Zombie::FlipHorizontalDirection(void)
+{
+	vel.x *= -1;
+}

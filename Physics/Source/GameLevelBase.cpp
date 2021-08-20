@@ -149,11 +149,11 @@ bool GameLevelBase::loadMap(std::string file_path)
 				temp = tempEntity;
 				isEntity = true;
 				break;
+				
 			case 'P':
 				player->GetInstance();
 				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.1f);
 				player->vel.SetZero();
-				xOffset += TILEWIDTH;
 				tempEntity = player;
 				isEntity = true;
 				break;
@@ -163,13 +163,11 @@ bool GameLevelBase::loadMap(std::string file_path)
 				highestcol = col - commacounter;
 			if (temp != nullptr && isEntity == false) 
 			{
-				temp->active = true;
 				map.push_back(temp);
 			}
 			else if (isEntity == true)
 			{
 				map.push_back(nullptr);
-				tempEntity->active = true;
 				EntityList.push_back(tempEntity);
 			}	
 			else
@@ -221,7 +219,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 	/// Find Camera Tile Displacement in World Space
 	//Find how many tiles screen is away from left side
 	int XnumTiles = (camera.position.x - fmod(camera.position.x, getTileWidth())) / getTileWidth();
-	int XTilesInScr =NULL;
+	int XTilesInScr;
 	if (fmod(camera.position.x, getTileWidth()) > 0)
 		XTilesInScr = 33;
 	else
@@ -240,7 +238,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 
 	/////////////////////////////////////////////////////////////
 
-	for (int i = 0; i < EntityList.size(); i++) // entity collision check
+	for (int i = 0; i < EntityList.size(); i++)
 	{
 		AdvanceGO* mob1 = EntityList[i];
 		if (mob1 != nullptr)
@@ -254,13 +252,28 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 						int TileSpace = k * XTilesInWorld + j;
 						if (map[TileSpace] != nullptr)
 						{
-							if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, m_speed))
+							if (mob1->type == GameObject::GO_PLAYER)
 							{
-								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, m_speed);
-								//cout << "Collided" << endl;
-								break;
+								if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, GAMESPEED))
+								{
+									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, GAMESPEED);
+									//cout << "Collided" << endl;
+									break;
+								}
 							}
-
+							else
+							{
+								if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, m_speed))
+								{
+									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, m_speed);
+									//cout << "Collided" << endl;
+									break;
+								}
+								else
+								{
+									//cout << "Im Falling" << endl;
+								}
+							}
 						}
 					}
 				}
@@ -273,9 +286,21 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 					{
 						if (CheckWithinScreen(projectile))
 						{
-							if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, m_speed))
+							if (projectile->type == GameObject::GO_ARROW ||
+								projectile->type == GameObject::GO_MAGICBALL ||
+								projectile->type == GameObject::GO_PORTAL)
 							{
-								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, m_speed);
+								if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, GAMESPEED))
+								{
+									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, GAMESPEED);
+								}
+							}
+							else
+							{
+								if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, m_speed))
+								{
+									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, m_speed);
+								}
 							}
 						}
 						else
@@ -301,10 +326,8 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 		{
 			cout << "There was a null entity1" << endl;
 		}
-		break;
 	}
 }
-
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
 {

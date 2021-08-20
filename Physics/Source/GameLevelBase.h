@@ -39,12 +39,11 @@ public:
 	float getworldWidth();
 	float getworldHeight();
 	float getTileWidth();
-	float getTileHeight();	
+	float getTileHeight();
+	
+	
 	bool CheckWithinScreen(GameObject* go);
 	void CollisionChecks(double dt, float m_speed);
-	void cleanmapLists();
-	void cleanEntityList();
-	void cleanProjectileList();
 
 	float m_speed;
 	std::vector<AdvanceGO*>* getProjectileList();

@@ -73,16 +73,29 @@ bool SceneCollision::Update(double dt)
 {
 	SceneBase::Update(dt);
 	camera.Update(dt, player);
-	player->Update(dt, GAMESPEED);
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
-		projectileList[i]->Update(dt, GAMESPEED);
+		AdvanceGO* curProjectile = projectileList[i];
+		if (curProjectile->type == GameObject::GO_ARROW ||
+			curProjectile->type == GameObject::GO_MAGICBALL ||
+			curProjectile->type == GameObject::GO_PORTAL)
+		{
+			projectileList[i]->Update(dt, GAMESPEED);
+		}
+		else
+			projectileList[i]->Update(dt, m_speed);
 	}
 	
 	for (int i = 0; i < EntityList.size(); i++)
 	{
-		EntityList[i]->Update(dt, GAMESPEED);
+		if (EntityList[i]->type == GameObject::GO_PLAYER)
+			EntityList[i]->Update(dt, GAMESPEED);
+		else
+		{
+			if (CheckWithinScreen(EntityList[i]))
+				EntityList[i]->Update(dt, m_speed);
+		}
 	}
 
 	if (Application::IsKeyPressed('9'))
@@ -153,43 +166,7 @@ bool SceneCollision::Update(double dt)
 	}
 
 	player->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
-	//Physics Simulation Section
-	// Check for gameObjects within screen only
-	//Find how many tiles screen is away from left side
-	//int XnumTiles = (camera.position.x - fmod(camera.position.x, getTileWidth())) / getTileWidth();
-	//int XTilesInScr;
-	//if (fmod(camera.position.x, getTileWidth()) > 0)
-	//	XTilesInScr = 33;
-	//else
-	//	XTilesInScr = 32;
 
-	//int YnumTiles = (camera.position.y - fmod(camera.position.y, getTileHeight())) / getTileHeight();
-	//int YTilesInScr;
-	//if (fmod(camera.position.y, getTileHeight()) > 0)
-	//	YTilesInScr = 19;
-	//else
-	//	YTilesInScr = 18;
-
-
-	//int XTilesInWorld = getworldWidth() / getTileWidth();
-	//int YTilesInWorld = getworldHeight() / getTileHeight();
-	//for (int i = XnumTiles; i < XnumTiles + XTilesInScr; i++)
-	//{
-	//	for (int j = YnumTiles; j < YnumTiles + YTilesInScr; j++)
-	//	{
-	//		int TileSpace = j * XTilesInWorld + i;
-	//		if (map[TileSpace] != nullptr)
-	//		{
-	//			if (GamePhysics::GetInstance()->CheckCollision(player, map[TileSpace], dt, m_speed))
-	//			{
-	//				GamePhysics::GetInstance()->CheckCollisionResponse(player, map[TileSpace], dt, m_speed);
-	//				//cout << "Collided" << endl;
-	//				break;
-	//			}
-
-	//		}
-	//	}
-	//}
 	CollisionChecks(dt, m_speed);
 	player->pos += player->vel * dt * GAMESPEED;
 	return true;
@@ -261,6 +238,8 @@ void SceneCollision::Render()
 			RenderGO(go);
 		}
 	}
+
+	
 
 	//On screen text
 	

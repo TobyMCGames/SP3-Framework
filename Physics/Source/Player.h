@@ -61,8 +61,8 @@ protected:
 	CKeyboardController* cKeyboardController;
 
 	//Player sounds
-	//ISoundEngine* arrowSound;
-	//ISoundEngine* magicballSound;
-	//ISoundEngine* portal;
+	ISoundEngine* arrowSound;
+	ISoundEngine* magicballSound;
+	ISoundEngine* portal;
 };
 

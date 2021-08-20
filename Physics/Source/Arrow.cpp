@@ -3,7 +3,6 @@
 Arrow::Arrow()
 {
 	speed = 30.f;
-	scale.Set(5.f,2, 1);
 }
 
 Arrow::~Arrow()
@@ -11,15 +10,15 @@ Arrow::~Arrow()
 
 }
 
-void Arrow::Update(double dt, float GAMESPEED)
+void Arrow::Update(double dt, float m_speed)
 {
-	pos += vel * dt * GAMESPEED;
-	vel += (GamePhysics::GetInstance()->gravity) * dt * GAMESPEED;
+	pos += vel * dt * m_speed;
+	vel += (GamePhysics::GetInstance()->gravity) * dt * m_speed;
 	normal = vel.Normalized();
 }
 
 void Arrow::Response(GameObject* go)
 {
-	this->active = false;
+
 }
 
