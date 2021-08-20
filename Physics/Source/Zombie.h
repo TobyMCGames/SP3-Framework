@@ -20,7 +20,7 @@ protected:
 	BEHAVIOUR currState;
 
 	float speedBoost;
-	/*bool CheckDirection(DIRECTION direction);*/
+	//bool CheckDirection(DIRECTION direction);
 	void FlipHorizontalDirection(void);
 	//void UpdatePosition();
 public:
