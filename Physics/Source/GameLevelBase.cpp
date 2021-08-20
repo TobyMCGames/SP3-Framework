@@ -205,6 +205,15 @@ float GameLevelBase::getTileHeight()
 	return TILEHEIGHT;
 }
 
+void GameLevelBase::cleanupList(std::vector<int>* indexlist)
+{
+	for (int j = 0; j < indexlist->size(); j++)
+	{
+		projectileList.erase(projectileList.begin() + indexlist->at(j) - j);
+	}
+	indexlist->clear();
+}
+
 bool GameLevelBase::CheckWithinScreen(GameObject* go)
 {
 	if (go->pos.x + go->scale.x / 2 < camera.position.x ||
@@ -319,14 +328,20 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 					if (projectile != nullptr)
 					{
 						if (projectile->active == false)
+						{
+							delete projectile;
+							projectileList[j] = nullptr;
+							cleanUpVector.push_back(j);
 							continue;
+						}
+							
 						if (CheckWithinScreen(projectile))
 						{
 							if (projectile->type == GameObject::GO_ARROW ||
 								projectile->type == GameObject::GO_MAGICBALL ||
 								projectile->type == GameObject::GO_PORTAL)
 							{
-								if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt,1))
+								if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, GAMESPEED))
 								{
 									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, GAMESPEED);
 								}
@@ -420,11 +435,9 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 						cout << "projectile was null in projectile list" << endl;
 					}
 				}
-				for (int j = 0; j < cleanUpVector.size(); j++)
-				{
-					projectileList.erase(projectileList.begin() + cleanUpVector[j] - j);
-				}
-				cleanUpVector.clear();
+					// clean up was here
+				if (cleanUpVector.size() != 0)
+					cleanupList(&cleanUpVector);
 			}
 		}
 		else
