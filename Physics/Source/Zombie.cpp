@@ -18,12 +18,7 @@ Zombie::~Zombie()
 
 void Zombie::Update(double dt, float m_speed)
 {
-	//int velx = vel.x;
-	//int absvelX = abs(vel.x);
-	//int velX = vel.x / (abs(vel.x)) * Default_Speed;
-	//cout << vel.x << endl;
-	pos += vel * dt * m_speed;
-	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
+	//pos += vel * dt * m_speed;
 	switch (currState)
 	{
 	case IDLE:
@@ -35,7 +30,7 @@ void Zombie::Update(double dt, float m_speed)
 		}
 		else
 		{
-			vel = 0;
+			pos.y += vel.y * dt * m_speed;
 		}
 		StateCounter++;
 		break;
@@ -65,7 +60,8 @@ void Zombie::Update(double dt, float m_speed)
 				vel.x = Default_Speed;
 			else
 				vel.x = -Default_Speed;
-			/*vel.x = vel.x / (abs(vel.x)) * Default_Speed;*/
+
+			pos += vel * dt * m_speed;
 		}
 		StateCounter++;
 		break;
@@ -87,6 +83,7 @@ void Zombie::Update(double dt, float m_speed)
 				vel.y += JumpForce;
 				curLocation = IN_AIR;
 			}
+			pos += vel * dt * m_speed;
 		}
 		else 
 		{
@@ -101,7 +98,7 @@ void Zombie::Update(double dt, float m_speed)
 	default:
 		break;
 	}
-	
+	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 }
 
 void Zombie::Response(GameObject* go)
