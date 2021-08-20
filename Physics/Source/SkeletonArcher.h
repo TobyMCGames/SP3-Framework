@@ -7,10 +7,18 @@ protected:
 	enum BEHAVIOUR
 	{
 		// insert more states here
+		IDLE,
+		CHASE,
+		ATTACK,
 		NUM_STATES,
 	};
-	int shootCounter;
-	const int MaxFirerate = 60;
+	BEHAVIOUR currState;
+	float shootCounter;
+	float attackTimer;
+	float StateCounter;
+	const float JumpForce = 15;
+	const float MaxStateCounter = 1;
+	const int MaxFirerate = 5;
 public:
 	SkeletonArcher();
 	~SkeletonArcher();

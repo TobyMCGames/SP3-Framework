@@ -12,11 +12,11 @@ protected:
 		ATTACK,
 		NUM_STATES,
 	};
-	int speedBoostTimer;
-	int attackTimer;
-	int StateCounter;
+	float speedBoostTimer;
+	float attackTimer;
+	float StateCounter;
 	const float JumpForce = 15;
-	const int MaxStateCounter = 60;
+	const float MaxStateCounter = 1;
 	BEHAVIOUR currState;
 
 	float speedBoost;

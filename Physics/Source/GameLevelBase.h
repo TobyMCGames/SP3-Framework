@@ -25,6 +25,7 @@ protected:
 	vector<GameObject*>map;
 	vector<AdvanceGO*> EntityList;
 	vector<AdvanceGO*> projectileList;
+	vector<AdvanceGO*> InteractableList;
 	Player* player;
 	float m_worldWidth;
 	float m_worldHeight;
