@@ -145,3 +145,8 @@ void Spider::Response(GameObject* go)
 	return;
 }
 
+void Spider::dead()
+{
+
+}
+
