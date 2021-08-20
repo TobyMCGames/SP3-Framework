@@ -18,7 +18,7 @@ void MagicBall::Update(double dt, float m_speed)
 
 void MagicBall::Response(GameObject* go)
 {
-
+	this->active = false;
 }
 
 

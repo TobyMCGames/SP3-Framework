@@ -16,6 +16,6 @@ void Portal::Update(double dt, float m_speed)
 
 void Portal::Response(GameObject* go)
 {
-
+	this->active = false;
 }
 

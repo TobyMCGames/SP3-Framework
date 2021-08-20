@@ -19,6 +19,6 @@ void Arrow::Update(double dt, float m_speed)
 
 void Arrow::Response(GameObject* go)
 {
-
+	this->active = false;
 }
 

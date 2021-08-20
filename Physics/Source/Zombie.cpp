@@ -18,7 +18,9 @@ Zombie::~Zombie()
 
 void Zombie::Update(double dt, float m_speed)
 {
-	//pos += vel * dt * m_speed;
+	if (currState != IDLE)
+		pos.x += vel.x * dt * m_speed;
+	pos.y += vel.y * dt * m_speed;
 	switch (currState)
 	{
 	case IDLE:
@@ -30,7 +32,7 @@ void Zombie::Update(double dt, float m_speed)
 		}
 		else
 		{
-			pos.y += vel.y * dt * m_speed;
+			
 		}
 		StateCounter++;
 		break;
@@ -55,12 +57,11 @@ void Zombie::Update(double dt, float m_speed)
 		}
 		else
 		{
+
 			if(curDirection == RIGHT)
 				vel.x = Default_Speed;
 			else
 				vel.x = -Default_Speed;
-
-			pos += vel * dt * m_speed;
 		}
 		StateCounter++;
 		break;
@@ -80,7 +81,6 @@ void Zombie::Update(double dt, float m_speed)
 				vel.y += JumpForce;
 				curLocation = IN_AIR;
 			}
-			pos += vel * dt * m_speed;
 		}
 		else 
 		{
