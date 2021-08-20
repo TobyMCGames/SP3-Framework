@@ -32,10 +32,6 @@ void Spider::Update(double dt, float m_speed)
 			StateCounter = 0;
 			cout << "switching to Patrol state" << endl;
 		}
-		else
-		{
-
-		}
 		StateCounter++;
 		break;
 	case PATROL:
@@ -78,11 +74,12 @@ void Spider::Update(double dt, float m_speed)
 			{
 				vel.x = -Default_Speed;
 			}
-			if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
+			// jump if player is higher than spider
+			/*if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
 			{
 				vel.y += JumpForce;
 				curLocation = IN_AIR;
-			}
+			}*/
 		}
 		else
 		{
@@ -105,6 +102,12 @@ void Spider::Response(GameObject* go)
 {
 	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
 	{
+		// uncomment this to make spides jump (also need to uncomment a section above)
+		if (vel.y == 0)
+		{
+			curLocation = ON_GROUND;
+		}
+
 		if (currState == PATROL)
 		{
 			//check direction
