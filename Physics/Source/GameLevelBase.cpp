@@ -17,6 +17,7 @@ GameLevelBase::~GameLevelBase()
 
 void GameLevelBase::RenderPlayer()
 {
+	std::cout << player->pos.z + zOffset << std::endl;
 	modelStack.PushMatrix();
 	{
 		modelStack.Translate(player->pos.x, player->pos.y, player->pos.z + zOffset);
@@ -24,7 +25,7 @@ void GameLevelBase::RenderPlayer()
 		RenderMesh(meshList[GEO_PLAYER], false);
 		modelStack.PushMatrix();
 		{
-			modelStack.Translate(0, 0, 1);
+			modelStack.Translate(0, 0, 1+zOffset+0.001);
 			if (player->normal.x >= 0)
 				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y,player->normal.x)), 0, 0, 1);
 			else
@@ -152,7 +153,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				
 			case 'P':
 				player->GetInstance();
-				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.1f);
+				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.0f);
 				player->vel.SetZero();
 				tempEntity = player;
 				isEntity = true;
