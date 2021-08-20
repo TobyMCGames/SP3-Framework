@@ -284,11 +284,11 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 
 				for (int j = XnumTiles; j < XnumTiles + XTilesAround; j++)
 				{
-					if (j < XTilesInWorld || j < 0)
+					if (j >= XTilesInWorld || j < 0)
 						continue;
 					for (int k = YnumTiles; k < YnumTiles + YTilesAround; k++)
 					{
-						if (k < YTilesInWorld || k < 0)
+						if (k >= YTilesInWorld || k < 0)
 							continue;
 
 						int TileSpace = k * XTilesInWorld + j;
@@ -393,11 +393,11 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 
 							for (int j = XnumTiles; j < XnumTiles + XTilesAround; j++)
 							{
-								if (j < XTilesInWorld || j < 0)
+								if (j >= XTilesInWorld || j < 0)
 									continue;
 								for (int k = YnumTiles; k < YnumTiles + YTilesAround; k++)
 								{
-									if (k < YTilesInWorld || k < 0)
+									if (k >= YTilesInWorld || k < 0)
 										continue;
 									int TileSpace = k * XTilesInWorld + j;
 									if (map[TileSpace] == nullptr)
