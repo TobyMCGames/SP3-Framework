@@ -20,9 +20,7 @@ protected:
 	BEHAVIOUR currState;
 
 	float speedBoost;
-	/*bool CheckDirection(DIRECTION direction);*/
 	void FlipHorizontalDirection(void);
-	//void UpdatePosition();
 public:
 	Zombie();
 	~Zombie();

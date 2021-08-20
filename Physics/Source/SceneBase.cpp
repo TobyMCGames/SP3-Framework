@@ -498,6 +498,10 @@ void SceneBase::RenderGO(GameObject* go)
 	case GameObject::GO_ZOMBIE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		if(go->vel.x < 0)
+			modelStack.Rotate(180, 0, 1, 0);
+		else
+			modelStack.Rotate(0, 0, 1, 0);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_ZOMBIE], false);
 		modelStack.PopMatrix();

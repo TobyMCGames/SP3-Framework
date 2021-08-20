@@ -47,7 +47,6 @@ void Zombie::Update(double dt, float m_speed)
 			StateCounter = 0;
 			cout << "switching to Idle state" << endl;
 		}
-		//vel.x = 15;
 		else if ((pos - Player::GetInstance()->pos).Length() <= 30)
 		{
 			currState = ATTACK;
@@ -68,8 +67,6 @@ void Zombie::Update(double dt, float m_speed)
 	case ATTACK:
 		if ((pos - Player::GetInstance()->pos).Length() <= 30)
 		{
-			//attackTimer++;
-			//cout << attackTimer << endl;
 			if ((Player::GetInstance()->pos.x - pos.x) > 0)
 			{
 				vel.x = Default_Speed;
