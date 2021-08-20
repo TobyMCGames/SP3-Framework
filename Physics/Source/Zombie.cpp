@@ -6,9 +6,6 @@ Zombie::Zombie()
 {
 	Default_Speed = 5;
 	StateCounter = 0;
-	attackTimer = 0;
-	speedBoostTimer = 0;
-	speedBoost = 5;
 }
 
 Zombie::~Zombie()
@@ -18,7 +15,8 @@ Zombie::~Zombie()
 
 void Zombie::Update(double dt, float m_speed)
 {
-	//pos += vel * dt * m_speed;
+	pos += vel * dt * m_speed;
+	std::cout << this->normal << std::endl;
 	switch (currState)
 	{
 	case IDLE:
@@ -30,23 +28,18 @@ void Zombie::Update(double dt, float m_speed)
 		}
 		else
 		{
-			pos.y += vel.y * dt * m_speed;
+			vel = 0;
 		}
 		StateCounter++;
 		break;
 	case PATROL:
 		if (StateCounter > MaxStateCounter)
 		{
-			/*if (CheckDirection(LEFT))
-			{
-				curDirection = RIGHT;
-			}
-			else
-				curDirection = LEFT;*/
 			currState = IDLE;
 			StateCounter = 0;
 			cout << "switching to Idle state" << endl;
 		}
+		//vel.x = 15;
 		else if ((pos - Player::GetInstance()->pos).Length() <= 30)
 		{
 			currState = ATTACK;
@@ -55,12 +48,7 @@ void Zombie::Update(double dt, float m_speed)
 		}
 		else
 		{
-			if(curDirection == RIGHT)
-				vel.x = Default_Speed;
-			else
-				vel.x = -Default_Speed;
-
-			pos += vel * dt * m_speed;
+			vel.x = Default_Speed;
 		}
 		StateCounter++;
 		break;
@@ -75,12 +63,6 @@ void Zombie::Update(double dt, float m_speed)
 			{
 				vel.x = -Default_Speed;
 			}
-			if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
-			{
-				vel.y += JumpForce;
-				curLocation = IN_AIR;
-			}
-			pos += vel * dt * m_speed;
 		}
 		else 
 		{
@@ -95,45 +77,15 @@ void Zombie::Update(double dt, float m_speed)
 	default:
 		break;
 	}
-	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 }
 
 void Zombie::Response(GameObject* go)
 {
-	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
+	//std::cout << "zombie response" << std::endl;	
+	//return;
+	if (go->type > GameObject::PROJECTILES_START && go->type < GameObject::PROJECTILE_END)
 	{
-		if (vel.y == 0)
-		{
-			curLocation = ON_GROUND;
-		}
-
-		if (currState == PATROL)
-		{
-			//check direction
-			if (CheckDirection(LEFT) == true)
-			{
-				curDirection = LEFT;
-			}
-			else if (CheckDirection(RIGHT) == true)
-			{
-				curDirection = RIGHT;
-			}
-			else
-			{
-				if (curDirection == LEFT)
-				{
-					curDirection = RIGHT;
-				}
-				else
-					curDirection = LEFT;
-				
-			}
-		}
+		std::cout << "ow why you bully me" << std::endl;
+		// take damage
 	}
-}
-
-
-void Zombie::FlipHorizontalDirection(void)
-{
-	vel.x *= -1;
 }

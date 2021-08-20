@@ -169,10 +169,6 @@ void SceneBase::Init()
 	meshList[GEO_PORTALGUN] = MeshBuilder::GenerateQuad("portal gun", Color(1, 1, 1));
 	meshList[GEO_PORTALGUN]->textureID = LoadTGA("Image//WEAPONS//portal_gun.tga");
 
-	//Interactables
-	meshList[GEO_WEAPON_STATION] = MeshBuilder::GenerateQuad("Stone Pedastal", Color(1, 1, 1));
-	meshList[GEO_WEAPON_STATION]->textureID = LoadTGA("Image//InteractiveBlocks//WeaponStation.tga");
-
 	// Enemy
 	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateQuad("Zombie", Color(1, 1, 1));
 	meshList[GEO_ZOMBIE]->textureID = LoadTGA("Image//Enemy//Zombie.tga");
@@ -501,10 +497,6 @@ void SceneBase::RenderGO(GameObject* go)
 	case GameObject::GO_ZOMBIE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
-		if(go->vel.x < 0)
-			modelStack.Rotate(180, 0, 1, 0);
-		else
-			modelStack.Rotate(0, 0, 1, 0);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_ZOMBIE], false);
 		modelStack.PopMatrix();

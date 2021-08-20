@@ -25,7 +25,7 @@ Player::Player()
 	FireWeapon = false;
 
 	// Slow down time mechanic
-	TimeSpeed = 1.f; // is this variable even used?
+	TimeSpeed = 1.f;
 	SlowTime = false;
 
 	//SOUNDS do not create a device every time, create one put it in gamelevelmanager and thats it it will handle all the sound 
@@ -62,24 +62,13 @@ void Player::Update(double dt, float m_speed)
 
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
-		SlowTime = true;
-		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
+		m_speed = 1.f;
 	}
+
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
 	{
-		SlowTime = false;
-		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
+		m_speed = 2.7f;
 	}
-
-	/*if (SlowTime)
-	{
-		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
-	}
-
-	if (!SlowTime)
-	{
-		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
-	}*/
 
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))

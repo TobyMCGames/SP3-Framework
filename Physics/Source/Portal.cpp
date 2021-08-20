@@ -10,9 +10,9 @@ Portal::~Portal()
 {
 }
 
-void Portal::Update(double dt, float m_speed)
+void Portal::Update(double dt, float GAMESPEED)
 {
-	pos += vel * dt * m_speed;
+	pos += vel * dt;
 }
 
 void Portal::Response(GameObject* go)

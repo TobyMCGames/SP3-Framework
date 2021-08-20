@@ -23,6 +23,5 @@ public:
 	void CheckCollisionResponse(GameObject* go1, GameObject* go2, double dt, float m_speed);
 	//AABB for projectiles
 	bool AABB(GameObject* go1, GameObject* go2);
-	
 };
 
