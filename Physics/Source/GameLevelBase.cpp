@@ -269,6 +269,10 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 									//cout << "Collided" << endl;
 									break;
 								}
+								else
+								{
+									cout << "Im Falling" << endl;
+								}
 							}
 						}
 					}

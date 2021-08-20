@@ -166,6 +166,10 @@ void SceneBase::Init()
 	meshList[GEO_PORTALGUN] = MeshBuilder::GenerateQuad("portal gun", Color(1, 1, 1));
 	meshList[GEO_PORTALGUN]->textureID = LoadTGA("Image//WEAPONS//portal_gun.tga");
 
+	//Interactables
+	meshList[GEO_WEAPON_STATION] = MeshBuilder::GenerateQuad("Stone Pedastal", Color(1, 1, 1));
+	meshList[GEO_WEAPON_STATION]->textureID = LoadTGA("Image//InteractiveBlocks//WeaponStation.tga");
+
 	// Enemy
 	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateQuad("Zombie", Color(1, 1, 1));
 	meshList[GEO_ZOMBIE]->textureID = LoadTGA("Image//Enemy//Zombie.tga");
