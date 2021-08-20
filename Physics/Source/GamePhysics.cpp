@@ -364,13 +364,21 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			}
 		}
 	}
-	if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END) && (go1->type != GameObject::GO_PLAYER) && 
+
+	if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END)&&
 		(go2->type > GameObject::PROJECTILE_START && go2->type < GameObject::PROJECTILE_END))
 	{
+		// check for player's own projectile 
+		if ((go1->type == GameObject::GO_PLAYER)
+			&& (go2->type == GameObject::GO_ARROW) || go2->type == GameObject::GO_MAGICBALL) 
+			return false;
+		// turret cannot damage itself
+		if ((go1->type == GameObject::GO_TURRET) &&
+			(go2->type == GameObject::GO_TURRETBULLET))
+			return false;
+
 		if (AABB(go1, go2))
 		{
-			go1->Response(go2);
-			go2->Response(go1);
 			return true;
 		}
 	}
@@ -379,8 +387,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 	{
 		if (AABB(go1, go2))
 		{
-			go1->Response(go2);
-			go2->Response(go1);
+			return true;
 		}
 	}
 	return false;

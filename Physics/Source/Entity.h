@@ -39,6 +39,8 @@ public:
 	virtual void Update(double dt, float m_speed)=0;
 	virtual void Response(GameObject* go)=0;
 	bool CheckDirection(DIRECTION direction);
+	void takeDamage(int damage);
+	virtual void dead() = 0;
 
 };
 #endif

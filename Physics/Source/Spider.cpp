@@ -9,6 +9,7 @@ Spider::Spider()
 	attackTimer = 0;
 	speedBoostTimer = 0;
 	speedBoost = 5;
+	health = 100;
 	return;
 }
 
@@ -30,10 +31,6 @@ void Spider::Update(double dt, float m_speed)
 			currState = PATROL;
 			StateCounter = 0;
 			cout << "switching to Patrol state" << endl;
-		}
-		else
-		{
-
 		}
 		StateCounter++;
 		break;
@@ -77,11 +74,12 @@ void Spider::Update(double dt, float m_speed)
 			{
 				vel.x = -Default_Speed;
 			}
-			if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
+			// uncomment this section to make spider jump
+			/*if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
 			{
 				vel.y += JumpForce;
 				curLocation = IN_AIR;
-			}
+			}*/
 		}
 		else
 		{
@@ -102,7 +100,52 @@ void Spider::Update(double dt, float m_speed)
 
 void Spider::Response(GameObject* go)
 {
-	//std::cout << "Spider: response" << std::endl;
+	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
+	{
+		if (vel.y == 0)
+		{
+			curLocation = ON_GROUND;
+		}
+
+		if (currState == PATROL)
+		{
+			//check direction
+			if (CheckDirection(LEFT) == true)
+			{
+				curDirection = LEFT;
+			}
+			else if (CheckDirection(RIGHT) == true)
+			{
+				curDirection = RIGHT;
+			}
+			else
+			{
+				if (curDirection == LEFT)
+				{
+					curDirection = RIGHT;
+				}
+				else
+					curDirection = LEFT;
+
+			}
+		}
+	}
+	if (go->type == GameObject::GO_ARROW ||
+		go->type == GameObject::GO_PORTAL ||
+		go->type == GameObject::GO_MAGICBALL)// player damage zombie
+	{
+		takeDamage(go->damage);
+
+		if (health <= 0)
+		{
+			dead();
+		}
+	}
 	return;
+}
+
+void Spider::dead()
+{
+
 }
 

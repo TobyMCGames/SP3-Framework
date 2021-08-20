@@ -24,4 +24,5 @@ public:
 	~SkeletonArcher();
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
+	virtual void dead();
 };

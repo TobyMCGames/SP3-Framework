@@ -3,7 +3,7 @@
 
 DemonBall::DemonBall()
 {
-	speed = 10.f;
+	Default_Speed = 10.f;
 }
 
 DemonBall::~DemonBall()

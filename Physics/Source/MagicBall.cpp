@@ -3,7 +3,7 @@
 
 MagicBall::MagicBall()
 {
-	speed = 50.f;
+	Default_Speed = 50.f;
 }
 
 MagicBall::~MagicBall()

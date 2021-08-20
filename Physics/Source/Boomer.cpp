@@ -20,3 +20,8 @@ void Boomer::Response(GameObject* go)
 	std::cout << "Boomer response" << std::endl;
 	return;
 }
+
+void Boomer::dead()
+{
+	this->active = false;
+}

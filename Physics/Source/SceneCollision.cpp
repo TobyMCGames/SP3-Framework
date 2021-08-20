@@ -76,6 +76,8 @@ bool SceneCollision::Update(double dt)
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
+		if (projectileList[i]->active == false)
+			continue;
 		AdvanceGO* curProjectile = projectileList[i];
 		if (curProjectile->type == GameObject::GO_ARROW ||
 			curProjectile->type == GameObject::GO_MAGICBALL ||
@@ -89,6 +91,8 @@ bool SceneCollision::Update(double dt)
 	
 	for (int i = 0; i < EntityList.size(); i++)
 	{
+		if (EntityList[i]->active == false)
+			continue;
 		if (EntityList[i]->type == GameObject::GO_PLAYER)
 			EntityList[i]->Update(dt, GAMESPEED);
 		else

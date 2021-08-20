@@ -2,7 +2,8 @@
 
 Portal::Portal()
 {
-	speed = 100.f;
+	Default_Speed = 100.f;
+	scale.Set(5, 5, 1);
 }
 
 Portal::~Portal()
@@ -16,6 +17,8 @@ void Portal::Update(double dt, float m_speed)
 
 void Portal::Response(GameObject* go)
 {
-	this->active = false;
+	if ((go->type > GameObject::PASSIVE_TILE_START &&
+		go->type < GameObject::PASSIVE_TILE_END))
+		this->active = false;
 }
 

@@ -40,8 +40,7 @@ public:
 	float getworldHeight();
 	float getTileWidth();
 	float getTileHeight();
-	
-	
+	void cleanupList(std::vector<int>* indexlist);
 	bool CheckWithinScreen(GameObject* go);
 	void CollisionChecks(double dt, float m_speed);
 

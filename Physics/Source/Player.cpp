@@ -5,7 +5,7 @@
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
 Player::Player()
-	: curWeapon(Player::BOW)
+	: curWeapon(Player::PORTALGUN)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
@@ -37,6 +37,11 @@ Player::Player()
 Player::~Player()
 {
 
+}
+
+void Player::dead()
+{
+	// handle restart level, go to main menu, dead screen idk 
 }
 
 
@@ -219,6 +224,16 @@ void Player::Response(GameObject* go)
 		if (vel.y == 0)
 		{
 			curLocation = ON_GROUND;
+		}
+	}
+	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
+		(go->type == GameObject::GO_ZOMBIE))
+	{
+		takeDamage(go->damage);
+
+		if (health <= 0)
+		{
+			dead();
 		}
 	}
 }
