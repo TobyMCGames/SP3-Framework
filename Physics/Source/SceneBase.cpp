@@ -574,6 +574,27 @@ void SceneBase::RenderGO(GameObject* go)
 		RenderMesh(meshList[GEO_TURRET], false);
 		modelStack.PopMatrix();
 		break;
+	case GameObject::WEAPON_STATION_BOW:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_WEAPON_STATION], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::WEAPON_STATION_STAFF:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_WEAPON_STATION], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::WEAPON_STATION_PORTAL:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_WEAPON_STATION], false);
+		modelStack.PopMatrix();
+		break;
 	}
 	zOffset += 0.001f;
 }

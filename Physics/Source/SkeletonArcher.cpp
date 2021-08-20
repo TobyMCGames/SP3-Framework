@@ -118,6 +118,10 @@ void SkeletonArcher::Response(GameObject* go)
 			}
 		}
 	}
+	if (go->type == GameObject::GO_ARROW)
+	{
+		go->active = false;
+	}
 }
 
 void SkeletonArcher::dead()

@@ -45,6 +45,9 @@
     <Filter Include="Source Files\Tiles">
       <UniqueIdentifier>{0859aa2c-9382-433c-99a6-45cd81ab6fd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Interactives">
+      <UniqueIdentifier>{33e8b0a1-348b-44df-90e7-d7a93baeb363}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -177,6 +180,9 @@
       <Filter>DesignPatterns</Filter>
     </ClCompile>
     <ClCompile Include="Source\EntityFactory.cpp">
+      <Filter>DesignPatterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\InteractableFactory.cpp">
       <Filter>DesignPatterns</Filter>
     </ClCompile>
   </ItemGroup>
@@ -332,6 +338,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\EntityFactory.h">
+      <Filter>DesignPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Interactables.h">
+      <Filter>Header Files\Interactives</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\InteractableFactory.h">
       <Filter>DesignPatterns</Filter>
     </ClInclude>
   </ItemGroup>
