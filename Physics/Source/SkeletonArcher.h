@@ -9,6 +9,8 @@ protected:
 		// insert more states here
 		NUM_STATES,
 	};
+	int shootCounter;
+	const int MaxFirerate = 60;
 public:
 	SkeletonArcher();
 	~SkeletonArcher();

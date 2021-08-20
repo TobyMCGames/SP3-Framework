@@ -3,7 +3,7 @@
 
 SkeleArrow::SkeleArrow()
 {
-	speed = 10.f;
+	Default_Speed = 30;
 }
 
 SkeleArrow::~SkeleArrow()
@@ -12,6 +12,9 @@ SkeleArrow::~SkeleArrow()
 
 void SkeleArrow::Update(double dt, float m_speed)
 {
+	pos += vel * dt * m_speed;
+	vel += (GamePhysics::GetInstance()->gravity) * dt * m_speed;
+	normal = vel.Normalized();
 }
 
 void SkeleArrow::Response(GameObject* go)
