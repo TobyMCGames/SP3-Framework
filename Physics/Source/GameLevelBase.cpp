@@ -264,138 +264,42 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 						}
 					}
 				}
-				
+				std::vector<int> cleanUpVector;
 				for (int j = 0; j < projectileList.size(); j++)
 				{
-					if ((projectileList[j] == nullptr) || (projectileList[j]->active != true))
+					AdvanceGO* projectile;
+					projectile = projectileList[j];
+					if (projectile != nullptr)
 					{
-						continue;
-					}
-					if (CheckWithinScreen(projectileList[j]))
-					{
-						if (GamePhysics::GetInstance()->CheckCollision(mob1,projectileList[j], dt, m_speed))
+						if (CheckWithinScreen(projectile))
 						{
-							GamePhysics::GetInstance()->CheckCollisionResponse(mob1,projectileList[j], dt, m_speed);
+							if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, m_speed))
+							{
+								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, m_speed);
+							}
+						}
+						else
+						{
+							delete projectile;
+							projectileList[j] = nullptr;
+							cleanUpVector.push_back(j);
 						}
 					}
 					else
 					{
-						projectileList[j]->active = false;
+						cout << "projectile was null in projectile list" << endl;
 					}
 				}
-				cleanProjectileList();
+				for (int j = 0; j < cleanUpVector.size(); j++)
+				{
+					projectileList.erase(projectileList.begin() + cleanUpVector[j] - j);
+				}
+				cleanUpVector.clear();
 			}
 		}
 		else
 		{
 			cout << "There was a null entity1" << endl;
-		}
-	}
-
-	for (int i = 0; i < projectileList.size(); i++) // projectile collision check
-	{
-		AdvanceGO* projectile = projectileList[i];
-		if (projectile != nullptr)
-		{
-			if (CheckWithinScreen(projectileList[i]))
-			{
-				for (int j = XnumTiles; j < XnumTiles + XTilesInScr; j++) // check for within the screen. can limit somemore.
-				{
-					for (int k = YnumTiles; k < YnumTiles + YTilesInScr; k++)
-					{
-						int TileSpace = k * XTilesInWorld + j;
-						if (map[TileSpace] != nullptr)
-						{
-							if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, m_speed))
-							{
-								GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, m_speed);
-								//cout << "Collided" << endl;
-								break;
-							}
-						}
-					}
-				}
-			}
-			else
-				projectile->active = false;
-		}
-	}
-}
-
-void GameLevelBase::cleanmapLists()
-{
-	int deletedamt = 0;
-	int vecSize = map.size();
-	if (vecSize == 0)
-		return;
-	int previndex = 0;
-	while (true)
-	{
-		for (int i = previndex; i < map.size(); i++)
-		{
-			if (map[i] == nullptr)
-			{
-				map.erase(map.begin() + i);
-			}
-			else if (map[i]->active == false)
-			{
-				delete map[i];
-				map.erase(map.begin() + i);
-				previndex = i;
-			}
-		}
-		break;
-	}
-}
-
-void GameLevelBase::cleanEntityList()
-{
-	int deletedamt = 0;
-	int vecSize = EntityList.size();
-	if (vecSize == 0)
-		return;
-	int previndex = 0;
-	while (true)
-	{
-		for (int i = previndex; i < EntityList.size(); i++)
-		{
-			if (EntityList[i] == nullptr)
-			{
-				EntityList.erase(EntityList.begin() + i);
-			}
-			else if (EntityList[i]->active == false)
-			{
-				delete  EntityList[i];
-				EntityList.erase(EntityList.begin() + i);
-				previndex = i;
-			}
-		}
-		break;
-
-	}
-}
-
-void GameLevelBase::cleanProjectileList()
-{
-	int deletedamt = 0;
-	int vecSize = projectileList.size();
-	if (vecSize == 0)
-		return;
-	int previndex = 0; 
-	while (true)
-	{
-		for (int i = previndex; i < projectileList.size(); i++)
-		{
-			if (projectileList[i] == nullptr)
-			{
-				projectileList.erase(projectileList.begin() + i);
-			}
-			else if (projectileList[i]->active == false)
-			{
-				delete projectileList[i];
-				projectileList.erase(projectileList.begin() + i);
-				previndex = i;
-			}
 		}
 		break;
 	}

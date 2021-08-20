@@ -62,10 +62,20 @@ void Player::Update(double dt, float m_speed)
 
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
-		m_speed = 1.f;
+		SlowTime = true;
 	}
 
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
+	{
+		SlowTime = false;
+	}
+
+	if (SlowTime)
+	{
+		m_speed = 1.f;
+	}
+
+	if (!SlowTime)
 	{
 		m_speed = 2.7f;
 	}
