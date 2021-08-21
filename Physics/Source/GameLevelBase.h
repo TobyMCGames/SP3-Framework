@@ -20,7 +20,6 @@ private:
 	const int YTILE_SCREEN = 18;
 	const int XTILE_SCREEN = 32;
 	const float offset = 0.005f;
-	std::map<std::string,int> Legend;
 
 protected:
 	vector<GameObject*>map;
@@ -40,7 +39,6 @@ public:
 	virtual void Exit() = 0;
 	virtual void RenderPlayer();
 	bool loadLegend(std::string file_path);
-	bool initdictionaryObject(std::string key,Vector3 pos, Vector3 vel,Vector3 scale,Vector3 normal);
 	void mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal);
 	bool loadMap(std::string file_path);
 	const float GAMESPEED = 2.7f;
