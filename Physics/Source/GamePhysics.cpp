@@ -258,6 +258,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.y < 0.1)
 				{
 					go1->vel.y = 0;
+					go1->pos.y = go2->pos.y + ((go2->scale.y  + go1->scale.y) / 2 + 0.003f);
 				}
 				return true;
 			}
@@ -272,6 +273,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.x < 0.1)
 				{
 					go1->vel.x = 0;
+					go1->pos.x = go2->pos.x - ((go2->scale.x + go1->scale.x) / 2 + 0.003f);
 				}
 				return true;
 			}
@@ -289,6 +291,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.y < 0.1)
 				{
 					go1->vel.y = 0;
+					go1->pos.y = go2->pos.y + ((go2->scale.y + go1->scale.y) / 2 + 0.003f);
 				}
 				return true;
 			}
@@ -303,6 +306,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.x > -0.1)
 				{
 					go1->vel.x = 0;
+					go1->pos.x = go2->pos.x + ((go2->scale.x + go1->scale.x) / 2 + 0.003f);
 				}
 				return true;
 			}
@@ -320,6 +324,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.x < 0.1)
 				{
 					go1->vel.x = 0;
+					go1->pos.x = go2->pos.x - ((go2->scale.x + go1->scale.x) / 2 + 0.003f);
 				}
 				return true;
 			}
@@ -331,6 +336,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				go1->vel.y *= 0.1;
+				go1->pos.y = go2->pos.y - ((go2->scale.y + go1->scale.y) / 2 + 0.003f);
 				return true;
 			}
 		}
@@ -347,6 +353,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.x > -0.1)
 				{
 					go1->vel.x = 0;
+					go1->pos.x = go2->pos.x + ((go2->scale.x + go1->scale.x) / 2 + 0.003f);
 				}
 				return true;
 			}
@@ -358,6 +365,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
 				go1->vel.y *= 0.1;
+				go1->pos.y = go2->pos.y - ((go2->scale.y + go1->scale.y) / 2 + 0.003f);
 				return true;
 			}
 		}

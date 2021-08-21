@@ -98,7 +98,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 
 	for (int row = linesinreverse.size()-1; row >= 0; row--)
 	{
-		for (int col = 0; col < linesinreverse[row].size()-1; col++)
+		for (int col = 0; col < linesinreverse[row].size(); col++)
 		{
 			scale.Set(TILEWIDTH, TILEHEIGHT, 1);
 			pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
@@ -108,12 +108,13 @@ bool GameLevelBase::loadMap(std::string file_path)
 			tempentity = false;
 			if ((linesinreverse[row][col] == ',') || (col == linesinreverse[row].size() - 1))
 			{
+				if (col == linesinreverse[row].size() - 1)
+				{
+					key += linesinreverse[row][col];
+				}
 				if (key == "0")
 				{
-					map.push_back(nullptr);
-					xOffset += getTileWidth();
-					key = "";
-					continue;
+
 				}
 				else if (key == "1") // brick
 				{
@@ -168,6 +169,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 					mapinitPlayer(pos, vel, scale, normal);
 					xOffset += getTileWidth();
 					key = "";
+					commacounter++;
 					continue;
 				}
 
@@ -278,10 +280,6 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 			XTilesAround += 3;
 		else
 			XTilesAround += 2;
-		if (XnumTiles <= 0)
-		{
-			XTilesAround -= 1;
-		}
 
 		//Find how many tiles screen is away from bottom
 		BP = FuturePos.y - mob1->scale.y /2;
@@ -295,10 +293,6 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 			YTilesAround += 3;
 		else
 			YTilesAround += 2;
-		if (YnumTiles <= 0)
-		{
-			YTilesAround -= 1;
-		}
 
 		for (int j = XnumTiles; j < XnumTiles + XTilesAround; j++)
 		{
@@ -433,10 +427,6 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 					XTilesAround += 3;
 				else
 					XTilesAround += 2;
-				if (XnumTiles <= 0)
-				{
-					XTilesAround -= 1;
-				}
 
 				//Find how many tiles screen is away from bottom
 				BP = FuturePos.y - (projectile->scale.x * sin(angle) + projectile->scale.y * cos(angle)) / 2;
@@ -450,10 +440,6 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 					YTilesAround += 3;
 				else
 					YTilesAround += 2;
-				if (YnumTiles <= 0)
-				{
-					YTilesAround -= 1;
-				}
 
 				for (int j = XnumTiles; j < XnumTiles + XTilesAround; j++)
 				{
