@@ -18,7 +18,7 @@ SkeletonArcher::~SkeletonArcher()
 
 void SkeletonArcher::Update(double dt, float m_speed)
 {
-	cout << (pos - Player::GetInstance()->pos).Length() << endl;
+	//cout << (pos - Player::GetInstance()->pos).Length() << endl;
 	if (currState != IDLE)
 		pos.x += vel.x * dt * m_speed;
 	pos.y += vel.y * dt * m_speed;
@@ -38,12 +38,12 @@ void SkeletonArcher::Update(double dt, float m_speed)
 			if ((Player::GetInstance()->pos.x - pos.x) > 0)
 			{
 				vel.x = Default_Speed;
-				normal.Set(1.f, 0.f, 0.f);
+				normal.Set(1.f, -1.f, 0.f);
 			}
 			else if ((Player::GetInstance()->pos.x - pos.x) < 0)
 			{
 				vel.x = -Default_Speed;
-				normal.Set(-1.f, 0.f, 0.f);
+				normal.Set(-1.f, -1.f, 0.f);
 			}
 			if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
 			{
