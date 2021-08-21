@@ -36,10 +36,8 @@ void SceneCollision::Init()
 	player->vel.Set(1.f, 1.f, 0);
 	player->scale.Set(4.5f,4.5f,1);
 	Math::InitRNG();
-	loadLegend("Maps//Legend.txt");
 	loadMap("Maps//SideScrollmap.csv");
 	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
-	
 
 	AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
 		InteractableFactory::PTYPE_BOW_STATION,
