@@ -532,7 +532,7 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack.PopMatrix();
 		break;
 	case GameObject::GO_SKELEARCHER:
-		std::cout << "SKARCHER" << go->pos.z + zOffset << std::endl;
+		//std::cout << "SKARCHER" << go->pos.z + zOffset << std::endl;
 		modelStack.PushMatrix();
 		{
 			modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -551,7 +551,7 @@ void SceneBase::RenderGO(GameObject* go)
 				}
 				modelStack.PushMatrix();
 				{
-					modelStack.Translate(0.5, 0, 0);
+					modelStack.Translate(0.35, 0, 0);
 					RenderMesh(meshList[GEO_BOW], false);
 				}
 				modelStack.PopMatrix();
