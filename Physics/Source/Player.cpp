@@ -221,7 +221,14 @@ void Player::Response(GameObject* go)
 		(go->type == GameObject::GO_ZOMBIE))
 	{
 		takeDamage(go->damage);
-		CSoundController::GetInstance()->PlaySoundByID(5);
+		int randHurtSound = rand() % 3;
+		
+		if(randHurtSound == 0)
+			CSoundController::GetInstance()->PlaySoundByID(5);
+		else if(randHurtSound == 1)
+			CSoundController::GetInstance()->PlaySoundByID(6);
+		else if (randHurtSound == 2)
+			CSoundController::GetInstance()->PlaySoundByID(7);
 
 		if (health <= 0)
 		{

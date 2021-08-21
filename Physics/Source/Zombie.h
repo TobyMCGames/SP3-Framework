@@ -17,6 +17,10 @@ protected:
 	float StateCounter;
 	const float JumpForce = 15;
 	const float MaxStateCounter = 1;
+
+	float attackSoundTimer;
+	float idleSoundTimer;
+
 	BEHAVIOUR currState;
 
 	float speedBoost;

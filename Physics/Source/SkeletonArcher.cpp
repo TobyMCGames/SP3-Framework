@@ -64,6 +64,7 @@ void SkeletonArcher::Update(double dt, float m_speed)
 			normal = ((Player::GetInstance()->pos - pos).Normalize());
 			if (shootCounter > MaxFirerate)
 			{
+				CSoundController::GetInstance()->PlaySoundByID(1);
 				Projectile* skelearrow =
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_SKELEARROW,
 						pos + (normal * scale.x), normal, scale, normal);
