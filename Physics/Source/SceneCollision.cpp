@@ -5,6 +5,9 @@
 #include <cmath>
 #include "Player.h"
 
+//Remove later
+#include "InteractableFactory.h"
+
 SceneCollision::SceneCollision()
 {
 	std::cout << "Initialising SceneCollision" << std::endl;
@@ -33,9 +36,34 @@ void SceneCollision::Init()
 	player->vel.Set(1.f, 1.f, 0);
 	player->scale.Set(4.5f,4.5f,1);
 	Math::InitRNG();
+	loadLegend("Maps//Legend.txt");
 	loadMap("Maps//SideScrollmap.csv");
 	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
-	//Exercise 1: initialize m_objectCount
+	
+
+	AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
+		InteractableFactory::PTYPE_BOW_STATION,
+		Vector3(92.5f, 42.5f, 0.f),
+		Vector3(getTileWidth(), getTileHeight(), 1),
+		Vector3(1, 0, 0)
+	);
+	InteractableList.push_back(go);
+
+	go = InteractableFactory::GetInstance()->produceInteractable(
+		InteractableFactory::PTYPE_STAFF_STATION,
+		Vector3(57.5f, 62.5f, 0.f),
+		Vector3(getTileWidth(), getTileHeight(), 1),
+		Vector3(1, 0, 0)
+	);
+	InteractableList.push_back(go);
+
+	go = InteractableFactory::GetInstance()->produceInteractable(
+		InteractableFactory::PTYPE_PORTAL_STATION,
+		Vector3(122.5f, 62.5f, 0.f),
+		Vector3(getTileWidth(), getTileHeight(), 1),
+		Vector3(1, 0, 0)
+	);
+	InteractableList.push_back(go);
 }
 
 GameObject* SceneCollision::FetchGO()
@@ -220,6 +248,17 @@ void SceneCollision::Render()
 		}
 	}
 
+	for (std::vector<AdvanceGO*>::iterator it = InteractableList.begin(); it != InteractableList.end(); it++)
+	{
+		GameObject* go = (GameObject*)*it;
+		if (go == nullptr)
+			continue;
+		if (go->active)
+		{
+			RenderGO(go);
+		}
+	}
+
 	for (std::vector<AdvanceGO*>::iterator it = EntityList.begin(); it != EntityList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
@@ -264,6 +303,7 @@ void SceneCollision::Render()
 void SceneCollision::Exit()
 {
 	SceneBase::Exit();
+	GameLevelBase::Exit();
 	//Cleanup GameObjects
 	while(map.size() > 0)
 	{

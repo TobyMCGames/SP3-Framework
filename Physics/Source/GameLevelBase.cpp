@@ -21,11 +21,13 @@ void GameLevelBase::RenderPlayer()
 	modelStack.PushMatrix();
 	{
 		modelStack.Translate(player->pos.x, player->pos.y, player->pos.z + zOffset);
+		zOffset += 0.001f;
 		modelStack.Scale(player->scale.x,player->scale.y,player->scale.z);
 		RenderMesh(meshList[GEO_PLAYER], false);
 		modelStack.PushMatrix();
 		{
-			modelStack.Translate(0, 0, 1+zOffset+0.001);
+			modelStack.Translate(0, 0, 0.001f);
+			zOffset += 0.001f;
 			if (player->normal.x >= 0)
 				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y,player->normal.x)), 0, 0, 1);
 			else
@@ -51,6 +53,174 @@ void GameLevelBase::RenderPlayer()
 	modelStack.PopMatrix();
 }
 
+bool GameLevelBase::loadLegend(std::string file_path)
+{
+	ifstream file;
+	std::string skey;
+	std::string svalue;
+	std::pair<std::string, int> dictpair;
+	file.open(file_path);
+	if (!file.is_open()) {
+		cout << "File can not be opened" << endl;
+		return false;
+	}
+	bool value = false;
+	bool rowdone = false;
+	while (!file.eof())
+	{
+		char line[256];
+		file.getline(line, 256);
+		skey = "";
+		svalue = "";
+		for (int i = 0; i < 256; i++)
+		{
+			if (rowdone == true)
+			{
+				rowdone = false;
+				value = false;
+				break;
+			}
+			switch (line[i])
+			{
+			case ',':
+				if (value == false)
+				{
+					dictpair.first = skey;
+					value = true;
+				}
+				else
+				{
+					dictpair.second = std::stoi(svalue);
+					Legend.insert(dictpair);
+					rowdone = true;
+				}
+				break;
+			default:
+				if (value == false)
+					skey += line[i];
+				else
+					svalue += line[i];
+				break;
+			}
+		}
+	}	
+}
+
+GameObject* GameLevelBase::getdictionaryObject(std::string key,Vector3 pos,Vector3 vel,Vector3 scale,Vector3 normal)
+{
+	std::map<std::string,int>::iterator it;
+	int value = 0;
+	bool validKey = false;
+	if (key == "p")
+		return nullptr;
+
+	for (it = Legend.begin(); it != Legend.end(); it++)
+	{
+		if (key == it->first) 
+		{
+			value = it->second;
+			validKey = true;
+			break; 
+		}
+	}
+	if (validKey == true)
+	{
+		bool isEntity = false;
+		GameObject* temp = nullptr;
+		Entity* tempentity = nullptr;
+		switch (value)
+		{
+			case 0: // nullptr
+				map.push_back(nullptr);
+				return nullptr;
+				break;
+			case 1: // brick
+			{
+				temp = TileFactory::getObject(TileFactory::BRICK, pos, vel, scale);
+				isEntity = false;
+			}
+			break;
+
+			case 2: // stone brick
+			{
+				temp = TileFactory::getObject(TileFactory::STONEBRICK, pos, vel, scale);
+				isEntity = false;
+			}
+			break;
+
+			case 3: // spike
+			{
+				temp = TileFactory::getObject(TileFactory::SPIKE, pos, vel, scale);
+				isEntity = false;
+			}
+			break;
+
+			case 4: // zombie
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 5: // skele archer
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 6: // spider
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 7: // nymph
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 8: // turret
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::TURRET, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 9: // boomer 
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
+				isEntity = true;
+			}
+			break;
+
+			case 10: // demon lord
+			{
+				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
+				isEntity = true;
+			}			
+		}
+		if (isEntity == true)
+		{
+			tempentity->active = true;
+			EntityList.push_back(tempentity);
+			map.push_back(nullptr);
+			return tempentity;
+			
+		}
+		else if (temp != nullptr)
+		{
+			temp->active = true;
+			map.push_back(temp);
+			return temp;
+		}
+	}
+	return nullptr;
+}
+
 bool GameLevelBase::loadMap(std::string file_path)
 {
 	ifstream file;
@@ -65,117 +235,62 @@ bool GameLevelBase::loadMap(std::string file_path)
 	Vector3 pos = Vector3(0, 0, 0);
 	Vector3 vel = Vector3(0, 0, 0);
 	Vector3 scale = Vector3(TILEWIDTH * 1.f, TILEHEIGHT*1.f, 1);
-	while (!file.eof()) {
+	Vector3	normal = Vector3(1, 0,0);
+	while (!file.eof()) 
+	{
 		char line[256];
 		file.getline(line, 256);
 		if (!file.eof())
 			linesinreverse.push_back(line);
 	}
 	float xOffset = 0, yOffset = 0;
-	GameObject* temp = nullptr;
-	Entity* tempEntity = nullptr;
-	bool isEntity = false;
+	std::string key = "";
+
 	for (int row = linesinreverse.size() - 1; row >= 0; row--)
 	{
-		for (int col = 0; col < 256; col++)
+		for (int col = 0; col < linesinreverse[row].size(); col++)
 		{
-			scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
-			vel = Vector3(0, 0, 0);
-			
-			temp = nullptr;
-			tempEntity = nullptr;
-			isEntity = false;
-			switch (linesinreverse[row][col])
+			if (linesinreverse[row][col] == ',' && key != "P")
 			{
-			case ',':
+				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
+				scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
+				getdictionaryObject(key, pos, vel, scale, normal);
+				key = "";
 				commacounter++;
-				continue;
-			case '0':
 				xOffset += TILEWIDTH;
-				if (col - commacounter > highestcol)
-					highestcol = col;
-				map.push_back(temp);
-				continue;
-			case '1': // brick 
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2 , 0);
-				temp = TileFactory::getObject(TileFactory::TILE_LIST::BRICK,pos,vel,scale);
-				break;
-			case '2': // stone brick
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2 , 0);
-				temp = TileFactory::getObject(TileFactory::TILE_LIST::STONEBRICK,pos,vel,scale);
-				break;
-			case '3': // spike 
-				pos.Set(xOffset  + scale.x / 2, yOffset + scale.y / 2, 0);
-				temp = TileFactory::getObject(TileFactory::TILE_LIST::SPIKE, pos, vel, scale);
-				break;
-			case '4': // zombie
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '5': // Skeleton Archer
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '6': // Spider
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '7': // Nymph
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '8': // Turret
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::TURRET, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '9': // Boomer
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-			case '10': // Demon Lord
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
-				temp = tempEntity;
-				isEntity = true;
-				break;
-				
-			case 'P':
-				player->GetInstance();
-				player->pos.Set((col - commacounter) * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size() -row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.0f);
-				player->vel.SetZero();
-				tempEntity = player;
-				isEntity = true;
-				break;
 			}
-			xOffset += TILEWIDTH;
-			if ((col-commacounter) > highestcol)
-				highestcol = col - commacounter;
-			if (temp != nullptr && isEntity == false) 
+			else if (key != "P")
 			{
-				temp->active = true;
-				map.push_back(temp);
+				key += linesinreverse[row][col];
+				if (col == linesinreverse[row].size() - 1)
+				{
+					pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
+					scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
+					getdictionaryObject(key, pos, vel, scale, normal);
+					key = "";
+					commacounter++;
+					xOffset += TILEWIDTH;
+				}
 			}
-			else if (isEntity == true)
+			if (linesinreverse[row][col] == ',')
 			{
-				map.push_back(nullptr);
-				tempEntity->active = true;
-				EntityList.push_back(tempEntity);
-			
-			}	
-			else
-				break;
+				if (key == "P")
+				{
+					player->GetInstance();
+					player->pos.Set(commacounter * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size()-1 - row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.0f);
+					player->vel.SetZero();
+					player->scale.Set(TILEWIDTH, TILEHEIGHT, 1);
+					player->normal.Set(1, 0, 0);
+					player->active = true;
+					EntityList.push_back(player);
+					map.push_back(nullptr);
+					commacounter++;
+					key = "";
+					xOffset += TILEWIDTH;
+				}
+			}
+			if ((commacounter) > highestcol)
+				highestcol = commacounter;
 		}
 		xOffset = 0;
 		yOffset += TILEHEIGHT;
@@ -244,20 +359,179 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 	for (int i = 0; i < EntityList.size(); i++)
 	{
 		AdvanceGO* mob1 = EntityList[i];
-		if (mob1 != nullptr)
+		if (mob1 == nullptr)
 		{
-			if (CheckWithinScreen(mob1))
+			cout << "There was a null entity1" << endl;
+			continue;
+		}
+		if (!CheckWithinScreen(mob1))
+			continue;
+			
+		Vector3 FuturePos = mob1->pos + mob1->vel * dt * m_speed;
+		//Find how many tiles mob is away from left side
+		LP = FuturePos.x - mob1->scale.x / 2;
+		XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
+		if (XnumTiles > 0)
+		{
+			XnumTiles -= 1;
+		}
+		XTilesAround = (mob1->scale.x - fmod(mob1->scale.x, getTileWidth())) / getTileWidth();
+		if (fmod(mob1->scale.x, getTileWidth()) > 0)
+			XTilesAround += 3;
+		else
+			XTilesAround += 2;
+		if (XnumTiles <= 0)
+		{
+			XTilesAround -= 1;
+		}
+
+		//Find how many tiles screen is away from bottom
+		BP = FuturePos.y - mob1->scale.y /2;
+		YnumTiles = (BP - fmod(BP, getTileHeight())) / getTileHeight();
+		if (YnumTiles > 0)
+		{
+			YnumTiles -= 1;
+		}
+		YTilesAround = (mob1->scale.y - fmod(mob1->scale.y, getTileHeight())) / getTileHeight();
+		if (fmod(mob1->scale.y, getTileHeight()) > 0)
+			YTilesAround += 3;
+		else
+			YTilesAround += 2;
+		if (YnumTiles <= 0)
+		{
+			YTilesAround -= 1;
+		}
+
+		for (int j = XnumTiles; j < XnumTiles + XTilesAround; j++)
+		{
+			if (j >= XTilesInWorld || j < 0)
+				continue;
+			for (int k = YnumTiles; k < YnumTiles + YTilesAround; k++)
 			{
-				Vector3 FuturePos = mob1->pos + mob1->vel * dt * m_speed;
+				if (k >= YTilesInWorld || k < 0)
+					continue;
+
+				int TileSpace = k * XTilesInWorld + j;
+				if (map[TileSpace] == nullptr)
+					continue;
+						
+				if (mob1->type == GameObject::GO_PLAYER)
+				{
+					if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, GAMESPEED))
+					{
+						GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, GAMESPEED);
+						//cout << "Collided" << endl;
+						break;
+					}
+				}
+				else
+				{
+					if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, m_speed))
+					{
+						GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, m_speed);
+						//cout << "Collided" << endl;
+						break;
+					}
+				}
+						
+			}
+		}
+		std::vector<int> cleanUpVector;
+		for (int j = 0; j < projectileList.size(); j++)
+		{
+			AdvanceGO* projectile;
+			projectile = projectileList[j];
+			if (projectile == nullptr)
+			{
+				cout << "projectile was null in projectile list" << endl;
+				continue;
+			}
+			if (projectile->active == false)
+			{
+				delete projectile;
+				projectileList[j] = nullptr;
+				cleanUpVector.push_back(j);
+				continue;
+			}
+							
+			if (CheckWithinScreen(projectile))
+			{
+				if (projectile->type == GameObject::GO_ARROW ||
+					projectile->type == GameObject::GO_MAGICBALL ||
+					projectile->type == GameObject::GO_PORTAL)
+				{
+					if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, GAMESPEED))
+					{
+						GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, GAMESPEED);
+					}
+				}
+				else
+				{
+					if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, m_speed))
+					{
+						GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, m_speed);
+					}
+				}
+			}
+			else // delete projectile if they are no longer on screen
+			{
+				delete projectile;
+				projectileList[j] = nullptr;
+				cleanUpVector.push_back(j);
+			}
+		}
+			// clean up was here
+		if (cleanUpVector.size() != 0)
+			cleanupList(&cleanUpVector);
+
+		///////  Only player can collide with
+		if (mob1->type != GameObject::GO_PLAYER)
+			continue;
+		for (int j = 0; j < InteractableList.size(); j++)
+		{
+			if (InteractableList[j] == nullptr)
+			{
+				cout << "There was a null interactable" << endl;
+				continue;
+			}
+			if (!CheckWithinScreen(InteractableList[j]) || InteractableList[j]->active == false)
+				continue;
+			if (GamePhysics::GetInstance()->CheckCollision(mob1, InteractableList[j], dt, m_speed))
+			{
+				GamePhysics::GetInstance()->CheckCollisionResponse(mob1, InteractableList[j], dt, m_speed);
+			}
+		}
+	}
+	std::vector<int> cleanUpVector;
+	for (int j = 0; j < projectileList.size(); j++)
+	{
+		AdvanceGO* projectile;
+		projectile = projectileList[j];
+		if (projectile != nullptr)
+		{
+			if (projectile->active == false)
+			{
+				delete projectile;
+				projectileList[j] = nullptr;
+				cleanUpVector.push_back(j);
+				continue;
+			}
+
+			if (CheckWithinScreen(projectile))
+			{
+
+				Vector3 FuturePos = projectile->pos + projectile->vel * dt * m_speed;
+				Vector3 FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
+				float angle = atan2f(FutureN.y, FutureN.y);
 				//Find how many tiles mob is away from left side
-				LP = FuturePos.x - mob1->scale.x / 2;
+				LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) / 2;
 				XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
 				if (XnumTiles > 0)
 				{
 					XnumTiles -= 1;
 				}
-				XTilesAround = (mob1->scale.x - fmod(mob1->scale.x, getTileWidth())) / getTileWidth();
-				if (fmod(mob1->scale.x, getTileWidth()) > 0)
+				XTilesAround = (projectile->scale.x - fmod(projectile->scale.x, getTileWidth())) / getTileWidth();
+				if (fmod(projectile->scale.x, getTileWidth()) > 0)
 					XTilesAround += 3;
 				else
 					XTilesAround += 2;
@@ -267,14 +541,14 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 				}
 
 				//Find how many tiles screen is away from bottom
-				BP = FuturePos.y - mob1->scale.y /2;
+				BP = FuturePos.y - (projectile->scale.x * sin(angle) + projectile->scale.y * cos(angle)) / 2;
 				YnumTiles = (BP - fmod(BP, getTileHeight())) / getTileHeight();
 				if (YnumTiles > 0)
 				{
 					YnumTiles -= 1;
 				}
-				YTilesAround = (mob1->scale.y - fmod(mob1->scale.y, getTileHeight())) / getTileHeight();
-				if (fmod(mob1->scale.y, getTileHeight()) > 0)
+				YTilesAround = (projectile->scale.y - fmod(projectile->scale.y, getTileHeight())) / getTileHeight();
+				if (fmod(projectile->scale.y, getTileHeight()) > 0)
 					YTilesAround += 3;
 				else
 					YTilesAround += 2;
@@ -291,164 +565,82 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 					{
 						if (k >= YTilesInWorld || k < 0)
 							continue;
-
 						int TileSpace = k * XTilesInWorld + j;
 						if (map[TileSpace] == nullptr)
 							continue;
-						
-						if (mob1->type == GameObject::GO_PLAYER)
+
+						if (projectile->type == GameObject::GO_ARROW ||
+							projectile->type == GameObject::GO_MAGICBALL ||
+							projectile->type == GameObject::GO_PORTAL)
 						{
-							if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, GAMESPEED))
+							if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, GAMESPEED))
 							{
-								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, GAMESPEED);
-								//cout << "Collided" << endl;
-								break;
+								GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, GAMESPEED);
 							}
 						}
 						else
 						{
-							if (GamePhysics::GetInstance()->CheckCollision(mob1, map[TileSpace], dt, m_speed))
+							if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, m_speed))
 							{
-								GamePhysics::GetInstance()->CheckCollisionResponse(mob1, map[TileSpace], dt, m_speed);
-								//cout << "Collided" << endl;
-								break;
-							}
-							else
-							{
-								//cout << "Im Falling" << endl;
+								GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, m_speed);
 							}
 						}
-						
+
 					}
 				}
-				std::vector<int> cleanUpVector;
-				for (int j = 0; j < projectileList.size(); j++)
-				{
-					AdvanceGO* projectile;
-					projectile = projectileList[j];
-					if (projectile != nullptr)
-					{
-						if (projectile->active == false)
-						{
-							delete projectile;
-							projectileList[j] = nullptr;
-							cleanUpVector.push_back(j);
-							continue;
-						}
-							
-						if (CheckWithinScreen(projectile))
-						{
-							if (projectile->type == GameObject::GO_ARROW ||
-								projectile->type == GameObject::GO_MAGICBALL ||
-								projectile->type == GameObject::GO_PORTAL)
-							{
-								if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, GAMESPEED))
-								{
-									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, GAMESPEED);
-								}
-							}
-							else
-							{
-								if (GamePhysics::GetInstance()->CheckCollision(mob1, projectile, dt, m_speed))
-								{
-									GamePhysics::GetInstance()->CheckCollisionResponse(mob1, projectile, dt, m_speed);
-								}
-							}
-
-							FuturePos = projectile->pos + projectile->vel * dt * m_speed;
-							Vector3 FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
-							float angle = atan2f(FutureN.y, FutureN.y);
-							//Find how many tiles mob is away from left side
-							LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) / 2;
-							XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
-							if (XnumTiles > 0)
-							{
-								XnumTiles -= 1;
-							}
-							XTilesAround = (projectile->scale.x - fmod(projectile->scale.x, getTileWidth())) / getTileWidth();
-							if (fmod(projectile->scale.x, getTileWidth()) > 0)
-								XTilesAround += 3;
-							else
-								XTilesAround += 2;
-							if (XnumTiles <= 0)
-							{
-								XTilesAround -= 1;
-							}
-
-							//Find how many tiles screen is away from bottom
-							BP = FuturePos.y - (projectile->scale.x * sin(angle) + projectile->scale.y * cos(angle)) / 2;
-							YnumTiles = (BP - fmod(BP, getTileHeight())) / getTileHeight();
-							if (YnumTiles > 0)
-							{
-								YnumTiles -= 1;
-							}
-							YTilesAround = (projectile->scale.y - fmod(projectile->scale.y, getTileHeight())) / getTileHeight();
-							if (fmod(projectile->scale.y, getTileHeight()) > 0)
-								YTilesAround += 3;
-							else
-								YTilesAround += 2;
-							if (YnumTiles <= 0)
-							{
-								YTilesAround -= 1;
-							}
-
-							for (int j = XnumTiles; j < XnumTiles + XTilesAround; j++)
-							{
-								if (j >= XTilesInWorld || j < 0)
-									continue;
-								for (int k = YnumTiles; k < YnumTiles + YTilesAround; k++)
-								{
-									if (k >= YTilesInWorld || k < 0)
-										continue;
-									int TileSpace = k * XTilesInWorld + j;
-									if (map[TileSpace] == nullptr)
-										continue;
-
-									if (projectile->type == GameObject::GO_ARROW ||
-										projectile->type == GameObject::GO_MAGICBALL ||
-										projectile->type == GameObject::GO_PORTAL)
-									{
-										if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace] ,dt, GAMESPEED))
-										{
-											GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, GAMESPEED);
-										}
-									}
-									else
-									{
-										if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, m_speed))
-										{
-											GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, m_speed);
-										}
-									}
-									
-								}
-							}
-						}
-						else // delete projectile if they are no longer on screen
-						{
-							delete projectile;
-							projectileList[j] = nullptr;
-							cleanUpVector.push_back(j);
-						}
-					}
-					else
-					{
-						cout << "projectile was null in projectile list" << endl;
-					}
-				}
-					// clean up was here
-				if (cleanUpVector.size() != 0)
-					cleanupList(&cleanUpVector);
+			}
+			else // delete projectile if they are no longer on screen
+			{
+				delete projectile;
+				projectileList[j] = nullptr;
+				cleanUpVector.push_back(j);
 			}
 		}
 		else
 		{
-			cout << "There was a null entity1" << endl;
+			cout << "projectile was null in projectile list" << endl;
 		}
 	}
+	// clean up was here
+	if (cleanUpVector.size() != 0)
+		cleanupList(&cleanUpVector);
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
 {
 	return &projectileList;
+}
+
+void GameLevelBase::Exit()
+{
+	for (int i = 0; i < map.size(); i++)
+	{
+		if (map[i] != nullptr)
+		{
+			delete map[i];
+			map[i] = nullptr;
+		}
+	}
+	map.clear();
+	for (int i = 0; i < EntityList.size(); i++)
+	{
+		if (EntityList[i]->type == GameObject::GO_PLAYER)
+			player->DestroyInstance();
+		else
+			delete EntityList[i];
+		EntityList[i] = nullptr;
+	}
+	EntityList.clear();
+	for (int i = 0; i < projectileList.size(); i++)
+	{
+		delete projectileList[i];
+		projectileList[i] = nullptr;
+	}
+	projectileList.clear();
+	for (int i = 0; i < InteractableList.size(); i++)
+	{
+		delete InteractableList[i];
+		InteractableList[i] = nullptr;
+	}
+	InteractableList.clear();
 }

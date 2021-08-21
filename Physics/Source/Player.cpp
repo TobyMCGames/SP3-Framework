@@ -42,6 +42,7 @@ Player::~Player()
 void Player::dead()
 {
 	// handle restart level, go to main menu, dead screen idk 
+	health = 100;
 }
 
 
@@ -74,16 +75,6 @@ void Player::Update(double dt, float m_speed)
 		SlowTime = false;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
 	}
-
-	/*if (SlowTime)
-	{
-		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
-	}
-
-	if (!SlowTime)
-	{
-		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
-	}*/
 
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -234,6 +225,21 @@ void Player::Response(GameObject* go)
 		if (health <= 0)
 		{
 			dead();
+		}
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_E))
+	{
+		switch (go->type)
+		{
+		case WEAPON_STATION_BOW:
+			curWeapon = BOW;
+			break;
+		case WEAPON_STATION_STAFF:
+			curWeapon = STAFF;
+			break;
+		case WEAPON_STATION_PORTAL:
+			curWeapon = PORTALGUN;
+			break;
 		}
 	}
 }
