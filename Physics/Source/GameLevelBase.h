@@ -39,7 +39,8 @@ public:
 	virtual void Exit() = 0;
 	virtual void RenderPlayer();
 	bool loadLegend(std::string file_path);
-	GameObject* getdictionaryObject(std::string key,Vector3 pos, Vector3 vel,Vector3 scale,Vector3 normal);
+	bool initdictionaryObject(std::string key,Vector3 pos, Vector3 vel,Vector3 scale,Vector3 normal);
+	void mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal);
 	bool loadMap(std::string file_path);
 	const float GAMESPEED = 2.7f;
 	float getworldWidth();
