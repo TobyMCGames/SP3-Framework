@@ -262,57 +262,6 @@ bool GameLevelBase::loadMap(std::string file_path)
 	float xOffset = 0, yOffset = 0;
 	std::string key = "";
 
-	/*for (int row = linesinreverse.size() - 1; row >= 0; row--)
-	{
-		for (int col = 0; col < linesinreverse[row].size(); col++)
-		{
-			if (linesinreverse[row][col] == ',' && key != "P")
-			{
-				pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-				scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
-				getdictionaryObject(key, pos, vel, scale, normal);
-				key = "";
-				commacounter++;
-				xOffset += TILEWIDTH;
-			}
-			else if (key != "P")
-			{
-				key += linesinreverse[row][col];
-				if (col == linesinreverse[row].size() - 1)
-				{
-					pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
-					scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
-					getdictionaryObject(key, pos, vel, scale, normal);
-					key = "";
-					commacounter++;
-					xOffset += TILEWIDTH;
-				}
-			}
-			if (linesinreverse[row][col] == ',')
-			{
-				if (key == "P")
-				{
-					player->GetInstance();
-					player->pos.Set(commacounter * TILEWIDTH + (TILEWIDTH / 2.f), ((linesinreverse.size()-1 - row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.0f);
-					player->vel.SetZero();
-					player->scale.Set(TILEWIDTH, TILEHEIGHT, 1);
-					player->normal.Set(1, 0, 0);
-					player->active = true;
-					EntityList.push_back(player);
-					map.push_back(nullptr);
-					commacounter++;
-					key = "";
-					xOffset += TILEWIDTH;
-				}
-			}
-			if ((commacounter) > highestcol)
-				highestcol = commacounter;
-		}
-		xOffset = 0;
-		yOffset += TILEHEIGHT;
-		commacounter = 0;
-	}*/
-
 	for (int row = linesinreverse.size()-1; row >= 0; row--)
 	{
 		for (int col = 0; col < linesinreverse[row].size()-1; col++)
