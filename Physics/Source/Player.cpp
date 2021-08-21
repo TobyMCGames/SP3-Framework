@@ -123,6 +123,7 @@ void Player::Update(double dt, float m_speed)
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
 	{
 		//cSoundController->PlaySoundByID(2);
+		CSoundController::GetInstance()->PlaySoundByID(4);
 		vel.y += JumpForce;
 		curLocation = IN_AIR;
 	}
@@ -220,6 +221,7 @@ void Player::Response(GameObject* go)
 		(go->type == GameObject::GO_ZOMBIE))
 	{
 		takeDamage(go->damage);
+		CSoundController::GetInstance()->PlaySoundByID(5);
 
 		if (health <= 0)
 		{

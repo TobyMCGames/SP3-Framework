@@ -11,6 +11,8 @@ GameLevelManager::GameLevelManager()
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Arrow.wav"), 1, true);
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Magic_Ball.wav"), 2, true);
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Portal_2.wav"), 3, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Player\\Jump.ogg"), 4, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Player\\Hurt.wav"), 5, true);  
 }
 
 GameLevelManager::~GameLevelManager()
