@@ -250,7 +250,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 	int highestcol = 0;
 	Vector3 pos = Vector3(0, 0, 0);
 	Vector3 vel = Vector3(0, 0, 0);
-	Vector3 scale = Vector3(TILEWIDTH * 1.f, TILEHEIGHT*1.f, 1);
+	Vector3 scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
 	Vector3	normal = Vector3(1, 0,0);
 	while (!file.eof()) 
 	{
@@ -269,20 +269,19 @@ bool GameLevelBase::loadMap(std::string file_path)
 			scale.Set(TILEWIDTH, TILEHEIGHT, 1);
 			pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
 			vel.SetZero();
-			if ((linesinreverse[row][col] == ',') || (col == linesinreverse[row].size() - 2))
+			if ((linesinreverse[row][col] == ',') || (col == linesinreverse[row].size() - 1))
 			{
 				if (key != "P")
 				{
 					if (initdictionaryObject(key, pos, vel, scale, normal))
-						xOffset += TILEWIDTH;
+						xOffset += getTileWidth();
 				}
 				else
 				{
-					pos.Set(commacounter * TILEWIDTH + (TILEWIDTH / 2.f),
-						((linesinreverse.size() - 1 - row) * TILEHEIGHT - (TILEHEIGHT / 2.f)), 0.0f);
-					scale.Set(TILEWIDTH - 0.5, TILEHEIGHT - 0.5, 1);
+					scale.Set(TILEWIDTH - 0.5, TILEHEIGHT-0.5,1);
 					mapinitPlayer(pos, vel, scale, normal);
-					xOffset += TILEWIDTH;
+					xOffset += getTileWidth();
+
 				}
 				key = "";
 				commacounter++;
@@ -293,11 +292,11 @@ bool GameLevelBase::loadMap(std::string file_path)
 				highestcol = commacounter;
 		}
 		xOffset = 0;
-		yOffset += TILEHEIGHT;
+		yOffset += getTileHeight();
 		commacounter = 0;
 	}
-	m_worldWidth = (highestcol * TILEWIDTH);
-	m_worldHeight = (linesinreverse.size())*TILEHEIGHT;
+	m_worldWidth = (highestcol * getTileWidth());
+	m_worldHeight = (linesinreverse.size())* getTileHeight();
 	return true;
 }
 
@@ -313,12 +312,12 @@ float GameLevelBase::getworldHeight()
 
 float GameLevelBase::getTileWidth()
 {
-	return TILEWIDTH;
+	return TILEWIDTH + offset;
 }
 
 float GameLevelBase::getTileHeight()
 {
-	return TILEHEIGHT;
+	return TILEHEIGHT + offset;
 }
 
 void GameLevelBase::cleanupList(std::vector<int>* indexlist)
@@ -333,9 +332,9 @@ void GameLevelBase::cleanupList(std::vector<int>* indexlist)
 bool GameLevelBase::CheckWithinScreen(GameObject* go)
 {
 	if (go->pos.x + go->scale.x / 2 < camera.position.x ||
-		go->pos.x - go->scale.x / 2 > camera.position.x + XTILE_SCREEN * TILEWIDTH ||
+		go->pos.x - go->scale.x / 2 > camera.position.x + XTILE_SCREEN *getTileWidth()||
 		go->pos.y + go->scale.y / 2 < camera.position.y ||
-		go->pos.y - go->scale.y / 2 > camera.position.y + YTILE_SCREEN * TILEHEIGHT)
+		go->pos.y - go->scale.y / 2 > camera.position.y + YTILE_SCREEN * getTileHeight())
 	{
 		return false;
 	}
@@ -345,8 +344,8 @@ bool GameLevelBase::CheckWithinScreen(GameObject* go)
 void GameLevelBase::CollisionChecks(double dt, float m_speed)
 {
 
-	int XTilesInWorld = getworldWidth() / getTileWidth();
-	int YTilesInWorld = getworldHeight() / getTileHeight();
+	int XTilesInWorld = getworldWidth() / (getTileWidth());
+	int YTilesInWorld = getworldHeight() / (getTileHeight());
 
 	float LP = 0.f;
 	int XnumTiles = 0;
