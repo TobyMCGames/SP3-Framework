@@ -11,7 +11,7 @@ Player::Player()
 	, scrollsnap(0)
 	, mana(100)
 	, cKeyboardController(NULL)
-	, cSoundController(NULL)
+	//, cSoundController(NULL)
 	, FireWeapon(false)
 {
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -30,19 +30,11 @@ Player::Player()
 	TimeSpeed = 1.f; // is this variable even used?
 	SlowTime = false;
 
-	//SOUNDS
-	//arrowSound = createIrrKlangDevice();
-	//magicballSound = createIrrKlangDevice();
-	//portal = createIrrKlangDevice();
-	cSoundController = CSoundController::GetInstance();
-	cSoundController->Init();
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Portal_2.wav"), 1, true);
-	//cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Arrow.wav"), 2, true);
+
 }
 
 Player::~Player()
 {
-	cSoundController = NULL;
 }
 
 void Player::dead()
@@ -95,8 +87,7 @@ void Player::Update(double dt, float m_speed)
 		{
 		case BOW:
 			{
-			//arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
-			//cSoundController->PlaySoundByID(1);
+			CSoundController::GetInstance()->PlaySoundByID(1);
 			Projectile* arrow = 
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
 					pos + (normal*scale.x), normal, scale, normal);
@@ -106,7 +97,7 @@ void Player::Update(double dt, float m_speed)
 			}
 		case STAFF:
 			{
-		//	magicballSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Magic_Ball.wav", false);
+			CSoundController::GetInstance()->PlaySoundByID(2);
 			Projectile* magicBall =
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
 					pos + (normal * scale.x), normal, scale, normal);
@@ -117,8 +108,7 @@ void Player::Update(double dt, float m_speed)
 			}
 		case PORTALGUN:
 			{
-			cSoundController->PlaySoundByID(1);
-		// 	portal->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Portal_2.wav", false);
+			CSoundController::GetInstance()->PlaySoundByID(3);
 				Projectile* portal = 
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
 						pos + (normal * scale.x), normal, scale, normal);
@@ -133,6 +123,7 @@ void Player::Update(double dt, float m_speed)
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
 	{
 		//cSoundController->PlaySoundByID(2);
+		CSoundController::GetInstance()->PlaySoundByID(4);
 		vel.y += JumpForce;
 		curLocation = IN_AIR;
 	}
@@ -230,6 +221,14 @@ void Player::Response(GameObject* go)
 		(go->type == GameObject::GO_ZOMBIE))
 	{
 		takeDamage(go->damage);
+		int randHurtSound = rand() % 3;
+		
+		if(randHurtSound == 0)
+			CSoundController::GetInstance()->PlaySoundByID(5);
+		else if(randHurtSound == 1)
+			CSoundController::GetInstance()->PlaySoundByID(6);
+		else if (randHurtSound == 2)
+			CSoundController::GetInstance()->PlaySoundByID(7);
 
 		if (health <= 0)
 		{

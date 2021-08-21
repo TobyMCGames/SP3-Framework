@@ -55,24 +55,32 @@ void Spider::Update(double dt, float m_speed)
 		}
 		else
 		{
-
+			// add detection for walls
 			if (curDirection == RIGHT)
 				vel.x = Default_Speed;
 			else
 				vel.x = -Default_Speed;
 		}
-		StateCounter++;
+		StateCounter += dt * m_speed;
 		break;
 	case ATTACK:
 		if ((pos - Player::GetInstance()->pos).Length() <= 30)
 		{
+
+			// Go right
 			if ((Player::GetInstance()->pos.x - pos.x) > 0)
 			{
 				vel.x = Default_Speed;
 			}
+			// Go left
 			else if ((Player::GetInstance()->pos.x - pos.x) < 0)
 			{
 				vel.x = -Default_Speed;
+			}
+			// Add code here to check if there is a wall next to the spider, then climb
+			if ((Player::GetInstance()->pos.y - pos.y) > 0)
+			{
+				vel.y = Default_Speed;
 			}
 			// uncomment this section to make spider jump
 			/*if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
@@ -132,7 +140,7 @@ void Spider::Response(GameObject* go)
 	}
 	if (go->type == GameObject::GO_ARROW ||
 		go->type == GameObject::GO_PORTAL ||
-		go->type == GameObject::GO_MAGICBALL)// player damage zombie
+		go->type == GameObject::GO_MAGICBALL)// player damage spider
 	{
 		takeDamage(go->damage);
 
@@ -146,6 +154,12 @@ void Spider::Response(GameObject* go)
 
 void Spider::dead()
 {
-
+	this->active = false;
 }
 
+
+// enable this when flipped horizontally sprite for spider is made
+//void Spider::FlipHorizontalDirection(void)
+//{
+//	vel.x *= -1;
+//}

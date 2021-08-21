@@ -3,11 +3,35 @@
 GameLevelManager::GameLevelManager()
 	: ActiveGameLevel(nullptr)
 	, NextGameLevel(nullptr)
+	, cSoundController(NULL)
 {
+	//Sounds
+	cSoundController = CSoundController::GetInstance();
+	cSoundController->Init();
+
+	//Projectile sounds
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Arrow.wav"), 1, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Magic_Ball.wav"), 2, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Portal_2.wav"), 3, true);
+
+	//player sounds
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Player\\Jump.ogg"), 4, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Player\\Hurt.wav"), 5, true);  
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Player\\Hurt_2.wav"), 6, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Player\\Hurt_3.wav"), 7, true);
+
+	//zombie sounds
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Zombie\\Zombie_Idle.wav"), 8, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Zombie\\Zombie_Attack.wav"), 9, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Zombie\\Zombie_Attack_2.wav"), 10, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Zombie\\Zombie_Hurt.wav"), 11, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Zombie\\Zombie_Hurt_2.wav"), 12, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Zombie\\Zombie_Death.wav"), 13, true);
 }
 
 GameLevelManager::~GameLevelManager()
 {
+	cSoundController = NULL;
 }
 
 void GameLevelManager::Destroy()

@@ -11,6 +11,8 @@ Zombie::Zombie()
 	speedBoost = 5;
 	health = 70;
 	damage = 15;
+	attackSoundTimer = 0;
+	idleSoundTimer = 0;
 }
 
 Zombie::~Zombie()
@@ -41,12 +43,6 @@ void Zombie::Update(double dt, float m_speed)
 	case PATROL:
 		if (StateCounter > MaxStateCounter)
 		{
-			/*if (CheckDirection(LEFT))
-			{
-				curDirection = RIGHT;
-			}
-			else
-				curDirection = LEFT;*/
 			currState = IDLE;
 			StateCounter = 0;
 			cout << "switching to Idle state" << endl;
@@ -98,6 +94,37 @@ void Zombie::Update(double dt, float m_speed)
 		break;
 	}
 	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
+
+
+	//play sounds
+	if (currState == ATTACK)
+	{
+		if (attackSoundTimer >= 5)
+		{
+			int randAttackSound = rand() % 2;
+			if (randAttackSound == 0)
+				CSoundController::GetInstance()->PlaySoundByID(9);
+			else if (randAttackSound == 1)
+				CSoundController::GetInstance()->PlaySoundByID(10);
+			attackSoundTimer = 0;
+		}
+		attackSoundTimer += dt * m_speed;
+
+		idleSoundTimer = 0;
+	}
+	else if (currState != ATTACK)
+	{
+		if (idleSoundTimer >= 8)
+		{
+			CSoundController::GetInstance()->PlaySoundByID(8);
+			idleSoundTimer = 0;
+		}
+		idleSoundTimer += dt * m_speed;
+
+		attackSoundTimer = 0;
+	}
+
+	cout << attackSoundTimer << endl;
 }
 
 void Zombie::Response(GameObject* go)
@@ -140,7 +167,17 @@ void Zombie::Response(GameObject* go)
 
 		if (health <= 0)
 		{
+			CSoundController::GetInstance()->PlaySoundByID(13);
 			dead();
+		}
+		else
+		{
+			int randHurtSound = rand() % 2;
+
+			if (randHurtSound == 0)
+				CSoundController::GetInstance()->PlaySoundByID(11);
+			else if (randHurtSound == 1)
+				CSoundController::GetInstance()->PlaySoundByID(12);
 		}
 	}
 }
