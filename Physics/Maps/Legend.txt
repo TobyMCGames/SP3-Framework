@@ -1,11 +1,11 @@
-0,0,
-1,1,
-2,2,
-3,3,
-4,4,,
-5,5,
-6,6,
-7,7,
-8,8,
-9,9,
-10,10,
+0,0, empty space
+1,29, brick 
+2,30, stone brick
+3,31, spike
+4,11, zombie
+5,10, skele archer
+6,13, spider
+7,15, nymph
+8,12, turret
+9,14, boomer
+10,16, demon lord
