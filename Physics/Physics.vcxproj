@@ -171,6 +171,7 @@
     <ClCompile Include="Source\KeyboardController.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
+    <ClCompile Include="Source\LogRoot.cpp" />
     <ClCompile Include="Source\MagicBall.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
@@ -190,6 +191,8 @@
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\SkeleArrow.cpp" />
     <ClCompile Include="Source\SkeletonArcher.cpp" />
+    <ClCompile Include="Source\SoundController.cpp" />
+    <ClCompile Include="Source\SoundInfo.cpp" />
     <ClCompile Include="Source\Spider.cpp" />
     <ClCompile Include="Source\SpiderPoison.cpp" />
     <ClCompile Include="Source\Tile.cpp" />
@@ -209,6 +212,7 @@
     <ClInclude Include="Source\DisguisedEnemy.h" />
     <ClInclude Include="Source\DemonBall.h" />
     <ClInclude Include="Source\Entity.h" />
+    <ClInclude Include="Source\filesystem.h" />
     <ClInclude Include="Source\GameLevelBase.h" />
     <ClInclude Include="Source\GameLevelManager.h" />
     <ClInclude Include="Source\GameObject.h" />
@@ -220,6 +224,7 @@
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
+    <ClInclude Include="Source\LogRoot.h" />
     <ClInclude Include="Source\MagicBall.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
@@ -243,6 +248,8 @@
     <ClInclude Include="Source\SingletonPattern.h" />
     <ClInclude Include="Source\SkeleArrow.h" />
     <ClInclude Include="Source\SkeletonArcher.h" />
+    <ClInclude Include="Source\SoundController.h" />
+    <ClInclude Include="Source\SoundInfo.h" />
     <ClInclude Include="Source\SpiderPoison.h" />
     <ClInclude Include="Source\Tile.h" />
     <ClInclude Include="Source\TileFactory.h" />

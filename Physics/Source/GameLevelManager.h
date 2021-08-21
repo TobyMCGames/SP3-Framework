@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include "GameLevelBase.h"
+#include "filesystem.h"
 using namespace std;
 
 class GameLevelManager : public SingletonPattern<GameLevelManager>

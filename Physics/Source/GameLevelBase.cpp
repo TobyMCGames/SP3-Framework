@@ -201,7 +201,21 @@ GameObject* GameLevelBase::getdictionaryObject(std::string key,Vector3 pos,Vecto
 			{
 				tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
 				isEntity = true;
-			}			
+			}	
+
+			case 11: // Soil Tile
+			{
+				temp = TileFactory::getObject(TileFactory::SOIL, pos, vel, scale);
+				isEntity = false;
+			}
+			break;
+
+			case 12: // Grass Soil Tile
+			{
+				temp = TileFactory::getObject(TileFactory::GRASS_SOIL, pos, vel, scale);
+				isEntity = false;
+			}
+			break;
 		}
 		if (isEntity == true)
 		{

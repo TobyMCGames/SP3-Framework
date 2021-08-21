@@ -185,6 +185,15 @@
     <ClCompile Include="Source\InteractableFactory.cpp">
       <Filter>DesignPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SoundController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SoundInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LogRoot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -222,9 +231,6 @@
     </ClInclude>
     <ClInclude Include="Source\Vertex.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SingletonPattern.h">
-      <Filter>DesignPatterns</Filter>
     </ClInclude>
     <ClInclude Include="Source\GamePhysics.h">
       <Filter>Header Files</Filter>
@@ -345,6 +351,21 @@
     </ClInclude>
     <ClInclude Include="Source\InteractableFactory.h">
       <Filter>DesignPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SoundController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SoundInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SingletonPattern.h">
+      <Filter>DesignPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\filesystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LogRoot.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,12 +4,14 @@
 #include "GLFW/glfw3.h"
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
+
 Player::Player()
 	: curWeapon(Player::PORTALGUN)
 	, curItem(0)
 	, scrollsnap(0)
 	, mana(100)
 	, cKeyboardController(NULL)
+	, cSoundController(NULL)
 	, FireWeapon(false)
 {
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -32,11 +34,15 @@ Player::Player()
 	//arrowSound = createIrrKlangDevice();
 	//magicballSound = createIrrKlangDevice();
 	//portal = createIrrKlangDevice();
+	cSoundController = CSoundController::GetInstance();
+	cSoundController->Init();
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Portal_2.wav"), 1, true);
+	//cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Arrow.wav"), 2, true);
 }
 
 Player::~Player()
 {
-
+	cSoundController = NULL;
 }
 
 void Player::dead()
@@ -90,6 +96,7 @@ void Player::Update(double dt, float m_speed)
 		case BOW:
 			{
 			//arrowSound->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Arrow.wav", false);
+			//cSoundController->PlaySoundByID(1);
 			Projectile* arrow = 
 				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
 					pos + (normal*scale.x), normal, scale, normal);
@@ -110,6 +117,7 @@ void Player::Update(double dt, float m_speed)
 			}
 		case PORTALGUN:
 			{
+			cSoundController->PlaySoundByID(1);
 		// 	portal->play2D("..\\Physics\\Sounds\\Sounds_Projectiles\\Portal_2.wav", false);
 				Projectile* portal = 
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
@@ -124,6 +132,7 @@ void Player::Update(double dt, float m_speed)
 
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
 	{
+		//cSoundController->PlaySoundByID(2);
 		vel.y += JumpForce;
 		curLocation = IN_AIR;
 	}

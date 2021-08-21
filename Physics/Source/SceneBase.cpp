@@ -150,9 +150,16 @@ void SceneBase::Init()
 	//meshList[PASSIVE_TILE]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
 
 	meshList[GEO_STONEBRICK] = MeshBuilder::GenerateQuad("stonebrick", Color(1, 1, 1));
-	meshList[GEO_STONEBRICK]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
+	meshList[GEO_STONEBRICK]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile_2.tga");
 	meshList[GEO_BRICK] = MeshBuilder::GenerateQuad("brick", Color(1, 1, 1));
-	meshList[GEO_BRICK]->textureID = LoadTGA("Image//TILE//Brick_Tile.tga");
+	meshList[GEO_BRICK]->textureID = LoadTGA("Image//TILE//Brick_Tile_2.tga");
+
+	meshList[GEO_SOIL_TILE] = MeshBuilder::GenerateQuad("soil", Color(1, 1, 1));
+	meshList[GEO_SOIL_TILE]->textureID = LoadTGA("Image//TILE//Soil_Tile.tga");
+	meshList[GEO_GRASS_SOIL_TILE] = MeshBuilder::GenerateQuad("soil", Color(1, 1, 1));
+	meshList[GEO_GRASS_SOIL_TILE]->textureID = LoadTGA("Image//TILE//Grass_Soil_Tile.tga");
+
+	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 1, 1));
@@ -419,7 +426,6 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack.PopMatrix();
 		break;
 
-
 	case GameObject::BRICK_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -427,6 +433,23 @@ void SceneBase::RenderGO(GameObject* go)
 		RenderMesh(meshList[GEO_BRICK], false);
 		modelStack.PopMatrix();
 		break;
+
+	case GameObject::SOIL_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_SOIL_TILE], false);
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::GRASS_SOIL_TILE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_GRASS_SOIL_TILE], false);
+		modelStack.PopMatrix();
+		break;
+
 	case GameObject::SPIKE_TILE:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -486,26 +509,6 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack.Rotate(Math::RadianToDegree((go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		ChangeMat(GEO_CUBE, Color(0.7f, 0.7f, 0.7f), 1.f, 0.6f, 0.3f, 1.f);
-		RenderMesh(meshList[GEO_CUBE], false);
-		modelStack.PopMatrix();
-		break;
-
-	case GameObject::SOIL_TILE:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
-		modelStack.Rotate(Math::RadianToDegree((go->normal.y, go->normal.x)), 0, 0, 1);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		ChangeMat(GEO_CUBE, Color(1.f, 0.4f, 0.4f), 1.f, 0.6f, 0.3f, 1.f);
-		RenderMesh(meshList[GEO_CUBE], false);
-		modelStack.PopMatrix();
-		break;
-
-	case GameObject::GRASS_SOIL_TILE:
-		modelStack.PushMatrix();
-		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
-		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		ChangeMat(GEO_CUBE, Color(0.7f, 1.f, 0.f), 1.f, 0.6f, 0.3f, 1.f);
 		RenderMesh(meshList[GEO_CUBE], false);
 		modelStack.PopMatrix();
 		break;

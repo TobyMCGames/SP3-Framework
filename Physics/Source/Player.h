@@ -6,10 +6,7 @@
 #include "MagicBall.h"
 #include "Portal.h"
 #include "KeyboardController.h"
-#include "irrKlang.h"
-
-using namespace irrklang;
-#pragma comment(lib, "irrKlang.lib")
+#include "SoundController.h"
 
 class Player : public Entity, public SingletonPattern<Player>
 {
@@ -60,10 +57,10 @@ protected:
 	virtual void dead();
 
 	CKeyboardController* cKeyboardController;
-
+	CSoundController* cSoundController;
 	//Player sounds
-	ISoundEngine* arrowSound;
-	ISoundEngine* magicballSound;
-	ISoundEngine* portal;
+	//ISoundEngine* arrowSound;
+	//ISoundEngine* magicballSound;
+	//ISoundEngine* portal;
 };
 
