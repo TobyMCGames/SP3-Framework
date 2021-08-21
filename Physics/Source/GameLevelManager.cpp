@@ -3,11 +3,19 @@
 GameLevelManager::GameLevelManager()
 	: ActiveGameLevel(nullptr)
 	, NextGameLevel(nullptr)
+	, cSoundController(NULL)
 {
+	//Sounds
+	cSoundController = CSoundController::GetInstance();
+	cSoundController->Init();
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Arrow.wav"), 1, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Magic_Ball.wav"), 2, true);
+	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Sounds_Projectiles\\Portal_2.wav"), 3, true);
 }
 
 GameLevelManager::~GameLevelManager()
 {
+	cSoundController = NULL;
 }
 
 void GameLevelManager::Destroy()
