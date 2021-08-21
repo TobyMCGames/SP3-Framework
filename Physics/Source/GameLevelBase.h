@@ -19,6 +19,7 @@ private:
 
 	const int YTILE_SCREEN = 18;
 	const int XTILE_SCREEN = 32;
+	const float offset = 0.005f;
 	std::map<std::string,int> Legend;
 
 protected:
