@@ -66,13 +66,21 @@ void Spider::Update(double dt, float m_speed)
 	case ATTACK:
 		if ((pos - Player::GetInstance()->pos).Length() <= 30)
 		{
+
+			// Go right
 			if ((Player::GetInstance()->pos.x - pos.x) > 0)
 			{
 				vel.x = Default_Speed;
 			}
+			// Go left
 			else if ((Player::GetInstance()->pos.x - pos.x) < 0)
 			{
 				vel.x = -Default_Speed;
+			}
+			// Add code here to check for spider climbing onto wall
+			if ((Player::GetInstance()->pos.y - pos.y) > 0)
+			{
+				vel.y = Default_Speed;
 			}
 			// uncomment this section to make spider jump
 			/*if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
