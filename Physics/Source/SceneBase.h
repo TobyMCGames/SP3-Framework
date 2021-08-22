@@ -15,6 +15,7 @@
 
 class SceneBase : public Scene
 {
+
 public:
 	enum UNIFORM_TYPE
 	{
