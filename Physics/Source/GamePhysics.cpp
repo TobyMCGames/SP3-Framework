@@ -258,6 +258,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.y < 0.1)
 				{
 					go1->vel.y = 0;
+					go1->pos.y = go2->pos.y + ((go2->scale.y  + go1->scale.y) / 2 + 0.003f);
 				}
 				return true;
 			}
@@ -272,6 +273,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.x < 0.1)
 				{
 					go1->vel.x = 0;
+					go1->pos.x = go2->pos.x - ((go2->scale.x + go1->scale.x) / 2 + 0.003f);
 				}
 				return true;
 			}
@@ -289,6 +291,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.y < 0.1)
 				{
 					go1->vel.y = 0;
+					go1->pos.y = go2->pos.y + ((go2->scale.y + go1->scale.y) / 2 + 0.003f);
 				}
 				return true;
 			}
@@ -303,6 +306,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.x > -0.1)
 				{
 					go1->vel.x = 0;
+					go1->pos.x = go2->pos.x + ((go2->scale.x + go1->scale.x) / 2 + 0.003f);
 				}
 				return true;
 			}
@@ -310,33 +314,46 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 
 		// Check Top Right of player
 		Vector3 Newtop_R = go1NewPos + Vector3(go1->scale.x / 2, go1->scale.y / 2, 0);
-		// If Move right collides
-		Check_Corner.Set(Newtop_R.x, go1->pos.y + go1->scale.y / 2, 0);
-		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
-		{
-			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
-			{
-				go1->vel.x *= -0.1;
-				if (go1->vel.x < 0.1)
-				{
-					go1->vel.x = 0;
-				}
-				return true;
-			}
-		}
 		// If Move Up collides
 		Check_Corner.Set(go1->pos.x + go1->scale.x / 2, Newtop_R.y, 0);
 		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
 		{
 			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 			{
-				go1->vel.y *= 0.1;
+				go1->vel.y *= -0.1;
+				go1->pos.y = go2->pos.y - ((go2->scale.y + go1->scale.y) / 2 + 0.003f);
+				return true;
+			}
+		}
+		// If Move right collides
+		Check_Corner.Set(Newtop_R.x, go1->pos.y + go1->scale.y / 2, 0);
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
+		{
+			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
+			{
+				float test = go1->pos.y - (go1->vel.y - gravity.y * dt);
+				go1->vel.x *= -0.1;
+				if (go1->vel.x < 0.1)
+				{
+					go1->vel.x = 0;
+					go1->pos.x = go2->pos.x - ((go2->scale.x + go1->scale.x) / 2 + 0.003f);
+				}
 				return true;
 			}
 		}
 
 		// Check Top Left of player
 		Vector3 Newtop_L = go1NewPos + Vector3(-go1->scale.x / 2, go1->scale.y / 2, 0);
+		Check_Corner.Set(go1->pos.x - go1->scale.x / 2, Newtop_L.y, 0);
+		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
+		{
+			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
+			{
+				go1->vel.y *= -0.1;
+				go1->pos.y = go2->pos.y - ((go2->scale.y + go1->scale.y) / 2 + 0.003f);
+				return true;
+			}
+		}
 		// If Move Left collides
 		Check_Corner.Set(Newtop_L.x, go1->pos.y + go1->scale.y / 2, 0);
 		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
@@ -347,20 +364,12 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				if (go1->vel.x > -0.1)
 				{
 					go1->vel.x = 0;
+					go1->pos.x = go2->pos.x + ((go2->scale.x + go1->scale.x) / 2 + 0.003f);
 				}
 				return true;
 			}
 		}
 		// If Move Up collides
-		Check_Corner.Set(go1->pos.x - go1->scale.x / 2, Newtop_L.y, 0);
-		if (abs((Check_Corner - go2->pos).Dot(Vector3(1.f, 0.f, 0.f))) <= go2->scale.x / 2)
-		{
-			if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
-			{
-				go1->vel.y *= 0.1;
-				return true;
-			}
-		}
 	}
 
 	if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END)&&
