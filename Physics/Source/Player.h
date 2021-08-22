@@ -44,7 +44,8 @@ public:
 
 	// Slow down time mechanic
 	float TimeSpeed;
-	bool SlowTime;
+	bool SlowTimeStart;
+	bool SlowTimeEnd;
 
 protected:
 	int Inventory[NUM_ITEMS];

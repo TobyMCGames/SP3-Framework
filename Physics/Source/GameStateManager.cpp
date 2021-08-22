@@ -9,6 +9,10 @@ GameStateManager::GameStateManager()
 	cSoundController = CSoundController::GetInstance();
 	cSoundController->Init();
 
+	//BGM
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Title_Theme.wav", 17, true, true);
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_1.wav", 18, true, true);
+
 	//Projectile sounds
 	cSoundController->LoadSound("Sounds\\Sounds_Projectiles\\Arrow.wav", 1, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Projectiles\\Magic_Ball.wav", 2, true);
@@ -19,6 +23,8 @@ GameStateManager::GameStateManager()
 	cSoundController->LoadSound("Sounds\\Sounds_Player\\Hurt.wav", 5, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Player\\Hurt_2.wav", 6, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Player\\Hurt_3.wav", 7, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Player\\Slow_Motion_Start.wav", 19, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Player\\Slow_Motion_End.wav", 20, true);
 
 	//zombie sounds
 	cSoundController->LoadSound("Sounds\\Sounds_Zombie\\Zombie_Idle.wav", 8, true);
@@ -27,6 +33,11 @@ GameStateManager::GameStateManager()
 	cSoundController->LoadSound("Sounds\\Sounds_Zombie\\Zombie_Hurt.wav", 11, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Zombie\\Zombie_Hurt_2.wav", 12, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Zombie\\Zombie_Death.wav", 13, true);
+
+	//turret
+	cSoundController->LoadSound("Sounds\\Sounds_Turret\\Turret_Shoot.wav", 14, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Turret\\Turret_Hurt_2.wav", 15, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Turret\\Turret_Death.wav", 16, true);
 }
 
 GameStateManager::~GameStateManager()
