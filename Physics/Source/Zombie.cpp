@@ -117,14 +117,14 @@ void Zombie::Update(double dt, float m_speed)
 		if (idleSoundTimer >= 8)
 		{
 			CSoundController::GetInstance()->PlaySoundByID(8);
-			idleSoundTimer = 0;
+			idleSoundTimer = 0; 
 		}
 		idleSoundTimer += dt * m_speed;
 
 		attackSoundTimer = 0;
 	}
 
-	cout << attackSoundTimer << endl;
+	//cout <<"Zombie attack sound timere:"<< attackSoundTimer << endl;
 }
 
 void Zombie::Response(GameObject* go)

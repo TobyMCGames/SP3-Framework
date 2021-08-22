@@ -13,6 +13,8 @@ Player::Player()
 	, cKeyboardController(NULL)
 	//, cSoundController(NULL)
 	, FireWeapon(false)
+	, cloned(false)
+	, cloningmode(false)
 {
 	for (int i = 0; i < NUM_ITEMS; i++)
 	{
@@ -21,7 +23,6 @@ Player::Player()
 	health = 100;
 	current_scene_worldheight = 90.f;
 	current_scene_worldwidth = current_scene_worldheight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-
 	Default_Speed = 15;
 	cKeyboardController = CKeyboardController::GetInstance();
 	FireWeapon = false;
@@ -29,8 +30,6 @@ Player::Player()
 	// Slow down time mechanic
 	TimeSpeed = 1.f; // is this variable even used?
 	SlowTime = false;
-
-
 }
 
 Player::~Player()
@@ -74,6 +73,18 @@ void Player::Update(double dt, float m_speed)
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
 	}
 
+	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
+	{
+		if (cloned == false) // create the clone
+		{
+			cloningmode = true;
+		}
+			// reposition
+
+		// check if player already has a clone on screen.
+		// go into summoning mode
+		// else ignore.
+	}
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
 	{
@@ -81,42 +92,54 @@ void Player::Update(double dt, float m_speed)
 	}
 	else if (bLButtonState && !Application::IsMousePressed(0))
 	{
+		
 		bLButtonState = false;
-		FireWeapon = true;
-		switch (curWeapon)
+		if (cloningmode == false)
 		{
-		case BOW:
-			{
-			CSoundController::GetInstance()->PlaySoundByID(1);
-			Projectile* arrow = 
-				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
-					pos + (normal*scale.x), normal, scale, normal);
-				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
-				cout << "arrow created" << endl;
-				break;
-			}
-		case STAFF:
-			{
-			CSoundController::GetInstance()->PlaySoundByID(2);
-			Projectile* magicBall =
-				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
-					pos + (normal * scale.x), normal, scale, normal);
+			FireWeapon = true;
+			switch (curWeapon)
+				{
+				case BOW:
+				{
+					CSoundController::GetInstance()->PlaySoundByID(1);
+					Projectile* arrow =
+						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
+							pos + (normal * scale.x), normal, scale, normal);
+					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
+					cout << "arrow created" << endl;
+					break;
+				}
+				case STAFF:
+				{
+					CSoundController::GetInstance()->PlaySoundByID(2);
+					Projectile* magicBall =
+						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
+							pos + (normal * scale.x), normal, scale, normal);
 
-				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
-				cout << "Magic ball created" << endl;
-				break;
-			}
-		case PORTALGUN:
-			{
-			CSoundController::GetInstance()->PlaySoundByID(3);
-				Projectile* portal = 
-					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-						pos + (normal * scale.x), normal, scale, normal);
-				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
-				cout << "portal created" << endl;
-				break;
+					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
+					cout << "Magic ball created" << endl;
+					break;
+				}
+				case PORTALGUN:
+				{
+					CSoundController::GetInstance()->PlaySoundByID(3);
+					Projectile* portal =
+						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
+							pos + (normal * scale.x), normal, scale, normal);
+					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
+					cout << "portal created" << endl;
+					break;
+				}
 			}
 		}
+		else // create the clone here
+		{
+			GameLevelManager::GetInstance()->getcurrentLevel()->
+				createPlayerClone(mouseWorld, Vector3(0, 0, 0), Vector3(scale.x, scale.y, scale.z), normal);
+			cloned = true;
+			cloningmode = false;
+		}
+		
 	}
 	FireWeapon = false;
 
@@ -218,7 +241,7 @@ void Player::Response(GameObject* go)
 		}
 	}
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
-		(go->type == GameObject::GO_ZOMBIE))
+		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET))
 	{
 		takeDamage(go->damage);
 		int randHurtSound = rand() % 3;
@@ -258,6 +281,11 @@ void Player::Response(GameObject* go)
 //		arrowSound = createIrrKlangDevice();
 //	}
 //}
+
+bool Player::iscloned()
+{
+	return cloned;
+}
 
 Player::Weapons Player::GetCurrentWeapon()
 {

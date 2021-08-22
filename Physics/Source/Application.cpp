@@ -24,6 +24,7 @@ GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 int m_width, m_height;
+GLFWcursor* gameCursor;;
 
 
 //Define an error callback
@@ -84,6 +85,16 @@ double Application::GetYScrollOffset()
 	return ScrollY;
 }
 
+void Application::changeCursor(bool ingame)
+{
+	if (ingame == false)
+	{
+		glfwSetCursor(m_window, NULL);
+	}
+	else
+		glfwSetCursor(m_window,gameCursor);
+}
+
 Application::Application()
 {
 }
@@ -113,7 +124,6 @@ void Application::Init()
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
 
-
 	//Create a window and create its OpenGL context
 	//m_width = 1920;
 	//m_height = 1080;
@@ -141,7 +151,9 @@ void Application::Init()
 	glewExperimental = true; // Needed for core profile
 	//Initialize GLEW
 	GLenum err = glewInit();
+	gameCursor = glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR);
 
+	
 	//If GLEW hasn't initialized
 	if (err != GLEW_OK) 
 	{
@@ -177,6 +189,7 @@ void Application::Run()
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
 
 	} //Check if the ESC key had been pressed or if the window had been closed
+	glfwDestroyCursor(gameCursor);
 	GameStateManager::GetInstance()->Destroy();
 	GameStateManager::DestroyInstance();
 	CKeyboardController::DestroyInstance();
@@ -189,6 +202,7 @@ void Application::Exit()
 	glfwDestroyWindow(m_window);
 	//Finalize and clean up GLFW
 	glfwTerminate();
+	
 }
 
 

@@ -2,12 +2,12 @@
 #define GAME_LEVEL_BASE_H
 
 #include "SceneBase.h"
-#include "Player.h"
 #include "GamePhysics.h"
 #include <vector>
 #include <string>
 #include "SceneCamera.h"
 #include <map>
+#include "PlayerClone.h"
 
 using namespace std;
 
@@ -27,6 +27,7 @@ protected:
 	vector<AdvanceGO*> projectileList;
 	vector<AdvanceGO*> InteractableList;
 	Player* player;
+	PlayerClone* playerclone;
 	float m_worldWidth;
 	float m_worldHeight;
 
@@ -37,8 +38,10 @@ public:
 	virtual bool Update(double dt) = 0;
 	virtual void Render() = 0;
 	virtual void Exit() = 0;
-	virtual void RenderPlayer();
-	bool loadLegend(std::string file_path);
+	void RenderPlayer();
+	void RenderPlayerClone();
+	void createPlayerClone(Vector3 pos,Vector3 vel,Vector3 scale, Vector3 normal); // probably can make it generalised 
+
 	void mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal);
 	bool loadMap(std::string file_path);
 	const float GAMESPEED = 2.7f;

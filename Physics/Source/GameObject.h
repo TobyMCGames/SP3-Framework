@@ -14,6 +14,7 @@ struct GameObject
 		GO_FLIPPER,
 		GO_FLIPPER_PILLAR,
 
+
 		// MOBS
 		ENTITY_START,
 		GO_PLAYER,

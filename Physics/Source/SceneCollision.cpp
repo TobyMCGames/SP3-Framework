@@ -21,7 +21,6 @@ SceneCollision::~SceneCollision()
 void SceneCollision::Init()
 {
 	SceneBase::Init();
-
 	//Calculating aspect ratio
 	//m_worldHeight = 100.f;
 	//m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -234,6 +233,11 @@ void SceneCollision::Render()
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
 	}
 	RenderMesh(meshList[GEO_AXES], false);
+	modelStack.PushMatrix();
+	modelStack.Translate(getworldWidth()/2, getworldHeight()/2, 0);
+	modelStack.Scale(getworldWidth(), getworldHeight(), -1);
+	RenderMesh(meshList[GO_BACKGROUND_1], false);
+	modelStack.PopMatrix();
 	zOffset = 0;
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
 	{
