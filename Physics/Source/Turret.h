@@ -12,7 +12,10 @@ protected:
 		NUM_STATES,
 	};
 	float shootCounter;
-	const float MaxFirerate = 5.f;
+	float waitTimer;
+	const float MaxFirerate = 0.5f;
+	bool wait;
+	int bulletCounter;
 public:
 	Turret();
 	~Turret();

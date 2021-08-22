@@ -117,7 +117,7 @@ void Zombie::Update(double dt, float m_speed)
 		if (idleSoundTimer >= 8)
 		{
 			CSoundController::GetInstance()->PlaySoundByID(8);
-			idleSoundTimer = 0;
+			idleSoundTimer = 0; 
 		}
 		idleSoundTimer += dt * m_speed;
 

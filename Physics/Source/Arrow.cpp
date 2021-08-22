@@ -21,7 +21,7 @@ void Arrow::Update(double dt, float m_speed)
 void Arrow::Response(GameObject* go)
 {
 	if ((go->type > GameObject::PASSIVE_TILE_START &&
-		go->type < GameObject::PASSIVE_TILE_END))
+		go->type < GameObject::PASSIVE_TILE_END) || (go->type == GameObject::GO_TURRET) || (go->type == GameObject::GO_ZOMBIE))
 		this->active = false;
 }
 
