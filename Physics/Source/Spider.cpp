@@ -150,8 +150,6 @@ void Spider::Response(GameObject* go)
 		}
 	}
 	return;
-
-	//if (go->type > GameObject::GO_
 }
 
 void Spider::dead()
