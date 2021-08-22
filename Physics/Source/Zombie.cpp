@@ -124,7 +124,7 @@ void Zombie::Update(double dt, float m_speed)
 		attackSoundTimer = 0;
 	}
 
-	cout << attackSoundTimer << endl;
+	//cout <<"Zombie attack sound timere:"<< attackSoundTimer << endl;
 }
 
 void Zombie::Response(GameObject* go)

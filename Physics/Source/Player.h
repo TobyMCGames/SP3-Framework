@@ -33,11 +33,13 @@ public:
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
 	//void SetSounds();
+	bool iscloned();
 	Player::Weapons GetCurrentWeapon();
 	float mana;
 	Vector3 mouseWorld;
 	Vector3 playerToMouseDir;
 
+	
 	bool FireWeapon;
 
 	// Slow down time mechanic
@@ -47,7 +49,8 @@ public:
 protected:
 	int Inventory[NUM_ITEMS];
 	Weapons curWeapon;
-
+	bool cloned;
+	bool cloningmode;
 	int curItem;
 	double scrollsnap;
 	float current_scene_worldwidth;

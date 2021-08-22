@@ -26,7 +26,7 @@ void Turret::Update(double dt, float m_speed)
 			shootCounter = 0.f;
 		}
 		shootCounter += dt * m_speed;
-		cout << shootCounter << endl;
+		//cout << shootCounter << endl;
 	}
 }
 

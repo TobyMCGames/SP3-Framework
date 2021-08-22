@@ -21,6 +21,8 @@ public:
 	static int GetWindowWidth();
 	static int GetWindowHeight();
 	static double GetYScrollOffset();
+	static void changeCursor(bool gameCursor);
+
 
 private:
 	Application();
@@ -28,7 +30,6 @@ private:
 
 	//Declare a window object
 	StopWatch m_timer;
-	
 };
 
 #endif

@@ -204,6 +204,10 @@ void SceneBase::Init()
 	meshList[GEO_TURRETBULLET]->textureID = LoadTGA("Image//PROJECTILES//turret_bullet.tga");
 	meshList[GEO_SKELEARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
 	meshList[GEO_SKELEARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow.tga");
+
+	// BACKGROUND
+	meshList[GO_BACKGROUND_1] = MeshBuilder::GenerateQuad("background 1", Color(1, 1, 1));
+	meshList[GO_BACKGROUND_1]->textureID = LoadTGA("Image//BACKGROUND//Test_background.tga");
 	
 
 	bLightEnabled = true;
