@@ -56,6 +56,7 @@ bool SceneGUI::Update(double dt)
 
 	if (RenderPause)
 	{
+		Application::changeCursor(false);
 		if (posX > 25 && posX < 40 && posY > -28 && posY < -25)
 		{
 			ContButton.Set(1, 0, 0);

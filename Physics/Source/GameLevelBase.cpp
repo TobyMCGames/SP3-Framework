@@ -11,6 +11,7 @@ GameLevelBase::GameLevelBase()
 	m_worldWidth = 0;
 	m_worldHeight = 0;
 	player = NULL;
+	playerclone = NULL;
 }
 
 GameLevelBase::~GameLevelBase()
@@ -20,7 +21,6 @@ GameLevelBase::~GameLevelBase()
 
 void GameLevelBase::RenderPlayer()
 {
-	std::cout << player->pos.z + zOffset << std::endl;
 	modelStack.PushMatrix();
 	{
 		modelStack.Translate(player->pos.x, player->pos.y, player->pos.z + zOffset);
@@ -54,6 +54,58 @@ void GameLevelBase::RenderPlayer()
 		modelStack.PopMatrix();
 	}
 	modelStack.PopMatrix();
+	if (player->iscloned() == true)
+	{
+		RenderPlayerClone();
+	}
+}
+
+void GameLevelBase::RenderPlayerClone()
+{
+	modelStack.PushMatrix();
+	{
+		modelStack.Translate(playerclone->pos.x, playerclone->pos.y, playerclone->pos.z + zOffset);
+		zOffset += 0.001f;
+		modelStack.Scale(playerclone->scale.x, playerclone->scale.y, playerclone->scale.z);
+		RenderMesh(meshList[GEO_PLAYER], false);
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(0, 0, 0.001f);
+			zOffset += 0.001f;
+			if (playerclone->normal.x >= 0)
+				modelStack.Rotate(Math::RadianToDegree(atan2f(playerclone->normal.y, playerclone->normal.x)), 0, 0, 1);
+			else
+			{
+				//if plan to flip player, remove this line below
+				modelStack.Rotate(180, 0, 1, 0);
+				modelStack.Rotate(Math::RadianToDegree(atan2f(playerclone->normal.y, -playerclone->normal.x)), 0, 0, 1);
+			}
+			modelStack.PushMatrix();
+			{
+				modelStack.Translate(0.5, 0, 0);
+				if (playerclone->getcloneWeapon() == Player::BOW)
+					RenderMesh(meshList[GEO_BOW], false);
+				else if (playerclone->getcloneWeapon() == Player::STAFF)
+					RenderMesh(meshList[GEO_STAFF], false);
+				else if (playerclone->getcloneWeapon() == Player::PORTALGUN)
+					RenderMesh(meshList[GEO_PORTALGUN], false);
+			}
+			modelStack.PopMatrix();
+		}
+		modelStack.PopMatrix();
+	}
+	modelStack.PopMatrix();
+	zOffset += 0.001f;
+}
+
+void GameLevelBase::createPlayerClone(Vector3 pos,Vector3 vel,Vector3 scale,Vector3 normal)
+{
+	playerclone = new PlayerClone();
+	playerclone->pos = pos;
+	playerclone->vel = vel;
+	playerclone->scale = scale;
+	playerclone->normal = normal;
+	playerclone->health = player->health;
 }
 
 void GameLevelBase::mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal)
@@ -221,7 +273,7 @@ float GameLevelBase::getTileHeight()
 	return TILEHEIGHT + offset;
 }
 
-void GameLevelBase::cleanupList(std::vector<int>* indexlist)
+void GameLevelBase::cleanupList(std::vector<int>* indexlist) // NOTE
 {
 	for (int j = 0; j < indexlist->size(); j++)
 	{
@@ -527,4 +579,6 @@ void GameLevelBase::Exit()
 		InteractableList[i] = nullptr;
 	}
 	InteractableList.clear();
+	delete playerclone;
+	playerclone = nullptr;
 }
