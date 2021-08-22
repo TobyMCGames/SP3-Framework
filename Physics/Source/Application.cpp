@@ -184,6 +184,7 @@ void Application::Run()
 
 void Application::Exit()
 {
+	CLogRoot::DestroyInstance();
 	//Close OpenGL window and terminate GLFW
 	glfwDestroyWindow(m_window);
 	//Finalize and clean up GLFW

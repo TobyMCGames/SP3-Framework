@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include "SceneBase.h"
+#include "SoundController.h"
 using namespace std;
 
 class GameStateManager : public SingletonPattern<GameStateManager>
@@ -16,6 +17,7 @@ protected:
 
 	SceneBase* ActiveGameState;
 	SceneBase* NextGameState;
+	CSoundController* cSoundController;
 
 public:
 	// Destroy this CGameStateManager

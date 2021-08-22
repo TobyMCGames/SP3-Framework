@@ -32,11 +32,11 @@ CSoundController::~CSoundController(void)
 	// Remove all elements in entityMap
 	soundMap.clear();
 
-	// Since we have already dropped the ISoundSource, then we don't need to delete the cSoundEngine
-	//// Clear the sound engine
+	//Since we have already dropped the ISoundSource, then we don't need to delete the cSoundEngine
+	// Clear the sound engine
 	//if (cSoundEngine)
 	//{
-	//	cSoundEngine->drop();
+	//	//cSoundEngine->drop();
 	//	cSoundEngine = NULL;
 	//}
 }

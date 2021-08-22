@@ -4,7 +4,6 @@
 #include <string>
 #include "GameLevelBase.h"
 #include "filesystem.h"
-#include "SoundController.h"
 using namespace std;
 
 class GameLevelManager : public SingletonPattern<GameLevelManager>
@@ -18,7 +17,6 @@ protected:
 
 	GameLevelBase* ActiveGameLevel;
 	GameLevelBase* NextGameLevel;
-	CSoundController* cSoundController;
 
 public:
 	// Destroy this CGameLevelManager
