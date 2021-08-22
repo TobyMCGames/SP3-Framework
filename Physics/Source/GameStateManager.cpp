@@ -27,6 +27,11 @@ GameStateManager::GameStateManager()
 	cSoundController->LoadSound("Sounds\\Sounds_Zombie\\Zombie_Hurt.wav", 11, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Zombie\\Zombie_Hurt_2.wav", 12, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Zombie\\Zombie_Death.wav", 13, true);
+
+	//turret Sounds
+	cSoundController->LoadSound("Sounds\\Sounds_Turret\\Turret_Shoot.wav", 14, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Turret\\Turret_Hurt_2.wav", 15, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Turret\\Turret_Death.wav", 18, true);
 }
 
 GameStateManager::~GameStateManager()
