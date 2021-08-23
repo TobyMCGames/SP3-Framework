@@ -19,3 +19,7 @@ void DemonBall::Response(GameObject* go)
 {
 }
 
+void DemonBall::Render()
+{
+}
+

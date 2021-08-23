@@ -21,6 +21,10 @@ void Boomer::Response(GameObject* go)
 	return;
 }
 
+void Boomer::Render()
+{
+}
+
 void Boomer::dead()
 {
 	this->active = false;

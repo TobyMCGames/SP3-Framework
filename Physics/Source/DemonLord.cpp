@@ -1,6 +1,7 @@
 #include "DemonLord.h"
 
 DemonLord::DemonLord()
+	: animation1(NULL)
 {
 	return;
 }
@@ -19,6 +20,10 @@ void DemonLord::Response(GameObject* go)
 {
 	std::cout << "Dlord response" << std::endl;
 	return;
+}
+
+void DemonLord::Render()
+{
 }
 
 void DemonLord::dead()

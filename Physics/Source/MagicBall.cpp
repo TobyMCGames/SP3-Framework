@@ -23,4 +23,8 @@ void MagicBall::Response(GameObject* go)
 		this->active = false;
 }
 
+void MagicBall::Render()
+{
+}
+
 
