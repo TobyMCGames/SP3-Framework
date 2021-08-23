@@ -15,14 +15,25 @@ protected:
 	GamePhysics();
 	~GamePhysics();
 
+	enum COLLIDEPOS
+	{
+		NOTHING,
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT
+	};
+	COLLIDEPOS collidepos;
+
 public:
 	Vector3 gravity;
 
 	void Update(GameObject* go, double dt, float m_speed);
 	bool CheckCollision(GameObject* go1, GameObject* go2, double dt, float m_speed);
 	void CheckCollisionResponse(GameObject* go1, GameObject* go2, double dt, float m_speed);
+	bool CheckCorner(GameObject* go1, GameObject* go2, double dt);
+	COLLIDEPOS GetCollidePos();
 	//AABB for projectiles
 	bool AABB(GameObject* go1, GameObject* go2);
-	
 };
 

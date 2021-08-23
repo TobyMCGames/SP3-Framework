@@ -269,6 +269,7 @@ void Player::Update(double dt, float m_speed)
 	{
 		animation1->Update(dt* m_speed);
 	}
+
 }
 
 void Player::Response(GameObject* go)

@@ -25,6 +25,7 @@ void Zombie::Update(double dt, float m_speed)
 	if (currState != IDLE)
 		pos.x += vel.x * dt * m_speed;
 	pos.y += vel.y * dt * m_speed;
+	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 	switch (currState)
 	{
 	case IDLE:
@@ -93,7 +94,6 @@ void Zombie::Update(double dt, float m_speed)
 	default:
 		break;
 	}
-	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 
 
 	//play sounds
@@ -123,8 +123,7 @@ void Zombie::Update(double dt, float m_speed)
 
 		attackSoundTimer = 0;
 	}
-
-	//cout <<"Zombie attack sound timere:"<< attackSoundTimer << endl;
+	//cout << "Collide Pos: "<< GamePhysics::GetInstance()->GetCollidePos() << endl;
 }
 
 void Zombie::Response(GameObject* go)
