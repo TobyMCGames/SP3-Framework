@@ -2,6 +2,9 @@
 #define SPIDERPOISON_H
 
 #include "Projectile.h"
+
+// this file contains code for cobwebs shot by spiders. The file is named SpiderPoison as that was our initial idea
+
 class SpiderPoison : public Projectile
 {
 
