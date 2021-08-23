@@ -47,7 +47,7 @@ void Spider::Update(double dt, float m_speed)
 			StateCounter = 0;
 			cout << "switching to Idle state" << endl;
 		}
-		else if ((pos - Player::GetInstance()->pos).Length() <= 30)
+		else if ((pos - Player::GetInstance()->pos).Length() <= 30) // changing this value affects spider detection radius
 		{
 			currState = ATTACK;
 			StateCounter = 0;
@@ -65,8 +65,7 @@ void Spider::Update(double dt, float m_speed)
 		StateCounter += dt * m_speed;
 		break;
 	case ATTACK:
-		//vel.y += Default_Speed;
-		if ((pos - Player::GetInstance()->pos).Length() <= 30)
+		if ((pos - Player::GetInstance()->pos).Length() <= 30) // changing this value affects spider detection radius
 		{
 			// Go right
 			if ((Player::GetInstance()->pos.x - pos.x) > 0)
@@ -102,18 +101,9 @@ void Spider::Update(double dt, float m_speed)
 	{
 		vel.y = Default_Speed;
 		curLocation = IN_AIR;
-		if ((pos - Player::GetInstance()->pos).Length() <= 30)
+		if ((pos - Player::GetInstance()->pos).Length() <= 30) // changing this value affects spider detection radius
 		{
-			// Go right
-			if ((Player::GetInstance()->pos.x - pos.x) > 0)
-			{
-				currState = ATTACK;
-			}
-			// Go left
-			else if ((Player::GetInstance()->pos.x - pos.x) < 0)
-			{
-				currState = ATTACK;
-			}
+			currState = ATTACK;
 		}
 		else
 		{
