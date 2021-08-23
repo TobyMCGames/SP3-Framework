@@ -9,6 +9,23 @@
 
 class Entity : public AdvanceGO
 {
+public:
+	enum DIRECTION
+	{
+		LEFT,
+		RIGHT,
+	};
+	
+	Entity();
+	~Entity();
+	virtual void Update(double dt, float m_speed) = 0;
+	virtual void Response(GameObject* go) = 0;
+	virtual void Render() = 0;
+	bool CheckDirection(DIRECTION direction);
+	bool CheckCurDirection();
+	void takeDamage(int damage);
+	virtual void dead() = 0;
+
 protected:
 	enum STATES
 	{
@@ -24,24 +41,10 @@ protected:
 		IN_AIR,
 	};
 
-	enum DIRECTION
-	{
-		LEFT,
-		RIGHT,
-	};
 
 	STATES curState;
 	LOCATION curLocation;
 	DIRECTION curDirection;
-
-public:
-	Entity();
-	~Entity();
-	virtual void Update(double dt, float m_speed)=0;
-	virtual void Response(GameObject* go)=0;
-	bool CheckDirection(DIRECTION direction);
-	void takeDamage(int damage);
-	virtual void dead() = 0;
 
 };
 #endif

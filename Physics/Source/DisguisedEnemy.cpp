@@ -21,6 +21,10 @@ void DisguisedEnemy::Response(GameObject* go)
 	return;
 }
 
+void DisguisedEnemy::Render()
+{
+}
+
 void DisguisedEnemy::dead()
 {
 	this->active = false;

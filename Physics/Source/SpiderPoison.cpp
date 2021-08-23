@@ -19,3 +19,7 @@ void SpiderPoison::Response(GameObject* go)
 {
 
 }
+
+void SpiderPoison::Render()
+{
+}

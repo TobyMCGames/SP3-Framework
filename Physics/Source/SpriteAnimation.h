@@ -53,11 +53,14 @@ class SpriteAnimation
 {
 public:
 	SpriteAnimation(int row, int col);
+	SpriteAnimation(Mesh* sprite);
 	~SpriteAnimation();
 
 	//Update the animated sprite
 	void Update(double dt);
 	void Render();
+	int GetCurFrame();
+	Mesh* GetSprite();
 
 	void AddAnimation(std::string name, int start, int end);
 	void AddSequeneAnimation(std::string name, int count ...);

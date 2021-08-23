@@ -25,23 +25,31 @@ void GameLevelBase::RenderPlayer()
 	{
 		modelStack.Translate(player->pos.x, player->pos.y, player->pos.z + zOffset);
 		zOffset += 0.001f;
-		modelStack.Scale(player->scale.x,player->scale.y,player->scale.z);
-		RenderMesh(meshList[GEO_PLAYER], false);
+		modelStack.PushMatrix();
+		{
+			if (player->CheckCurDirection() == Entity::LEFT)
+				modelStack.Rotate(180, 0, 1, 0);
+
+			modelStack.Scale(player->scale.x, player->scale.y, player->scale.z);
+			//RenderMesh(meshList[GEO_PLAYER], false);
+			player->Render();
+		}
+		modelStack.PopMatrix();
 		modelStack.PushMatrix();
 		{
 			modelStack.Translate(0, 0, 0.001f);
 			zOffset += 0.001f;
 			if (player->normal.x >= 0)
-				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y,player->normal.x)), 0, 0, 1);
+				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y, player->normal.x)), 0, 0, 1);
 			else
 			{
-				//if plan to flip player, remove this line below
 				modelStack.Rotate(180, 0, 1, 0);
 				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y, -player->normal.x)), 0, 0, 1);
 			}
 			modelStack.PushMatrix();
 			{
-				modelStack.Translate(0.5, 0, 0);
+				modelStack.Translate(3, 0, 0);
+				modelStack.Scale(player->scale.x, player->scale.y, player->scale.z);
 				if (player->GetCurrentWeapon() == Player::BOW)
 					RenderMesh(meshList[GEO_BOW], false);
 				else if (player->GetCurrentWeapon() == Player::STAFF)

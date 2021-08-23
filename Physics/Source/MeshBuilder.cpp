@@ -128,8 +128,6 @@ Mesh* MeshBuilder::GenerateSpriteAnimation(const std::string& meshName, Color co
 	std::vector<Vertex> vertex_buffer_data;
 	std::vector<GLuint> index_buffer_data;
 
-	float lengthPerRow = length / numRow;
-	float lengthPerCol = length / numCol;
 	float TextureXPerCol = 1.f / numCol;
 	float TextureYPerRow = 1.f / numRow;
 	int offset = 0;
@@ -141,21 +139,21 @@ Mesh* MeshBuilder::GenerateSpriteAnimation(const std::string& meshName, Color co
 	{
 		for (int col = 0; col < numCol; col++)
 		{
-			float u1 = TextureXPerCol * col;
-			float v1 = TextureYPerRow * row;
-			v.pos.Set(-0.5f * length + col * lengthPerCol, -0.5f * length + row * lengthPerRow, 0);
+			float u1 = col * TextureXPerCol;
+			float v1 = 1.f - TextureYPerRow - row * TextureYPerRow;
+			v.pos.Set(-0.5f * length, -0.5f * length, 0);
 			v.texCoord.Set(u1, v1);
 			vertex_buffer_data.push_back(v);
 
-			v.pos.Set(-0.5f * length + (col + 1) * lengthPerCol, -0.5f * length + row * lengthPerRow, 0);
+			v.pos.Set(0.5f * length, -0.5f * length, 0);
 			v.texCoord.Set(u1 + TextureXPerCol, v1);
 			vertex_buffer_data.push_back(v);
 
-			v.pos.Set(-0.5f * length + (col + 1) * lengthPerCol, -0.5f * length + (row + 1) * lengthPerRow, 0);
+			v.pos.Set(0.5f * length, 0.5f * length, 0);
 			v.texCoord.Set(u1 + TextureXPerCol, v1 + TextureYPerRow);
 			vertex_buffer_data.push_back(v);
 
-			v.pos.Set(-0.5f * length + col * lengthPerCol, -0.5f * length + (row + 1) * lengthPerRow, 0);
+			v.pos.Set(-0.5f * length, 0.5f * length, 0);
 			v.texCoord.Set(u1, v1 + TextureYPerRow);
 			vertex_buffer_data.push_back(v);
 
@@ -168,13 +166,6 @@ Mesh* MeshBuilder::GenerateSpriteAnimation(const std::string& meshName, Color co
 			offset += 4;
 		}
 	}
-
-	index_buffer_data.push_back(3);
-	index_buffer_data.push_back(0);
-	index_buffer_data.push_back(2);
-	index_buffer_data.push_back(1);
-	index_buffer_data.push_back(2);
-	index_buffer_data.push_back(0);
 
 	Mesh* mesh = new Mesh(meshName);
 

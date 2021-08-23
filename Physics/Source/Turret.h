@@ -21,5 +21,6 @@ public:
 	~Turret();
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
+	virtual void Render();
 	virtual void dead();
 };

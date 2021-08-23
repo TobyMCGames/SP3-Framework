@@ -25,3 +25,7 @@ void Arrow::Response(GameObject* go)
 		this->active = false;
 }
 
+void Arrow::Render()
+{
+}
+

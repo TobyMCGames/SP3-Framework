@@ -47,7 +47,7 @@ GameObject* Tile::clone(Vector3 pos, Vector3 vel, Vector3 scale,Vector3 normal)
 	return newTile;
 }
 
-void Tile::Response(GameObject*)
+void Tile::Response(GameObject* go)
 {
 	if (tiletype == TILE_TYPE::PASSIVE_TILE)
 	{
@@ -58,4 +58,9 @@ void Tile::Response(GameObject*)
 		// interactive response here
 		
 	}
+}
+
+void Tile::Render()
+{
+
 }
