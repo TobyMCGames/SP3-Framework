@@ -169,6 +169,7 @@
     <ClCompile Include="Source\GameStateManager.cpp" />
     <ClCompile Include="Source\InteractableFactory.cpp" />
     <ClCompile Include="Source\KeyboardController.cpp" />
+    <ClCompile Include="Source\Level3.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
     <ClCompile Include="Source\LogRoot.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="Source\InteractableFactory.h" />
     <ClInclude Include="Source\Interactables.h" />
     <ClInclude Include="Source\KeyboardController.h" />
+    <ClInclude Include="Source\Level3.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />

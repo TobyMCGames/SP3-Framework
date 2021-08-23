@@ -4,7 +4,8 @@ GameLevelManager::GameLevelManager()
 	: ActiveGameLevel(nullptr)
 	, NextGameLevel(nullptr)
 {
-	
+	CSoundController::GetInstance()->StopSounds();
+	CSoundController::GetInstance()->PlaySoundByID(18);
 }
 
 GameLevelManager::~GameLevelManager()

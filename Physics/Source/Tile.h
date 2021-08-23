@@ -13,5 +13,6 @@ public:
 	Tile(GameObject::GAMEOBJECT_TYPE objtype);
 	~Tile();
 	GameObject* clone(Vector3 pos, Vector3 vel,Vector3 scale,Vector3 Normal);
-	void Response(GameObject*);
+	void Response(GameObject* go);
+	void Render();
 };

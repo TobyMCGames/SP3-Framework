@@ -19,6 +19,7 @@ public:
 	virtual bool isControl();
 	void setControl(bool controlled);
 	bool cloneinited;
+	virtual void Render();
 	
 protected:
 	int Inventory[NUM_ITEMS];
@@ -32,5 +33,6 @@ protected:
 private:
 	Player();
 	~Player();
+	SpriteAnimation* animation1;
 };
 

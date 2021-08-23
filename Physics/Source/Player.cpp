@@ -9,7 +9,11 @@ Player::Player()
 	: curWeapon(Player::PORTALGUN)
 	, curItem(0)
 	, scrollsnap(0)
-	//, cSoundController(NULL)
+	, mana(100)
+	, cKeyboardController(NULL)
+	, animation1(NULL)
+
+
 	,playerclone(nullptr)
 	,cloneinited(false)
 	,controlled(true)
@@ -28,7 +32,17 @@ Player::Player()
 
 	// Slow down time mechanic
 	TimeSpeed = 1.f; // is this variable even used?
-	SlowTime = false;
+	SlowTimeStart = false;
+	SlowTimeEnd = false;
+
+	// Init sprite
+	animation1 = new SpriteAnimation(GameLevelManager::GetInstance()->getcurrentLevel()->GetMeshList(SceneBase::GEO_PLAYER));
+	animation1->AddAnimation("Idle", 0, 0);
+	animation1->AddAnimation("Walking", 0, 5);
+	animation1->AddAnimation("Jumping", 6, 8);
+	animation1->AddAnimation("Falling", 9, 11);
+
+	animation1->PlayAnimation("Idle", -1, 6.f);
 }
 
 Player::~Player()
@@ -53,17 +67,35 @@ void Player::Update(double dt, float m_speed)
 	{
 		playerToMouseDir.Normalize();
 		normal = playerToMouseDir.Normalized();
+		if (normal.x > 0)
+			curDirection = RIGHT;
+		else if (normal.x < 0)
+			curDirection = LEFT;
 	}
 
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	static bool ShiftPressed = false;
+	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
-		SlowTime = true;
+		ShiftPressed = true;
+		SlowTimeStart = true;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
 	}
-	if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
+	else if (ShiftPressed && !cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
-		SlowTime = false;
+		ShiftPressed = false;
+		SlowTimeEnd = true;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
+	}
+
+	if (SlowTimeStart)
+	{
+		CSoundController::GetInstance()->PlaySoundByID(19);
+		SlowTimeStart = false;
+	}
+	if (SlowTimeEnd)
+	{
+		CSoundController::GetInstance()->PlaySoundByID(20);
+		SlowTimeEnd = false;
 	}
 
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
@@ -116,69 +148,69 @@ void Player::Update(double dt, float m_speed)
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
 						pos + (normal * scale.x), normal, scale, normal);
 
-				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
-				cout << "Magic ball created" << endl;
-				break;
+					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
+					cout << "Magic ball created" << endl;
+					break;
+				}
+				case PORTALGUN:
+				{
+					CSoundController::GetInstance()->PlaySoundByID(3);
+					Projectile* portal =
+						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
+							pos + (normal * scale.x), normal, scale, normal);
+					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
+					cout << "portal created" << endl;
+					break;
+				}
 			}
-			case PORTALGUN:
-			{
-				CSoundController::GetInstance()->PlaySoundByID(3);
-				Projectile* portal =
-					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-						pos + (normal * scale.x), normal, scale, normal);
-				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
-				cout << "portal created" << endl;
-				break;
-			}
+		}
+
+		
+	}
+
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+	{
+		//cSoundController->PlaySoundByID(2);
+		CSoundController::GetInstance()->PlaySoundByID(4);
+		vel.y += JumpForce;
+		curLocation = IN_AIR;
+	}
+
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) && cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+	{
+		vel.x = 0;
+	}
+
+	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+	{
+		if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
+			vel.x = Default_Speed;
+	}
+
+	else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
+	{
+		if (pos.x - Default_Speed * dt > scale.x / 2)
+		{
+			vel.x = -Default_Speed;
+			curDirection = LEFT;
 		}
 	}
-	//FireWeapon = false;
-	if (isControl())
+
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
 	{
-		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
-		{
-			//cSoundController->PlaySoundByID(2);
-			CSoundController::GetInstance()->PlaySoundByID(4);
-			vel.y += getJumpForce();
-			curLocation = IN_AIR;
-		}
-
-		if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) && cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-		{
-			vel.x = 0;
-		}
-
-		else if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-		{
-			if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
-				vel.x = Default_Speed;
-		}
-
-		else if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
-		{
-			if (pos.x - Default_Speed * dt > scale.x / 2)
-				vel.x = -Default_Speed;
-		}
-
-		if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-		{
-			vel.x = 0;
-		}
-
-		/*if (cKeyboardController->IsKeyPressed(GLFW_KEY_W))
-		{
-			if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
-				vel.y = Default_Speed;
-		}
-		if (cKeyboardController->IsKeyPressed(GLFW_KEY_S))
-		{
-			if (pos.y - Default_Speed * dt > scale.y / 2)
-				vel.y = -Default_Speed;
-		}
-		if (!cKeyboardController->IsKeyPressed(GLFW_KEY_W) && !cKeyboardController->IsKeyPressed(GLFW_KEY_S))
-		{
-			vel.y = 0;
-		}*/
+		vel.x = 0;
+		animation1->PlayAnimation("Idle", -1, 1);
+	}
+	
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+	{
+		//cSoundController->PlaySoundByID(2);
+		CSoundController::GetInstance()->PlaySoundByID(4);
+		this->vel.y += JumpForce;
+		this->curLocation = IN_AIR;
+		animation1->Reset();
+		animation1->PlayAnimation("Jumping", 1, JumpForce / -GamePhysics::GetInstance()->gravity.y);
+	}
 
 		scrollsnap += Application::GetYScrollOffset();
 
@@ -222,6 +254,12 @@ void Player::Update(double dt, float m_speed)
 		//cout << "In air" << endl;
 	}
 	curLocation = IN_AIR;
+
+	if (animation1 != NULL)
+	{
+		animation1->Update(dt* m_speed);
+	}
+
 }
 
 bool Player::getSwap()
@@ -324,7 +362,21 @@ void Player::Response(GameObject* go)
 	}
 }
 
-void Player::dead()
+void Player::Render()
+{
+	if (animation1 != NULL) {
+		GameLevelManager::GetInstance()->getcurrentLevel()->RenderAnimation(
+			animation1->GetSprite(),
+			animation1->GetCurFrame(),
+			6,
+			2,
+			6,
+			false
+		);
+	}
+}
+
+bool Player::iscloned()
 {
 }
 

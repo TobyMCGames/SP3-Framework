@@ -23,6 +23,8 @@ void SceneTitle::Init()
 	PlayButton.Set(1, 1, 1);
 
 	Math::InitRNG();
+	CSoundController::GetInstance()->StopSounds();
+	CSoundController::GetInstance()->PlaySoundByID(17);
 
 }
 bool SceneTitle::Update(double dt)

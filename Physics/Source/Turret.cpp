@@ -64,7 +64,7 @@ void Turret::Response(GameObject* go)
 		if (health <= 0)
 		{
 			//play death sound
-			CSoundController::GetInstance()->PlaySoundByID(18);
+			CSoundController::GetInstance()->PlaySoundByID(16);
 			dead();
 		}
 		else
@@ -73,6 +73,10 @@ void Turret::Response(GameObject* go)
 			CSoundController::GetInstance()->PlaySoundByID(15);
 		}
 	}
+}
+
+void Turret::Render()
+{
 }
 
 void Turret::dead()

@@ -15,6 +15,7 @@
 
 class SceneBase : public Scene
 {
+
 public:
 	enum UNIFORM_TYPE
 	{
@@ -118,10 +119,12 @@ public:
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMesh(Mesh *mesh, bool enableLight);
+	void RenderAnimation(Mesh* mesh, unsigned offset, unsigned count, unsigned int numRow, unsigned int numCol, bool enableLight);
 	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey);
 	void RenderGO(GameObject *go);
 	void ChangeMat(int idx, Color color, float ambient, float diffuse, float specular, float Shiny);
 	void FontLoader(std::string file_path);
+	Mesh* GetMeshList(GEOMETRY_TYPE type);
 
 	Camera camera;
 	CKeyboardController* cKeyboardController;

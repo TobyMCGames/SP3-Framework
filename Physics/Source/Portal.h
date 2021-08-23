@@ -8,7 +8,8 @@ private:
 
 public:
 	virtual void Update(double dt, float m_speed);
-	virtual void Response(GameObject*);
+	virtual void Response(GameObject* go);
+	virtual void Render();
 	Portal();
 	~Portal();
 };

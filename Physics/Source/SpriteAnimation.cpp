@@ -11,6 +11,17 @@ SpriteAnimation::SpriteAnimation(int row, int col)
 {
 }
 
+SpriteAnimation::SpriteAnimation(Mesh* sprite)
+	: sprite(sprite)
+	, row(0)
+	, col(0)
+	, currentTime(0)
+	, currentFrame(0)
+	, playCount(0)
+	, currentAnimation("")
+{
+}
+
 /******************************************************************************/
 /*!
 \brief
@@ -101,6 +112,16 @@ param None
 void SpriteAnimation::Render()
 {
 	
+}
+
+int SpriteAnimation::GetCurFrame()
+{
+	return currentFrame;
+}
+
+Mesh* SpriteAnimation::GetSprite()
+{
+	return sprite;
 }
 
 /******************************************************************************/

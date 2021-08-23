@@ -38,6 +38,11 @@ bool Entity::CheckDirection(DIRECTION direction)
 	return false;
 }
 
+bool Entity::CheckCurDirection()
+{
+	return curDirection;
+}
+
 void Entity::takeDamage(int damage)
 {
 	this->health -= damage;

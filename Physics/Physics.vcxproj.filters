@@ -209,6 +209,9 @@
     <ClCompile Include="Source\PlayerClone.cpp">
       <Filter>Source Files\Entities\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Level3.cpp">
+      <Filter>Source Files\GameLevels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -390,6 +393,9 @@
     </ClInclude>
     <ClInclude Include="Source\PlayerClone.h">
       <Filter>Header Files\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Level3.h">
+      <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

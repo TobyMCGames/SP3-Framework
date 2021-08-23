@@ -83,7 +83,8 @@ struct GameObject
 	int damage;
 	float Default_Speed;
 
-	virtual void Response(GameObject*) = 0;
+	virtual void Response(GameObject* go) = 0;
+	virtual void Render() = 0;
 	
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
