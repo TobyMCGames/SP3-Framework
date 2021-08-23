@@ -58,8 +58,10 @@ void Spider::Update(double dt, float m_speed)
 			// add detection for walls
 			if (curDirection == RIGHT)
 				vel.x = Default_Speed;
-			else
+			else if (curDirection == LEFT)
 				vel.x = -Default_Speed;
+			else
+				cout << "Could not figure out which direction to move for spider" << endl;
 		}
 		StateCounter += dt * m_speed;
 		break;
