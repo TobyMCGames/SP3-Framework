@@ -10,6 +10,7 @@ protected:
 		IDLE,
 		PATROL,
 		ATTACK,
+		CLIMBING,
 		NUM_STATES,
 	};
 	int speedBoostTimer;
@@ -17,6 +18,7 @@ protected:
 	int StateCounter;
 	const float JumpForce = 15;
 	const int MaxStateCounter = 60;
+	Vector3 old_spider_position;
 	BEHAVIOUR currState;
 
 	float speedBoost;
