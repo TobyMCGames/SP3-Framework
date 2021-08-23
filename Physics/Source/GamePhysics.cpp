@@ -119,7 +119,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 
 		}
 	}
-	else if (go1->type == GameObject::GO_PLAYER && (go2->type > GameObject::ENTITY_START && go2->type < GameObject::ENTITY_END))
+	else if ((go1->type == GameObject::GO_PLAYER  || (go1->type == GameObject::GO_PLAYERCLONE))&& (go2->type > GameObject::ENTITY_START && go2->type < GameObject::ENTITY_END))
 	{
 		Vector3 go1NewPos = go1->pos + go1->vel * dt * m_speed;
 		//Vector3 go2NewPos = go2->pos + go2->vel * dt;
@@ -389,7 +389,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			return true;
 		}
 	}
-	else if ((go1->type == GameObject::GO_PLAYER) &&
+	else if ((go1->type == GameObject::GO_PLAYER || go1->type == GameObject::GO_PLAYERCLONE) &&
 		(go2->type > GameObject::INTERACTABLE_START && go2->type < GameObject::INTERACTABLE_END))
 	{
 		if (AABB(go1, go2))
@@ -477,6 +477,7 @@ void GamePhysics::CheckCollisionResponse(GameObject* go1, GameObject* go2, doubl
 		go1->vel -= 2 * difSpeed.Dot(CollisionNormal) * CollisionNormal;
 
 	}
+
 	else if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END) && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
 	{
 		go1->Response(go2);
@@ -498,7 +499,7 @@ void GamePhysics::CheckCollisionResponse(GameObject* go1, GameObject* go2, doubl
 	{
 		go1->Response(go2);
 	}
-	else if ((go1->type == GameObject::GO_PLAYER)
+	else if ((go1->type == GameObject::GO_PLAYER || go1->type == GameObject::GO_PLAYERCLONE)
 		&& (go2->type > GameObject::INTERACTABLE_START && go2->type < GameObject::INTERACTABLE_END))
 	{
 		go1->Response(go2);

@@ -10,8 +10,9 @@ GameLevelBase::GameLevelBase()
 	m_speed = GAMESPEED;
 	m_worldWidth = 0;
 	m_worldHeight = 0;
-	player = NULL;
-	playerclone = NULL;
+	player = nullptr;
+	cloned = false;
+	playerincontrol = true;
 }
 
 GameLevelBase::~GameLevelBase()
@@ -25,14 +26,14 @@ void GameLevelBase::RenderPlayer()
 	{
 		modelStack.Translate(player->pos.x, player->pos.y, player->pos.z + zOffset);
 		zOffset += 0.001f;
-		modelStack.Scale(player->scale.x,player->scale.y,player->scale.z);
+		modelStack.Scale(player->scale.x, player->scale.y, player->scale.z);
 		RenderMesh(meshList[GEO_PLAYER], false);
 		modelStack.PushMatrix();
 		{
 			modelStack.Translate(0, 0, 0.001f);
 			zOffset += 0.001f;
 			if (player->normal.x >= 0)
-				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y,player->normal.x)), 0, 0, 1);
+				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y, player->normal.x)), 0, 0, 1);
 			else
 			{
 				//if plan to flip player, remove this line below
@@ -42,11 +43,11 @@ void GameLevelBase::RenderPlayer()
 			modelStack.PushMatrix();
 			{
 				modelStack.Translate(0.5, 0, 0);
-				if (player->GetCurrentWeapon() == Player::BOW)
+				if (player->getcurWeapon() == Player::BOW)
 					RenderMesh(meshList[GEO_BOW], false);
-				else if (player->GetCurrentWeapon() == Player::STAFF)
+				else if (player->getcurWeapon() == Player::STAFF)
 					RenderMesh(meshList[GEO_STAFF], false);
-				else if (player->GetCurrentWeapon() == Player::PORTALGUN)
+				else if (player->getcurWeapon() == Player::PORTALGUN)
 					RenderMesh(meshList[GEO_PORTALGUN], false);
 			}
 			modelStack.PopMatrix();
@@ -54,7 +55,7 @@ void GameLevelBase::RenderPlayer()
 		modelStack.PopMatrix();
 	}
 	modelStack.PopMatrix();
-	if (player->iscloned() == true)
+	if (cloned == true)
 	{
 		RenderPlayerClone();
 	}
@@ -64,30 +65,30 @@ void GameLevelBase::RenderPlayerClone()
 {
 	modelStack.PushMatrix();
 	{
-		modelStack.Translate(playerclone->pos.x, playerclone->pos.y, playerclone->pos.z + zOffset);
+		modelStack.Translate(player->getClone()->getpos().x, player->getClone()->getpos().y, player->getClone()->getpos().z + zOffset);
 		zOffset += 0.001f;
-		modelStack.Scale(playerclone->scale.x, playerclone->scale.y, playerclone->scale.z);
+		modelStack.Scale(player->getClone()->getscale().x, player->getClone()->getscale().y , player->getClone()->getscale().z);
 		RenderMesh(meshList[GEO_PLAYER], false);
 		modelStack.PushMatrix();
 		{
 			modelStack.Translate(0, 0, 0.001f);
 			zOffset += 0.001f;
-			if (playerclone->normal.x >= 0)
-				modelStack.Rotate(Math::RadianToDegree(atan2f(playerclone->normal.y, playerclone->normal.x)), 0, 0, 1);
+			if (player->getClone()->getnormal().x >= 0)
+				modelStack.Rotate(Math::RadianToDegree(atan2f(player->getClone()->getnormal().y, player->getClone()->getnormal().x)), 0, 0, 1);
 			else
 			{
 				//if plan to flip player, remove this line below
 				modelStack.Rotate(180, 0, 1, 0);
-				modelStack.Rotate(Math::RadianToDegree(atan2f(playerclone->normal.y, -playerclone->normal.x)), 0, 0, 1);
+				modelStack.Rotate(Math::RadianToDegree(atan2f(player->getClone()->getnormal().y, -player->getClone()->getnormal().x)), 0, 0, 1);
 			}
 			modelStack.PushMatrix();
 			{
 				modelStack.Translate(0.5, 0, 0);
-				if (playerclone->getcloneWeapon() == Player::BOW)
+				if (player->getClone()->getcurWeapon() == Player::BOW)
 					RenderMesh(meshList[GEO_BOW], false);
-				else if (playerclone->getcloneWeapon() == Player::STAFF)
+				else if (player->getClone()->getcurWeapon() == Player::STAFF)
 					RenderMesh(meshList[GEO_STAFF], false);
-				else if (playerclone->getcloneWeapon() == Player::PORTALGUN)
+				else if (player->getClone()->getcurWeapon() == Player::PORTALGUN)
 					RenderMesh(meshList[GEO_PORTALGUN], false);
 			}
 			modelStack.PopMatrix();
@@ -98,27 +99,54 @@ void GameLevelBase::RenderPlayerClone()
 	zOffset += 0.001f;
 }
 
-void GameLevelBase::createPlayerClone(Vector3 pos,Vector3 vel,Vector3 scale,Vector3 normal)
-{
-	playerclone = new PlayerClone();
-	playerclone->pos = pos;
-	playerclone->vel = vel;
-	playerclone->scale = scale;
-	playerclone->normal = normal;
-	playerclone->health = player->health;
-}
 
 void GameLevelBase::mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal)
 {
-	player->GetInstance();
+	player = Player::GetInstance();
 	player->pos = pos;
 	player->vel = vel;
 	player->scale = scale;
 	player->normal = normal;
 	player->active = true;
+	player->type = GameObject::GO_PLAYER;
 	EntityList.push_back(player);
 	map.push_back(nullptr);
 }
+
+bool GameLevelBase::getcloned()
+{
+	return cloned;
+}
+
+void GameLevelBase::setcloned(bool cloned)
+{
+	this->cloned = cloned;
+}
+
+void GameLevelBase::swapcontrols()
+{
+	if (player->isControl() == true)
+	{
+		player->setControl(false);
+		player->getClone()->setControl(true);
+		player->getClone()->setvel(Vector3(0, 0, 0));
+		player->vel = Vector3(0, 0, 0);
+	}
+	else if (player->isControl() == false)
+	{
+		player->setControl(true);
+		player->getClone()->setControl(false);
+		player->getClone()->setvel(Vector3(0, 0, 0));
+		player->vel = Vector3(0, 0, 0);
+	}
+
+}
+
+void GameLevelBase::entityPush(Entity* entity)
+{
+	EntityList.push_back(entity);
+}
+
 
 bool GameLevelBase::loadMap(std::string file_path)
 {
@@ -253,6 +281,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 	return true;
 }
 
+
 float GameLevelBase::getworldWidth()
 {
 	return m_worldWidth;
@@ -272,6 +301,8 @@ float GameLevelBase::getTileHeight()
 {
 	return TILEHEIGHT + offset;
 }
+
+
 
 void GameLevelBase::cleanupList(std::vector<int>* indexlist) // NOTE
 {
@@ -296,7 +327,6 @@ bool GameLevelBase::CheckWithinScreen(GameObject* go)
 
 void GameLevelBase::CollisionChecks(double dt, float m_speed)
 {
-
 	int XTilesInWorld = getworldWidth() / (getTileWidth());
 	int YTilesInWorld = getworldHeight() / (getTileHeight());
 
@@ -429,7 +459,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 			cleanupList(&cleanUpVector);
 
 		///////  Only player can collide with
-		if (mob1->type != GameObject::GO_PLAYER)
+		if (mob1->type != GameObject::GO_PLAYER && mob1->type != GameObject::GO_PLAYERCLONE)
 			continue;
 		for (int j = 0; j < InteractableList.size(); j++)
 		{
@@ -579,6 +609,4 @@ void GameLevelBase::Exit()
 		InteractableList[i] = nullptr;
 	}
 	InteractableList.clear();
-	delete playerclone;
-	playerclone = nullptr;
 }

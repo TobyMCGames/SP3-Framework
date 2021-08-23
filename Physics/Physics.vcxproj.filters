@@ -48,6 +48,12 @@
     <Filter Include="Header Files\Interactives">
       <UniqueIdentifier>{33e8b0a1-348b-44df-90e7-d7a93baeb363}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entities\Player">
+      <UniqueIdentifier>{6cfc6da9-a258-4a51-9612-1176e70d452b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Player">
+      <UniqueIdentifier>{92890903-09ee-4741-aa05-d32ea89429be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -152,9 +158,6 @@
     <ClCompile Include="Source\Entity.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
-      <Filter>Source Files\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SkeletonArcher.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
@@ -197,8 +200,14 @@
     <ClCompile Include="Source\SpriteAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Source Files\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerBase.cpp">
+      <Filter>Source Files\Entities\Player</Filter>
+    </ClCompile>
     <ClCompile Include="Source\PlayerClone.cpp">
-      <Filter>Source Files\Entities</Filter>
+      <Filter>Source Files\Entities\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -316,9 +325,6 @@
     <ClInclude Include="Source\Entity.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Player.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SkeletonArcher.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
@@ -376,8 +382,14 @@
     <ClInclude Include="Source\SpriteAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\PlayerBase.h">
+      <Filter>Header Files\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>Header Files\Entities\Player</Filter>
+    </ClInclude>
     <ClInclude Include="Source\PlayerClone.h">
-      <Filter>Header Files\Entities</Filter>
+      <Filter>Header Files\Entities\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

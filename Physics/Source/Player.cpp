@@ -9,12 +9,12 @@ Player::Player()
 	: curWeapon(Player::PORTALGUN)
 	, curItem(0)
 	, scrollsnap(0)
-	, mana(100)
-	, cKeyboardController(NULL)
 	//, cSoundController(NULL)
-	, FireWeapon(false)
-	, cloned(false)
-	, cloningmode(false)
+	,playerclone(nullptr)
+	,cloneinited(false)
+	,controlled(true)
+	,swap(false)
+
 {
 	for (int i = 0; i < NUM_ITEMS; i++)
 	{
@@ -25,7 +25,6 @@ Player::Player()
 	current_scene_worldwidth = current_scene_worldheight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	Default_Speed = 15;
 	cKeyboardController = CKeyboardController::GetInstance();
-	FireWeapon = false;
 
 	// Slow down time mechanic
 	TimeSpeed = 1.f; // is this variable even used?
@@ -34,12 +33,6 @@ Player::Player()
 
 Player::~Player()
 {
-}
-
-void Player::dead()
-{
-	// handle restart level, go to main menu, dead screen idk 
-	health = 100;
 }
 
 
@@ -52,7 +45,7 @@ void Player::Update(double dt, float m_speed)
 	Application::GetCursorPos(&x, &y);
 	int w = Application::GetWindowWidth();
 	int h = Application::GetWindowHeight();
-	mouseWorld = Vector3((x / w) * current_scene_worldwidth, current_scene_worldheight - (y / h) * current_scene_worldheight);
+	mouseWorld = Vector3((x / w) * getsceneWidth(), getsceneHeight() - (y / h) * getsceneHeight());
 	mouseWorld += GameLevelManager::GetInstance()->getcurrentLevel()->camera.position;
 	playerToMouseDir = (mouseWorld - pos);
 	playerToMouseDir.z = 0;
@@ -75,15 +68,23 @@ void Player::Update(double dt, float m_speed)
 
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
-		if (cloned == false) // create the clone
+		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false)
 		{
-			cloningmode = true;
+			if (curLocation != Entity::IN_AIR)
+			{
+				InitClone();
+				GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(true);
+			}
+			
 		}
-			// reposition
-
-		// check if player already has a clone on screen.
-		// go into summoning mode
-		// else ignore.
+		cKeyboardController->ResetKey(GLFW_KEY_R);
+	}
+	if (cKeyboardController->IsKeyReleased(GLFW_KEY_TAB))
+	{
+		if (playerclone != nullptr)
+			swap = true;
+		vel.SetZero();
+		cKeyboardController->ResetKey(GLFW_KEY_TAB);
 	}
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -94,135 +95,127 @@ void Player::Update(double dt, float m_speed)
 	{
 		
 		bLButtonState = false;
-		if (cloningmode == false)
-		{
-			FireWeapon = true;
-			switch (curWeapon)
-				{
-				case BOW:
-				{
-					CSoundController::GetInstance()->PlaySoundByID(1);
-					Projectile* arrow =
-						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
-							pos + (normal * scale.x), normal, scale, normal);
-					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
-					cout << "arrow created" << endl;
-					break;
-				}
-				case STAFF:
-				{
-					CSoundController::GetInstance()->PlaySoundByID(2);
-					Projectile* magicBall =
-						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
-							pos + (normal * scale.x), normal, scale, normal);
 
-					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
-					cout << "Magic ball created" << endl;
-					break;
-				}
-				case PORTALGUN:
-				{
-					CSoundController::GetInstance()->PlaySoundByID(3);
-					Projectile* portal =
-						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-							pos + (normal * scale.x), normal, scale, normal);
-					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
-					cout << "portal created" << endl;
-					break;
-				}
+		//FireWeapon = true;
+		switch (curWeapon)
+			{
+			case BOW:
+			{
+				CSoundController::GetInstance()->PlaySoundByID(1);
+				Projectile* arrow =
+					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
+						pos + (normal * scale.x), normal, scale, normal);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
+				cout << "arrow created" << endl;
+				break;
+			}
+			case STAFF:
+			{
+				CSoundController::GetInstance()->PlaySoundByID(2);
+				Projectile* magicBall =
+					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
+						pos + (normal * scale.x), normal, scale, normal);
+
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
+				cout << "Magic ball created" << endl;
+				break;
+			}
+			case PORTALGUN:
+			{
+				CSoundController::GetInstance()->PlaySoundByID(3);
+				Projectile* portal =
+					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
+						pos + (normal * scale.x), normal, scale, normal);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
+				cout << "portal created" << endl;
+				break;
 			}
 		}
-		else // create the clone here
+	}
+	//FireWeapon = false;
+	if (isControl())
+	{
+		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
 		{
-			GameLevelManager::GetInstance()->getcurrentLevel()->
-				createPlayerClone(mouseWorld, Vector3(0, 0, 0), Vector3(scale.x, scale.y, scale.z), normal);
-			cloned = true;
-			cloningmode = false;
+			//cSoundController->PlaySoundByID(2);
+			CSoundController::GetInstance()->PlaySoundByID(4);
+			vel.y += getJumpForce();
+			curLocation = IN_AIR;
 		}
-		
-	}
-	FireWeapon = false;
 
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
-	{
-		//cSoundController->PlaySoundByID(2);
-		CSoundController::GetInstance()->PlaySoundByID(4);
-		vel.y += JumpForce;
-		curLocation = IN_AIR;
-	}
+		if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) && cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+		{
+			vel.x = 0;
+		}
 
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) && cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-	{
-		vel.x = 0;
-	}
+		else if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+		{
+			if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
+				vel.x = Default_Speed;
+		}
 
-	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-	{
-		if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
-			vel.x = Default_Speed;
-	}
+		else if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
+		{
+			if (pos.x - Default_Speed * dt > scale.x / 2)
+				vel.x = -Default_Speed;
+		}
 
-	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
-	{
-		if (pos.x - Default_Speed * dt > scale.x / 2)
-			vel.x = -Default_Speed;
-	}
+		if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+		{
+			vel.x = 0;
+		}
 
-	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-	{
-		vel.x = 0;
-	}
-	
-	/*if (cKeyboardController->IsKeyPressed(GLFW_KEY_W))
-	{
-		if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
-			vel.y = Default_Speed;
-	}
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_S))
-	{
-		if (pos.y - Default_Speed * dt > scale.y / 2)
-			vel.y = -Default_Speed;
-	}
-	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_W) && !cKeyboardController->IsKeyPressed(GLFW_KEY_S))
-	{
-		vel.y = 0;
-	}*/
+		/*if (cKeyboardController->IsKeyPressed(GLFW_KEY_W))
+		{
+			if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
+				vel.y = Default_Speed;
+		}
+		if (cKeyboardController->IsKeyPressed(GLFW_KEY_S))
+		{
+			if (pos.y - Default_Speed * dt > scale.y / 2)
+				vel.y = -Default_Speed;
+		}
+		if (!cKeyboardController->IsKeyPressed(GLFW_KEY_W) && !cKeyboardController->IsKeyPressed(GLFW_KEY_S))
+		{
+			vel.y = 0;
+		}*/
 
-	scrollsnap += Application::GetYScrollOffset();
+		scrollsnap += Application::GetYScrollOffset();
 
-	if (scrollsnap > scrollSensitivity)
-	{
-		curItem++;
-		scrollsnap = 0;
-	}
-	else if (scrollsnap < 0)
-	{
-		curItem--;
-		scrollsnap = scrollSensitivity;
-	}
-	if (curItem < 0)
-	{
-		curItem = NUM_ITEMS - 1;
-	}
-	else if (curItem >= NUM_ITEMS)
-	{
-		curItem = 0;
-	}
+		if (scrollsnap > getScrollSensitivity())
+		{
+			curItem++;
+			scrollsnap = 0;
+		}
+		else if (scrollsnap < 0)
+		{
+			curItem--;
+			scrollsnap = getScrollSensitivity();
+		}
+		if (curItem < 0)
+		{
+			curItem = NUM_ITEMS - 1;
+		}
+		else if (curItem >= NUM_ITEMS)
+		{
+			curItem = 0;
+		}
 
-	switch (curItem)
-	{
-	case TREE_SEED:
-		//std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
-		break;
-	case VINE_SEED:
-		//std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
-		break;
-	case BOMBS:
-		//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
-		break;
-	default:
-		//std::cout << "Invalid curItem in Player.cpp" << std::endl;
-		break;
+		switch (curItem)
+		{
+		case TREE_SEED:
+			//std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			break;
+		case VINE_SEED:
+			//std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			break;
+		case BOMBS:
+			//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			break;
+		default:
+			//std::cout << "Invalid curItem in Player.cpp" << std::endl;
+			break;
+		}
 	}
 	if (curLocation == IN_AIR)
 	{
@@ -230,6 +223,62 @@ void Player::Update(double dt, float m_speed)
 	}
 	curLocation = IN_AIR;
 }
+
+bool Player::getSwap()
+{
+	return swap;
+}
+
+void Player::setSwap(bool swap)
+{
+	this->swap = swap;
+}
+
+void Player::setcurWeapon(Weapons curWeapon)
+{
+	this->curWeapon = curWeapon;
+}
+
+PlayerBase::Weapons Player::getcurWeapon()
+{
+	return curWeapon;
+}
+
+
+PlayerClone* Player::getClone()
+{
+	return playerclone;
+}
+
+void Player::InitClone()
+{
+	if (playerclone == nullptr)
+	{
+		playerclone = new PlayerClone();
+		playerclone->Init(pos,Vector3(0,0,0), scale, normal);
+		playerclone->setcurWeapon(this->curWeapon);
+		playerclone->type = GameObject::GO_PLAYERCLONE;
+		playerclone->active = true;
+		playerclone->Default_Speed = this->Default_Speed;
+		playerclone->setsceneWidth(current_scene_worldwidth);
+		playerclone->setsceneHeight(current_scene_worldheight);
+		playerclone->setcurLocation(Entity::ON_GROUND);
+		GameLevelManager::GetInstance()->getcurrentLevel()->entityPush(playerclone);
+	}
+}
+
+bool Player::isControl()
+{
+	return controlled;
+}
+
+void Player::setControl(bool controlled)
+{
+	this->controlled = controlled;
+}
+
+
+
 
 void Player::Response(GameObject* go)
 {
@@ -245,10 +294,10 @@ void Player::Response(GameObject* go)
 	{
 		takeDamage(go->damage);
 		int randHurtSound = rand() % 3;
-		
-		if(randHurtSound == 0)
+
+		if (randHurtSound == 0)
 			CSoundController::GetInstance()->PlaySoundByID(5);
-		else if(randHurtSound == 1)
+		else if (randHurtSound == 1)
 			CSoundController::GetInstance()->PlaySoundByID(6);
 		else if (randHurtSound == 2)
 			CSoundController::GetInstance()->PlaySoundByID(7);
@@ -258,36 +307,24 @@ void Player::Response(GameObject* go)
 			dead();
 		}
 	}
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_E))
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_E) && (controlled == true))
 	{
 		switch (go->type)
 		{
 		case WEAPON_STATION_BOW:
-			curWeapon = BOW;
+			this->curWeapon = BOW;
 			break;
 		case WEAPON_STATION_STAFF:
-			curWeapon = STAFF;
+			this->curWeapon = STAFF;
 			break;
 		case WEAPON_STATION_PORTAL:
-			curWeapon = PORTALGUN;
+			this->curWeapon = PORTALGUN;
 			break;
 		}
 	}
 }
 
-//void Player::SetSounds()
-//{
-//	if (!arrowSound) {
-//		arrowSound = createIrrKlangDevice();
-//	}
-//}
-
-bool Player::iscloned()
+void Player::dead()
 {
-	return cloned;
 }
 
-Player::Weapons Player::GetCurrentWeapon()
-{
-	return curWeapon;
-}

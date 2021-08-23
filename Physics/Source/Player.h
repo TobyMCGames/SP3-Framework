@@ -1,64 +1,36 @@
 #pragma once
 #include "SingletonPattern.h"
-#include "Entity.h"
-#include "GamePhysics.h"
-#include "Arrow.h"
-#include "MagicBall.h"
-#include "Portal.h"
-#include "KeyboardController.h"
-//#include "SoundController.h"
-
-class Player : public Entity, public SingletonPattern<Player>
+#include "PlayerBase.h"
+#include "PlayerClone.h"
+class Player : public PlayerBase , public SingletonPattern<Player>
 {
 	friend SingletonPattern<Player>;
-
-	const int scrollSensitivity = 3;
-	const float JumpForce = 22;
 public:
-	enum Items
-	{
-		TREE_SEED,
-		VINE_SEED,
-		BOMBS,
-		NUM_ITEMS
-	};
-
-	enum Weapons
-	{
-		BOW,
-		STAFF,
-		PORTALGUN
-	};
-
 	virtual void Update(double dt, float m_speed);
-	virtual void Response(GameObject* go);
-	//void SetSounds();
-	bool iscloned();
-	Player::Weapons GetCurrentWeapon();
-	float mana;
-	Vector3 mouseWorld;
-	Vector3 playerToMouseDir;
-
-	
-	bool FireWeapon;
-
 	// Slow down time mechanic
-	float TimeSpeed;
-	bool SlowTime;
-
+	bool getSwap();
+	void setSwap(bool swap);
+	virtual void setcurWeapon(Weapons curWeapon);
+	virtual void Response(GameObject* go);
+	virtual void dead();
+	virtual Weapons getcurWeapon();
+	PlayerClone* getClone();
+	void InitClone();
+	virtual bool isControl();
+	void setControl(bool controlled);
+	bool cloneinited;
+	
 protected:
 	int Inventory[NUM_ITEMS];
 	Weapons curWeapon;
-	bool cloned;
-	bool cloningmode;
 	int curItem;
 	double scrollsnap;
-	float current_scene_worldwidth;
-	float current_scene_worldheight;
+	PlayerClone* playerclone;
+	bool swap; 
+	bool controlled;
+	
+private:
 	Player();
 	~Player();
-	virtual void dead();
-
-	CKeyboardController* cKeyboardController;
 };
 

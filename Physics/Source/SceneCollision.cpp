@@ -28,12 +28,6 @@ void SceneCollision::Init()
 	//Physics code here
 	m_objectCount = 0;
 
-	//Player Here
-	player = Player::GetInstance();
-	player->type = GameObject::GAMEOBJECT_TYPE::GO_PLAYER;
-//	player->pos.Set(80, 45, 0.1f);
-	player->vel.Set(1.f, 1.f, 0);
-	player->scale.Set(4.5f,4.5f,1);
 	Math::InitRNG();
 	loadMap("Maps//SideScrollmap.csv");
 	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
@@ -98,7 +92,6 @@ bool SceneCollision::Update(double dt)
 {
 	SceneBase::Update(dt);
 	camera.Update(dt, player);
-
 	for (int i = 0; i < projectileList.size(); i++)
 	{
 		if (projectileList[i]->active == false)
@@ -122,9 +115,18 @@ bool SceneCollision::Update(double dt)
 			EntityList[i]->Update(dt, GAMESPEED);
 		else
 		{
-			if (CheckWithinScreen(EntityList[i]))
+			if (CheckWithinScreen(EntityList[i])) 
+			{
 				EntityList[i]->Update(dt, m_speed);
+			}
+				
 		}
+	}
+
+	if (player->getSwap() == true)
+	{
+		swapcontrols();
+		player->setSwap(false);
 	}
 
 	if (Application::IsKeyPressed('9'))
@@ -195,9 +197,16 @@ bool SceneCollision::Update(double dt)
 	}
 
 	player->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
-
+	if(player->getClone() != nullptr)
+		player->getClone()->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
 	CollisionChecks(dt, m_speed);
 	player->pos += player->vel * dt * GAMESPEED;
+	std::cout << "player pos" << player->pos << std::endl;
+
+	if (player->getClone() != nullptr)
+	{
+		player->getClone()->setpos(player->getClone()->getpos() + player->getClone()->getvel() * dt * GAMESPEED);
+	}
 	return true;
 }
 
@@ -242,7 +251,7 @@ void SceneCollision::Render()
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false)
 			continue;
 		if (go->active)
 		{
@@ -253,7 +262,7 @@ void SceneCollision::Render()
 	for (std::vector<AdvanceGO*>::iterator it = InteractableList.begin(); it != InteractableList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false) 
 			continue;
 		if (go->active)
 		{
@@ -264,7 +273,7 @@ void SceneCollision::Render()
 	for (std::vector<AdvanceGO*>::iterator it = EntityList.begin(); it != EntityList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false)
 			continue;
 		if (go->active)
 		{
@@ -276,7 +285,7 @@ void SceneCollision::Render()
 	for (std::vector<AdvanceGO*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false)
 			continue;
 		if (go->active)
 		{
