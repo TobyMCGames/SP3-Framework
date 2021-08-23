@@ -129,20 +129,11 @@ void Spider::Response(GameObject* go)
 	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
 	{
 		if (vel.y == 0)
-		{
 			curLocation = ON_GROUND;
-		}
-
 		if (vel.x == 0 && currState == ATTACK)
-		{
 			currState = CLIMBING;
-		}
-
 		if (vel.x != 0 && currState == CLIMBING)
-		{
 			currState = ATTACK;
-		}
-
 		if (currState == PATROL)
 		{
 			//check direction
