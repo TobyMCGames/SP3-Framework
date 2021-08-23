@@ -55,41 +55,37 @@ void Spider::Update(double dt, float m_speed)
 		}
 		else
 		{
-			// add detection for walls
 			if (curDirection == RIGHT)
 				vel.x = Default_Speed;
 			else if (curDirection == LEFT)
 				vel.x = -Default_Speed;
 			else
-				cout << "Could not figure out which direction to move for spider" << endl;
+				cout << "Could not figure out which patrol direction to move for spider" << endl;
 		}
 		StateCounter += dt * m_speed;
 		break;
 	case ATTACK:
+		//vel.y += Default_Speed;
 		if ((pos - Player::GetInstance()->pos).Length() <= 30)
 		{
-
 			// Go right
 			if ((Player::GetInstance()->pos.x - pos.x) > 0)
 			{
 				vel.x = Default_Speed;
+				if (((Player::GetInstance()->pos.y - pos.y) < 0) && curLocation == Entity::IN_AIR)
+				{
+					vel.y -= 0;
+				}
 			}
 			// Go left
 			else if ((Player::GetInstance()->pos.x - pos.x) < 0)
 			{
-				vel.x = -Default_Speed;
+  				vel.x = -Default_Speed;
+				if (((Player::GetInstance()->pos.y - pos.y) < 0) && curLocation == Entity::IN_AIR)
+				{
+					vel.y -= 0;
+				}
 			}
-			// Add code here to check if there is a wall next to the spider, then climb
-			if ((Player::GetInstance()->pos.y - pos.y) > 0)
-			{
-				vel.y = Default_Speed;
-			}
-			// uncomment this section to make spider jump
-			/*if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
-			{
-				vel.y += JumpForce;
-				curLocation = IN_AIR;
-			}*/
 		}
 		else
 		{
@@ -101,6 +97,36 @@ void Spider::Update(double dt, float m_speed)
 			}
 		}
 		StateCounter++;
+		break;
+	case CLIMBING:
+	{
+		vel.y = Default_Speed;
+		curLocation = IN_AIR;
+		if ((pos - Player::GetInstance()->pos).Length() <= 30)
+		{
+			// Go right
+			if ((Player::GetInstance()->pos.x - pos.x) > 0)
+			{
+				currState = ATTACK;
+			}
+			// Go left
+			else if ((Player::GetInstance()->pos.x - pos.x) < 0)
+			{
+				currState = ATTACK;
+			}
+		}
+		else
+		{
+			if (StateCounter > MaxStateCounter)
+			{
+				currState = PATROL;
+				StateCounter = 0;
+				cout << "ATTACK: Reset Counter " << StateCounter << endl;
+			}
+		}
+		StateCounter++;
+		break;
+	}
 	default:
 		break;
 	}
@@ -115,6 +141,16 @@ void Spider::Response(GameObject* go)
 		if (vel.y == 0)
 		{
 			curLocation = ON_GROUND;
+		}
+
+		if (vel.x == 0 && currState == ATTACK)
+		{
+			currState = CLIMBING;
+		}
+
+		if (vel.x != 0 && currState == CLIMBING)
+		{
+			currState = ATTACK;
 		}
 
 		if (currState == PATROL)
@@ -136,7 +172,6 @@ void Spider::Response(GameObject* go)
 				}
 				else
 					curDirection = LEFT;
-
 			}
 		}
 	}
