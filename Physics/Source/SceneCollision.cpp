@@ -38,7 +38,7 @@ void SceneCollision::Init()
 	loadMap("Maps//SideScrollmap.csv");
 	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
 
-	AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
+	/*AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
 		InteractableFactory::PTYPE_BOW_STATION,
 		Vector3(92.5f, 42.5f, 0.f),
 		Vector3(getTileWidth(), getTileHeight(), 1),
@@ -60,7 +60,7 @@ void SceneCollision::Init()
 		Vector3(getTileWidth(), getTileHeight(), 1),
 		Vector3(1, 0, 0)
 	);
-	InteractableList.push_back(go);
+	InteractableList.push_back(go);*/
 }
 
 GameObject* SceneCollision::FetchGO()

@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "TileFactory.h"
 #include "EntityFactory.h"
+#include "InteractableFactory.h"
 
 GameLevelBase::GameLevelBase()
 {
@@ -143,9 +144,9 @@ bool GameLevelBase::loadMap(std::string file_path)
 	Vector3 vel = Vector3(0, 0, 0);
 	Vector3 scale = Vector3(TILEWIDTH, TILEHEIGHT, 1);
 	Vector3	normal = Vector3(1, 0,0);
-	bool isEntity = false;
 	GameObject* temp = nullptr;
-	Entity* tempentity = nullptr;
+	Entity* tempEntity = nullptr;
+	Interactables* tempInteract = nullptr;
 	while (!file.eof()) 
 	{
 		char line[256];
@@ -163,9 +164,9 @@ bool GameLevelBase::loadMap(std::string file_path)
 			scale.Set(TILEWIDTH, TILEHEIGHT, 1);
 			pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
 			vel.SetZero();
-			isEntity = false;
 			temp = nullptr;
-			tempentity = false;
+			tempEntity = nullptr;
+			tempInteract = nullptr;
 			if ((linesinreverse[row][col] == ',') || (col == linesinreverse[row].size() - 1))
 			{
 				if (col == linesinreverse[row].size() - 1)
@@ -190,38 +191,31 @@ bool GameLevelBase::loadMap(std::string file_path)
 				}
 				else if (key == "4") // zombie
 				{
-					tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
-					isEntity = true;
+					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
 				}
 				else if (key == "5") // skelearcher
 				{
-					tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
-					isEntity = true;
+					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
 				}
 				else if (key == "6") // spider
 				{
-					tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
-					isEntity = true;
+					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
 				}
 				else if (key == "7") //nymph
 				{
-					tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
-					isEntity = true;
+					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
 				}
 				else if (key == "8") //turret
 				{
-					tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::TURRET, pos, vel, scale);
-					isEntity = true;
+					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::TURRET, pos, vel, scale);
 				}
 				else if (key == "9") // boomer
 				{
-					tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
-					isEntity = true;
+					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
 				}
 				else if (key == "10")// demon lord
 				{
-					tempentity = EntityFactory::GetInstance()->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
-					isEntity = true;
+					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
 				}
 				else if (key == "P")//player
 				{
@@ -232,18 +226,31 @@ bool GameLevelBase::loadMap(std::string file_path)
 					commacounter++;
 					continue;
 				}
+				else if (key == "WB") // zombie
+				{
+					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_BOW_STATION, pos, scale);
+				}
+				else if (key == "WS") // zombie
+				{
+					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_STAFF_STATION, pos, scale);
+				}
+				else if (key == "WP") // zombie
+				{
+					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_PORTAL_STATION, pos, scale);
+				}
 
-				if (isEntity == true)
+				if (tempEntity != nullptr)
 				{
-					map.push_back(nullptr);
-					EntityList.push_back(tempentity);
-					xOffset += getTileWidth();
+					EntityList.push_back(tempEntity);
 				}
-				else
+				else if (tempInteract != nullptr)
 				{
-					map.push_back(temp);
-					xOffset += getTileWidth();
+					InteractableList.push_back(tempInteract);
 				}
+
+				map.push_back(temp);
+				xOffset += getTileWidth();
+
 				key = "";
 				commacounter++;
 			}
