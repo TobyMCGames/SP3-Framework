@@ -18,3 +18,12 @@ struct WeaponStation : public Interactables
 	virtual void Response(GameObject* go) {};
 	virtual void Render() {};
 };
+
+struct PortalGate : public Interactables
+{
+	PortalGate(GameObject::GAMEOBJECT_TYPE gatetype) { type = gatetype; };
+	~PortalGate() {};
+	virtual void Update(double dt, float m_speed) {};
+	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
+};
