@@ -29,7 +29,8 @@ Player::Player()
 
 	// Slow down time mechanic
 	TimeSpeed = 1.f; // is this variable even used?
-	SlowTime = false;
+	SlowTimeStart = false;
+	SlowTimeEnd = false;
 
 	// Init sprite
 	animation1 = new SpriteAnimation(GameLevelManager::GetInstance()->getcurrentLevel()->GetMeshList(SceneBase::GEO_PLAYER));
@@ -75,15 +76,29 @@ void Player::Update(double dt, float m_speed)
 			curDirection = LEFT;
 	}
 
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	static bool ShiftPressed = false;
+	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
-		SlowTime = true;
+		ShiftPressed = true;
+		SlowTimeStart = true;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
 	}
-	if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
+	else if (ShiftPressed && !cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
-		SlowTime = false;
+		ShiftPressed = false;
+		SlowTimeEnd = true;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
+	}
+
+	if (SlowTimeStart)
+	{
+		CSoundController::GetInstance()->PlaySoundByID(19);
+		SlowTimeStart = false;
+	}
+	if (SlowTimeEnd)
+	{
+		CSoundController::GetInstance()->PlaySoundByID(20);
+		SlowTimeEnd = false;
 	}
 
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
