@@ -261,6 +261,38 @@ bool GameLevelBase::loadMap(std::string file_path)
 	return true;
 }
 
+//void GameLevelBase::SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert)
+//{
+//	/*for (int mapsize = 0; mapsize < map.size; mapsize++)
+//	{
+//
+//	}*/
+//	int XTilesInWorld = getworldWidth() / (getTileWidth());
+//	int YTilesInWorld = getworldHeight() / (getTileHeight());
+//
+//	if (uiRow < 0 || uiRow > YTilesInWorld)
+//	{
+//		cout << "Invalid ui row";
+//		return;
+//	}
+//	if (uiCol < 0 || uiRow > XTilesInWorld)
+//	{
+//		cout << "Invalid ui col";
+//		return;
+//	}
+//	int TileSpace = uiCol * XTilesInWorld + j;
+//	if (map[TileSpace] != nullptr)
+//		delete map[TileSpace];
+//		
+//
+//}
+//
+//bool GameLevelBase::FindValue(const int iValue, unsigned int& uirRow, unsigned int& uirCol, const bool bInvert)
+//{
+//	return false;
+//}
+
+
 float GameLevelBase::getworldWidth()
 {
 	return m_worldWidth;

@@ -44,6 +44,8 @@ public:
 
 	void mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal);
 	bool loadMap(std::string file_path);
+	//void SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert = true);
+	//bool FindValue(const int iValue, unsigned int& uirRow, unsigned int& uirCol, const bool bInvert = true);
 	const float GAMESPEED = 2.7f;
 	float getworldWidth();
 	float getworldHeight();
