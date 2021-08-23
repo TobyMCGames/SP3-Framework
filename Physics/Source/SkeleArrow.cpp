@@ -25,3 +25,7 @@ void SkeleArrow::Response(GameObject* go)
 			this->active = false;
 }
 
+void SkeleArrow::Render()
+{
+}
+

@@ -125,6 +125,10 @@ void SkeletonArcher::Response(GameObject* go)
 	}
 }
 
+void SkeletonArcher::Render()
+{
+}
+
 void SkeletonArcher::dead()
 {
 	this->active = false;

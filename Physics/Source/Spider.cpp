@@ -154,6 +154,10 @@ void Spider::Response(GameObject* go)
 	return;
 }
 
+void Spider::Render()
+{
+}
+
 void Spider::dead()
 {
 	this->active = false;

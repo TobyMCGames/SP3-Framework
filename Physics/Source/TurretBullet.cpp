@@ -23,3 +23,7 @@ void TurretBullet::Response(GameObject* go)
 		this->active = false;
 }
 
+void TurretBullet::Render()
+{
+}
+

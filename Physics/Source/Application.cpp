@@ -166,6 +166,7 @@ void Application::Init()
 	GameStateManager::GetInstance()->AddGameState("HowToPlayState",SceneHTP::GetInstance());
 	GameStateManager::GetInstance()->AddGameState("PlayGameState",SceneGame::GetInstance());
 	GameStateManager::GetInstance()->AddGameState("CreditsState",SceneCredits::GetInstance());
+	//GameStateManager::GetInstance()->AddGameState("CreditsState", SceneCredits::GetInstance());
 
 
 	// Set active game State

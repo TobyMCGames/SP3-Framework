@@ -182,6 +182,10 @@ void Zombie::Response(GameObject* go)
 	}
 }
 
+void Zombie::Render()
+{
+}
+
 void Zombie::dead()
 {
 	this->active = false;

@@ -22,3 +22,7 @@ void Portal::Response(GameObject* go)
 		this->active = false;
 }
 
+void Portal::Render()
+{
+}
+

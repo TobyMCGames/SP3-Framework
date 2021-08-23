@@ -11,7 +11,7 @@ Player::Player()
 	, scrollsnap(0)
 	, mana(100)
 	, cKeyboardController(NULL)
-	//, cSoundController(NULL)
+	, animation1(NULL)
 	, FireWeapon(false)
 	, cloned(false)
 	, cloningmode(false)
@@ -31,6 +31,15 @@ Player::Player()
 	TimeSpeed = 1.f; // is this variable even used?
 	SlowTimeStart = false;
 	SlowTimeEnd = false;
+
+	// Init sprite
+	animation1 = new SpriteAnimation(GameLevelManager::GetInstance()->getcurrentLevel()->GetMeshList(SceneBase::GEO_PLAYER));
+	animation1->AddAnimation("Idle", 0, 0);
+	animation1->AddAnimation("Walking", 0, 5);
+	animation1->AddAnimation("Jumping", 6, 8);
+	animation1->AddAnimation("Falling", 9, 11);
+
+	animation1->PlayAnimation("Idle", -1, 6.f);
 }
 
 Player::~Player()
@@ -61,6 +70,10 @@ void Player::Update(double dt, float m_speed)
 	{
 		playerToMouseDir.Normalize();
 		normal = playerToMouseDir.Normalized();
+		if (normal.x > 0)
+			curDirection = RIGHT;
+		else if (normal.x < 0)
+			curDirection = LEFT;
 	}
 
 	static bool ShiftPressed = false;
@@ -158,50 +171,57 @@ void Player::Update(double dt, float m_speed)
 	}
 	FireWeapon = false;
 
+	vel.x = 0;
+	if (curLocation == ON_GROUND)
+	{
+		animation1->PlayAnimation("Idle", -1, 1);
+		if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) || cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+		{
+			animation1->Reset();
+			animation1->PlayAnimation("Walking", -1, 1.5);
+		}
+	}
+	else if (curLocation == IN_AIR)
+	{
+		if (vel.y < 0)
+		{
+			animation1->Reset();
+			animation1->PlayAnimation("Falling", 1, 2);
+		}
+	}
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
+	{
+		if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
+		{
+			vel.x = Default_Speed;
+			curDirection = RIGHT;
+		}
+	}
+
+	else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
+	{
+		if (pos.x - Default_Speed * dt > scale.x / 2)
+		{
+			vel.x = -Default_Speed;
+			curDirection = LEFT;
+		}
+	}
+
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
+	{
+		vel.x = 0;
+		animation1->PlayAnimation("Idle", -1, 1);
+	}
+	
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
 	{
 		//cSoundController->PlaySoundByID(2);
 		CSoundController::GetInstance()->PlaySoundByID(4);
 		vel.y += JumpForce;
 		curLocation = IN_AIR;
+		animation1->Reset();
+		animation1->PlayAnimation("Jumping", 1, JumpForce / -GamePhysics::GetInstance()->gravity.y);
 	}
-
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) && cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-	{
-		vel.x = 0;
-	}
-
-	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-	{
-		if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
-			vel.x = Default_Speed;
-	}
-
-	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
-	{
-		if (pos.x - Default_Speed * dt > scale.x / 2)
-			vel.x = -Default_Speed;
-	}
-
-	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-	{
-		vel.x = 0;
-	}
-	
-	/*if (cKeyboardController->IsKeyPressed(GLFW_KEY_W))
-	{
-		if (pos.y + Default_Speed * dt < maxpoint.y - scale.y / 2)
-			vel.y = Default_Speed;
-	}
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_S))
-	{
-		if (pos.y - Default_Speed * dt > scale.y / 2)
-			vel.y = -Default_Speed;
-	}
-	if (!cKeyboardController->IsKeyPressed(GLFW_KEY_W) && !cKeyboardController->IsKeyPressed(GLFW_KEY_S))
-	{
-		vel.y = 0;
-	}*/
 
 	scrollsnap += Application::GetYScrollOffset();
 
@@ -244,6 +264,11 @@ void Player::Update(double dt, float m_speed)
 		//cout << "In air" << endl;
 	}
 	curLocation = IN_AIR;
+
+	if (animation1 != NULL)
+	{
+		animation1->Update(dt* m_speed);
+	}
 }
 
 void Player::Response(GameObject* go)
@@ -290,12 +315,19 @@ void Player::Response(GameObject* go)
 	}
 }
 
-//void Player::SetSounds()
-//{
-//	if (!arrowSound) {
-//		arrowSound = createIrrKlangDevice();
-//	}
-//}
+void Player::Render()
+{
+	if (animation1 != NULL) {
+		GameLevelManager::GetInstance()->getcurrentLevel()->RenderAnimation(
+			animation1->GetSprite(),
+			animation1->GetCurFrame(),
+			6,
+			2,
+			6,
+			false
+		);
+	}
+}
 
 bool Player::iscloned()
 {

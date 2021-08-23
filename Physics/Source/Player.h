@@ -6,7 +6,7 @@
 #include "MagicBall.h"
 #include "Portal.h"
 #include "KeyboardController.h"
-//#include "SoundController.h"
+#include "SpriteAnimation.h"
 
 class Player : public Entity, public SingletonPattern<Player>
 {
@@ -32,7 +32,7 @@ public:
 
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
-	//void SetSounds();
+	virtual void Render();
 	bool iscloned();
 	Player::Weapons GetCurrentWeapon();
 	float mana;
@@ -61,5 +61,7 @@ protected:
 	virtual void dead();
 
 	CKeyboardController* cKeyboardController;
+
+	SpriteAnimation* animation1;
 };
 

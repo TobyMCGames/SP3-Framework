@@ -17,3 +17,7 @@ void Bomb::Response(GameObject* go)
 {
 }
 
+void Bomb::Render()
+{
+}
+

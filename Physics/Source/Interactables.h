@@ -7,6 +7,7 @@ public:
 	~Interactables() {};
 	virtual void Update(double dt, float m_speed) {};
 	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
 };
 
 struct WeaponStation : public Interactables
@@ -15,4 +16,5 @@ struct WeaponStation : public Interactables
 	~WeaponStation() {};
 	virtual void Update(double dt, float m_speed) {};
 	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
 };
