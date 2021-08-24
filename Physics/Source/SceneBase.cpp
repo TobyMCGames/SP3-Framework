@@ -178,6 +178,11 @@ void SceneBase::Init()
 	//Interactables
 	meshList[GEO_WEAPON_STATION] = MeshBuilder::GenerateQuad("Stone Pedastal", Color(1, 1, 1));
 	meshList[GEO_WEAPON_STATION]->textureID = LoadTGA("Image//InteractiveBlocks//WeaponStation.tga");
+	meshList[GEO_PORTAL_GATE_ENTRANCE] = MeshBuilder::GenerateQuad("Portal gate", Color(1, 1, 1));
+	meshList[GEO_PORTAL_GATE_ENTRANCE]->textureID = LoadTGA("Image//InteractiveBlocks//PortalGate_1.tga");
+	meshList[GEO_PORTAL_GATE_EXIT] = MeshBuilder::GenerateQuad("Portal gate 2", Color(1, 1, 1));
+	meshList[GEO_PORTAL_GATE_EXIT]->textureID = LoadTGA("Image//InteractiveBlocks//PortalGate_2.tga");
+
 
 	// Enemy
 	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateQuad("Zombie", Color(1, 1, 1));
@@ -530,6 +535,24 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_PORTAL], false);
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::PORTAL_GATE_ENTRANCE:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_PORTAL_GATE_ENTRANCE], false);
+		modelStack.PopMatrix();
+		break;
+
+	case GameObject::PORTAL_GATE_EXIT:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack.Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_PORTAL_GATE_EXIT], false);
 		modelStack.PopMatrix();
 		break;
 

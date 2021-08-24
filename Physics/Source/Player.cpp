@@ -16,6 +16,7 @@ Player::Player()
 	, cloned(false)
 	, cloningmode(false)
 {
+	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
 	{
 		Inventory[i] = 0;
@@ -329,6 +330,11 @@ void Player::Render()
 		);
 	}
 }
+
+//int Player::GetPortalCount()
+//{
+//	return portalCounter;
+//}
 
 bool Player::iscloned()
 {

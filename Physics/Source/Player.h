@@ -33,13 +33,14 @@ public:
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
 	virtual void Render();
+	//int GetPortalCount();
 	bool iscloned();
 	Player::Weapons GetCurrentWeapon();
 	float mana;
 	Vector3 mouseWorld;
 	Vector3 playerToMouseDir;
 
-	
+	int portalCounter;
 	bool FireWeapon;
 
 	// Slow down time mechanic
@@ -61,7 +62,6 @@ protected:
 	virtual void dead();
 
 	CKeyboardController* cKeyboardController;
-
 	SpriteAnimation* animation1;
 };
 

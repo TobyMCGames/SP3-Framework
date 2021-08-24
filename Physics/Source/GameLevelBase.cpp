@@ -116,6 +116,7 @@ void GameLevelBase::createPlayerClone(Vector3 pos,Vector3 vel,Vector3 scale,Vect
 	playerclone->health = player->health;
 }
 
+
 void GameLevelBase::mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal)
 {
 	player->GetInstance();
@@ -585,6 +586,11 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
 {
 	return &projectileList;
+}
+
+std::vector<AdvanceGO*>* GameLevelBase::getInteractableList()
+{
+	return &InteractableList;
 }
 
 void GameLevelBase::Exit()

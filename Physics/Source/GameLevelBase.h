@@ -57,6 +57,7 @@ public:
 
 	float m_speed;
 	std::vector<AdvanceGO*>* getProjectileList();
+	std::vector<AdvanceGO*>* getInteractableList();
 };
 
 #endif
