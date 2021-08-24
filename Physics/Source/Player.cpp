@@ -107,7 +107,9 @@ void Player::Update(double dt, float m_speed)
 		{
 			if ((curLocation != Entity::IN_AIR) && (getClone()->getCurLocation() != Entity::IN_AIR))
 			{
+				GameLevelManager::GetInstance()->getcurrentLevel()->setcloneDeleted(true);
 				GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(false);
+				controlled = true;
 			}
 		}
 		cKeyboardController->ResetKey(GLFW_KEY_R);
@@ -278,7 +280,6 @@ void Player::Update(double dt, float m_speed)
 	{
 		PlayerAnimation->Update(dt* m_speed);
 	}
-
 }
 
 bool Player::getSwap()
@@ -338,8 +339,6 @@ void Player::setControl(bool controlled)
 {
 	this->controlled = controlled;
 }
-
-
 
 
 void Player::Response(GameObject* go)

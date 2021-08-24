@@ -58,7 +58,7 @@ struct GameObject
 		WEAPON_STATION_PORTAL,
 		INTERACTABLE_END,
 
-		GO_TOTAL, //must be last
+		GO_TOTAL //must be last
 	};
 
 	GAMEOBJECT_TYPE type;
