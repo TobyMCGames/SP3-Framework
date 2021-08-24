@@ -102,6 +102,11 @@ void SceneHTP::Render()
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), BackButton, 4, 7, 2);
 }
 
+void SceneHTP::Destroy()
+{
+	DestroyInstance();
+}
+
 void SceneHTP::Exit()
 {
 	SceneBase::Exit();

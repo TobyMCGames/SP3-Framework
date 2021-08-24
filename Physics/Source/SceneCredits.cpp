@@ -100,6 +100,11 @@ void SceneCredits::Render()
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), BackButton, 4, 7, 2);
 }
 
+void SceneCredits::Destroy()
+{
+	DestroyInstance();
+}
+
 void SceneCredits::Exit()
 {
 	SceneBase::Exit();

@@ -17,6 +17,7 @@ SceneGame::SceneGame()
 
 SceneGame::~SceneGame()
 {
+	
 }
 
 void SceneGame::Init()
@@ -71,11 +72,16 @@ void SceneGame::Render()
 	SceneGUI::GetInstance()->Render();
 }
 
+void SceneGame::Destroy()
+{
+	DestroyInstance();
+}
+
 void SceneGame::Exit()
 {
 
 	GameLevelManager::GetInstance()->Destroy();
 	GameLevelManager::DestroyInstance();
 	SceneGUI::GetInstance()->Exit();
-	SceneGUI::DestroyInstance();
+	SceneGUI::GetInstance()->Destroy();
 }

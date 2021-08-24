@@ -143,6 +143,11 @@ void SceneGUI::Render()
 	renderGUI();
 }
 
+void SceneGUI::Destroy()
+{
+	DestroyInstance();
+}
+
 void SceneGUI::Exit()
 {
 	SceneBase::Exit();

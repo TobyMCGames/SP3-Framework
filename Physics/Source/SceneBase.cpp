@@ -335,14 +335,11 @@ void SceneBase::Render()
 
 }
 
+void SceneBase::Destroy()
+{
+}
+
 void SceneBase::Exit()
 {
-	// Cleanup VBO
-	/*for(int i = 0; i < NUM_GEOMETRY; ++i)
-	{
-		if(meshList[i])
-			delete meshList[i];
-	}
-	glDeleteProgram(m_programID);
-	glDeleteVertexArrays(1, &m_vertexArrayID);*/
+	
 }

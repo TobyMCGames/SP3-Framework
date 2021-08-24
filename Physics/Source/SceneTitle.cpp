@@ -170,6 +170,11 @@ void SceneTitle::Render()
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), QuitButton, 4, 39.5, 10);
 }
 
+void SceneTitle::Destroy()
+{
+	DestroyInstance();
+}
+
 void SceneTitle::Exit()
 {
 	SceneBase::Exit();
