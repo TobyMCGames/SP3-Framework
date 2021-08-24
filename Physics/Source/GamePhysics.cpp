@@ -262,43 +262,21 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 	else if ((go1->type > GameObject::PROJECTILE_START && go1->type < GameObject::PROJECTILE_END) &&
 		(go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
 		{
-			if (DistanceCheck(go1, go2) == true)
-			{
-				if (AABB(go1, go2) == true)
-				{
-					/*	bool corner = false;
-
-						switch (checkCollidePos(go1, go2))
-						{
-						case TOP_RIGHT:
-							corner = true;
-							break;
-						case TOP_LEFT:
-							corner = true;
-							break;
-						case BOTTOM_LEFT:
-							corner = true;
-							break;
-						case BOTTOM_RIGHT:
-							corner = true;
-							break;
-						}
-						if (corner == true)
-						{*/
-					GameObject* temp1 = go1;
+		/*	if (DistanceCheck(go1, go2) == true)
+			{*/
+				/*if (AABB(go1, go2) == true)
+				{*/
+					/*GameObject* temp1 = go1;
 					temp1->pos -= temp1->vel;
 					GameObject* temp2 = go1;
-					temp2->pos -= temp2->vel;
-					return CheckCorner(temp1, temp2, dt);
-					//}
-				//	else
-					//	return true;
-				}
+					temp2->pos -= temp2->vel;*/
+					return CheckCorner(go1,go2, dt*m_speed);
+			/*	}
 				else
-					return false;
-			}
-			else
-				return false;
+					return false;*/
+			//}
+			//else
+			//	return false;
 		}
 	else if ((go1->type == GameObject::GO_PLAYER || go1->type == GameObject::GO_PLAYERCLONE) &&
 		(go2->type > GameObject::INTERACTABLE_START && go2->type < GameObject::INTERACTABLE_END))
@@ -432,7 +410,7 @@ bool GamePhysics::CheckCorner(GameObject* go1, GameObject* go2, double dt)
 	{
 		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 		{
-			collidepos = DOWN;
+			collidepos = checkCollidePos(0, go1->vel.y);
 			go1->vel.y *= -0.05;
 			if (go1->vel.y < 0.1)
 			{
@@ -448,7 +426,7 @@ bool GamePhysics::CheckCorner(GameObject* go1, GameObject* go2, double dt)
 	{
 		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 		{
-			collidepos = RIGHT;
+			collidepos = checkCollidePos(go1->vel.x, 0);
 			go1->vel.x *= -0.1;
 			if (go1->vel.x < 0.1)
 			{
@@ -467,7 +445,7 @@ bool GamePhysics::CheckCorner(GameObject* go1, GameObject* go2, double dt)
 	{
 		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 		{
-			collidepos = DOWN;
+			collidepos = checkCollidePos(0, go1->vel.y);
 			go1->vel.y *= -0.05;
 			if (go1->vel.y < 0.1)
 			{
@@ -483,7 +461,7 @@ bool GamePhysics::CheckCorner(GameObject* go1, GameObject* go2, double dt)
 	{
 		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 		{
-			collidepos = LEFT;
+			collidepos = checkCollidePos(go1->vel.x,0);
 			go1->vel.x *= -0.1;
 			if (go1->vel.x > -0.1)
 			{
@@ -502,7 +480,7 @@ bool GamePhysics::CheckCorner(GameObject* go1, GameObject* go2, double dt)
 	{
 		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 		{
-			collidepos = UP;
+			collidepos = checkCollidePos(0, go1->vel.y);
 			go1->vel.y *= -0.1;
 			go1->pos.y = go2->pos.y - ((go2->scale.y + go1->scale.y) / 2 + 0.003f);
 			return true;
@@ -514,7 +492,7 @@ bool GamePhysics::CheckCorner(GameObject* go1, GameObject* go2, double dt)
 	{
 		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 		{
-			collidepos = RIGHT;
+			collidepos = checkCollidePos(go1->vel.x, 0);
 			float test = go1->pos.y - (go1->vel.y - gravity.y * dt);
 			go1->vel.x *= -0.1;
 			if (go1->vel.x < 0.1)
@@ -533,7 +511,7 @@ bool GamePhysics::CheckCorner(GameObject* go1, GameObject* go2, double dt)
 	{
 		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 		{
-			collidepos = UP;
+			collidepos = checkCollidePos(0, go1->vel.y);
 			go1->vel.y *= -0.1;
 			go1->pos.y = go2->pos.y - ((go2->scale.y + go1->scale.y) / 2 + 0.003f);
 			return true;
@@ -545,7 +523,7 @@ bool GamePhysics::CheckCorner(GameObject* go1, GameObject* go2, double dt)
 	{
 		if (abs((Check_Corner - go2->pos).Dot(Vector3(0.f, 1.f, 0.f))) <= go2->scale.y / 2)
 		{
-			collidepos = LEFT;
+			collidepos = checkCollidePos(go1->vel.x, 0);
 			go1->vel.x *= -0.1;
 			if (go1->vel.x > -0.1)
 			{
@@ -628,4 +606,35 @@ GamePhysics::COLLIDEPOS GamePhysics::checkCollidePos(GameObject* go1, GameObject
 		return UP;
 	else if (go2->pos.y <= go1->pos.y - go1->scale.y / 2) // down of go1
 		return DOWN;
-}		
+}
+
+GamePhysics::COLLIDEPOS GamePhysics::checkCollidePos(float velX, float velY)
+{
+	if (velX == 0)
+	{
+		if (velY > 0)
+		{
+			return UP;
+		}
+		else if (velY < 0)
+		{
+			return DOWN;
+		}
+		else
+		{
+			return NOTHING;
+		}
+	}
+	if (velY == 0)
+	{
+		if (velX > 0)
+		{
+			return RIGHT;
+		}
+		else if (velX < 0)
+		{
+			return LEFT;
+		}
+	}
+	return NOTHING;
+}

@@ -14,6 +14,13 @@ Interactables* InteractableFactory::produceInteractable(INTERACTABLES_TYPES Inte
 	case PTYPE_PORTAL_STATION:
 		newInteractable = new WeaponStation(GameObject::WEAPON_STATION_PORTAL);
 		break;	
+	//portal gates
+	case PTYPE_PORTAL_ENTRANCE:
+		newInteractable = new PortalGate(GameObject::PORTAL_GATE_ENTRANCE);
+		break;
+	case PTYPE_PORTAL_EXIT:
+		newInteractable = new PortalGate(GameObject::PORTAL_GATE_EXIT);
+		break;
 	}
 	if (newInteractable != nullptr)
 	{

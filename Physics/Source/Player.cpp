@@ -17,6 +17,7 @@ Player::Player()
 	,controlled(true)
 	,swap(false)
 {
+	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
 	{
 		Inventory[i] = 0;
@@ -31,6 +32,7 @@ Player::Player()
 	TimeSpeed = 1.f; // is this variable even used?
 	SlowTimeStart = false;
 	SlowTimeEnd = false;
+	isWebbedBySpider = false;
 
 	// Init sprite
 	PlayerAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_PLAYER));
@@ -282,6 +284,21 @@ void Player::Update(double dt, float m_speed)
 	{
 		PlayerAnimation->Update(dt* m_speed);
 	}
+
+	// player get webbed by spider mechanics
+	if (isWebbedBySpider == true)
+	{
+		Default_Speed = 4;
+		webbedTimeLeft -= dt * m_speed;
+		if (webbedTimeLeft < 0.f)
+		{
+			isWebbedBySpider = false;
+		}
+	}
+	else
+	{
+		Default_Speed = 15;
+	}
 }
 
 bool Player::getSwap()
@@ -370,7 +387,25 @@ void Player::Response(GameObject* go)
 			dead();
 		}
 	}
+	if (go->type == GameObject::GO_SPIDERPOISON)
+	{
+		isWebbedBySpider = true;
+		webbedTimeLeft = 3.f;
+		takeDamage(go->damage);
+		int randHurtSound = rand() % 3;
 
+		if (randHurtSound == 0)
+			CSoundController::GetInstance()->PlaySoundByID(5);
+		else if (randHurtSound == 1)
+			CSoundController::GetInstance()->PlaySoundByID(6);
+		else if (randHurtSound == 2)
+			CSoundController::GetInstance()->PlaySoundByID(7);
+
+		if (health <= 0)
+		{
+			dead();
+		}
+	}
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_E) && (controlled == true))
 	{
 		switch (go->type)
@@ -406,5 +441,6 @@ SpriteAnimation* Player::getAnimation()
 {
 	return PlayerAnimation;
 }
+
 
 

@@ -118,6 +118,7 @@ void GameLevelBase::RenderPlayerClone()
 }
 
 
+
 void GameLevelBase::mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal)
 {
 	player = Player::GetInstance();
@@ -154,8 +155,10 @@ void GameLevelBase::swapcontrols()
 		player->getClone()->setControl(true);
 		player->getClone()->setvel(Vector3(0, 0, 0));
 		player->vel = Vector3(0, 0, 0);
-		//player->getClone()->getAnimation()->Reset();
-		//player->getClone()->getAnimation()->PlayAnimation("Idle", -1, 1);
+		player->getClone()->getAnimation()->Reset();
+		player->getClone()->getAnimation()->PlayAnimation("CloneIdle", -1, 1);
+		player->getAnimation()->Reset();
+		player->getAnimation()->PlayAnimation("Idle",-1,1);
 	}
 	else if (player->isControl() == false)
 	{
@@ -163,8 +166,10 @@ void GameLevelBase::swapcontrols()
 		player->getClone()->setControl(false);
 		player->getClone()->setvel(Vector3(0, 0, 0));
 		player->vel = Vector3(0, 0, 0);
-		//player->getAnimation()->Reset();
-		//player->getAnimation()->PlayAnimation("Idle", -1, 1);
+		player->getAnimation()->Reset();
+		player->getAnimation()->PlayAnimation("Idle", -1, 1);
+		player->getClone()->getAnimation()->Reset();
+		player->getClone()->getAnimation()->PlayAnimation("CloneIdle", -1, 1);
 	}
 
 }
@@ -699,6 +704,11 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
 {
 	return &projectileList;
+}
+
+std::vector<AdvanceGO*>* GameLevelBase::getInteractableList()
+{
+	return &InteractableList;
 }
 
 void GameLevelBase::Exit()
