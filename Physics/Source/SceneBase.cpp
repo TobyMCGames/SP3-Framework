@@ -38,8 +38,8 @@ void SceneBase::Init()
 bool SceneBase::Update(double dt)
 {
 	//Keyboard Section
-	if(Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
+	/*if(Application::IsKeyPressed('1'))
+		glEnable(GL_CULL_FACE);*/
 	if(Application::IsKeyPressed('2'))
 		glDisable(GL_CULL_FACE);
 	if(Application::IsKeyPressed('3'))

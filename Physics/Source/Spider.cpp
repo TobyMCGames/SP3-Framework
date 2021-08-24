@@ -1,5 +1,6 @@
 #include "Spider.h"
 #include "GameLevelManager.h"
+#include "ProjectileFactory.h"
 
 Spider::Spider()
 	:currState(BEHAVIOUR::IDLE)
@@ -10,6 +11,7 @@ Spider::Spider()
 	speedBoostTimer = 0;
 	speedBoost = 5;
 	health = 100;
+	shootCounter = 0;
 	return;
 }
 
@@ -47,7 +49,7 @@ void Spider::Update(double dt, float m_speed)
 			StateCounter = 0;
 			cout << "switching to Idle state" << endl;
 		}
-		else if ((pos - Player::GetInstance()->pos).Length() <= 30)
+		else if ((pos - Player::GetInstance()->pos).Length() <= 30) // changing this value affects spider detection radius
 		{
 			currState = ATTACK;
 			StateCounter = 0;
@@ -55,39 +57,52 @@ void Spider::Update(double dt, float m_speed)
 		}
 		else
 		{
-			// add detection for walls
 			if (curDirection == RIGHT)
 				vel.x = Default_Speed;
-			else
+			else if (curDirection == LEFT)
 				vel.x = -Default_Speed;
+			else
+				cout << "Could not figure out which patrol direction to move for spider" << endl;
 		}
 		StateCounter += dt * m_speed;
 		break;
 	case ATTACK:
-		if ((pos - Player::GetInstance()->pos).Length() <= 30)
+		if ((pos - Player::GetInstance()->pos).Length() <= 30) // changing this value affects spider detection radius
 		{
+			if ((pos - Player::GetInstance()->pos).Length() >= 15) // changing this value affects spider shooting poison radius
+			{
+				normal = ((Player::GetInstance()->pos - pos).Normalize());
+				if (shootCounter > MaxFirerate)
+				{
+					// shooting process
+					CSoundController::GetInstance()->PlaySoundByID(1);
+					Projectile* spiderpoison =
+						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_SPIDERPOISON,
+							pos + (normal * scale.x), normal, scale, normal);
+					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(spiderpoison);
 
+					shootCounter = 0;
+				}
+				shootCounter += dt * m_speed;
+			}
 			// Go right
 			if ((Player::GetInstance()->pos.x - pos.x) > 0)
 			{
 				vel.x = Default_Speed;
+				if (((Player::GetInstance()->pos.y - pos.y) < 0) && curLocation == Entity::IN_AIR)
+				{
+					vel.y -= 0;
+				}
 			}
 			// Go left
 			else if ((Player::GetInstance()->pos.x - pos.x) < 0)
 			{
-				vel.x = -Default_Speed;
+  				vel.x = -Default_Speed;
+				if (((Player::GetInstance()->pos.y - pos.y) < 0) && curLocation == Entity::IN_AIR)
+				{
+					vel.y -= 0;
+				}
 			}
-			// Add code here to check if there is a wall next to the spider, then climb
-			if ((Player::GetInstance()->pos.y - pos.y) > 0)
-			{
-				vel.y = Default_Speed;
-			}
-			// uncomment this section to make spider jump
-			/*if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
-			{
-				vel.y += JumpForce;
-				curLocation = IN_AIR;
-			}*/
 		}
 		else
 		{
@@ -99,6 +114,27 @@ void Spider::Update(double dt, float m_speed)
 			}
 		}
 		StateCounter++;
+		break;
+	case CLIMBING:
+	{
+		vel.y = Default_Speed;
+		curLocation = IN_AIR;
+		if ((pos - Player::GetInstance()->pos).Length() <= 30) // changing this value affects spider detection radius
+		{
+			currState = ATTACK;
+		}
+		else
+		{
+			if (StateCounter > MaxStateCounter)
+			{
+				currState = PATROL;
+				StateCounter = 0;
+				cout << "ATTACK: Reset Counter " << StateCounter << endl;
+			}
+		}
+		StateCounter++;
+		break;
+	}
 	default:
 		break;
 	}
@@ -111,10 +147,11 @@ void Spider::Response(GameObject* go)
 	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
 	{
 		if (vel.y == 0)
-		{
 			curLocation = ON_GROUND;
-		}
-
+		if (vel.x == 0 && currState == ATTACK)
+			currState = CLIMBING;
+		if (vel.x != 0 && currState == CLIMBING)
+			currState = ATTACK;
 		if (currState == PATROL)
 		{
 			//check direction
@@ -134,7 +171,6 @@ void Spider::Response(GameObject* go)
 				}
 				else
 					curDirection = LEFT;
-
 			}
 		}
 	}
@@ -146,7 +182,21 @@ void Spider::Response(GameObject* go)
 
 		if (health <= 0)
 		{
+			//CSoundController::GetInstance()->PlaySoundByID(13);
 			dead();
+		}
+		else
+		{
+			int randHurtSound = rand() % 2;
+
+			if (randHurtSound == 0)
+			{
+				//CSoundController::GetInstance()->PlaySoundByID(11);
+			}
+			else if (randHurtSound == 1)
+			{
+				//CSoundController::GetInstance()->PlaySoundByID(12);
+			}
 		}
 	}
 	return;

@@ -70,6 +70,7 @@ bool SceneGUI::Update(double dt)
 				MouseState = false;
 				SceneGame::GetInstance()->ispaused = false;
 				RenderPause = false;
+				Application::changeCursor(true);
 			}
 		}
 		if (posX > 25 && posX < 50 && posY > -33 && posY < -30)
@@ -152,7 +153,7 @@ void SceneGUI::renderGUI()
 	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_HEART),3,57,3,3);
 
 	// render health bar
-	int health = Player::GetInstance()->health;
+	int health = Player::GetInstance()->gethealth();
 	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_HEALTHBAR), 10.f - ((100.f - health)*0.05f) ,57, ((health*10.f)/100.f) ,2); //the x value can be replaced by the player's health /10
 	
 	
@@ -161,7 +162,7 @@ void SceneGUI::renderGUI()
 
 	// render the energy Icon
 	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_ENERGY), 3,53,3,3);
-	float Mana = Player::GetInstance()->mana;
+	float Mana = Player::GetInstance()->getmana();
 	// render the energy bar 
 	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_ENERGYBAR),8.8f - ((100.f - Mana) * 3.8f/99.f),53,((Mana*7.5f)/100.f),2);//the x value can be replaced by the player's health /20
 

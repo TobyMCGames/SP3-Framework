@@ -27,6 +27,7 @@ struct GameObject
 		GO_NYMPH,
 		GO_DEMONLORD,
 		ENTITY_END,
+
 		// PROJECTILES
 		PROJECTILE_START,
 		GO_ARROW,
@@ -57,7 +58,7 @@ struct GameObject
 		WEAPON_STATION_PORTAL,
 		INTERACTABLE_END,
 
-		GO_TOTAL, //must be last
+		GO_TOTAL //must be last
 	};
 
 	GAMEOBJECT_TYPE type;

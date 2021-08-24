@@ -7,7 +7,7 @@
 #include <string>
 #include "SceneCamera.h"
 #include <map>
-#include "PlayerClone.h"
+
 
 using namespace std;
 
@@ -27,7 +27,9 @@ protected:
 	vector<AdvanceGO*> projectileList;
 	vector<AdvanceGO*> InteractableList;
 	Player* player;
-	PlayerClone* playerclone;
+	bool cloned;
+	bool clonedeleted;
+	bool playerincontrol;
 	float m_worldWidth;
 	float m_worldHeight;
 
@@ -40,20 +42,24 @@ public:
 	virtual void Exit() = 0;
 	void RenderPlayer();
 	void RenderPlayerClone();
-	void createPlayerClone(Vector3 pos,Vector3 vel,Vector3 scale, Vector3 normal); // probably can make it generalised 
-
 	void mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal);
+	bool getcloned();
+	void setcloned(bool cloned);
+	void setcloneDeleted(bool clonedeleted);
+	void swapcontrols();
+	void entityPush(Entity* entity);
 	bool loadMap(std::string file_path);
-	const float GAMESPEED = 2.7f;
 	float getworldWidth();
 	float getworldHeight();
 	float getTileWidth();
 	float getTileHeight();
 	void cleanupList(std::vector<int>* indexlist);
+	void cleanupLists(bool clearAll,std::vector<AdvanceGO*>* advobjlist = nullptr , std::vector<GameObject*>* golist = nullptr);
 	bool CheckWithinScreen(GameObject* go);
 	void CollisionChecks(double dt, float m_speed);
 
 	float m_speed;
+	const float GAMESPEED = 2.7f;
 	std::vector<AdvanceGO*>* getProjectileList();
 };
 

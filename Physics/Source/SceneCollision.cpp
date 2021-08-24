@@ -28,12 +28,6 @@ void SceneCollision::Init()
 	//Physics code here
 	m_objectCount = 0;
 
-	//Player Here
-	player = Player::GetInstance();
-	player->type = GameObject::GAMEOBJECT_TYPE::GO_PLAYER;
-//	player->pos.Set(80, 45, 0.1f);
-	player->vel.Set(1.f, 1.f, 0);
-	player->scale.Set(4.5f,4.5f,1);
 	Math::InitRNG();
 	loadMap("Maps//SideScrollmap.csv");
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45);
@@ -93,15 +87,48 @@ bool SceneCollision::Update(double dt)
 	
 	for (int i = 0; i < EntityList.size(); i++)
 	{
+		if (EntityList[i] == nullptr)
+			continue;
 		if (EntityList[i]->active == false)
 			continue;
-		if (EntityList[i]->type == GameObject::GO_PLAYER)
+		if ((EntityList[i]->type == GameObject::GO_PLAYER)) {
 			EntityList[i]->Update(dt, GAMESPEED);
-		else
+		}
+		else if (EntityList[i]->type == GameObject::GO_PLAYERCLONE)
 		{
 			if (CheckWithinScreen(EntityList[i]))
-				EntityList[i]->Update(dt, m_speed);
+				EntityList[i]->Update(dt, GAMESPEED);
+			else
+				std::cout << "yee" << std::endl;
 		}
+			
+		else
+		{
+			if (CheckWithinScreen(EntityList[i])) 
+			{
+				EntityList[i]->Update(dt, m_speed);
+			}
+		}
+		if (clonedeleted == true)
+		{
+			if (EntityList[i]->type == GameObject::GO_PLAYERCLONE)
+			{
+				delete EntityList[i];
+				EntityList[i] = nullptr;
+				player->resetClone();
+				setcloned(false);
+				clonedeleted = false;
+			}
+			
+			//clonedeleted = false;
+		}
+	}
+	cleanupLists(false, &EntityList);
+
+	if (player->getSwap() == true)
+	{
+		swapcontrols();
+		player->setSwap(false);
 	}
 
 	if (Application::IsKeyPressed('9'))
@@ -172,9 +199,16 @@ bool SceneCollision::Update(double dt)
 	}
 
 	player->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
-
+	if(player->getClone() != nullptr)
+		player->getClone()->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
 	CollisionChecks(dt, m_speed);
 	player->pos += player->vel * dt * GAMESPEED;
+
+	if (player->getClone() != nullptr)
+	{
+		if (CheckWithinScreen(player->getClone()))
+			player->getClone()->setpos(player->getClone()->getpos() + player->getClone()->getvel() * dt * GAMESPEED);
+	}
 	return true;
 }
 
@@ -212,7 +246,7 @@ void SceneCollision::Render()
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false)
 			continue;
 		if (go->active)
 		{
@@ -223,7 +257,7 @@ void SceneCollision::Render()
 	for (std::vector<AdvanceGO*>::iterator it = InteractableList.begin(); it != InteractableList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false) 
 			continue;
 		if (go->active)
 		{
@@ -234,7 +268,7 @@ void SceneCollision::Render()
 	for (std::vector<AdvanceGO*>::iterator it = EntityList.begin(); it != EntityList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false)
 			continue;
 		if (go->active)
 		{
@@ -246,7 +280,7 @@ void SceneCollision::Render()
 	for (std::vector<AdvanceGO*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false)
 			continue;
 		if (go->active)
 		{
