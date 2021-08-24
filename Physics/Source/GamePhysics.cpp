@@ -120,7 +120,7 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 
 		}
 	}
-	else if (go1->type == GameObject::GO_PLAYER && (go2->type > GameObject::ENTITY_START && go2->type < GameObject::ENTITY_END))
+	else if ((go1->type == GameObject::GO_PLAYER  || (go1->type == GameObject::GO_PLAYERCLONE))&& (go2->type > GameObject::ENTITY_START && go2->type < GameObject::ENTITY_END))
 	{
 		Vector3 go1NewPos = go1->pos + go1->vel * dt * m_speed;
 		//Vector3 go2NewPos = go2->pos + go2->vel * dt;
@@ -261,14 +261,24 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 	}
 	else if ((go1->type > GameObject::PROJECTILE_START && go1->type < GameObject::PROJECTILE_END) &&
 		(go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
-	{
-		/*if (AABB(go1, go2))
 		{
-			return true;
-		}*/
-		return CheckCorner(go1, go2, dt * m_speed);
-	}
-	else if ((go1->type == GameObject::GO_PLAYER) &&
+			if (DistanceCheck(go1, go2) == true)
+			{
+				if (AABB(go1, go2) == true)
+				{
+					/*GameObject* temp1 = go1;
+					temp1->pos -= temp1->vel;
+					GameObject* temp2 = go1;
+					temp2->pos -= temp2->vel;*/
+					return CheckCorner(go1,go2, dt);
+				}
+				else
+					return false;
+			}
+			else
+				return false;
+		}
+	else if ((go1->type == GameObject::GO_PLAYER || go1->type == GameObject::GO_PLAYERCLONE) &&
 		(go2->type > GameObject::INTERACTABLE_START && go2->type < GameObject::INTERACTABLE_END))
 	{
 		if (AABB(go1, go2))
@@ -356,6 +366,7 @@ void GamePhysics::CheckCollisionResponse(GameObject* go1, GameObject* go2, doubl
 		go1->vel -= 2 * difSpeed.Dot(CollisionNormal) * CollisionNormal;
 
 	}
+
 	else if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END) && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
 	{
 		go1->Response(go2);
@@ -377,7 +388,7 @@ void GamePhysics::CheckCollisionResponse(GameObject* go1, GameObject* go2, doubl
 	{
 		go1->Response(go2);
 	}
-	else if ((go1->type == GameObject::GO_PLAYER)
+	else if ((go1->type == GameObject::GO_PLAYER || go1->type == GameObject::GO_PLAYERCLONE)
 		&& (go2->type > GameObject::INTERACTABLE_START && go2->type < GameObject::INTERACTABLE_END))
 	{
 		go1->Response(go2);
@@ -533,15 +544,17 @@ GamePhysics::COLLIDEPOS GamePhysics::GetCollidePos()
 bool GamePhysics::AABB(GameObject* go1, GameObject* go2)
 {
 	Vector3 go1min, go1max, go2min, go2max;
+
 	go1min = go1->pos;
 	go1max = go1->pos;
+	go2min = go2->pos;
+	go2max = go2->pos;
+
 	go1min.x -= go1->scale.x * 0.5;
 	go1min.y -= go1->scale.y * 0.5;
 	go1max.x += go1->scale.x * 0.5;
 	go1max.y += go1->scale.y * 0.5;
-								  
-	go2min = go2->pos;			  
-	go2max = go2->pos;			  
+								  		  
 	go2min.x -= go2->scale.x * 0.5;
 	go2min.y -= go2->scale.y * 0.5;
 	go2max.x += go2->scale.x * 0.5;
@@ -557,3 +570,40 @@ bool GamePhysics::AABB(GameObject* go1, GameObject* go2)
 	else
 		return false;
 }
+
+bool GamePhysics::DistanceCheck(GameObject* go1, GameObject* go2)
+{
+	Vector3 go1_go2 = go2->pos - go1->pos; 
+	if (go1_go2.LengthSquared() <= (go1->scale.x * go1->scale.x) + (go2->scale.x * go2->scale.x))
+		return true;
+	else
+		return false;
+}
+
+// this function always checks relative to go1
+
+GamePhysics::COLLIDEPOS GamePhysics::checkCollidePos(GameObject* go1, GameObject* go2)
+{
+	if (go2->pos.x >= go1->pos.x + go1->scale.x * 0.5)// right of go1 
+	{
+		if (go2->pos.y >= go1->pos.y + go1->scale.y * 0.5) // top right of go1
+			return TOP_RIGHT;
+		else if (go2->pos.y <= go1->pos.y - go1->scale.y * 0.5) // bottom right of go1
+			return BOTTOM_RIGHT;
+		else
+			return RIGHT;
+	}
+	else if (go2->pos.x <= go1->pos.x - go1->scale.x * 0.5) // LEFT of go1
+	{
+		if (go2->pos.y >= go1->pos.y + go2->scale.y * 0.5) // top left of go1
+			return TOP_LEFT;
+		else if (go2->pos.y <= go1->pos.y - go1->scale.y * 0.5) // bottom left of go1
+			return BOTTOM_LEFT;
+		else
+			return LEFT;
+	}
+	else if (go2->pos.y >= go1->pos.y + go1->scale.y / 2) // top of go1
+		return UP;
+	else if (go2->pos.y <= go1->pos.y - go1->scale.y / 2) // down of go1
+		return DOWN;
+}		

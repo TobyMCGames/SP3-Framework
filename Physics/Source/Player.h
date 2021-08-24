@@ -1,67 +1,45 @@
 #pragma once
 #include "SingletonPattern.h"
-#include "Entity.h"
-#include "GamePhysics.h"
-#include "Arrow.h"
-#include "MagicBall.h"
-#include "Portal.h"
-#include "KeyboardController.h"
+#include "PlayerBase.h"
+#include "PlayerClone.h"
 #include "SpriteAnimation.h"
-
-class Player : public Entity, public SingletonPattern<Player>
+class Player : public PlayerBase , public SingletonPattern<Player>
 {
 	friend SingletonPattern<Player>;
-
-	const int scrollSensitivity = 3;
-	const float JumpForce = 22;
 public:
-	enum Items
-	{
-		TREE_SEED,
-		VINE_SEED,
-		BOMBS,
-		NUM_ITEMS
-	};
-
-	enum Weapons
-	{
-		BOW,
-		STAFF,
-		PORTALGUN
-	};
-
 	virtual void Update(double dt, float m_speed);
-	virtual void Response(GameObject* go);
-	virtual void Render();
-	//int GetPortalCount();
-	bool iscloned();
-	Player::Weapons GetCurrentWeapon();
-	float mana;
-	Vector3 mouseWorld;
-	Vector3 playerToMouseDir;
-
-	int portalCounter;
-	bool FireWeapon;
-
 	// Slow down time mechanic
-	float TimeSpeed;
-	bool SlowTimeStart;
-	bool SlowTimeEnd;
-
+	bool getSwap();
+	void setSwap(bool swap);
+	virtual void setcurWeapon(Weapons curWeapon);
+	virtual void Response(GameObject* go);
+	virtual Weapons getcurWeapon();
+	PlayerClone* getClone();
+	void InitClone();
+	void resetClone();
+	virtual bool isControl();
+	void setControl(bool controlled);
+	bool cloneinited;
+	virtual void Render();
+	SpriteAnimation* getAnimation();
+	
 protected:
 	int Inventory[NUM_ITEMS];
 	Weapons curWeapon;
-	bool cloned;
-	bool cloningmode;
 	int curItem;
 	double scrollsnap;
-	float current_scene_worldwidth;
-	float current_scene_worldheight;
+	PlayerClone* playerclone;
+	bool swap; 
+	bool controlled;
+	bool SlowTimeStart;
+	bool SlowTimeEnd;
+	bool isWebbedBySpider;
+	float webbedTimeLeft;
+	int portalCounter;
+	
+private:
 	Player();
 	~Player();
-	virtual void dead();
-
-	CKeyboardController* cKeyboardController;
-	SpriteAnimation* animation1;
+	SpriteAnimation* PlayerAnimation;
 };
 
