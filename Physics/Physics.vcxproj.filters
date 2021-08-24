@@ -212,6 +212,12 @@
     <ClCompile Include="Source\Player.cpp">
       <Filter>Source Files\Entities\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CentralMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshRender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -396,6 +402,12 @@
     </ClInclude>
     <ClInclude Include="Source\PlayerBase.h">
       <Filter>Header Files\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CentralMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MeshRender.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
