@@ -18,6 +18,7 @@
 #include "SceneGame.h"
 #include "SceneHTP.h"
 #include "SceneCredits.h"
+#include "MeshRender.h"
 #include "LogRoot.h"
 
 GLFWwindow* m_window;
@@ -193,6 +194,7 @@ void Application::Run()
 	GameStateManager::GetInstance()->Destroy();
 	GameStateManager::DestroyInstance();
 	CKeyboardController::DestroyInstance();
+	MeshRender::DestroyInstance();
 }
 
 void Application::Exit()

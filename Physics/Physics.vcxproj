@@ -157,6 +157,7 @@
     <ClCompile Include="Source\Bomb.cpp" />
     <ClCompile Include="Source\Arrow.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\CentralMesh.cpp" />
     <ClCompile Include="Source\DemonLord.cpp" />
     <ClCompile Include="Source\DisguisedEnemy.cpp" />
     <ClCompile Include="Source\DemonBall.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
+    <ClCompile Include="Source\MeshRender.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayerClone.cpp" />
     <ClCompile Include="Source\Portal.cpp" />
@@ -210,6 +212,7 @@
     <ClInclude Include="Source\Bomb.h" />
     <ClInclude Include="Source\Arrow.h" />
     <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\CentralMesh.h" />
     <ClInclude Include="Source\DemonLord.h" />
     <ClInclude Include="Source\DisguisedEnemy.h" />
     <ClInclude Include="Source\DemonBall.h" />
@@ -231,6 +234,7 @@
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
+    <ClInclude Include="Source\MeshRender.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\PlayerClone.h" />
     <ClInclude Include="Source\Portal.h" />

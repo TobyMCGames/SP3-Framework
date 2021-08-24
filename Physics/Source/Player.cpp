@@ -4,6 +4,8 @@
 #include "GLFW/glfw3.h"
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
+#include "CentralMesh.h"
+#include "MeshRender.h"
 
 Player::Player()
 	: curWeapon(Player::PORTALGUN)
@@ -33,7 +35,7 @@ Player::Player()
 	SlowTimeEnd = false;
 
 	// Init sprite
-	animation1 = new SpriteAnimation(GameLevelManager::GetInstance()->getcurrentLevel()->GetMeshList(SceneBase::GEO_PLAYER));
+	animation1 = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_PLAYER));
 	animation1->AddAnimation("Idle", 0, 0);
 	animation1->AddAnimation("Walking", 0, 5);
 	animation1->AddAnimation("Jumping", 6, 8);
@@ -63,7 +65,7 @@ void Player::Update(double dt, float m_speed)
 	int w = Application::GetWindowWidth();
 	int h = Application::GetWindowHeight();
 	mouseWorld = Vector3((x / w) * current_scene_worldwidth, current_scene_worldheight - (y / h) * current_scene_worldheight);
-	mouseWorld += GameLevelManager::GetInstance()->getcurrentLevel()->camera.position;
+	mouseWorld += MeshRender::GetInstance()->GetCamera()->position;
 	playerToMouseDir = (mouseWorld - pos);
 	playerToMouseDir.z = 0;
 	if (playerToMouseDir.x != 0 && playerToMouseDir.y != 0)
@@ -318,7 +320,7 @@ void Player::Response(GameObject* go)
 void Player::Render()
 {
 	if (animation1 != NULL) {
-		GameLevelManager::GetInstance()->getcurrentLevel()->RenderAnimation(
+		MeshRender::GetInstance()->RenderAnimation(
 			animation1->GetSprite(),
 			animation1->GetCurFrame(),
 			6,

@@ -120,52 +120,52 @@ void SceneTitle::Render()
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
 	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
-	projectionStack.LoadMatrix(projection);
+	projectionStack->LoadMatrix(projection);
 	
 	// Camera matrix
-	viewStack.LoadIdentity();
-	viewStack.LookAt(
-						camera.position.x, camera.position.y, camera.position.z,
-						camera.target.x, camera.target.y, camera.target.z,
-						camera.up.x, camera.up.y, camera.up.z
+	viewStack->LoadIdentity();
+	viewStack->LookAt(
+						camera->position.x, camera->position.y, camera->position.z,
+						camera->target.x, camera->target.y, camera->target.z,
+						camera->up.x, camera->up.y, camera->up.z
 					);
 	// Model matrix : an identity matrix (model will be at the origin)
-	modelStack.LoadIdentity();
+	modelStack->LoadIdentity();
 	
-	RenderMesh(meshList[GEO_AXES], false);
+	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_AXES), false);
 	////////////// Background Image  /////////////////////
-	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth/2, m_worldHeight/2, -1);
-	modelStack.Scale(88, 55, 55);
-	RenderMesh(meshList[GEO_BACKGROUND], false);
-	modelStack.PopMatrix();
+	modelStack->PushMatrix();
+	modelStack->Translate(m_worldWidth/2, m_worldHeight/2, -1);
+	modelStack->Scale(88, 55, 55);
+	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BACKGROUND), false);
+	modelStack->PopMatrix();
 
 	//Title Logo
-	modelStack.PushMatrix();
+	modelStack->PushMatrix();
 	{
-		modelStack.Translate(m_worldWidth / 2 +3, m_worldHeight / 10 * 7, 0);
-		modelStack.Scale(60, 60, 60);
-		RenderMesh(meshList[GEO_TITLE], false);
+		modelStack->Translate(m_worldWidth / 2 +3, m_worldHeight / 10 * 7, 0);
+		modelStack->Scale(60, 60, 60);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_TITLE), false);
 	}
-	modelStack.PopMatrix();
+	modelStack->PopMatrix();
 	//On screen text
 	//Exercise 5a: Render m_lives, m_score
 	std::ostringstream ss;
 	ss.str("");
 	ss << "Play";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), PlayButton, 4, 39.5, 25);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), PlayButton, 4, 39.5, 25);
 
 	ss.str("");
 	ss << "How To Play";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), HTPButton, 4, 34.5, 20);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), HTPButton, 4, 34.5, 20);
 
 	ss.str("");
 	ss << "Credits";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), CreditsButton, 4, 38, 15);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), CreditsButton, 4, 38, 15);
 
 	ss.str("");
 	ss << "Quit";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), QuitButton, 4, 39.5, 10);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), QuitButton, 4, 39.5, 10);
 }
 
 void SceneTitle::Exit()

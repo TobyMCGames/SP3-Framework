@@ -66,25 +66,25 @@ void SceneCredits::Render()
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
 	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
-	projectionStack.LoadMatrix(projection);
+	projectionStack->LoadMatrix(projection);
 	
 	// Camera matrix
-	viewStack.LoadIdentity();
-	viewStack.LookAt(
-						camera.position.x, camera.position.y, camera.position.z,
-						camera.target.x, camera.target.y, camera.target.z,
-						camera.up.x, camera.up.y, camera.up.z
+	viewStack->LoadIdentity();
+	viewStack->LookAt(
+						camera->position.x, camera->position.y, camera->position.z,
+						camera->target.x, camera->target.y, camera->target.z,
+						camera->up.x, camera->up.y, camera->up.z
 					);
 	// Model matrix : an identity matrix (model will be at the origin)
-	modelStack.LoadIdentity();
+	modelStack->LoadIdentity();
 	
-	RenderMesh(meshList[GEO_AXES], false);
+	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_AXES), false);
 	////////////// Background Image  /////////////////////
-	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth/2, m_worldHeight/2, -1);
-	modelStack.Scale(88, 55, 55);
-	RenderMesh(meshList[GEO_CREDITS], false);
-	modelStack.PopMatrix();
+	modelStack->PushMatrix();
+	modelStack->Translate(m_worldWidth/2, m_worldHeight/2, -1);
+	modelStack->Scale(88, 55, 55);
+	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_CREDITS), false);
+	modelStack->PopMatrix();
 
 	//On screen text
 	//Exercise 5a: Render m_lives, m_score
@@ -95,7 +95,7 @@ void SceneCredits::Render()
 	std::ostringstream ss;
 	ss.str("");
 	ss << "<Back";
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), BackButton, 4, 7, 2);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), BackButton, 4, 7, 2);
 }
 
 void SceneCredits::Exit()

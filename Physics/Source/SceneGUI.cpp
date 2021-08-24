@@ -125,17 +125,17 @@ void SceneGUI::Render()
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
 	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
-	projectionStack.LoadMatrix(projection);
+	projectionStack->LoadMatrix(projection);
 	
 	// Camera matrix
-	viewStack.LoadIdentity();
-	viewStack.LookAt(
-						camera.position.x, camera.position.y, camera.position.z,
-						camera.target.x, camera.target.y, camera.target.z,
-						camera.up.x, camera.up.y, camera.up.z
+	viewStack->LoadIdentity();
+	viewStack->LookAt(
+						camera->position.x, camera->position.y, camera->position.z,
+						camera->target.x, camera->target.y, camera->target.z,
+						camera->up.x, camera->up.y, camera->up.z
 					);
 	// Model matrix : an identity matrix (model will be at the origin)
-	modelStack.LoadIdentity();
+	modelStack->LoadIdentity();
 
 	renderGUI();
 }
@@ -149,40 +149,40 @@ void SceneGUI::renderGUI()
 {
 	std::ostringstream ss;
 	// render health icon
-	RenderMeshOnScreen(meshList[GUI_HEART],3,57,3,3);
+	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_HEART),3,57,3,3);
 
 	// render health bar
 	int health = Player::GetInstance()->health;
-	RenderMeshOnScreen(meshList[GUI_HEALTHBAR], 10.f - ((100.f - health)*0.05f) ,57, ((health*10.f)/100.f) ,2); //the x value can be replaced by the player's health /10
+	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_HEALTHBAR), 10.f - ((100.f - health)*0.05f) ,57, ((health*10.f)/100.f) ,2); //the x value can be replaced by the player's health /10
 	
 	
 	//ss << 10;
 	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str() , Color(1, 1, 1),4,38.5,50.5);
 
 	// render the energy Icon
-	RenderMeshOnScreen(meshList[GUI_ENERGY], 3,53,3,3);
+	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_ENERGY), 3,53,3,3);
 	float Mana = Player::GetInstance()->mana;
 	// render the energy bar 
-	RenderMeshOnScreen(meshList[GUI_ENERGYBAR],8.8f - ((100.f - Mana) * 3.8f/99.f),53,((Mana*7.5f)/100.f),2);//the x value can be replaced by the player's health /20
+	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_ENERGYBAR),8.8f - ((100.f - Mana) * 3.8f/99.f),53,((Mana*7.5f)/100.f),2);//the x value can be replaced by the player's health /20
 
 	// render the backgroudn for the stats gui
 	//RenderMeshOnScreen(meshList[GUI_STATS_BG],39.75,52.5,85,15); 
 
 	//render border for weapon
-	RenderMeshOnScreen(meshList[GUI_BORDER], 6, 6, 9.5,10);
+	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_BORDER), 6, 6, 9.5,10);
 
 	//// render Attack 
 	//RenderMeshOnScreen(meshList[GUI_ATK_ICON], 39.5, 50, 3, 3);
 	////render attack value
 	//ss << 5; // player's attack value
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3,41.5,48.5);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1, 1, 1), 3,41.5,48.5);
 
 	if (RenderPause)
 	{
-		RenderMeshOnScreen(meshList[GUI_PAUSE], 40, 30, 80, 70);
-		RenderTextOnScreen(meshList[GEO_TEXT], "RESUME", ContButton, 3, 29, 30);
-		RenderTextOnScreen(meshList[GEO_TEXT], "MAIN MENU", MenuButton, 3, 29, 25);
-		RenderTextOnScreen(meshList[GEO_TEXT], "QUIT", QuitButton, 3, 29, 20);
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_PAUSE), 40, 30, 80, 70);
+		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "RESUME", ContButton, 3, 29, 30);
+		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "MAIN MENU", MenuButton, 3, 29, 25);
+		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "QUIT", QuitButton, 3, 29, 20);
 	}
 }
 

@@ -22,47 +22,47 @@ GameLevelBase::~GameLevelBase()
 
 void GameLevelBase::RenderPlayer()
 {
-	modelStack.PushMatrix();
+	modelStack->PushMatrix();
 	{
-		modelStack.Translate(player->pos.x, player->pos.y, player->pos.z + zOffset);
+		modelStack->Translate(player->pos.x, player->pos.y, player->pos.z + zOffset);
 		zOffset += 0.001f;
-		modelStack.PushMatrix();
+		modelStack->PushMatrix();
 		{
 			if (player->CheckCurDirection() == Entity::LEFT)
-				modelStack.Rotate(180, 0, 1, 0);
+				modelStack->Rotate(180, 0, 1, 0);
 
-			modelStack.Scale(player->scale.x, player->scale.y, player->scale.z);
+			modelStack->Scale(player->scale.x, player->scale.y, player->scale.z);
 			//RenderMesh(meshList[GEO_PLAYER], false);
 			player->Render();
 		}
-		modelStack.PopMatrix();
-		modelStack.PushMatrix();
+		modelStack->PopMatrix();
+		modelStack->PushMatrix();
 		{
-			modelStack.Translate(0, 0, 0.001f);
+			modelStack->Translate(0, 0, 0.001f);
 			zOffset += 0.001f;
 			if (player->normal.x >= 0)
-				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y, player->normal.x)), 0, 0, 1);
+				modelStack->Rotate(Math::RadianToDegree(atan2f(player->normal.y, player->normal.x)), 0, 0, 1);
 			else
 			{
-				modelStack.Rotate(180, 0, 1, 0);
-				modelStack.Rotate(Math::RadianToDegree(atan2f(player->normal.y, -player->normal.x)), 0, 0, 1);
+				modelStack->Rotate(180, 0, 1, 0);
+				modelStack->Rotate(Math::RadianToDegree(atan2f(player->normal.y, -player->normal.x)), 0, 0, 1);
 			}
-			modelStack.PushMatrix();
+			modelStack->PushMatrix();
 			{
-				modelStack.Translate(3, 0, 0);
-				modelStack.Scale(player->scale.x, player->scale.y, player->scale.z);
+				modelStack->Translate(3, 0, 0);
+				modelStack->Scale(player->scale.x, player->scale.y, player->scale.z);
 				if (player->GetCurrentWeapon() == Player::BOW)
-					RenderMesh(meshList[GEO_BOW], false);
+					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
 				else if (player->GetCurrentWeapon() == Player::STAFF)
-					RenderMesh(meshList[GEO_STAFF], false);
+					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
 				else if (player->GetCurrentWeapon() == Player::PORTALGUN)
-					RenderMesh(meshList[GEO_PORTALGUN], false);
+					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
 			}
-			modelStack.PopMatrix();
+			modelStack->PopMatrix();
 		}
-		modelStack.PopMatrix();
+		modelStack->PopMatrix();
 	}
-	modelStack.PopMatrix();
+	modelStack->PopMatrix();
 	if (player->iscloned() == true)
 	{
 		RenderPlayerClone();
@@ -71,39 +71,39 @@ void GameLevelBase::RenderPlayer()
 
 void GameLevelBase::RenderPlayerClone()
 {
-	modelStack.PushMatrix();
+	modelStack->PushMatrix();
 	{
-		modelStack.Translate(playerclone->pos.x, playerclone->pos.y, playerclone->pos.z + zOffset);
+		modelStack->Translate(playerclone->pos.x, playerclone->pos.y, playerclone->pos.z + zOffset);
 		zOffset += 0.001f;
-		modelStack.Scale(playerclone->scale.x, playerclone->scale.y, playerclone->scale.z);
-		RenderMesh(meshList[GEO_PLAYER], false);
-		modelStack.PushMatrix();
+		modelStack->Scale(playerclone->scale.x, playerclone->scale.y, playerclone->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PLAYER), false);
+		modelStack->PushMatrix();
 		{
-			modelStack.Translate(0, 0, 0.001f);
+			modelStack->Translate(0, 0, 0.001f);
 			zOffset += 0.001f;
 			if (playerclone->normal.x >= 0)
-				modelStack.Rotate(Math::RadianToDegree(atan2f(playerclone->normal.y, playerclone->normal.x)), 0, 0, 1);
+				modelStack->Rotate(Math::RadianToDegree(atan2f(playerclone->normal.y, playerclone->normal.x)), 0, 0, 1);
 			else
 			{
 				//if plan to flip player, remove this line below
-				modelStack.Rotate(180, 0, 1, 0);
-				modelStack.Rotate(Math::RadianToDegree(atan2f(playerclone->normal.y, -playerclone->normal.x)), 0, 0, 1);
+				modelStack->Rotate(180, 0, 1, 0);
+				modelStack->Rotate(Math::RadianToDegree(atan2f(playerclone->normal.y, -playerclone->normal.x)), 0, 0, 1);
 			}
-			modelStack.PushMatrix();
+			modelStack->PushMatrix();
 			{
-				modelStack.Translate(0.5, 0, 0);
+				modelStack->Translate(0.5, 0, 0);
 				if (playerclone->getcloneWeapon() == Player::BOW)
-					RenderMesh(meshList[GEO_BOW], false);
+					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
 				else if (playerclone->getcloneWeapon() == Player::STAFF)
-					RenderMesh(meshList[GEO_STAFF], false);
+					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
 				else if (playerclone->getcloneWeapon() == Player::PORTALGUN)
-					RenderMesh(meshList[GEO_PORTALGUN], false);
+					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
 			}
-			modelStack.PopMatrix();
+			modelStack->PopMatrix();
 		}
-		modelStack.PopMatrix();
+		modelStack->PopMatrix();
 	}
-	modelStack.PopMatrix();
+	modelStack->PopMatrix();
 	zOffset += 0.001f;
 }
 
@@ -226,15 +226,15 @@ bool GameLevelBase::loadMap(std::string file_path)
 					commacounter++;
 					continue;
 				}
-				else if (key == "WB") // zombie
+				else if (key == "WB") // Weapon Station Bow
 				{
 					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_BOW_STATION, pos, scale);
 				}
-				else if (key == "WS") // zombie
+				else if (key == "WS") // Weapon Station Staff
 				{
 					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_STAFF_STATION, pos, scale);
 				}
-				else if (key == "WP") // zombie
+				else if (key == "WP") // Weapon Station Portal
 				{
 					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_PORTAL_STATION, pos, scale);
 				}
@@ -299,10 +299,10 @@ void GameLevelBase::cleanupList(std::vector<int>* indexlist) // NOTE
 
 bool GameLevelBase::CheckWithinScreen(GameObject* go)
 {
-	if (go->pos.x + go->scale.x / 2 < camera.position.x ||
-		go->pos.x - go->scale.x / 2 > camera.position.x + XTILE_SCREEN *getTileWidth()||
-		go->pos.y + go->scale.y / 2 < camera.position.y ||
-		go->pos.y - go->scale.y / 2 > camera.position.y + YTILE_SCREEN * getTileHeight())
+	if (go->pos.x + go->scale.x / 2 < camera->position.x ||
+		go->pos.x - go->scale.x / 2 > camera->position.x + XTILE_SCREEN *getTileWidth()||
+		go->pos.y + go->scale.y / 2 < camera->position.y ||
+		go->pos.y - go->scale.y / 2 > camera->position.y + YTILE_SCREEN * getTileHeight())
 	{
 		return false;
 	}
