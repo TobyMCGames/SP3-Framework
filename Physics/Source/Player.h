@@ -2,6 +2,7 @@
 #include "SingletonPattern.h"
 #include "PlayerBase.h"
 #include "PlayerClone.h"
+#include "SpriteAnimation.h"
 class Player : public PlayerBase , public SingletonPattern<Player>
 {
 	friend SingletonPattern<Player>;
@@ -12,14 +13,15 @@ public:
 	void setSwap(bool swap);
 	virtual void setcurWeapon(Weapons curWeapon);
 	virtual void Response(GameObject* go);
-	virtual void dead();
 	virtual Weapons getcurWeapon();
 	PlayerClone* getClone();
 	void InitClone();
+	void resetClone();
 	virtual bool isControl();
 	void setControl(bool controlled);
 	bool cloneinited;
 	virtual void Render();
+	SpriteAnimation* getAnimation();
 	
 protected:
 	int Inventory[NUM_ITEMS];
@@ -29,10 +31,12 @@ protected:
 	PlayerClone* playerclone;
 	bool swap; 
 	bool controlled;
+	bool SlowTimeStart;
+	bool SlowTimeEnd;
 	
 private:
 	Player();
 	~Player();
-	SpriteAnimation* animation1;
+	SpriteAnimation* PlayerAnimation;
 };
 

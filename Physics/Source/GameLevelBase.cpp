@@ -51,7 +51,7 @@ void GameLevelBase::RenderPlayer()
 			{
 				modelStack.Translate(3, 0, 0);
 				modelStack.Scale(player->scale.x, player->scale.y, player->scale.z);
-				if (player->GetCurrentWeapon() == Player::BOW)
+				if (player->getcurWeapon() == Player::BOW)
 					RenderMesh(meshList[GEO_BOW], false);
 				else if (player->getcurWeapon() == Player::STAFF)
 					RenderMesh(meshList[GEO_STAFF], false);

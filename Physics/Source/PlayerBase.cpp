@@ -65,8 +65,6 @@ int PlayerBase::gethealth()
 
 
 
-
-
 PlayerBase::PlayerBase()
 	:mana(100)
 	,SlowTime(false)

@@ -76,10 +76,10 @@ void Spider::Update(double dt, float m_speed)
 				{
 					// shooting process
 					CSoundController::GetInstance()->PlaySoundByID(1);
-					Projectile* skelearrow =
+					Projectile* spiderpoison =
 						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_SPIDERPOISON,
 							pos + (normal * scale.x), normal, scale, normal);
-					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(skelearrow);
+					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(spiderpoison);
 
 					shootCounter = 0;
 				}

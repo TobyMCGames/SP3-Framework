@@ -200,17 +200,17 @@
     <ClCompile Include="Source\SpriteAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
+    <ClCompile Include="Source\Level3.cpp">
+      <Filter>Source Files\GameLevels</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerClone.cpp">
       <Filter>Source Files\Entities\Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\PlayerBase.cpp">
       <Filter>Source Files\Entities\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PlayerClone.cpp">
+    <ClCompile Include="Source\Player.cpp">
       <Filter>Source Files\Entities\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Level3.cpp">
-      <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -385,8 +385,8 @@
     <ClInclude Include="Source\SpriteAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PlayerBase.h">
-      <Filter>Header Files\Entities\Player</Filter>
+    <ClInclude Include="Source\Level3.h">
+      <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
     <ClInclude Include="Source\Player.h">
       <Filter>Header Files\Entities\Player</Filter>
@@ -394,8 +394,8 @@
     <ClInclude Include="Source\PlayerClone.h">
       <Filter>Header Files\Entities\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Level3.h">
-      <Filter>Header Files\GameLevels</Filter>
+    <ClInclude Include="Source\PlayerBase.h">
+      <Filter>Header Files\Entities\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

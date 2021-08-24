@@ -6,11 +6,20 @@
 
 PlayerClone::PlayerClone()
 	:controlled(false)
+	,CloneAnimation(NULL)
 {
+	CloneAnimation = new SpriteAnimation(GameLevelManager::GetInstance()->getcurrentLevel()->GetMeshList(SceneBase::GEO_PLAYER));
+	CloneAnimation->AddAnimation("CloneIdle", 0, 0);
+	CloneAnimation->AddAnimation("CloneWalking", 0, 5);
+	CloneAnimation->AddAnimation("CloneJumping", 6, 8);
+	CloneAnimation->AddAnimation("CloneFalling", 9, 11);
+	CloneAnimation->PlayAnimation("CloneIdle", -1, 6.f);
 }
 
 PlayerClone::~PlayerClone()
 {
+	delete CloneAnimation;
+	CloneAnimation = nullptr;
 }
 void PlayerClone::setcurWeapon(Weapons curWeapon)
 {
@@ -90,6 +99,16 @@ void PlayerClone::setcurLocation(Entity::LOCATION curLocation)
 	this->curLocation = curLocation;
 }
 
+SpriteAnimation* PlayerClone::getAnimation()
+{
+	return CloneAnimation;
+}
+
+Entity::LOCATION PlayerClone::getCurLocation()
+{
+	return this->curLocation;
+}
+
 
 
 void PlayerClone::Update(double dt, float m_speed)
@@ -109,7 +128,12 @@ void PlayerClone::Update(double dt, float m_speed)
 	{
 		playerToMouseDir.Normalize();
 		this->normal = playerToMouseDir.Normalized();
+		if (normal.x > 0)
+			curDirection = RIGHT;
+		else if (normal.x < 0)
+			curDirection = LEFT;
 	}
+
 
 	static bool bLCButtonState = false;
 	if (!bLCButtonState && Application::IsMousePressed(1))
@@ -158,38 +182,60 @@ void PlayerClone::Update(double dt, float m_speed)
 		}
 	}
 //	FireWeapon = false;
-	if (isControl())
+	vel.x = 0;
+	if (controlled)
 	{
-		cKeyboardController = CKeyboardController::GetInstance();
-		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && this->curLocation == Entity::ON_GROUND)
 		{
 			//cSoundController->PlaySoundByID(2);
 			CSoundController::GetInstance()->PlaySoundByID(4);
 			vel.y += getJumpForce();
-			curLocation = IN_AIR;
+			this->curLocation = IN_AIR;
+			CloneAnimation->Reset();
+			CloneAnimation->PlayAnimation("CloneJumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
 		}
 
-		if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) && cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+		if (this->curLocation == ON_GROUND)
 		{
-			vel.x = 0;
+			CloneAnimation->PlayAnimation("CloneIdle", -1, 1);
+			if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) || cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+			{
+				CloneAnimation->Reset();
+				CloneAnimation->PlayAnimation("CloneWalking", -1, 1.5);
+			}
 		}
-
-		else if (cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+		else if (this->curLocation == IN_AIR)
+		{
+			if (vel.y < 0)
+			{
+				CloneAnimation->Reset();
+				CloneAnimation->PlayAnimation("CloneFalling", 1, 2);
+			}
+		}
+		if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 		{
 			if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
+			{
 				vel.x = Default_Speed;
+				this->curDirection = RIGHT;
+			}
 		}
 
-		else if (cKeyboardController->IsKeyPressed(GLFW_KEY_A))
+		else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
 		{
 			if (pos.x - Default_Speed * dt > scale.x / 2)
+			{
 				vel.x = -Default_Speed;
+				this->curDirection = LEFT;
+			}
 		}
 
-		if (!cKeyboardController->IsKeyPressed(GLFW_KEY_A) && !cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+		if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
 		{
 			vel.x = 0;
+			CloneAnimation->PlayAnimation("CloneIdle", -1, 1);
 		}
+	}
 
 		/*if (cKeyboardController->IsKeyPressed(GLFW_KEY_W))
 		{
@@ -242,12 +288,15 @@ void PlayerClone::Update(double dt, float m_speed)
 			//std::cout << "Invalid curItem in Player.cpp" << std::endl;
 			break;
 		}
-	}
 	if (curLocation == IN_AIR)
 	{
 		//cout << "In air" << endl;
 	}
 	curLocation = IN_AIR;
+	if (CloneAnimation != NULL)
+	{
+		CloneAnimation->Update(dt * m_speed);
+	}
 }
 
 void PlayerClone::Response(GameObject* go)
@@ -292,6 +341,20 @@ void PlayerClone::Response(GameObject* go)
 			this->curWeapon = PORTALGUN;
 			break;
 		}
+	}
+}
+
+void PlayerClone::Render()
+{
+	if (CloneAnimation != NULL) {
+		GameLevelManager::GetInstance()->getcurrentLevel()->RenderAnimation(
+			CloneAnimation->GetSprite(),
+			CloneAnimation->GetCurFrame(),
+			6,
+			2,
+			6,
+			false
+		);
 	}
 }
 
