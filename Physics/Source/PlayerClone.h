@@ -1,5 +1,6 @@
 #pragma once
 #include "PlayerBase.h"
+#include "SpriteAnimation.h"
 //#include "SoundController.h"
 class PlayerClone :public PlayerBase
 {
@@ -9,12 +10,14 @@ private:
 	int curItem;
 	double scrollsnap;
 	bool controlled;
+	SpriteAnimation* CloneAnimation;
 
 public:
 	PlayerClone();
 	~PlayerClone();
 	virtual void Update(double dt, float m_speed);
 	virtual void Response(GameObject* go);
+	virtual void Render();
 	virtual void setcurWeapon(Weapons curWeapon);
 	virtual Weapons getcurWeapon();
 	void setInventory(int Inventory[]);
@@ -30,4 +33,6 @@ public:
 	void setsscale(Vector3 scale);
 	void setnormal(Vector3 normal);
 	void setcurLocation(Entity::LOCATION curLocation);
+	SpriteAnimation* getAnimation();
+	Entity::LOCATION getCurLocation();
 };

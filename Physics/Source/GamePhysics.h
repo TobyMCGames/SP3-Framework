@@ -21,7 +21,11 @@ protected:
 		UP,
 		DOWN,
 		LEFT,
-		RIGHT
+		RIGHT,
+		TOP_RIGHT,
+		TOP_LEFT,
+		BOTTOM_RIGHT,
+		BOTTOM_LEFT,
 	};
 	COLLIDEPOS collidepos;
 
@@ -35,5 +39,7 @@ public:
 	COLLIDEPOS GetCollidePos();
 	//AABB for projectiles
 	bool AABB(GameObject* go1, GameObject* go2);
+	bool DistanceCheck(GameObject* go1, GameObject* go2);
+	COLLIDEPOS checkCollidePos(GameObject* go1, GameObject* go2);
 };
 

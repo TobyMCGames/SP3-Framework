@@ -109,19 +109,43 @@ bool SceneCollision::Update(double dt)
 	
 	for (int i = 0; i < EntityList.size(); i++)
 	{
+		if (EntityList[i] == nullptr)
+			continue;
 		if (EntityList[i]->active == false)
 			continue;
-		if (EntityList[i]->type == GameObject::GO_PLAYER)
+		if ((EntityList[i]->type == GameObject::GO_PLAYER)) {
 			EntityList[i]->Update(dt, GAMESPEED);
+		}
+		else if (EntityList[i]->type == GameObject::GO_PLAYERCLONE)
+		{
+			if (CheckWithinScreen(EntityList[i]))
+				EntityList[i]->Update(dt, GAMESPEED);
+			else
+				std::cout << "yee" << std::endl;
+		}
+			
 		else
 		{
 			if (CheckWithinScreen(EntityList[i])) 
 			{
 				EntityList[i]->Update(dt, m_speed);
 			}
-				
+		}
+		if (clonedeleted == true)
+		{
+			if (EntityList[i]->type == GameObject::GO_PLAYERCLONE)
+			{
+				delete EntityList[i];
+				EntityList[i] = nullptr;
+				player->resetClone();
+				setcloned(false);
+				clonedeleted = false;
+			}
+			
+			//clonedeleted = false;
 		}
 	}
+	cleanupLists(false, &EntityList);
 
 	if (player->getSwap() == true)
 	{
@@ -201,11 +225,11 @@ bool SceneCollision::Update(double dt)
 		player->getClone()->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
 	CollisionChecks(dt, m_speed);
 	player->pos += player->vel * dt * GAMESPEED;
-	std::cout << "player pos" << player->pos << std::endl;
 
 	if (player->getClone() != nullptr)
 	{
-		player->getClone()->setpos(player->getClone()->getpos() + player->getClone()->getvel() * dt * GAMESPEED);
+		if (CheckWithinScreen(player->getClone()))
+			player->getClone()->setpos(player->getClone()->getpos() + player->getClone()->getvel() * dt * GAMESPEED);
 	}
 	return true;
 }

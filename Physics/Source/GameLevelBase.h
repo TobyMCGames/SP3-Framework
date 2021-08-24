@@ -28,6 +28,7 @@ protected:
 	vector<AdvanceGO*> InteractableList;
 	Player* player;
 	bool cloned;
+	bool clonedeleted;
 	bool playerincontrol;
 	float m_worldWidth;
 	float m_worldHeight;
@@ -44,6 +45,7 @@ public:
 	void mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal);
 	bool getcloned();
 	void setcloned(bool cloned);
+	void setcloneDeleted(bool clonedeleted);
 	void swapcontrols();
 	void entityPush(Entity* entity);
 	bool loadMap(std::string file_path);
@@ -52,6 +54,7 @@ public:
 	float getTileWidth();
 	float getTileHeight();
 	void cleanupList(std::vector<int>* indexlist);
+	void cleanupLists(bool clearAll,std::vector<AdvanceGO*>* advobjlist = nullptr , std::vector<GameObject*>* golist = nullptr);
 	bool CheckWithinScreen(GameObject* go);
 	void CollisionChecks(double dt, float m_speed);
 
