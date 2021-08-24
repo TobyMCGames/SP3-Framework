@@ -22,6 +22,7 @@ public:
 	bool cloneinited;
 	virtual void Render();
 	SpriteAnimation* getAnimation();
+	int portalCounter;
 	
 protected:
 	int Inventory[NUM_ITEMS];
@@ -35,7 +36,6 @@ protected:
 	bool SlowTimeEnd;
 	bool isWebbedBySpider;
 	float webbedTimeLeft;
-	int portalCounter;
 	
 private:
 	Player();

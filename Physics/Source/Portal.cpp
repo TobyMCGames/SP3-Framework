@@ -44,9 +44,11 @@ void Portal::Response(GameObject* go)
 	{
 		this->active = false;
 		Vector3 PGateNormal;
+		//Vector3 PGatePos;
 		if (GamePhysics::GetInstance()->GetCollidePos() == UP)
 		{
 			PGateNormal.Set(0, 1, 0);
+			//PGatePos = go->pos.x;
 		}
 		else if (GamePhysics::GetInstance()->GetCollidePos() == DOWN)
 		{
