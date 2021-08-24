@@ -53,6 +53,9 @@ public:
 	// Set Listener direction
 	void SetListenerDirection(const float x, const float y, const float z);
 
+	// Get the number of sounds in this map
+	int GetNumOfSounds(void) const;
+
 protected:
 	// Constructor
 	CSoundController(void);
@@ -64,8 +67,6 @@ protected:
 	CSoundInfo* GetSound(const int ID);
 	// Remove an sound from this map
 	bool RemoveSound(const int ID);
-	// Get the number of sounds in this map
-	int GetNumOfSounds(void) const;
 
 	// The handler to the irrklang Sound Engine
 	ISoundEngine* cSoundEngine;
