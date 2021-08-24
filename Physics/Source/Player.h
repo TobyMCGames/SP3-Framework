@@ -3,6 +3,8 @@
 #include "PlayerBase.h"
 #include "PlayerClone.h"
 #include "SpriteAnimation.h"
+#include "Portal.h"
+
 class Player : public PlayerBase , public SingletonPattern<Player>
 {
 	friend SingletonPattern<Player>;
@@ -30,11 +32,13 @@ protected:
 	int curItem;
 	double scrollsnap;
 	PlayerClone* playerclone;
+	Portal* portal;
 	bool swap; 
 	bool controlled;
 	bool SlowTimeStart;
 	bool SlowTimeEnd;
 	bool isWebbedBySpider;
+	Vector3 Pexitspeed;
 	bool teleport;
 	float webbedTimeLeft;
 	
@@ -42,5 +46,6 @@ private:
 	Player();
 	~Player();
 	SpriteAnimation* PlayerAnimation;
+
 };
 

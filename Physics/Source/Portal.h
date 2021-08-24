@@ -16,6 +16,7 @@ private:
 		LEFT,
 		RIGHT
 	};
+
 	//void PortalcleanupList(vector<int>* indexlist);
 	int getIndex(AdvanceGO* K);
 public:

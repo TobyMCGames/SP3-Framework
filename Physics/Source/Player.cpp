@@ -16,6 +16,7 @@ Player::Player()
 	,cloneinited(false)
 	,controlled(true)
 	,swap(false)
+	,Pexitspeed(0,0,0)
 {
 	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -71,6 +72,7 @@ void Player::Update(double dt, float m_speed)
 		else if (normal.x < 0)
 			curDirection = LEFT;
 	}
+
 
 	static bool ShiftPressed = false;
 	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
@@ -424,16 +426,45 @@ void Player::Response(GameObject* go)
 	}
 	if (go->type == GameObject::PORTAL_GATE_ENTRANCE)
 	{
-		if (teleport == true)
+		/*if (teleport == true)
+		{
 			return;
+		}*/
+
 		for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
 		{
 			if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->type == PORTAL_GATE_ENTRANCE)
-			{	
+			{
 				if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i) != go)
 				{
-					pos.Set(GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos.x, GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos.y);
-					teleport = true;
+					//teleport = true;
+					Vector3 portalN = GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->normal;
+					Vector3 portalPos = GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos;
+					float angle;
+					angle = acosf((-portalN).Dot(go->normal) / (portalN.Length() * go->normal.Length()));
+					vel.Rotate(Math::RadianToDegree(angle));
+					//if portal facing right
+					if (portalN.x == 1)
+					{
+						pos.Set(portalPos.x - (go->scale.x+0.1), portalPos.y);
+					}
+					//if portal facing left
+					else if (portalN.x == -1)
+					{
+						pos.Set(portalPos.x + (go->scale.x + 0.1), portalPos.y);
+					}
+					//if facing up
+					else if (portalN.y == 1)
+					{
+						pos.Set(portalPos.x, portalPos.y - (go->scale.y + 0.1));
+					}
+					//if facing down
+					else if (portalN.y == -1)
+					{
+						pos.Set(portalPos.x, portalPos.y + (go->scale.y + 0.1));
+					}
+					
+
 					break;
 				}
 				else
