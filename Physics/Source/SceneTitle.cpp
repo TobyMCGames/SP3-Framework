@@ -26,7 +26,7 @@ void SceneTitle::Init()
 	CSoundController::GetInstance()->StopSounds();
 	CSoundController::GetInstance()->PlaySoundByID(17);
 
-	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0);
+	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0,m_worldWidth,m_worldHeight);
 
 }
 bool SceneTitle::Update(double dt)
