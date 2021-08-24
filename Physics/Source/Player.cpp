@@ -56,7 +56,7 @@ void Player::Update(double dt, float m_speed)
 	int w = Application::GetWindowWidth();
 	int h = Application::GetWindowHeight();
 	mouseWorld = Vector3((x / w) * getsceneWidth(), getsceneHeight() - (y / h) * getsceneHeight());
-	mouseWorld += MeshRender::GetInstance()->GetCamera()->position;
+	mouseWorld += MeshRender::GetInstance()->GetCamera()->getPosition();
 	playerToMouseDir = (mouseWorld - pos);
 	playerToMouseDir.z = 0;
 	if (playerToMouseDir.x != 0 && playerToMouseDir.y != 0)
@@ -103,7 +103,6 @@ void Player::Update(double dt, float m_speed)
 				InitClone();
 				GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(true);
 			}
-			
 		}
 		else if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == true) // despawn the clone
 		{

@@ -28,15 +28,11 @@ void Level3::Init()
 	//Physics code here
 	m_objectCount = 0;
 
-	//Player Here
-	player = Player::GetInstance();
-	player->type = GameObject::GAMEOBJECT_TYPE::GO_PLAYER;
-//	player->pos.Set(80, 45, 0.1f);
-	player->vel.Set(1.f, 1.f, 0);
-	player->scale.Set(4.5f,4.5f,1);
+
 	Math::InitRNG();
 	loadMap("Maps//Map_LEVEL_3.csv");
-	camera->Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
+	camera->Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45,getworldWidth(),getworldHeight());
+	camera->setpanTarget(player);
 }
 
 GameObject* Level3::FetchGO()
@@ -73,7 +69,7 @@ void Level3::ReturnGO(GameObject *go)
 bool Level3::Update(double dt)
 {
 	SceneBase::Update(dt);
-	camera->Update(dt, player);
+	camera->Update(dt);
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
@@ -194,9 +190,9 @@ void Level3::Render()
 	// Camera matrix
 	viewStack->LoadIdentity();
 	viewStack->LookAt(
-						camera->position.x, camera->position.y, camera->position.z,
-						camera->target.x, camera->target.y, camera->target.z,
-						camera->up.x, camera->up.y, camera->up.z
+						camera->getPosition().x, camera->getPosition().y, camera->getPosition().z,
+						camera->getTarget().x, camera->getTarget().y, camera->getTarget().z,
+						camera->getUp().x, camera->getUp().y, camera->getUp().z
 					);
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack->LoadIdentity();

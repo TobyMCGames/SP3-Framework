@@ -123,7 +123,7 @@ void PlayerClone::Update(double dt, float m_speed)
 	int w = Application::GetWindowWidth();
 	int h = Application::GetWindowHeight();
 	mouseWorld = Vector3((x / w) * current_scene_worldwidth, current_scene_worldheight - (y / h) * current_scene_worldheight);
-	mouseWorld += MeshRender::GetInstance()->GetCamera()->position;
+	mouseWorld += MeshRender::GetInstance()->GetCamera()->getPosition();
 	playerToMouseDir = (mouseWorld - this->pos);
 	playerToMouseDir.z = 0;
 	if (playerToMouseDir.x != 0 && playerToMouseDir.y != 0)

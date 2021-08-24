@@ -302,4 +302,5 @@ bool CSoundController::RemoveSound(const int ID)
 int CSoundController::GetNumOfSounds(void) const
 {
 	return soundMap.size();
+	
 }

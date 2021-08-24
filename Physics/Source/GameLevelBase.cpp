@@ -7,7 +7,6 @@
 
 GameLevelBase::GameLevelBase()
 {
-	zOffset = 0;
 	m_speed = GAMESPEED;
 	m_worldWidth = 0;
 	m_worldHeight = 0;
@@ -63,6 +62,15 @@ void GameLevelBase::RenderPlayer()
 			modelStack->PopMatrix();
 		}
 		modelStack->PopMatrix();
+		if (player->isControl())
+		{
+			modelStack->PushMatrix();
+			modelStack->Translate(0, 5.f, zOffset);
+			modelStack->Rotate(45, 0, 0, 1);
+			meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD), false);
+			zOffset += 0.001f;
+			modelStack->PopMatrix();
+		}
 	}
 	modelStack->PopMatrix();
 	if (cloned == true)
@@ -113,6 +121,15 @@ void GameLevelBase::RenderPlayerClone()
 		}
 		modelStack->PopMatrix();
 	}
+	if (player->getClone()->isControl())
+	{
+		modelStack->PushMatrix();
+		modelStack->Translate(0,5.f,zOffset);
+		modelStack->Rotate(45, 0, 0, 1);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),false);
+		zOffset += 0.001f;
+		modelStack->PopMatrix();
+	}
 	modelStack->PopMatrix();
 	zOffset += 0.001f;
 }
@@ -146,7 +163,7 @@ void GameLevelBase::setcloneDeleted(bool clonedeleted)
 	this->clonedeleted = clonedeleted;
 }
 
-void GameLevelBase::swapcontrols()
+void GameLevelBase::swapcontrols(double dt)
 {
 	if (player->isControl() == true)
 	{
@@ -158,6 +175,8 @@ void GameLevelBase::swapcontrols()
 		player->getClone()->getAnimation()->PlayAnimation("CloneIdle", -1, 1);
 		player->getAnimation()->Reset();
 		player->getAnimation()->PlayAnimation("Idle",-1,1);
+		meshRender->GetCamera()->setpanTarget(player->getClone());
+		//meshRender->GetCamera()->setPanning(true);
 	}
 	else if (player->isControl() == false)
 	{
@@ -169,8 +188,9 @@ void GameLevelBase::swapcontrols()
 		player->getAnimation()->PlayAnimation("Idle", -1, 1);
 		player->getClone()->getAnimation()->Reset();
 		player->getClone()->getAnimation()->PlayAnimation("CloneIdle", -1, 1);
+		meshRender->GetCamera()->setpanTarget(player);
+		//meshRender->GetCamera()->setPanning(true);
 	}
-
 }
 
 void GameLevelBase::entityPush(Entity* entity)
@@ -356,7 +376,6 @@ void GameLevelBase::cleanupList(std::vector<int>* indexlist) // NOTE
 // this function is used to clear lists 1 at a time. 
 // e.g cleanupLists(false,nullptr,&map) to delete map
 // e.g cleanupLists(false,&projectileList)  to delete projectilelist
-
 void GameLevelBase::cleanupLists(bool clearAll, std::vector<AdvanceGO*>* advobjlist, std::vector<GameObject*>* golist)
 {
 	int previndex = 0;
@@ -438,11 +457,11 @@ void GameLevelBase::cleanupLists(bool clearAll, std::vector<AdvanceGO*>* advobjl
 
 bool GameLevelBase::CheckWithinScreen(GameObject* go)
 {
-	if (go->pos.x + go->scale.x / 2 < camera->position.x ||
-		go->pos.x - go->scale.x / 2 > camera->position.x + XTILE_SCREEN *getTileWidth()||
-		go->pos.y + go->scale.y / 2 < camera->position.y ||
-		go->pos.y - go->scale.y / 2 > camera->position.y + YTILE_SCREEN * getTileHeight())
-	{
+	if (go->pos.x + go->scale.x / 2 < camera->getPosition().x ||
+		go->pos.x - go->scale.x / 2 > camera->getPosition().x + XTILE_SCREEN *getTileWidth()||
+		go->pos.y + go->scale.y / 2 < camera->getPosition().y ||
+		go->pos.y - go->scale.y / 2 > camera->getPosition().y + YTILE_SCREEN * getTileHeight())
+	{											 
 		return false;
 	}
 	return true;
@@ -469,7 +488,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 			cout << "There was a null entity1" << endl;
 			continue;
 		}
-		if (!CheckWithinScreen(mob1))
+		if (!CheckWithinScreen(mob1) && ((mob1->type != GameObject::GO_PLAYER) && (mob1->type != GameObject::GO_PLAYERCLONE)))
 			continue;
 	
 		Vector3 FuturePos = mob1->pos + mob1->vel * dt * m_speed;
