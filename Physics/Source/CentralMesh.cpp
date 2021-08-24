@@ -161,6 +161,9 @@ CentralMesh::~CentralMesh()
 	for (int i = 0; i < NUM_GEOMETRY; ++i)
 	{
 		if (meshList[i])
+		{
 			delete meshList[i];
+			meshList[i] = nullptr;
+		}
 	}
 }

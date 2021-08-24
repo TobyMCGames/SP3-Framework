@@ -24,6 +24,7 @@ void SceneHTP::Init()
 
 	Math::InitRNG();
 
+	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0);
 }
 bool SceneHTP::Update(double dt)
 {
@@ -99,6 +100,11 @@ void SceneHTP::Render()
 	ss.str("");
 	ss << "<Back";
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), BackButton, 4, 7, 2);
+}
+
+void SceneHTP::Destroy()
+{
+	DestroyInstance();
 }
 
 void SceneHTP::Exit()

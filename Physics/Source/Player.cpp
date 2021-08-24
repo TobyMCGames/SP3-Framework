@@ -33,6 +33,7 @@ Player::Player()
 	SlowTimeStart = false;
 	SlowTimeEnd = false;
 	isWebbedBySpider = false;
+	teleport = false;
 
 	// Init sprite
 	PlayerAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_PLAYER));
@@ -419,6 +420,27 @@ void Player::Response(GameObject* go)
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
 			break;
+		}
+	}
+	if (go->type == GameObject::PORTAL_GATE_ENTRANCE)
+	{
+		if (teleport == true)
+			return;
+		for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
+		{
+			if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->type == PORTAL_GATE_ENTRANCE)
+			{	
+				if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i) != go)
+				{
+					pos.Set(GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos.x, GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos.y);
+					teleport = true;
+					break;
+				}
+				else
+				{
+					continue;
+				}
+			}
 		}
 	}
 }

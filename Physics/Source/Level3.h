@@ -21,6 +21,7 @@ public:
 	virtual void Init();
 	virtual bool Update(double dt);
 	virtual void Render();
+	virtual void Destroy();
 	virtual void Exit();
 
 	//void ResetList(void);

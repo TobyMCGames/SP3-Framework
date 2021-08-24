@@ -26,6 +26,7 @@ void GameLevelManager::Destroy()
 	{
 		GameLevelBase* level = it->second;
 		level->Exit();
+		level->Destroy();
 	}
 	// Clear the map
 	GameLevelMap.clear();

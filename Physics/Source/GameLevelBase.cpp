@@ -699,6 +699,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 //	if (cleanUpVector.size() != 0)
 		//cleanupList(&cleanUpVector);
 	cleanupLists(false, &projectileList);
+	cleanupLists(false, &InteractableList);
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()

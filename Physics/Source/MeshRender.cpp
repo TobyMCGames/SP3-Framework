@@ -94,7 +94,7 @@ MeshRender::MeshRender()
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
 
-	camera.Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45);
+	camera.Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0);
 
 
 	bLightEnabled = true;
