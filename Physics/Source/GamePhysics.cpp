@@ -266,33 +266,11 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 			{
 				if (AABB(go1, go2) == true)
 				{
-					/*	bool corner = false;
-
-						switch (checkCollidePos(go1, go2))
-						{
-						case TOP_RIGHT:
-							corner = true;
-							break;
-						case TOP_LEFT:
-							corner = true;
-							break;
-						case BOTTOM_LEFT:
-							corner = true;
-							break;
-						case BOTTOM_RIGHT:
-							corner = true;
-							break;
-						}
-						if (corner == true)
-						{*/
-					GameObject* temp1 = go1;
+					/*GameObject* temp1 = go1;
 					temp1->pos -= temp1->vel;
 					GameObject* temp2 = go1;
-					temp2->pos -= temp2->vel;
-					return CheckCorner(temp1, temp2, dt);
-					//}
-				//	else
-					//	return true;
+					temp2->pos -= temp2->vel;*/
+					return CheckCorner(go1,go2, dt);
 				}
 				else
 					return false;

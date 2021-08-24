@@ -120,8 +120,6 @@ bool SceneCollision::Update(double dt)
 		{
 			if (CheckWithinScreen(EntityList[i]))
 				EntityList[i]->Update(dt, GAMESPEED);
-			else
-				std::cout << "yee" << std::endl;
 		}
 			
 		else
