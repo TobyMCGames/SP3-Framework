@@ -14,9 +14,7 @@ SceneBase::SceneBase()
 	, meshRender(NULL)
 	, centralMesh(NULL)
 {
-	/*for (int i = 0; i < 256; ++i) {
-		textWidth[i] = NULL;
-	}*/
+	
 }
 
 SceneBase::~SceneBase()

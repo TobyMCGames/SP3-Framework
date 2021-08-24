@@ -24,6 +24,8 @@ void SceneCredits::Init()
 
 	Math::InitRNG();
 
+	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0);
+
 }
 bool SceneCredits::Update(double dt)
 {
