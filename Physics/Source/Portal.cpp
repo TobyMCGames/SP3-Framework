@@ -44,23 +44,26 @@ void Portal::Response(GameObject* go)
 	{
 		this->active = false;
 		Vector3 PGateNormal;
-		//Vector3 PGatePos;
+		Vector3 PGatePos;
 		if (GamePhysics::GetInstance()->GetCollidePos() == UP)
 		{
 			PGateNormal.Set(0, 1, 0);
-			//PGatePos = go->pos.x;
+			PGatePos.Set(go->pos.x, pos.y);
 		}
 		else if (GamePhysics::GetInstance()->GetCollidePos() == DOWN)
 		{
 			PGateNormal.Set(0, -1, 0);
+			PGatePos.Set(go->pos.x, pos.y);
 		}
 		else if (GamePhysics::GetInstance()->GetCollidePos() == LEFT)
 		{
 			PGateNormal.Set(-1, 0, 0);
+			PGatePos.Set(pos.x, go->pos.y);
 		}
 		else if (GamePhysics::GetInstance()->GetCollidePos() == RIGHT)
 		{
 			PGateNormal.Set(1, 0, 0);
+			PGatePos.Set(pos.x, go->pos.y);
 		}
 
 
@@ -68,14 +71,14 @@ void Portal::Response(GameObject* go)
 		if (Player::GetInstance()->portalCounter < 2)
 		{
 			AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
-				InteractableFactory::PTYPE_PORTAL_ENTRANCE, pos, scale, PGateNormal);
+				InteractableFactory::PTYPE_PORTAL_ENTRANCE, PGatePos, scale, PGateNormal);
 			GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->push_back(go);
 			Player::GetInstance()->portalCounter++;
 		}
 		else 
 		{
 			AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
-				InteractableFactory::PTYPE_PORTAL_ENTRANCE, pos, scale, PGateNormal);
+				InteractableFactory::PTYPE_PORTAL_ENTRANCE, PGatePos, scale, PGateNormal);
 			GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->push_back(go);
 			for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
 			{
