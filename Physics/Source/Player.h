@@ -35,6 +35,7 @@ protected:
 	bool SlowTimeStart;
 	bool SlowTimeEnd;
 	bool isWebbedBySpider;
+	bool teleport;
 	float webbedTimeLeft;
 	
 private:

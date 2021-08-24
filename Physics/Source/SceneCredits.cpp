@@ -24,7 +24,7 @@ void SceneCredits::Init()
 
 	Math::InitRNG();
 
-	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0);
+	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0,0,m_worldWidth,m_worldHeight);
 
 }
 bool SceneCredits::Update(double dt)
@@ -73,9 +73,9 @@ void SceneCredits::Render()
 	// Camera matrix
 	viewStack->LoadIdentity();
 	viewStack->LookAt(
-						camera->position.x, camera->position.y, camera->position.z,
-						camera->target.x, camera->target.y, camera->target.z,
-						camera->up.x, camera->up.y, camera->up.z
+						camera->getPosition().x, camera->getPosition().y, camera->getPosition().z,
+						camera->getTarget().x, camera->getTarget().y, camera->getTarget().z,
+						camera->getUp().x, camera->getUp().y, camera->getUp().z
 					);
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack->LoadIdentity();

@@ -33,6 +33,7 @@ Player::Player()
 	SlowTimeStart = false;
 	SlowTimeEnd = false;
 	isWebbedBySpider = false;
+	teleport = false;
 
 	// Init sprite
 	PlayerAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_PLAYER));
@@ -58,7 +59,7 @@ void Player::Update(double dt, float m_speed)
 	int w = Application::GetWindowWidth();
 	int h = Application::GetWindowHeight();
 	mouseWorld = Vector3((x / w) * getsceneWidth(), getsceneHeight() - (y / h) * getsceneHeight());
-	mouseWorld += MeshRender::GetInstance()->GetCamera()->position;
+	mouseWorld += MeshRender::GetInstance()->GetCamera()->getPosition();
 	playerToMouseDir = (mouseWorld - pos);
 	playerToMouseDir.z = 0;
 	if (playerToMouseDir.x != 0 && playerToMouseDir.y != 0)
@@ -105,7 +106,6 @@ void Player::Update(double dt, float m_speed)
 				InitClone();
 				GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(true);
 			}
-			
 		}
 		else if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == true) // despawn the clone
 		{
@@ -123,8 +123,9 @@ void Player::Update(double dt, float m_speed)
 		if ((playerclone != nullptr) && (curLocation != Entity::IN_AIR) && (getClone()->getCurLocation() != Entity::IN_AIR))
 		{
 			swap = true;
+			vel.SetZero();
 		}
-		vel.SetZero();
+		
 		
 		cKeyboardController->ResetKey(GLFW_KEY_TAB);
 	}
@@ -419,6 +420,27 @@ void Player::Response(GameObject* go)
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
 			break;
+		}
+	}
+	if (go->type == GameObject::PORTAL_GATE_ENTRANCE)
+	{
+		if (teleport == true)
+			return;
+		for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
+		{
+			if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->type == PORTAL_GATE_ENTRANCE)
+			{	
+				if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i) != go)
+				{
+					pos.Set(GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos.x, GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos.y);
+					teleport = true;
+					break;
+				}
+				else
+				{
+					continue;
+				}
+			}
 		}
 	}
 }

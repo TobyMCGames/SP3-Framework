@@ -30,7 +30,7 @@ void SceneBase::Init()
 	projectionStack = meshRender->GetProjectionStack();
 	centralMesh = CentralMesh::GetInstance();
 	camera = meshRender->GetCamera();
-	
+	camera->setpanTarget();
 }
 
 bool SceneBase::Update(double dt)
