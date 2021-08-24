@@ -388,7 +388,7 @@ void Player::Response(GameObject* go)
 			dead();
 		}
 	}
-	if (go->type == GameObject::GO_SPIDERPOISON)
+	if (go->type == GameObject::GO_SPIDERWEB)
 	{
 		isWebbedBySpider = true;
 		webbedTimeLeft = 3.f;
