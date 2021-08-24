@@ -1,0 +1,162 @@
+#include "CentralMesh.h"
+#include "GL\glew.h"
+
+#include "Utility.h"
+#include "MeshBuilder.h"
+#include "LoadTGA.h"
+#include <fstream>
+#include <sstream>
+
+void CentralMesh::ChangeMat(int idx, Color color, float ambient, float diffuse, float specular, float Shiny)
+{
+	meshList[idx]->material.kAmbient.Set(ambient * color.r, ambient * color.g, ambient * color.b);
+	meshList[idx]->material.kDiffuse.Set(diffuse * color.r, diffuse * color.g, diffuse * color.b);
+	meshList[idx]->material.kSpecular.Set(specular * color.r, specular * color.g, specular * color.b);
+	meshList[idx]->material.kShininess = Shiny;
+}
+
+void CentralMesh::FontLoader(std::string file_path)
+{
+	std::ifstream file;
+	file.open(file_path);
+	if (!file.is_open()) { //If file cannot be opened
+		std::cout << "File can not be opened" << std::endl;
+		return;
+	}
+	else {
+		int count = 0;
+		while (!file.eof()) {
+			char line[256];
+			file.getline(line, 256);
+			sscanf_s(line, "%d", &textWidth[count++]);
+		}
+	}
+}
+
+Mesh* CentralMesh::GetMeshID(GEOMETRY_TYPE ID)
+{
+	return meshList[ID];
+}
+
+int CentralMesh::GetTextWidth(int ID)
+{
+	return textWidth[ID];
+}
+
+CentralMesh::CentralMesh()
+{
+	for (int i = 0; i < NUM_GEOMETRY; ++i)
+	{
+		meshList[i] = NULL;
+	}
+	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
+	meshList[GEO_BALL] = MeshBuilder::GenerateSphere("ball", Color(1, 1, 1), 10, 10, 1.f);
+	meshList[GEO_CYLINDER] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 1, 1), 20, 1.f, 1.f);
+	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 1, 1), 2.f);
+	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
+	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
+	meshList[GEO_TEXT]->material.kAmbient.Set(1, 0, 0);
+
+	//GAMESTATE PAGES
+	meshList[GEO_BACKGROUND] = MeshBuilder::GenerateQuad("background", Color(1, 1, 1), 2);
+	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//GAMESTATES//castle_background.tga");
+	meshList[GEO_TITLE] = MeshBuilder::GenerateQuad("title", Color(1, 1, 1), 2);
+	meshList[GEO_TITLE]->textureID = LoadTGA("Image//GAMESTATES//game_title.tga");
+	meshList[GEO_CONTROLS] = MeshBuilder::GenerateQuad("controls", Color(1, 1, 1), 2);
+	meshList[GEO_CONTROLS]->textureID = LoadTGA("Image//GAMESTATES//controls.tga");
+	meshList[GEO_CREDITS] = MeshBuilder::GenerateQuad("credits", Color(1, 1, 1), 2);
+	meshList[GEO_CREDITS]->textureID = LoadTGA("Image//GAMESTATES//credits.tga");
+
+	// SCENE GUI
+	meshList[GUI_PAUSE] = MeshBuilder::GenerateQuad("pauseScreen", Color(1, 1, 1));
+	meshList[GUI_PAUSE]->textureID = LoadTGA("Image/GUI/PauseScreen.tga");
+	meshList[GUI_BORDER] = MeshBuilder::GenerateQuad("Border", Color(1, 1, 1));
+	meshList[GUI_BORDER]->textureID = LoadTGA("Image/GUI/border.tga");
+	meshList[GUI_HEART] = MeshBuilder::GenerateQuad("Hearts_sprite", Color(1, 1, 1));
+	meshList[GUI_HEART]->textureID = LoadTGA("Image/GUI/Hearts_Icon.tga");
+	meshList[GUI_ENERGY] = MeshBuilder::GenerateQuad("Energy_Sprite", Color(1, 1, 1));
+	meshList[GUI_ENERGY]->textureID = LoadTGA("Image//GUI//Energy_Icon.tga");
+	meshList[GUI_CELLS] = MeshBuilder::GenerateQuad("UI_CELLS_Sprite", Color(1, 1, 1));
+	meshList[GUI_CELLS]->textureID = LoadTGA("Image//GUI//normal_Cells.tga");
+	meshList[GUI_ENERGYBAR] = MeshBuilder::GenerateQuad("healthbar", Color(0.0f, 0.7f, 0.7f));
+	meshList[GUI_HEALTHBAR] = MeshBuilder::GenerateQuad("energybar", Color(0.7f, 0.0f, 0.0f));
+	meshList[GUI_STATS_BG] = MeshBuilder::GenerateQuad("stats_bg", Color(1, 1, 1));
+	meshList[GUI_STATS_BG]->textureID = LoadTGA("Image//GUI//Stats_background.tga");
+	meshList[GUI_ATK_ICON] = MeshBuilder::GenerateQuad("atkicon", Color(1, 1, 1));
+	meshList[GUI_ATK_ICON]->textureID = LoadTGA("Image//GUI//AtkIcon.tga");
+
+	// TILE
+	//meshList[PASSIVE_TILE] = MeshBuilder::GenerateQuad("passivetile", Color(1, 1, 1));
+	//meshList[PASSIVE_TILE]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile.tga");
+
+	meshList[GEO_STONEBRICK] = MeshBuilder::GenerateQuad("stonebrick", Color(1, 1, 1));
+	meshList[GEO_STONEBRICK]->textureID = LoadTGA("Image//TILE//Stone_Brick_Tile_2.tga");
+	meshList[GEO_BRICK] = MeshBuilder::GenerateQuad("brick", Color(1, 1, 1));
+	meshList[GEO_BRICK]->textureID = LoadTGA("Image//TILE//Brick_Tile_2.tga");
+
+	meshList[GEO_SOIL_TILE] = MeshBuilder::GenerateQuad("soil", Color(1, 1, 1));
+	meshList[GEO_SOIL_TILE]->textureID = LoadTGA("Image//TILE//Soil_Tile.tga");
+	meshList[GEO_GRASS_SOIL_TILE] = MeshBuilder::GenerateQuad("soil", Color(1, 1, 1));
+	meshList[GEO_GRASS_SOIL_TILE]->textureID = LoadTGA("Image//TILE//Grass_Soil_Tile.tga");
+
+	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
+	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
+	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
+	//meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 1, 1));
+	//meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//player.tga");
+	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("Player", Color(1, 1, 1), 2, 6, 1.f);
+	meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//playerAnimation.tga");
+
+	//Weapons
+	meshList[GEO_BOW] = MeshBuilder::GenerateQuad("bow", Color(1, 1, 1));
+	meshList[GEO_BOW]->textureID = LoadTGA("Image//WEAPONS//bow.tga");
+	meshList[GEO_STAFF] = MeshBuilder::GenerateQuad("staff", Color(1, 1, 1));
+	meshList[GEO_STAFF]->textureID = LoadTGA("Image//WEAPONS//staff_blue.tga");
+	meshList[GEO_PORTALGUN] = MeshBuilder::GenerateQuad("portal gun", Color(1, 1, 1));
+	meshList[GEO_PORTALGUN]->textureID = LoadTGA("Image//WEAPONS//portal_gun.tga");
+
+	//Interactables
+	meshList[GEO_WEAPON_STATION] = MeshBuilder::GenerateQuad("Stone Pedastal", Color(1, 1, 1));
+	meshList[GEO_WEAPON_STATION]->textureID = LoadTGA("Image//InteractiveBlocks//WeaponStation.tga");
+
+	// Enemy
+	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateQuad("Zombie", Color(1, 1, 1));
+	meshList[GEO_ZOMBIE]->textureID = LoadTGA("Image//Enemy//Zombie.tga");
+	meshList[GEO_SKELETONARCHER] = MeshBuilder::GenerateQuad("skeleton archer", Color(1, 1, 1));
+	meshList[GEO_SKELETONARCHER]->textureID = LoadTGA("Image//Enemy//skeleton.tga");
+	meshList[GEO_SPIDER] = MeshBuilder::GenerateQuad("Spider", Color(1, 1, 1));
+	meshList[GEO_SPIDER]->textureID = LoadTGA("Image//Enemy//spider.tga");
+	meshList[GEO_NYMPH] = MeshBuilder::GenerateQuad("Nymph", Color(1, 1, 1));
+	meshList[GEO_NYMPH]->textureID = LoadTGA("Image//Enemy//nymph.tga");
+	meshList[GEO_TURRET] = MeshBuilder::GenerateQuad("turret", Color(1, 1, 1));
+	meshList[GEO_TURRET]->textureID = LoadTGA("Image//Enemy//turret.tga");
+	meshList[GEO_BOOMER] = MeshBuilder::GenerateQuad("boomer", Color(1, 1, 1));
+	meshList[GEO_BOOMER]->textureID = LoadTGA("Image//Enemy//boomer.tga");
+
+	//Weapons
+	meshList[GEO_ARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
+	meshList[GEO_ARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow_hitbox.tga");
+	meshList[GEO_MAGICBALL] = MeshBuilder::GenerateQuad("magicball", Color(1, 1, 1));
+	meshList[GEO_MAGICBALL]->textureID = LoadTGA("Image//PROJECTILES//energy_ball_hitbox.tga");
+	meshList[GEO_PORTAL] = MeshBuilder::GenerateQuad("portal", Color(1, 1, 1));
+	meshList[GEO_PORTAL]->textureID = LoadTGA("Image//PROJECTILES//portal_hitbox.tga");
+
+	//enemy projectiles
+	meshList[GEO_TURRETBULLET] = MeshBuilder::GenerateQuad("turret bullet", Color(1, 1, 1));
+	meshList[GEO_TURRETBULLET]->textureID = LoadTGA("Image//PROJECTILES//turret_bullet.tga");
+	meshList[GEO_SKELEARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
+	meshList[GEO_SKELEARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow.tga");
+
+	// BACKGROUND
+	meshList[GO_BACKGROUND_1] = MeshBuilder::GenerateQuad("background 1", Color(1, 1, 1));
+	meshList[GO_BACKGROUND_1]->textureID = LoadTGA("Image//BACKGROUND//Test_background.tga");
+}
+
+CentralMesh::~CentralMesh()
+{
+	for (int i = 0; i < NUM_GEOMETRY; ++i)
+	{
+		if (meshList[i])
+			delete meshList[i];
+	}
+}
