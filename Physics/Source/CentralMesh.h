@@ -66,6 +66,7 @@ public:
 		GEO_ARROW,
 		GEO_MAGICBALL,
 		GEO_PORTAL,
+		GEO_SPIDERWEB,
 
 		//enemy projectiles
 		GEO_TURRETBULLET,
