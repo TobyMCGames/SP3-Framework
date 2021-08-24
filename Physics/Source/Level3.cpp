@@ -36,31 +36,7 @@ void Level3::Init()
 	player->scale.Set(4.5f,4.5f,1);
 	Math::InitRNG();
 	loadMap("Maps//Map_LEVEL_3.csv");
-	camera.Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
-
-	AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
-		InteractableFactory::PTYPE_BOW_STATION,
-		Vector3(92.5f, 42.5f, 0.f),
-		Vector3(getTileWidth(), getTileHeight(), 1),
-		Vector3(1, 0, 0)
-	);
-	InteractableList.push_back(go);
-
-	go = InteractableFactory::GetInstance()->produceInteractable(
-		InteractableFactory::PTYPE_STAFF_STATION,
-		Vector3(57.5f, 62.5f, 0.f),
-		Vector3(getTileWidth(), getTileHeight(), 1),
-		Vector3(1, 0, 0)
-	);
-	InteractableList.push_back(go);
-
-	go = InteractableFactory::GetInstance()->produceInteractable(
-		InteractableFactory::PTYPE_PORTAL_STATION,
-		Vector3(122.5f, 62.5f, 0.f),
-		Vector3(getTileWidth(), getTileHeight(), 1),
-		Vector3(1, 0, 0)
-	);
-	InteractableList.push_back(go);
+	camera->Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45);
 }
 
 GameObject* Level3::FetchGO()
@@ -97,7 +73,7 @@ void Level3::ReturnGO(GameObject *go)
 bool Level3::Update(double dt)
 {
 	SceneBase::Update(dt);
-	camera.Update(dt, player);
+	camera->Update(dt, player);
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
@@ -213,31 +189,24 @@ void Level3::Render()
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
 	projection.SetToOrtho(0,160.f, 0,90.f, -10, 10);
-	projectionStack.LoadMatrix(projection);
+	projectionStack->LoadMatrix(projection);
 	
 	// Camera matrix
-	viewStack.LoadIdentity();
-	viewStack.LookAt(
-						camera.position.x, camera.position.y, camera.position.z,
-						camera.target.x, camera.target.y, camera.target.z,
-						camera.up.x, camera.up.y, camera.up.z
+	viewStack->LoadIdentity();
+	viewStack->LookAt(
+						camera->position.x, camera->position.y, camera->position.z,
+						camera->target.x, camera->target.y, camera->target.z,
+						camera->up.x, camera->up.y, camera->up.z
 					);
 	// Model matrix : an identity matrix (model will be at the origin)
-	modelStack.LoadIdentity();
+	modelStack->LoadIdentity();
 
-	//Pass light
-	if (lights[0].type == Light::LIGHT_DIRECTIONAL)
-	{
-		Vector3 lightDir(lights[0].position.x, lights[0].position.y, lights[0].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
-	}
-	RenderMesh(meshList[GEO_AXES], false);
-	modelStack.PushMatrix();
-	modelStack.Translate(getworldWidth()/2, getworldHeight()/2, 0);
-	modelStack.Scale(getworldWidth(), getworldHeight(), -1);
-	RenderMesh(meshList[GO_BACKGROUND_1], false);
-	modelStack.PopMatrix();
+	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_AXES), false);
+	modelStack->PushMatrix();
+	modelStack->Translate(getworldWidth()/2, getworldHeight()/2, 0);
+	modelStack->Scale(getworldWidth(), getworldHeight(), -1);
+	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GO_BACKGROUND_1), false);
+	modelStack->PopMatrix();
 	zOffset = 0;
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
 	{
@@ -291,14 +260,14 @@ void Level3::Render()
 	std::ostringstream ss;
 	//Exercise 5: Render m_objectCount
 	ss << "GameObject Count: " << m_objectCount;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 12);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3, 0, 12);
 	
 	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3,40,40);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3,40,40);
 	
-	RenderTextOnScreen(meshList[GEO_TEXT], "Collision", Color(0, 1, 0), 3, 0, 0);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "Collision", Color(0, 1, 0), 3, 0, 0);
 
 }
 

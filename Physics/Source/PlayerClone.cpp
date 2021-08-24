@@ -3,12 +3,14 @@
 #include "PlayerClone.h"
 #include "GameLevelManager.h"
 #include "ProjectileFactory.h"
+#include "CentralMesh.h"
+#include "MeshRender.h"
 
 PlayerClone::PlayerClone()
 	:controlled(false)
 	,CloneAnimation(NULL)
 {
-	CloneAnimation = new SpriteAnimation(GameLevelManager::GetInstance()->getcurrentLevel()->GetMeshList(SceneBase::GEO_PLAYER));
+	CloneAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_PLAYER));
 	CloneAnimation->AddAnimation("CloneIdle", 0, 0);
 	CloneAnimation->AddAnimation("CloneWalking", 0, 5);
 	CloneAnimation->AddAnimation("CloneJumping", 6, 8);
@@ -121,7 +123,7 @@ void PlayerClone::Update(double dt, float m_speed)
 	int w = Application::GetWindowWidth();
 	int h = Application::GetWindowHeight();
 	mouseWorld = Vector3((x / w) * current_scene_worldwidth, current_scene_worldheight - (y / h) * current_scene_worldheight);
-	mouseWorld += GameLevelManager::GetInstance()->getcurrentLevel()->camera.position;
+	mouseWorld += MeshRender::GetInstance()->GetCamera()->position;
 	playerToMouseDir = (mouseWorld - this->pos);
 	playerToMouseDir.z = 0;
 	if (playerToMouseDir.x != 0 && playerToMouseDir.y != 0)
@@ -347,7 +349,7 @@ void PlayerClone::Response(GameObject* go)
 void PlayerClone::Render()
 {
 	if (CloneAnimation != NULL) {
-		GameLevelManager::GetInstance()->getcurrentLevel()->RenderAnimation(
+		MeshRender::GetInstance()->RenderAnimation(
 			CloneAnimation->GetSprite(),
 			CloneAnimation->GetCurFrame(),
 			6,

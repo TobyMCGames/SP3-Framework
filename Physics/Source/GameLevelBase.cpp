@@ -53,11 +53,11 @@ void GameLevelBase::RenderPlayer()
 			{
 				modelStack->Translate(3, 0, 0);
 				modelStack->Scale(player->scale.x, player->scale.y, player->scale.z);
-				if (player->GetCurWeapon() == Player::BOW)
+				if (player->getcurWeapon() == Player::BOW)
 					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
-				else if (player->GetCurWeapon() == Player::STAFF)
+				else if (player->getcurWeapon() == Player::STAFF)
 					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
-				else if (player->GetCurWeapon() == Player::PORTALGUN)
+				else if (player->getcurWeapon() == Player::PORTALGUN)
 					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
 			}
 			modelStack->PopMatrix();
@@ -65,7 +65,7 @@ void GameLevelBase::RenderPlayer()
 		modelStack->PopMatrix();
 	}
 	modelStack->PopMatrix();
-	if (clone == true)
+	if (cloned == true)
 	{
 		RenderPlayerClone();
 	}
@@ -103,11 +103,11 @@ void GameLevelBase::RenderPlayerClone()
 				modelStack->Translate(3, 0, 0);
 				modelStack->Scale(player->getClone()->getscale().x, player->getClone()->getscale().y, player->getClone()->getscale().z);
 				if (player->getClone()->getcurWeapon() == Player::BOW)
-					RenderMesh(meshList[GEO_BOW], false);
+					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
 				else if (player->getClone()->getcurWeapon() == Player::STAFF)
-					RenderMesh(meshList[GEO_STAFF], false);
+					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
 				else if (player->getClone()->getcurWeapon() == Player::PORTALGUN)
-					RenderMesh(meshList[GEO_PORTALGUN], false);
+					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
 			}
 			modelStack->PopMatrix();
 		}
