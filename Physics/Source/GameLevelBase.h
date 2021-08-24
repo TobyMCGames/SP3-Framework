@@ -39,6 +39,7 @@ public:
 	virtual void Init() = 0;
 	virtual bool Update(double dt) = 0;
 	virtual void Render() = 0;
+	virtual void Destroy() = 0;
 	virtual void Exit() = 0;
 	void RenderPlayer();
 	void RenderPlayerClone();
@@ -61,6 +62,7 @@ public:
 	float m_speed;
 	const float GAMESPEED = 2.7f;
 	std::vector<AdvanceGO*>* getProjectileList();
+	std::vector<AdvanceGO*>* getInteractableList();
 };
 
 #endif

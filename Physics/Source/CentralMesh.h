@@ -50,6 +50,8 @@ public:
 
 		//Interactive objects
 		GEO_WEAPON_STATION,
+		GEO_PORTAL_GATE_ENTRANCE,
+		GEO_PORTAL_GATE_EXIT,
 
 		// Enemy
 		GEO_ZOMBIE,

@@ -15,7 +15,6 @@ SceneCollision::SceneCollision()
 
 SceneCollision::~SceneCollision()
 {
-
 }
 
 void SceneCollision::Init()
@@ -317,6 +316,11 @@ void SceneCollision::Render()
 
 }
 
+void SceneCollision::Destroy()
+{
+	DestroyInstance();
+}
+
 void SceneCollision::Exit()
 {
 	SceneBase::Exit();
@@ -329,7 +333,6 @@ void SceneCollision::Exit()
 		map.pop_back();
 	}
 
-	DestroyInstance();
 }
 /*
 void SceneCollision::ResetList(void)

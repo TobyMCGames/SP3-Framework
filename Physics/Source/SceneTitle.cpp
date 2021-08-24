@@ -26,6 +26,8 @@ void SceneTitle::Init()
 	CSoundController::GetInstance()->StopSounds();
 	CSoundController::GetInstance()->PlaySoundByID(17);
 
+	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0);
+
 }
 bool SceneTitle::Update(double dt)
 {
@@ -166,6 +168,11 @@ void SceneTitle::Render()
 	ss.str("");
 	ss << "Quit";
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), QuitButton, 4, 39.5, 10);
+}
+
+void SceneTitle::Destroy()
+{
+	DestroyInstance();
 }
 
 void SceneTitle::Exit()

@@ -24,6 +24,8 @@ void SceneGUI::Init()
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	Math::InitRNG();
 	RenderPause = false;
+
+	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0);
 }
 bool SceneGUI::Update(double dt)
 {
@@ -107,6 +109,7 @@ bool SceneGUI::Update(double dt)
 			&& SceneGame::GetInstance()->ispaused == true)
 		{
 			bLButtonState = true;
+			CSoundController::GetInstance()->PlaySoundByID(21);
 		}
 		else if (bLButtonState && (!cKeyboardController->IsKeyPressed(GLFW_KEY_P) && !cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE))
 			&& SceneGame::GetInstance()->ispaused == true)
@@ -139,6 +142,11 @@ void SceneGUI::Render()
 	modelStack->LoadIdentity();
 
 	renderGUI();
+}
+
+void SceneGUI::Destroy()
+{
+	DestroyInstance();
 }
 
 void SceneGUI::Exit()

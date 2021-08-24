@@ -135,6 +135,7 @@ void GameLevelBase::RenderPlayerClone()
 }
 
 
+
 void GameLevelBase::mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal)
 {
 	player = Player::GetInstance();
@@ -717,11 +718,17 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 //	if (cleanUpVector.size() != 0)
 		//cleanupList(&cleanUpVector);
 	cleanupLists(false, &projectileList);
+	cleanupLists(false, &InteractableList);
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
 {
 	return &projectileList;
+}
+
+std::vector<AdvanceGO*>* GameLevelBase::getInteractableList()
+{
+	return &InteractableList;
 }
 
 void GameLevelBase::Exit()

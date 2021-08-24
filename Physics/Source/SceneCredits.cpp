@@ -24,6 +24,8 @@ void SceneCredits::Init()
 
 	Math::InitRNG();
 
+	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0);
+
 }
 bool SceneCredits::Update(double dt)
 {
@@ -96,6 +98,11 @@ void SceneCredits::Render()
 	ss.str("");
 	ss << "<Back";
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), BackButton, 4, 7, 2);
+}
+
+void SceneCredits::Destroy()
+{
+	DestroyInstance();
 }
 
 void SceneCredits::Exit()

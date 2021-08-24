@@ -15,7 +15,6 @@ Level3::Level3()
 
 Level3::~Level3()
 {
-
 }
 
 void Level3::Init()
@@ -267,6 +266,11 @@ void Level3::Render()
 
 }
 
+void Level3::Destroy()
+{
+	DestroyInstance();
+}
+
 void Level3::Exit()
 {
 	SceneBase::Exit();
@@ -278,8 +282,6 @@ void Level3::Exit()
 		delete go;
 		map.pop_back();
 	}
-
-	DestroyInstance();
 }
 /*
 void SceneCollision::ResetList(void)
