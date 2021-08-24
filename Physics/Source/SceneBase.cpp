@@ -30,7 +30,7 @@ void SceneBase::Init()
 	projectionStack = meshRender->GetProjectionStack();
 	centralMesh = CentralMesh::GetInstance();
 	camera = meshRender->GetCamera();
-	
+	camera->setpanTarget();
 }
 
 bool SceneBase::Update(double dt)
@@ -200,6 +200,15 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SKELEARROW), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::GO_SPIDERWEB:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SPIDERWEB), false);
 		modelStack->PopMatrix();
 		break;
 

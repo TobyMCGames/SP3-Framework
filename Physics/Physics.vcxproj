@@ -199,7 +199,7 @@
     <ClCompile Include="Source\SoundController.cpp" />
     <ClCompile Include="Source\SoundInfo.cpp" />
     <ClCompile Include="Source\Spider.cpp" />
-    <ClCompile Include="Source\SpiderPoison.cpp" />
+    <ClCompile Include="Source\SpiderWeb.cpp" />
     <ClCompile Include="Source\SpriteAnimation.cpp" />
     <ClCompile Include="Source\Tile.cpp" />
     <ClCompile Include="Source\Turret.cpp" />
@@ -261,7 +261,7 @@
     <ClInclude Include="Source\SkeletonArcher.h" />
     <ClInclude Include="Source\SoundController.h" />
     <ClInclude Include="Source\SoundInfo.h" />
-    <ClInclude Include="Source\SpiderPoison.h" />
+    <ClInclude Include="Source\SpiderWeb.h" />
     <ClInclude Include="Source\SpriteAnimation.h" />
     <ClInclude Include="Source\Tile.h" />
     <ClInclude Include="Source\TileFactory.h" />

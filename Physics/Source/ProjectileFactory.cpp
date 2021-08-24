@@ -5,7 +5,7 @@
 #include "MagicBall.h"
 #include "Portal.h"
 #include "SkeleArrow.h"
-#include "SpiderPoison.h"
+#include "SpiderWeb.h"
 #include "TurretBullet.h"
 
 Projectile* ProjectileFactory::produceProjectile(PROJECTILE_TYPES projectileType, Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal)
@@ -39,7 +39,7 @@ Projectile* ProjectileFactory::produceProjectile(PROJECTILE_TYPES projectileType
 		break;
 	case PTYPE_SPIDERPOISON:
 		newProjectile = new SpiderPoison();
-		newProjectile->type = GameObject::GO_SPIDERPOISON;
+		newProjectile->type = GameObject::GO_SPIDERWEB;
 		break;
 	case PTYPE_TURRETBULLET:
 		newProjectile = new TurretBullet();

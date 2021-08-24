@@ -46,6 +46,10 @@ bool SceneGame::Update(double dt)
 	if (!bLButtonState && (cKeyboardController->IsKeyPressed(GLFW_KEY_P) || cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE)))
 	{
 		bLButtonState = true;
+		if (ispaused == false)
+		{
+			CSoundController::GetInstance()->PlaySoundByID(22);
+		}
 	}
 	else if (bLButtonState && (!cKeyboardController->IsKeyPressed(GLFW_KEY_P) && !cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE)))
 	{

@@ -1,10 +1,10 @@
-#include "SpiderPoison.h"
+#include "SpiderWeb.h"
 
 // this file contains code for cobwebs shot by spiders. The file is named SpiderPoison as that was our initial idea
 
 SpiderPoison::SpiderPoison()
 {
-	Default_Speed = 10.f;
+	Default_Speed = 30.f;
 	damage = 10;
 }
 

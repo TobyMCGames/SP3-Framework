@@ -185,7 +185,7 @@
     <ClCompile Include="Source\Tile.cpp">
       <Filter>Source Files\Tiles</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SpiderPoison.cpp">
+    <ClCompile Include="Source\SpiderWeb.cpp">
       <Filter>Source Files\Projectiles</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectileFactory.cpp">
@@ -364,7 +364,7 @@
     <ClInclude Include="Source\Tile.h">
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SpiderPoison.h">
+    <ClInclude Include="Source\SpiderWeb.h">
       <Filter>Header Files\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="Source\ProjectileFactory.h">

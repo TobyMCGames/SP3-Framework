@@ -15,6 +15,7 @@ public:
 		GEO_TEXT,
 		GEO_BALL,
 		GEO_CUBE,
+		GEO_QUAD,
 		GEO_CYLINDER,
 		GEO_BACKGROUND,
 		GEO_TITLE,
@@ -65,6 +66,7 @@ public:
 		GEO_ARROW,
 		GEO_MAGICBALL,
 		GEO_PORTAL,
+		GEO_SPIDERWEB,
 
 		//enemy projectiles
 		GEO_TURRETBULLET,

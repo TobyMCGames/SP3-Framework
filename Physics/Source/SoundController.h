@@ -64,6 +64,7 @@ protected:
 	CSoundInfo* GetSound(const int ID);
 	// Remove an sound from this map
 	bool RemoveSound(const int ID);
+
 	// Get the number of sounds in this map
 	int GetNumOfSounds(void) const;
 
