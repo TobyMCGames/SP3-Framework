@@ -33,6 +33,8 @@ protected:
 	bool controlled;
 	bool SlowTimeStart;
 	bool SlowTimeEnd;
+	bool isWebbedBySpider;
+	float webbedTimeLeft;
 	
 private:
 	Player();
