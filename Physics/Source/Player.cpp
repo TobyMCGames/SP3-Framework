@@ -123,8 +123,9 @@ void Player::Update(double dt, float m_speed)
 		if ((playerclone != nullptr) && (curLocation != Entity::IN_AIR) && (getClone()->getCurLocation() != Entity::IN_AIR))
 		{
 			swap = true;
+			vel.SetZero();
 		}
-		vel.SetZero();
+		
 		
 		cKeyboardController->ResetKey(GLFW_KEY_TAB);
 	}
