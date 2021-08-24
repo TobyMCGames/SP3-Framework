@@ -29,6 +29,7 @@ void SceneCollision::Init()
 
 	Math::InitRNG();
 	loadMap("Maps//SideScrollmap.csv");
+	//loadMap("Maps//Map_LEVEL_1.csv");
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 		getworldWidth(),getworldHeight());
 	camera->setpanTarget(player);

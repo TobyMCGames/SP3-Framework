@@ -260,7 +260,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = TileFactory::getObject(TileFactory::SPIKE, pos, vel, scale);
 				}
-				else if (key == "4") // zombie
+				else if (key == "Z") // zombie
 				{
 					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
 				}

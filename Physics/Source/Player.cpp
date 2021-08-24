@@ -441,7 +441,9 @@ void Player::Response(GameObject* go)
 					Vector3 portalN = GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->normal;
 					Vector3 portalPos = GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos;
 					float angle;
-					angle = acosf((-portalN).Dot(go->normal) / (portalN.Length() * go->normal.Length()));
+					angle = atan2f(go->normal.y, go->normal.x);
+					Vector3 ExitN = portalN.Rotated(Math::RadianToDegree(-angle));
+					angle = atan2f(-ExitN.y, -ExitN.x);
 					vel.Rotate(Math::RadianToDegree(angle));
 					//if portal facing right
 					if (portalN.x == 1)

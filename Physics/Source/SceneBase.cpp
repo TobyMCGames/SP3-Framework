@@ -350,5 +350,9 @@ void SceneBase::Destroy()
 
 void SceneBase::Exit()
 {
-	
+	camera = nullptr;
+	modelStack = nullptr;
+	viewStack = nullptr;
+	projectionStack = nullptr;
+	cKeyboardController = nullptr;
 }
