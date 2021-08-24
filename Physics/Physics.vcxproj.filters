@@ -54,6 +54,18 @@
     <Filter Include="Source Files\Entities\Player">
       <UniqueIdentifier>{92890903-09ee-4741-aa05-d32ea89429be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Meshes">
+      <UniqueIdentifier>{8286464e-d1bf-4c3e-b342-58643d40ff8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Meshes">
+      <UniqueIdentifier>{3d6d8ab5-f5dd-4829-b733-87074265da7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sounds">
+      <UniqueIdentifier>{38a8c20a-d617-4234-b987-f3b68ffb0714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sounds">
+      <UniqueIdentifier>{c1314634-3207-47f2-a12a-c47f41dab81c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -75,9 +87,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MeshBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\shader.cpp">
@@ -188,16 +197,7 @@
     <ClCompile Include="Source\InteractableFactory.cpp">
       <Filter>DesignPatterns</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SoundController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SoundInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\LogRoot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SpriteAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Level3.cpp">
@@ -213,10 +213,22 @@
       <Filter>Source Files\Entities\Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\CentralMesh.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshBuilder.cpp">
+      <Filter>Source Files\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Source\MeshRender.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpriteAnimation.cpp">
+      <Filter>Source Files\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SoundController.cpp">
+      <Filter>Source Files\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SoundInfo.cpp">
+      <Filter>Source Files\Sounds</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,9 +254,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MeshBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\shader.hpp">
@@ -373,12 +382,6 @@
     <ClInclude Include="Source\InteractableFactory.h">
       <Filter>DesignPatterns</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SoundController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SoundInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SingletonPattern.h">
       <Filter>DesignPatterns</Filter>
     </ClInclude>
@@ -386,9 +389,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\LogRoot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SpriteAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Level3.h">
@@ -404,10 +404,22 @@
       <Filter>Header Files\Entities\Player</Filter>
     </ClInclude>
     <ClInclude Include="Source\CentralMesh.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MeshBuilder.h">
+      <Filter>Header Files\Meshes</Filter>
     </ClInclude>
     <ClInclude Include="Source\MeshRender.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpriteAnimation.h">
+      <Filter>Header Files\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SoundController.h">
+      <Filter>Header Files\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SoundInfo.h">
+      <Filter>Header Files\Sounds</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

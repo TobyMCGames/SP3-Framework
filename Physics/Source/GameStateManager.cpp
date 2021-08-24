@@ -55,7 +55,9 @@ void GameStateManager::Destroy()
 	end = GameStateMap.end();
 	for (it = GameStateMap.begin(); it != end; ++it)
 	{
-		delete it->second;
+		SceneBase* scene = it->second;
+		scene->Exit();
+		scene->Destroy();
 	}
 	// Clear the map
 	GameStateMap.clear();
