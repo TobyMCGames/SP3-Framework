@@ -19,9 +19,6 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 		case GRASS_SOIL:
 			newTile->type = GameObject::GRASS_SOIL_TILE;
 			break;
-		case GRASS_SOIL_FLOWERS:
-			newTile->type = GameObject::GRASS_SOIL_TILE;
-			break;
 		case OOB_TILE:
 			newTile->type = GameObject::OUTOFBOUNDS_TILE;
 			break;
