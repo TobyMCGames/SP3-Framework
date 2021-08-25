@@ -178,19 +178,29 @@ void Player::Update(double dt, float m_speed)
 					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 					cout << "Magic ball created" << endl;
 					break;
-				}
-				case PORTALGUN:
-				{
-					CSoundController::GetInstance()->PlaySoundByID(3);
-					Projectile* portal =
-						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-							pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
-					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
-					cout << "portal created" << endl;
-					break;
-				}
+			}
+			case PORTALGUN:
+			{
+				CSoundController::GetInstance()->PlaySoundByID(3);
+				Projectile* portal =
+					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
+						pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
+				cout << "portal created" << endl;
+				break;
 			}
 		}
+		/*switch (curItem)
+		{
+		case BOMBS:
+			Projectile* bomb = ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
+				(pos + normal * scale.x), normal, Vector3(5, 5, 1), normal);
+			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
+			cout << "bomb created" << endl;
+			break;
+		}*/
+	}
+	
 	if (controlled)
 	{
 		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
