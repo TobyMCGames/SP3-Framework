@@ -376,12 +376,12 @@ float GameLevelBase::getworldHeight()
 
 float GameLevelBase::getTileWidth()
 {
-	return TILEWIDTH + offset;
+	return TILEWIDTH;
 }
 
 float GameLevelBase::getTileHeight()
 {
-	return TILEHEIGHT + offset;
+	return TILEHEIGHT;
 }
 
 
@@ -698,7 +698,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 
 				Vector3 FuturePos = projectile->pos + projectile->vel * dt * m_speed;
 				Vector3 FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
-				float angle = atan2f(FutureN.y, FutureN.y);
+				float angle = atan2f(FutureN.y, FutureN.x);
 				//Find how many tiles mob is away from left side
 				LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) / 2;
 				XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
@@ -868,6 +868,20 @@ void GameLevelBase::ChangeTimelineBlocks()
 		delete map[i];
 		map[i] = temp;
 	}
+//	for (int i = 0; i < EntityList.size(); i++)
+//	{
+//		AdvanceGO* temp = EntityList[i];
+//		if (temp == nullptr)
+//			continue;
+//		if (temp->active == false)
+//			continue;
+//
+//		switch (temp->type)
+//		{
+//		case GameObject::GO_TURRET:
+//			//temp->curStat
+//		}
+//	}
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
