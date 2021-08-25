@@ -210,20 +210,22 @@ void Player::Update(double dt, float m_speed)
 		}
 		else if (curLocation == IN_AIR)
 		{
-			//vel.x *= 0.2 * dt * m_speed;
+			float friction = 4;
 			if (vel.y < 0)
 			{
 				PlayerAnimation->Reset();
 				PlayerAnimation->PlayAnimation("Falling", 1, 2);
 			}
-			//if (cKeyboardController->IsKeyDown(GLFW_KEY_D) && vel.x >= 0)
-			//{
-			//	vel.x -= friction *dt *m_speed;
-			//}
-			//if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && vel.x <= 0)
-			//{
-			//	vel.x += friction * dt * m_speed;
-			//}
+			if (vel.x > 0.1)
+			{
+				vel.x -= friction * dt * m_speed;
+			}
+			else if (vel.x < -0.1 )
+			{
+				vel.x += friction * dt * m_speed;
+			}
+			else
+				vel.x = 0;
 		}
 		if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 		{
