@@ -766,6 +766,55 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 	cleanupLists(false, &InteractableList);
 }
 
+void GameLevelBase::ChangeMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject* toChange)
+{
+	TileFactory* tileFactory = TileFactory::GetInstance();
+	GameObject* temp;
+	Vector3 scale;
+	Vector3 vel;
+	scale.Set(TILEWIDTH, TILEHEIGHT, 1);
+	vel.SetZero();
+	switch (Changeto)
+	{
+	case GameObject::BRICK_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::BRICK, toChange->pos, scale, vel);
+		break;
+	case GameObject::STONE_BRICK_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::STONEBRICK, toChange->pos, scale, vel);
+		break;
+	case GameObject::SPIKE_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::SPIKE, toChange->pos, scale, vel);
+		break;
+	case GameObject::SOIL_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::SOIL, toChange->pos, scale, vel);
+		break;
+	case GameObject::GRASS_SOIL_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::GRASS_SOIL, toChange->pos, scale, vel);
+		break;
+	default:
+		temp = nullptr;
+	}
+
+	delete toChange;
+	toChange = temp;
+}
+
+void GameLevelBase::ChangeAllMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange)
+{
+	for (int i = 0; i < map.size(); i++)
+	{
+		//Game
+	}
+}
+
+void GameLevelBase::ChangeIntObject(GameObject::GAMEOBJECT_TYPE Changeto, AdvanceGO* toChange)
+{
+}
+
+void GameLevelBase::ChangeAllIntObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange)
+{
+}
+
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
 {
 	return &projectileList;
