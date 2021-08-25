@@ -27,6 +27,7 @@ public:
 	int portalCounter;
 
 	bool isCompleted;
+	bool isdead;
 	
 protected:
 	int Inventory[NUM_ITEMS];
