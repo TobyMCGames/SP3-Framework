@@ -766,7 +766,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 	cleanupLists(false, &InteractableList);
 }
 
-void GameLevelBase::ChangeMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject* toChange)
+GameObject* GameLevelBase::ChangeMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject* toChange)
 {
 	TileFactory* tileFactory = TileFactory::GetInstance();
 	GameObject* temp;
@@ -795,15 +795,24 @@ void GameLevelBase::ChangeMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameOb
 		temp = nullptr;
 	}
 
-	delete toChange;
-	toChange = temp;
+	return temp;
 }
 
 void GameLevelBase::ChangeAllMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange)
 {
 	for (int i = 0; i < map.size(); i++)
 	{
-		//Game
+		GameObject* temp = map[i];
+		if (temp == nullptr)
+			continue;
+
+		if (temp->type == toChange)
+		{
+			GameObject* tempTile = ChangeMapObject(Changeto, temp);
+			delete temp;
+			temp = nullptr;
+			map[i] = tempTile;
+		}
 	}
 }
 
@@ -813,6 +822,40 @@ void GameLevelBase::ChangeIntObject(GameObject::GAMEOBJECT_TYPE Changeto, Advanc
 
 void GameLevelBase::ChangeAllIntObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange)
 {
+}
+
+void GameLevelBase::ChangeTimelineBlocks()
+{
+	for (int i = 0; i < map.size(); i++)
+	{
+		GameObject* temp;
+		temp = map[i];
+		if (temp == nullptr)
+			continue;
+
+		switch (temp->type)
+		{
+		case GameObject::BRICK_TILE:
+			temp = ChangeMapObject(GameObject::STONE_BRICK_TILE, temp);
+			break;
+		case GameObject::STONE_BRICK_TILE:
+			temp = ChangeMapObject(GameObject::BRICK_TILE, temp);
+			break;
+		case GameObject::SOIL_TILE:
+			temp = ChangeMapObject(GameObject::GRASS_SOIL_TILE, temp);
+			break;
+		case GameObject::GRASS_SOIL_TILE:
+			temp = ChangeMapObject(GameObject::SOIL_TILE, temp);
+			break;
+		default:
+			break;
+		}
+		if (temp == nullptr)
+			continue;
+
+		delete map[i];
+		map[i] = temp;
+	}
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()

@@ -16,16 +16,17 @@ public:
 	virtual void setcurWeapon(Weapons curWeapon);
 	virtual void Response(GameObject* go);
 	virtual Weapons getcurWeapon();
+	virtual void Render();
+	virtual bool isControl();
 	PlayerClone* getClone();
 	void InitClone();
 	void resetClone();
-	virtual bool isControl();
 	void setControl(bool controlled);
-	bool cloneinited;
-	virtual void Render();
 	SpriteAnimation* getAnimation();
-	int portalCounter;
+	void ChangeTimeline();
 
+	bool cloneinited;
+	int portalCounter;
 	bool isCompleted;
 	
 protected:
