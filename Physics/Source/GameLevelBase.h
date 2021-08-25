@@ -19,7 +19,6 @@ private:
 
 	const int YTILE_SCREEN = 18;
 	const int XTILE_SCREEN = 32;
-	const float offset = 0.001f;
 
 protected:
 	vector<GameObject*>map;

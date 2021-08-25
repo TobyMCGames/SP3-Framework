@@ -275,6 +275,14 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::STONE_WATERFALL_TILE, pos, scale, vel);
 				}
+				else if (key == "7") // spike
+				{
+					temp = tileFactory->ProduceTile(TileFactory::SOIL, pos, scale, vel);
+				}
+				else if (key == "8") // spike
+				{
+					temp = tileFactory->ProduceTile(TileFactory::GRASS_SOIL, pos, scale, vel);
+				}
 				else if (key == "OOB") // outofbounds
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel);
@@ -388,12 +396,12 @@ float GameLevelBase::getworldHeight()
 
 float GameLevelBase::getTileWidth()
 {
-	return TILEWIDTH + offset;
+	return TILEWIDTH;
 }
 
 float GameLevelBase::getTileHeight()
 {
-	return TILEHEIGHT + offset;
+	return TILEHEIGHT;
 }
 
 
@@ -885,6 +893,20 @@ void GameLevelBase::ChangeTimelineBlocks()
 		delete map[i];
 		map[i] = temp;
 	}
+//	for (int i = 0; i < EntityList.size(); i++)
+//	{
+//		AdvanceGO* temp = EntityList[i];
+//		if (temp == nullptr)
+//			continue;
+//		if (temp->active == false)
+//			continue;
+//
+//		switch (temp->type)
+//		{
+//		case GameObject::GO_TURRET:
+//			//temp->curStat
+//		}
+//	}
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()

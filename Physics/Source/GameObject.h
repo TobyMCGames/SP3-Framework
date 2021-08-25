@@ -97,6 +97,7 @@ struct GameObject
 
 	virtual void Response(GameObject* go) = 0;
 	virtual void Render() = 0;
+	//virtual void timeTravel() = 0;
 	
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
