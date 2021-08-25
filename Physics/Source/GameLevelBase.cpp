@@ -271,27 +271,27 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
 				}
-				else if (key == "5") // skelearcher
+				else if (key == "SA") // skelearcher
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
 				}
-				else if (key == "6") // spider
+				else if (key == "SS") // spider
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
 				}
-				else if (key == "7") //nymph
+				else if (key == "NYM") //nymph
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
 				}
-				else if (key == "8") //turret
+				else if (key == "TT") //turret
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::TURRET, pos, vel, scale);
 				}
-				else if (key == "9") // boomer
+				else if (key == "BM") // boomer
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
 				}
-				else if (key == "10")// demon lord
+				else if (key == "DL")// demon lord
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
 				}
