@@ -111,6 +111,10 @@ CentralMesh::CentralMesh()
 	meshList[GEO_WARP_GATE_TILE]->textureID = LoadTGA("Image//TILE//Warp_Gate_Tile.tga");
 	meshList[GEO_BOMB_CRATE] = MeshBuilder::GenerateQuad("bomb crate", Color(1, 1, 1));
 	meshList[GEO_BOMB_CRATE]->textureID = LoadTGA("Image//InteractiveBlocks//bombcrate.tga");
+	meshList[GEO_TREE_SEEDS] = MeshBuilder::GenerateQuad("tree seeds", Color(1, 1, 1));
+	meshList[GEO_TREE_SEEDS]->textureID = LoadTGA("Image//InteractiveBlocks//treeSapling.tga");
+	meshList[GEO_VINE_SEEDS] = MeshBuilder::GenerateQuad("vine seeds", Color(1, 1, 1));
+	meshList[GEO_VINE_SEEDS]->textureID = LoadTGA("Image//InteractiveBlocks//smallVine.tga");
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("Player", Color(1, 1, 1), 2, 6, 1.f);
 	meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//playerAnimation.tga");
 
