@@ -76,7 +76,7 @@ void Player::Update(double dt, float m_speed)
 		else if (normal.x < 0)
 			curDirection = LEFT;
 	}
-
+	///// Slow time mechanic
 	static bool ShiftPressed = false;
 	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
@@ -102,6 +102,7 @@ void Player::Update(double dt, float m_speed)
 		SlowTimeEnd = false;
 	}
 
+	////// Create Clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
 		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false) // summon the clone
@@ -123,6 +124,7 @@ void Player::Update(double dt, float m_speed)
 		}
 		cKeyboardController->ResetKey(GLFW_KEY_R);
 	}
+	////// Switch to clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_TAB))
 	{
 		if ((playerclone != nullptr) && (curLocation != Entity::IN_AIR) && (getClone()->getCurLocation() != Entity::IN_AIR))
@@ -134,6 +136,15 @@ void Player::Update(double dt, float m_speed)
 		
 		cKeyboardController->ResetKey(GLFW_KEY_TAB);
 	}
+
+	/////// Switching Timeline Mechanic
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT))
+	{
+		ChangeTimeline();
+		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
+	}
+
+	/// Shooting Mechanic
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
 	{
@@ -146,7 +157,7 @@ void Player::Update(double dt, float m_speed)
 
 		//FireWeapon = true;
 		switch (curWeapon)
-			{
+		{
 			case BOW:
 			{
 				CSoundController::GetInstance()->PlaySoundByID(1);
@@ -167,19 +178,21 @@ void Player::Update(double dt, float m_speed)
 					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 					cout << "Magic ball created" << endl;
 					break;
-				}
-				case PORTALGUN:
-				{
-					CSoundController::GetInstance()->PlaySoundByID(3);
-					Projectile* portal =
-						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-							pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
-					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
-					cout << "portal created" << endl;
-					break;
-				}
+			}
+			case PORTALGUN:
+			{
+				CSoundController::GetInstance()->PlaySoundByID(3);
+				Projectile* portal =
+					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
+						pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
+				cout << "portal created" << endl;
+				break;
 			}
 		}
+	}
+	/// Movement Mechanic
+
 	if (controlled)
 	{
 		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
@@ -539,6 +552,12 @@ void Player::Render()
 SpriteAnimation* Player::getAnimation()
 {
 	return PlayerAnimation;
+}
+
+void Player::ChangeTimeline()
+{
+	GameLevelBase* level = GameLevelManager::GetInstance()->getcurrentLevel();
+	level->ChangeTimelineBlocks();
 }
 
 
