@@ -27,3 +27,12 @@ struct PortalGate : public Interactables
 	virtual void Response(GameObject* go) {};
 	virtual void Render() {};
 };
+
+struct WarpGate : public Interactables
+{
+	WarpGate() { type = GameObject::WARP_GATE; };
+	~WarpGate() {};
+	virtual void Update(double dt, float m_speed) {};
+	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
+};

@@ -71,14 +71,14 @@ void Portal::Response(GameObject* go)
 		if (Player::GetInstance()->portalCounter < 2)
 		{
 			AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
-				InteractableFactory::PTYPE_PORTAL_ENTRANCE, PGatePos, scale, PGateNormal);
+				InteractableFactory::PTYPE_PORTAL_ENTRANCE, PGatePos, Vector3(4.5f, 4.5f, 1.f) , PGateNormal);
 			GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->push_back(go);
 			Player::GetInstance()->portalCounter++;
 		}
 		else 
 		{
 			AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
-				InteractableFactory::PTYPE_PORTAL_ENTRANCE, PGatePos, scale, PGateNormal);
+				InteractableFactory::PTYPE_PORTAL_ENTRANCE, PGatePos, Vector3(4.5f, 4.5f, 1.f), PGateNormal);
 			GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->push_back(go);
 			for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
 			{

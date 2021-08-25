@@ -103,8 +103,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
-	//meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 1, 1));
-	//meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//player.tga");
+	meshList[GEO_WARP_GATE_TILE] = MeshBuilder::GenerateQuad("warpgate", Color(1, 1, 1));
+	meshList[GEO_WARP_GATE_TILE]->textureID = LoadTGA("Image//TILE//Warp_Gate_Tile.tga");
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("Player", Color(1, 1, 1), 2, 6, 1.f);
 	meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//playerAnimation.tga");
 

@@ -309,6 +309,11 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_PORTAL_STATION, pos, scale);
 				}
+				else if (key == "GATE")
+				{
+					pos.Set(xOffset + scale.x, yOffset + scale.y, 0);
+					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_WARP_GATE, pos, scale * 2);
+				}
 
 				if (tempEntity != nullptr)
 				{
@@ -701,6 +706,8 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 
 					}
 				}
+
+				//for (int j = 0; j < InteractableList)
 			}
 			else // delete projectile if they are no longer on screen
 			{
