@@ -36,3 +36,12 @@ struct WarpGate : public Interactables
 	virtual void Response(GameObject* go) {};
 	virtual void Render() {};
 };
+
+struct BombCrate : public Interactables
+{
+	BombCrate(GameObject::GAMEOBJECT_TYPE cratetype) { type = cratetype; };
+	~BombCrate() {};
+	virtual void Update(double dt, float m_speed) {};
+	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
+};

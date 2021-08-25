@@ -13,6 +13,7 @@ public:
 		PTYPE_PORTAL_ENTRANCE,
 		PTYPE_PORTAL_EXIT,
 		PTYPE_WARP_GATE,
+		PTYPE_BOMB_CRATE,
 		NUM_PROJECTILES,
 	};
 	Interactables* produceInteractable(INTERACTABLES_TYPES InteractableType, Vector3 pos, Vector3 scale, Vector3 normal = Vector3(1,0,0));

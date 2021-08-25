@@ -316,6 +316,10 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_PORTAL_STATION, pos, scale);
 				}
+				else if (key == "BC") // Bomb Crate
+				{
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_BOMB_CRATE, pos, scale);
+				}
 				else if (key == "GATE")
 				{
 					pos.Set(xOffset + scale.x, yOffset + scale.y, 0);

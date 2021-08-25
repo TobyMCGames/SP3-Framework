@@ -457,7 +457,7 @@ bool GamePhysics::AABB(GameObject* go1, GameObject* go2)
 	bool collisionY = go1min.y <= go2max.y && go1max.y >= go2min.y;
 	if (collisionX && collisionY)
 	{
-		std::cout << "collision happened" << std::endl;
+		//std::cout << "collision happened" << std::endl;
 		return true;
 	}
 	else
