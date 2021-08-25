@@ -46,6 +46,8 @@ protected:
 	LOCATION curLocation;
 	DIRECTION curDirection;
 
+	float InvincibilityTimer;
+
 };
 #endif
 

@@ -67,6 +67,11 @@ void SceneCollision::ReturnGO(GameObject *go)
 	m_objectCount--;
 }
 
+void SceneCollision::UpdateLevel()
+{
+	//switch (curLevel)
+}
+
 bool SceneCollision::Update(double dt)
 {
 	SceneBase::Update(dt);

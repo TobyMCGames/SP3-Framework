@@ -25,6 +25,8 @@ public:
 	virtual void Render();
 	SpriteAnimation* getAnimation();
 	int portalCounter;
+
+	bool isCompleted;
 	
 protected:
 	int Inventory[NUM_ITEMS];

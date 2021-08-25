@@ -12,11 +12,12 @@ Player::Player()
 	, curItem(0)
 	, scrollsnap(0)
 	, PlayerAnimation(NULL)
-	,playerclone(nullptr)
-	,cloneinited(false)
-	,controlled(true)
-	,swap(false)
-	,Pexitspeed(0,0,0)
+	, playerclone(nullptr)
+	, cloneinited(false)
+	, controlled(true)
+	, swap(false)
+	, Pexitspeed(0, 0, 0)
+	, isCompleted(false)
 {
 	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -74,7 +75,7 @@ void Player::Update(double dt, float m_speed)
 			curDirection = LEFT;
 	}
 
-
+	cout << curItem << endl;
 	static bool ShiftPressed = false;
 	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
@@ -267,12 +268,15 @@ void Player::Update(double dt, float m_speed)
 		{
 		case TREE_SEED:
 			//std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			curWeapon = PORTALGUN;
 			break;
 		case VINE_SEED:
 			//std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			curWeapon = BOW;
 			break;
 		case BOMBS:
 			//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			curWeapon = STAFF;
 			break;
 		default:
 			//std::cout << "Invalid curItem in Player.cpp" << std::endl;
@@ -302,6 +306,15 @@ void Player::Update(double dt, float m_speed)
 	else
 	{
 		Default_Speed = 15;
+	}
+
+	if (InvincibilityTimer > 0)
+	{
+		InvincibilityTimer -= dt * m_speed;
+	}
+	else
+	{
+		curState = STATE_NORMAL;
 	}
 }
 
@@ -376,38 +389,48 @@ void Player::Response(GameObject* go)
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
 		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET))
 	{
-		takeDamage(go->damage);
-		int randHurtSound = rand() % 3;
-
-		if (randHurtSound == 0)
-			CSoundController::GetInstance()->PlaySoundByID(5);
-		else if (randHurtSound == 1)
-			CSoundController::GetInstance()->PlaySoundByID(6);
-		else if (randHurtSound == 2)
-			CSoundController::GetInstance()->PlaySoundByID(7);
-
-		if (health <= 0)
+		if (curState == STATE_NORMAL)
 		{
-			dead();
+			takeDamage(go->damage);
+			curState = STATE_INVINCIBLE;
+			InvincibilityTimer = 1.5;
+			int randHurtSound = rand() % 3;
+
+			if (randHurtSound == 0)
+				CSoundController::GetInstance()->PlaySoundByID(5);
+			else if (randHurtSound == 1)
+				CSoundController::GetInstance()->PlaySoundByID(6);
+			else if (randHurtSound == 2)
+				CSoundController::GetInstance()->PlaySoundByID(7);
+
+			if (health <= 0)
+			{
+				dead();
+			}
 		}
 	}
 	if (go->type == GameObject::GO_SPIDERWEB)
 	{
 		isWebbedBySpider = true;
 		webbedTimeLeft = 3.f;
-		takeDamage(go->damage);
-		int randHurtSound = rand() % 3;
-
-		if (randHurtSound == 0)
-			CSoundController::GetInstance()->PlaySoundByID(5);
-		else if (randHurtSound == 1)
-			CSoundController::GetInstance()->PlaySoundByID(6);
-		else if (randHurtSound == 2)
-			CSoundController::GetInstance()->PlaySoundByID(7);
-
-		if (health <= 0)
+		if (curState == STATE_NORMAL)
 		{
-			dead();
+			takeDamage(go->damage);
+			curState = STATE_INVINCIBLE;
+			InvincibilityTimer = 1.5;
+			int randHurtSound = rand() % 3;
+
+			if (randHurtSound == 0)
+				CSoundController::GetInstance()->PlaySoundByID(5);
+			else if (randHurtSound == 1)
+				CSoundController::GetInstance()->PlaySoundByID(6);
+			else if (randHurtSound == 2)
+				CSoundController::GetInstance()->PlaySoundByID(7);
+
+			if (health <= 0)
+			{
+				dead();
+			}
 		}
 	}
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_E) && (controlled == true))
@@ -422,6 +445,9 @@ void Player::Response(GameObject* go)
 			break;
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
+			break;
+		case WARP_GATE:
+			isCompleted = true;
 			break;
 		}
 	}

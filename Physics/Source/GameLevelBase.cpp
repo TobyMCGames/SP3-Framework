@@ -602,10 +602,41 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 			}
 		}
 		// projectile cleanup
-		//if (cleanUpVector.size() != 0)
-		//	cleanupList(&cleanUpVector);
 		if (projectileList.size() != 0)
 			cleanupLists(false, &projectileList);
+
+		for (int j = i + 1; j < EntityList.size(); j++)
+		{
+			AdvanceGO* mob2 = EntityList[j];
+			if (mob2 == nullptr)
+				continue;
+			if (!mob2->active)
+				continue;
+			if (mob2->type == GameObject::GO_PLAYER || mob2->type == GameObject::GO_PLAYERCLONE)
+			{
+				AdvanceGO* temp = mob1;
+				mob1 = mob2;
+				mob2 = temp;
+			}
+			if ((mob1->type == GameObject::GO_PLAYER || mob1->type == GameObject::GO_PLAYERCLONE))
+			{
+				if (GamePhysics::GetInstance()->CheckCollision(mob1, mob2, dt, GAMESPEED))
+				{
+					GamePhysics::GetInstance()->CheckCollisionResponse(mob1, mob2, dt, GAMESPEED);
+					//cout << "Collided" << endl;
+					break;
+				}
+			}
+			else
+			{
+				if (GamePhysics::GetInstance()->CheckCollision(mob1, mob2, dt, m_speed))
+				{
+					GamePhysics::GetInstance()->CheckCollisionResponse(mob1, mob2, dt, m_speed);
+					//cout << "Collided" << endl;
+					break;
+				}
+			}
+		}
 
 		///////  Only player or clone  can collide with
 		if (mob1->type != GameObject::GO_PLAYER && mob1->type != GameObject::GO_PLAYERCLONE)

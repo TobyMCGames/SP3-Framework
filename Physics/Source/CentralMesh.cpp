@@ -141,8 +141,6 @@ CentralMesh::CentralMesh()
 	//Weapons
 	meshList[GEO_ARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
 	meshList[GEO_ARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow_hitbox.tga");
-	//meshList[GEO_MAGICBALL] = MeshBuilder::GenerateQuad("magicball", Color(1, 1, 1));
-	//meshList[GEO_MAGICBALL]->textureID = LoadTGA("Image//PROJECTILES//energy_ball_hitbox.tga");
 	meshList[GEO_MAGICBALL] = MeshBuilder::GenerateSpriteAnimation("magicball", Color(1, 1, 1), 2, 3, 1.f);
 	meshList[GEO_MAGICBALL]->textureID = LoadTGA("Image//PROJECTILES//energy_ball_animation_hitbox.tga");
 	meshList[GEO_PORTAL] = MeshBuilder::GenerateQuad("portal", Color(1, 1, 1));
