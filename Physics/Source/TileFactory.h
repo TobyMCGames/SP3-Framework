@@ -12,6 +12,7 @@ public:
 		SPIKE,
 		SOIL,
 		GRASS_SOIL,
+		CAVE_TILE,
 		OOB_TILE,
 		NUM_TILE
 	};

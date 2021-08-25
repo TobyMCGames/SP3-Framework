@@ -263,6 +263,10 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel);
 				}
+				else if (key == "4") // cave tile
+				{
+					temp = tileFactory->ProduceTile(TileFactory::CAVE_TILE, pos, scale, vel);
+				}
 				else if (key == "OOB") // outofbounds
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel);
