@@ -263,7 +263,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel);
 				}
-				else if (key == "OAB") // outofbounds
+				else if (key == "OOB") // outofbounds
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel);
 				}
@@ -319,7 +319,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				else if (key == "GATE")
 				{
 					pos.Set(xOffset + scale.x, yOffset + scale.y, 0);
-					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_WARP_GATE, pos, scale * 2);
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_WARP_GATE, pos, scale * 2);
 				}
 
 				if (tempEntity != nullptr)
