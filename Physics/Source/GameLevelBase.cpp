@@ -759,6 +759,35 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 	cleanupLists(false, &InteractableList);
 }
 
+void GameLevelBase::ChangeAllMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange)
+{
+}
+
+void GameLevelBase::ChangeIntObject(GameObject::GAMEOBJECT_TYPE Changeto, AdvanceGO* toChange)
+{
+}
+
+void GameLevelBase::ChangeAllIntObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange)
+{
+}
+
+void GameLevelBase::ChangeMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject* toChange)
+{
+	switch (Changeto)
+	{
+	case GameObject::BRICK_TILE:
+		break;
+	case GameObject::STONE_BRICK_TILE:
+		break;
+	case GameObject::SPIKE_TILE:
+		break;
+	case GameObject::SOIL_TILE:
+		break;
+	case GameObject::GRASS_SOIL_TILE:
+		break;
+	}
+}
+
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()
 {
 	return &projectileList;

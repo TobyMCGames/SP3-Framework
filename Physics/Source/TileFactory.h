@@ -11,8 +11,6 @@ public:
 		SPIKE,
 		SOIL,
 		GRASS_SOIL,
-		GRASS_SOIL_FLOWERS,
-		// leave this last
 		NUM_TILE
 	};
 
@@ -31,7 +29,6 @@ Tile* TileFactory::TilePrototypes[] = {
 	new Tile(GameObject::GAMEOBJECT_TYPE::SPIKE_TILE),
 	new Tile(GameObject::GAMEOBJECT_TYPE::SOIL_TILE),
 	new Tile(GameObject::GAMEOBJECT_TYPE::GRASS_SOIL_TILE),
-	new Tile(GameObject::GAMEOBJECT_TYPE::GRASS_SOIL_FLOWERS_TILE),
 };
 
 GameObject* TileFactory::getObject(int choice,Vector3 pos,Vector3 vel,Vector3 scale,Vector3 normal) {
