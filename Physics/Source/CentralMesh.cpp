@@ -116,6 +116,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_STAFF]->textureID = LoadTGA("Image//WEAPONS//staff_blue.tga");
 	meshList[GEO_PORTALGUN] = MeshBuilder::GenerateQuad("portal gun", Color(1, 1, 1));
 	meshList[GEO_PORTALGUN]->textureID = LoadTGA("Image//WEAPONS//portal_gun.tga");
+	meshList[GEO_BOMB] = MeshBuilder::GenerateSpriteAnimation("bomb ANimation", Color(1, 1, 1),3,3);
+	meshList[GEO_BOMB]->textureID = LoadTGA("Image//WEAPONS//Bomb_Animation.tga");
 
 	//Interactables
 	meshList[GEO_WEAPON_STATION] = MeshBuilder::GenerateQuad("Stone Pedastal", Color(1, 1, 1));

@@ -150,37 +150,37 @@ void PlayerClone::Update(double dt, float m_speed)
 	//	FireWeapon = true;
 		switch (this->curWeapon)
 		{
-			case BOW:
-			{
-				CSoundController::GetInstance()->PlaySoundByID(1);
-				Projectile* arrow =
-					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
-						this->pos + (this->normal * this->scale.x),this->normal,this->scale,this->normal);
-				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
-				cout << "arrow created" << endl;
-				break;
-			}
-			case STAFF:
-			{
-				CSoundController::GetInstance()->PlaySoundByID(2);
-				Projectile* magicBall =
-					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
-						this->pos + (this->normal * this->scale.x), this->normal, this->scale,this->normal);
+		case BOW:
+		{
+			CSoundController::GetInstance()->PlaySoundByID(1);
+			Projectile* arrow =
+				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
+					pos + (normal * scale.x), normal, Vector3(3.42f, 1.26f, 1.f), normal);
+			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
+			cout << "arrow created" << endl;
+			break;
+		}
+		case STAFF:
+		{
+			CSoundController::GetInstance()->PlaySoundByID(2);
+			Projectile* magicBall =
+				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
+					pos + (normal * scale.x), normal, Vector3(3.6f, 2.34f, 1.f), normal);
 
-				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
-				cout << "Magic ball created" << endl;
-				break;
-			}
-			case PORTALGUN:
-			{
-				CSoundController::GetInstance()->PlaySoundByID(3);
-				Projectile* portal =
-					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-						this->pos + (this->normal * this->scale.x),this->normal, this->scale,this->normal);
-				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
-				cout << "portal created" << endl;
-				break;
-			}
+			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
+			cout << "Magic ball created" << endl;
+			break;
+		}
+		case PORTALGUN:
+		{
+			CSoundController::GetInstance()->PlaySoundByID(3);
+			Projectile* portal =
+				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
+					pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f), normal);
+			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
+			cout << "portal created" << endl;
+			break;
+		}
 		}
 	}
 //	FireWeapon = false;

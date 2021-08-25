@@ -43,6 +43,7 @@ public:
 		GEO_GRASS_SOIL_FLOWERS_TILE,
 		GEO_SPIKE,
 
+		GEO_BOMB,
 		GEO_WARP_GATE_TILE,
 
 		//weapons

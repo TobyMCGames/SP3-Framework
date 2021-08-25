@@ -480,6 +480,11 @@ bool GameLevelBase::CheckWithinScreen(GameObject* go)
 	return true;
 }
 
+bool GameLevelBase::CheckobjSurrounding(GameObject* go)
+{
+	return false;
+}
+
 void GameLevelBase::CollisionChecks(double dt, float m_speed)
 {
 	int XTilesInWorld = getworldWidth() / (getTileWidth());
@@ -686,9 +691,9 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 
 				Vector3 FuturePos = projectile->pos + projectile->vel * dt * m_speed;
 				Vector3 FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
-				float angle = atan2f(FutureN.y, FutureN.y);
+				float angle = atan2f(FutureN.y, FutureN.x);
 				//Find how many tiles mob is away from left side
-				LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) / 2;
+				LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) *0.5;
 				XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
 				if (XnumTiles > 0)
 				{

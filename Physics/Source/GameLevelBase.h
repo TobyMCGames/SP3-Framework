@@ -57,6 +57,7 @@ public:
 	void cleanupList(std::vector<int>* indexlist);
 	void cleanupLists(bool clearAll,std::vector<AdvanceGO*>* advobjlist = nullptr , std::vector<GameObject*>* golist = nullptr);
 	bool CheckWithinScreen(GameObject* go);
+	bool CheckobjSurrounding(GameObject* go);
 	void CollisionChecks(double dt, float m_speed);
 
 	float m_speed;

@@ -8,8 +8,8 @@
 #include "MeshRender.h"
 
 Player::Player()
-	: curWeapon(Player::BOW)
-	, curItem(0)
+	: curWeapon(Player::BARE_HANDS)
+	, curItem(2)
 	, scrollsnap(0)
 	, PlayerAnimation(NULL)
 	, playerclone(nullptr)
@@ -166,137 +166,148 @@ void Player::Update(double dt, float m_speed)
 					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 					cout << "Magic ball created" << endl;
 					break;
-				}
-				case PORTALGUN:
-				{
-					CSoundController::GetInstance()->PlaySoundByID(3);
-					Projectile* portal =
-						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-							pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
-					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
-					cout << "portal created" << endl;
-					break;
-				}
 			}
-		}
-	if (controlled)
-	{
-		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
-		{
-			CSoundController::GetInstance()->PlaySoundByID(4);
-			vel.y += getJumpForce();
-			curLocation = IN_AIR;
-			PlayerAnimation->Reset();
-			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
-		}
-
-		/*float friction = 0.5;*/
-
-		if(!teleport)
-			vel.x = 0;
-
-		if (curLocation == ON_GROUND)
-		{
-			if (teleport)
-				vel.x = 0;
-			teleport = false;
-			PlayerAnimation->PlayAnimation("Idle", -1, 1);
-			if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) || cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+			case PORTALGUN:
 			{
-				PlayerAnimation->Reset();
-				PlayerAnimation->PlayAnimation("Walking", -1, 1.5);
+				CSoundController::GetInstance()->PlaySoundByID(3);
+				Projectile* portal =
+					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
+						pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
+				cout << "portal created" << endl;
+				break;
 			}
-		}
-		else if (curLocation == IN_AIR)
-		{
-			//vel.x *= 0.2 * dt * m_speed;
-			if (vel.y < 0)
-			{
-				PlayerAnimation->Reset();
-				PlayerAnimation->PlayAnimation("Falling", 1, 2);
-			}
-			//if (cKeyboardController->IsKeyDown(GLFW_KEY_D) && vel.x >= 0)
-			//{
-			//	vel.x -= friction *dt *m_speed;
-			//}
-			//if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && vel.x <= 0)
-			//{
-			//	vel.x += friction * dt * m_speed;
-			//}
-		}
-		if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
-		{
-			if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
-			{
-				vel.x = Default_Speed;
-				curDirection = RIGHT;
-			}
-		}
-
-		else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
-		{
-			if (pos.x - Default_Speed * dt > scale.x / 2)
-			{
-				vel.x = -Default_Speed;
-				curDirection = LEFT;
-			}
-		}
-
-		if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
-		{
-			vel.x = 0;
-			PlayerAnimation->PlayAnimation("Idle", -1, 1);
-		}
-
-		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
-		{
-			//cSoundController->PlaySoundByID(2);
-			CSoundController::GetInstance()->PlaySoundByID(4);
-			this->vel.y += getJumpForce();
-			this->curLocation = IN_AIR;
-			PlayerAnimation->Reset();
-			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
-		}
-	}
-
-		scrollsnap += Application::GetYScrollOffset();
-
-		if (scrollsnap > getScrollSensitivity())
-		{
-			curItem++;
-			scrollsnap = 0;
-		}
-		else if (scrollsnap < 0)
-		{
-			curItem--;
-			scrollsnap = getScrollSensitivity();
-		}
-		if (curItem < 0)
-		{
-			curItem = NUM_ITEMS - 1;
-		}
-		else if (curItem >= NUM_ITEMS)
-		{
-			curItem = 0;
 		}
 		switch (curItem)
 		{
-		case TREE_SEED:
-			//std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
-			curWeapon = PORTALGUN;
-			break;
-		case VINE_SEED:
-			//std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
-			curWeapon = BOW;
-			break;
-		case BOMBS:
-			//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
-			curWeapon = STAFF;
-			break;
-		default:
-			//std::cout << "Invalid curItem in Player.cpp" << std::endl;
+		case Items::BOMBS:
+			Projectile* bomb = 
+				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
+					pos + (normal * scale.x), normal, Vector3(3,3, 1), normal);
+			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
 			break;
 		}
+	}
+		
+		if (controlled)
+		{
+			if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+			{
+				CSoundController::GetInstance()->PlaySoundByID(4);
+				vel.y += getJumpForce();
+				curLocation = IN_AIR;
+				PlayerAnimation->Reset();
+				PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
+			}
+
+			/*float friction = 0.5;*/
+
+			if(!teleport)
+				vel.x = 0;
+
+			if (curLocation == ON_GROUND)
+			{
+				if (teleport)
+					vel.x = 0;
+				teleport = false;
+				PlayerAnimation->PlayAnimation("Idle", -1, 1);
+				if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) || cKeyboardController->IsKeyPressed(GLFW_KEY_D))
+				{
+					PlayerAnimation->Reset();
+					PlayerAnimation->PlayAnimation("Walking", -1, 1.5);
+				}
+			}
+			else if (curLocation == IN_AIR)
+			{
+				//vel.x *= 0.2 * dt * m_speed;
+				if (vel.y < 0)
+				{
+					PlayerAnimation->Reset();
+					PlayerAnimation->PlayAnimation("Falling", 1, 2);
+				}
+				//if (cKeyboardController->IsKeyDown(GLFW_KEY_D) && vel.x >= 0)
+				//{
+				//	vel.x -= friction *dt *m_speed;
+				//}
+				//if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && vel.x <= 0)
+				//{
+				//	vel.x += friction * dt * m_speed;
+				//}
+			}
+			if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
+			{
+				if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
+				{
+					vel.x = Default_Speed;
+					curDirection = RIGHT;
+				}
+			}
+
+			else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
+			{
+				if (pos.x - Default_Speed * dt > scale.x / 2)
+				{
+					vel.x = -Default_Speed;
+					curDirection = LEFT;
+				}
+			}
+
+			if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
+			{
+				vel.x = 0;
+				PlayerAnimation->PlayAnimation("Idle", -1, 1);
+			}
+
+			if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+			{
+				//cSoundController->PlaySoundByID(2);
+				CSoundController::GetInstance()->PlaySoundByID(4);
+				this->vel.y += getJumpForce();
+				this->curLocation = IN_AIR;
+				PlayerAnimation->Reset();
+				PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
+			}
+		}
+
+	scrollsnap += Application::GetYScrollOffset();
+
+	if (scrollsnap > getScrollSensitivity())
+	{
+		curItem++;
+		scrollsnap = 0;
+	}
+	else if (scrollsnap < 0)
+	{
+		curItem--;
+		scrollsnap = getScrollSensitivity();
+	}
+	if (curItem < 0)
+	{
+		curItem = NUM_ITEMS - 1;
+	}
+	else if (curItem >= NUM_ITEMS)
+	{
+		curItem = 0;
+	}
+	switch (curItem)
+	{
+	case TREE_SEED:
+		//std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+		curWeapon = PORTALGUN;
+		break;
+	case VINE_SEED:
+		//std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+		curWeapon = BOW;
+		break;
+	case BOMBS:
+		//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
+		curWeapon = STAFF;
+		break;
+	default:
+		//std::cout << "Invalid curItem in Player.cpp" << std::endl;
+		break;
+	}
+
 	if (curLocation == IN_AIR)
 	{
 		//cout << "In air" << endl;
