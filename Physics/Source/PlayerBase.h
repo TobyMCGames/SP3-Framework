@@ -42,7 +42,6 @@ public:
 	virtual void setControl(bool control)=0;
 	float getmana();
 	int gethealth();
-	
 
 protected:
 	PlayerBase();

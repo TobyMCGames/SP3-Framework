@@ -18,6 +18,7 @@ Player::Player()
 	, swap(false)
 	, Pexitspeed(0, 0, 0)
 	, isCompleted(false)
+	,isdead(false)
 {
 	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -75,7 +76,7 @@ void Player::Update(double dt, float m_speed)
 		else if (normal.x < 0)
 			curDirection = LEFT;
 	}
-
+	///// Slow time mechanic
 	static bool ShiftPressed = false;
 	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
@@ -101,6 +102,7 @@ void Player::Update(double dt, float m_speed)
 		SlowTimeEnd = false;
 	}
 
+	////// Create Clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
 		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false) // summon the clone
@@ -122,6 +124,7 @@ void Player::Update(double dt, float m_speed)
 		}
 		cKeyboardController->ResetKey(GLFW_KEY_R);
 	}
+	////// Switch to clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_TAB))
 	{
 		if ((playerclone != nullptr) && (curLocation != Entity::IN_AIR) && (getClone()->getCurLocation() != Entity::IN_AIR))
@@ -133,6 +136,15 @@ void Player::Update(double dt, float m_speed)
 		
 		cKeyboardController->ResetKey(GLFW_KEY_TAB);
 	}
+
+	/////// Switching Timeline Mechanic
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT))
+	{
+		ChangeTimeline();
+		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
+	}
+
+	/// Shooting Mechanic
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
 	{
@@ -145,7 +157,7 @@ void Player::Update(double dt, float m_speed)
 
 		//FireWeapon = true;
 		switch (curWeapon)
-			{
+		{
 			case BOW:
 			{
 				CSoundController::GetInstance()->PlaySoundByID(1);
@@ -166,82 +178,74 @@ void Player::Update(double dt, float m_speed)
 					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 					cout << "Magic ball created" << endl;
 					break;
-			}
-			case PORTALGUN:
-			{
-				CSoundController::GetInstance()->PlaySoundByID(3);
-				Projectile* portal =
-					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-						pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
-				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
-				cout << "portal created" << endl;
-				break;
+				}
+				case PORTALGUN:
+				{
+					CSoundController::GetInstance()->PlaySoundByID(3);
+					Projectile* portal =
+						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
+							pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
+					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
+					cout << "portal created" << endl;
+					break;
+				}
 			}
 		}
-		switch (curItem)
+	if (controlled)
+	{
+		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
 		{
-		case Items::BOMBS:
-			Projectile* bomb = 
-				ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
-					pos + (normal * scale.x), normal, Vector3(3,3, 1), normal);
-			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
-			break;
+			CSoundController::GetInstance()->PlaySoundByID(4);
+			vel.y += getJumpForce();
+			curLocation = IN_AIR;
+			PlayerAnimation->Reset();
+			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
 		}
-	}
-		
-		if (controlled)
-		{
-			if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
-			{
-				CSoundController::GetInstance()->PlaySoundByID(4);
-				vel.y += getJumpForce();
-				curLocation = IN_AIR;
-				PlayerAnimation->Reset();
-				PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
-			}
 
 			/*float friction = 0.5;*/
 
 			if(!teleport)
 				vel.x = 0;
 
-			if (curLocation == ON_GROUND)
+		if (curLocation == ON_GROUND)
+		{
+			if (teleport)
+				vel.x = 0;
+			teleport = false;
+			PlayerAnimation->PlayAnimation("Idle", -1, 1);
+			if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) || cKeyboardController->IsKeyPressed(GLFW_KEY_D))
 			{
-				if (teleport)
-					vel.x = 0;
-				teleport = false;
-				PlayerAnimation->PlayAnimation("Idle", -1, 1);
-				if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) || cKeyboardController->IsKeyPressed(GLFW_KEY_D))
-				{
-					PlayerAnimation->Reset();
-					PlayerAnimation->PlayAnimation("Walking", -1, 1.5);
-				}
+				PlayerAnimation->Reset();
+				PlayerAnimation->PlayAnimation("Walking", -1, 1.5);
 			}
-			else if (curLocation == IN_AIR)
+		}
+		else if (curLocation == IN_AIR)
+		{
+			float friction = 4;
+			if (vel.y < 0)
 			{
-				//vel.x *= 0.2 * dt * m_speed;
-				if (vel.y < 0)
-				{
-					PlayerAnimation->Reset();
-					PlayerAnimation->PlayAnimation("Falling", 1, 2);
-				}
-				//if (cKeyboardController->IsKeyDown(GLFW_KEY_D) && vel.x >= 0)
-				//{
-				//	vel.x -= friction *dt *m_speed;
-				//}
-				//if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && vel.x <= 0)
-				//{
-				//	vel.x += friction * dt * m_speed;
-				//}
+				PlayerAnimation->Reset();
+				PlayerAnimation->PlayAnimation("Falling", 1, 2);
 			}
-			if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
+			if (vel.x > 0.1)
 			{
-				if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
-				{
-					vel.x = Default_Speed;
-					curDirection = RIGHT;
-				}
+				vel.x -= friction * dt * m_speed;
 			}
+			else if (vel.x < -0.1 )
+			{
+				vel.x += friction * dt * m_speed;
+			}
+			else
+				vel.x = 0;
+		}
+		if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
+		{
+			if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
+			{
+				vel.x = Default_Speed;
+				curDirection = RIGHT;
+			}
+		}
 
 			else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
 			{
@@ -271,43 +275,43 @@ void Player::Update(double dt, float m_speed)
 
 	scrollsnap += Application::GetYScrollOffset();
 
-	if (scrollsnap > getScrollSensitivity())
-	{
-		curItem++;
-		scrollsnap = 0;
-	}
-	else if (scrollsnap < 0)
-	{
-		curItem--;
-		scrollsnap = getScrollSensitivity();
-	}
-	if (curItem < 0)
-	{
-		curItem = NUM_ITEMS - 1;
-	}
-	else if (curItem >= NUM_ITEMS)
-	{
-		curItem = 0;
-	}
-	switch (curItem)
-	{
-	case TREE_SEED:
-		//std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
-		curWeapon = PORTALGUN;
-		break;
-	case VINE_SEED:
-		//std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
-		curWeapon = BOW;
-		break;
-	case BOMBS:
-		//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
-		curWeapon = STAFF;
-		break;
-	default:
-		//std::cout << "Invalid curItem in Player.cpp" << std::endl;
-		break;
-	}
-
+		if (scrollsnap > getScrollSensitivity())
+		{
+			curItem++;
+			scrollsnap = 0;
+		}
+		else if (scrollsnap < 0)
+		{
+			curItem--;
+			scrollsnap = getScrollSensitivity();
+		}
+		if (curItem < 0)
+		{
+			curItem = NUM_ITEMS - 1;
+		}
+		else if (curItem >= NUM_ITEMS)
+		{
+			curItem = 0;
+		}
+		switch (curItem)
+		{
+		case TREE_SEED:
+			//std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			curWeapon = PORTALGUN;
+			break;
+		case VINE_SEED:
+			//std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			curWeapon = BOW;
+			break;
+		case BOMBS:
+			//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			//std::cout << "Bombs:" << Inventory[BOMBS] << endl;
+			curWeapon = STAFF;
+			break;
+		default:
+			//std::cout << "Invalid curItem in Player.cpp" << std::endl;
+			break;
+		}
 	if (curLocation == IN_AIR)
 	{
 		//cout << "In air" << endl;
@@ -436,6 +440,7 @@ void Player::Response(GameObject* go)
 			if (health <= 0)
 			{
 				dead();
+				isdead = true;
 			}
 		}
 	}
@@ -463,21 +468,38 @@ void Player::Response(GameObject* go)
 			}
 		}
 	}
+
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_E) && (controlled == true))
 	{
 		switch (go->type)
 		{
 		case WEAPON_STATION_BOW:
 			this->curWeapon = BOW;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WEAPON_STATION_STAFF:
 			this->curWeapon = STAFF;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
+			break;
+		case BOMB_CRATE:
+			Inventory[BOMBS]++;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
+			break;
+		case VINE_SEEDS:
+			Inventory[VINE_SEED]++;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
+			break;
+		case TREE_SEEDS:
+			Inventory[TREE_SEED]++;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WARP_GATE:
 			isCompleted = true;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		}
 	}
@@ -546,6 +568,12 @@ void Player::Render()
 SpriteAnimation* Player::getAnimation()
 {
 	return PlayerAnimation;
+}
+
+void Player::ChangeTimeline()
+{
+	GameLevelBase* level = GameLevelManager::GetInstance()->getcurrentLevel();
+	level->ChangeTimelineBlocks();
 }
 
 

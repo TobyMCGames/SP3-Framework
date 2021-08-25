@@ -36,3 +36,30 @@ struct WarpGate : public Interactables
 	virtual void Response(GameObject* go) {};
 	virtual void Render() {};
 };
+
+struct BombCrate : public Interactables
+{
+	BombCrate(GameObject::GAMEOBJECT_TYPE cratetype) { type = cratetype; };
+	~BombCrate() {};
+	virtual void Update(double dt, float m_speed) {};
+	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
+};
+
+struct VineSeeds : public Interactables
+{
+	VineSeeds(GameObject::GAMEOBJECT_TYPE gotype) { type = gotype; };
+	~VineSeeds() {};
+	virtual void Update(double dt, float m_speed) {};
+	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
+};
+
+struct TreeSeeds : public Interactables
+{
+	TreeSeeds(GameObject::GAMEOBJECT_TYPE gotype) { type = gotype; };
+	~TreeSeeds() {};
+	virtual void Update(double dt, float m_speed) {};
+	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
+};

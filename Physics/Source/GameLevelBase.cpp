@@ -263,6 +263,18 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel);
 				}
+				else if (key == "4") // cave tile
+				{
+					temp = tileFactory->ProduceTile(TileFactory::CAVE_TILE, pos, scale, vel);
+				}
+				else if (key == "5") // lava tile
+				{
+					temp = tileFactory->ProduceTile(TileFactory::LAVA_TILE, pos, scale, vel);
+				}
+				else if (key == "6") // lava tile
+				{
+					temp = tileFactory->ProduceTile(TileFactory::STONE_WATERFALL_TILE, pos, scale, vel);
+				}
 				else if (key == "OOB") // outofbounds
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel);
@@ -271,27 +283,27 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
 				}
-				else if (key == "5") // skelearcher
+				else if (key == "SA") // skelearcher
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
 				}
-				else if (key == "6") // spider
+				else if (key == "SS") // spider
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
 				}
-				else if (key == "7") //nymph
+				else if (key == "NYM") //nymph
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
 				}
-				else if (key == "8") //turret
+				else if (key == "TT") //turret
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::TURRET, pos, vel, scale);
 				}
-				else if (key == "9") // boomer
+				else if (key == "BM") // boomer
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
 				}
-				else if (key == "10")// demon lord
+				else if (key == "DL")// demon lord
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
 				}
@@ -315,6 +327,18 @@ bool GameLevelBase::loadMap(std::string file_path)
 				else if (key == "WP") // Weapon Station Portal
 				{
 					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_PORTAL_STATION, pos, scale);
+				}
+				else if (key == "BC") // Bomb Crate
+				{
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_BOMB_CRATE, pos, scale);
+				}
+				else if (key == "TS") // Tree seeds
+				{
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_TREE_SEEDS, pos, scale);
+				}
+				else if (key == "VS") // Vine seeds
+				{
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_VINE_SEEDS, pos, scale);
 				}
 				else if (key == "GATE")
 				{
@@ -769,6 +793,98 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 		//cleanupList(&cleanUpVector);
 	cleanupLists(false, &projectileList);
 	cleanupLists(false, &InteractableList);
+}
+
+GameObject* GameLevelBase::ChangeMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject* toChange)
+{
+	TileFactory* tileFactory = TileFactory::GetInstance();
+	GameObject* temp;
+	Vector3 scale;
+	Vector3 vel;
+	scale.Set(TILEWIDTH, TILEHEIGHT, 1);
+	vel.SetZero();
+	switch (Changeto)
+	{
+	case GameObject::BRICK_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::BRICK, toChange->pos, scale, vel);
+		break;
+	case GameObject::STONE_BRICK_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::STONEBRICK, toChange->pos, scale, vel);
+		break;
+	case GameObject::SPIKE_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::SPIKE, toChange->pos, scale, vel);
+		break;
+	case GameObject::SOIL_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::SOIL, toChange->pos, scale, vel);
+		break;
+	case GameObject::GRASS_SOIL_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::GRASS_SOIL, toChange->pos, scale, vel);
+		break;
+	default:
+		temp = nullptr;
+	}
+
+	return temp;
+}
+
+void GameLevelBase::ChangeAllMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange)
+{
+	for (int i = 0; i < map.size(); i++)
+	{
+		GameObject* temp = map[i];
+		if (temp == nullptr)
+			continue;
+
+		if (temp->type == toChange)
+		{
+			GameObject* tempTile = ChangeMapObject(Changeto, temp);
+			delete temp;
+			temp = nullptr;
+			map[i] = tempTile;
+		}
+	}
+}
+
+void GameLevelBase::ChangeIntObject(GameObject::GAMEOBJECT_TYPE Changeto, AdvanceGO* toChange)
+{
+}
+
+void GameLevelBase::ChangeAllIntObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange)
+{
+}
+
+void GameLevelBase::ChangeTimelineBlocks()
+{
+	for (int i = 0; i < map.size(); i++)
+	{
+		GameObject* temp;
+		temp = map[i];
+		if (temp == nullptr)
+			continue;
+
+		switch (temp->type)
+		{
+		case GameObject::BRICK_TILE:
+			temp = ChangeMapObject(GameObject::STONE_BRICK_TILE, temp);
+			break;
+		case GameObject::STONE_BRICK_TILE:
+			temp = ChangeMapObject(GameObject::BRICK_TILE, temp);
+			break;
+		case GameObject::SOIL_TILE:
+			temp = ChangeMapObject(GameObject::GRASS_SOIL_TILE, temp);
+			break;
+		case GameObject::GRASS_SOIL_TILE:
+			temp = ChangeMapObject(GameObject::SOIL_TILE, temp);
+			break;
+		default:
+			break;
+		}
+		if (temp == nullptr)
+			continue;
+
+		delete map[i];
+		map[i] = temp;
+	}
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()

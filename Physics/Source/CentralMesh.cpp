@@ -72,6 +72,8 @@ CentralMesh::CentralMesh()
 	// SCENE GUI
 	meshList[GUI_PAUSE] = MeshBuilder::GenerateQuad("pauseScreen", Color(1, 1, 1));
 	meshList[GUI_PAUSE]->textureID = LoadTGA("Image/GUI/PauseScreen.tga");
+	meshList[GUI_RETRY] = MeshBuilder::GenerateQuad("pauseScreen", Color(0.2, 0.2, 0.2));
+	//meshList[GUI_RETRY]->textureID = LoadTGA("Image/GUI/PauseScreen.tga");
 	meshList[GUI_BORDER] = MeshBuilder::GenerateQuad("Border", Color(1, 1, 1));
 	meshList[GUI_BORDER]->textureID = LoadTGA("Image/GUI/border.tga");
 	meshList[GUI_HEART] = MeshBuilder::GenerateQuad("Hearts_sprite", Color(1, 1, 1));
@@ -100,12 +102,23 @@ CentralMesh::CentralMesh()
 	meshList[GEO_SOIL_TILE]->textureID = LoadTGA("Image//TILE//Soil_Tile.tga");
 	meshList[GEO_GRASS_SOIL_TILE] = MeshBuilder::GenerateQuad("soil", Color(1, 1, 1));
 	meshList[GEO_GRASS_SOIL_TILE]->textureID = LoadTGA("Image//TILE//Grass_Soil_Tile.tga");
+	meshList[GEO_CAVE_TILE] = MeshBuilder::GenerateQuad("cave_tile", Color(1, 1, 1));
+	meshList[GEO_CAVE_TILE]->textureID = LoadTGA("Image//TILE//Cave_Tile.tga");
+	meshList[GEO_LAVA_TILE] = MeshBuilder::GenerateQuad("lava_tile", Color(1, 1, 1));
+	meshList[GEO_LAVA_TILE]->textureID = LoadTGA("Image//TILE//Lava_Tile.tga");
+	meshList[GEO_STONE_WATERFALL_TILE] = MeshBuilder::GenerateQuad("stone_waterfall_tile", Color(1, 1, 1));
+	meshList[GEO_STONE_WATERFALL_TILE]->textureID = LoadTGA("Image//TILE//Stone_Waterfall_Tile.tga");
 
-	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
 	meshList[GEO_WARP_GATE_TILE] = MeshBuilder::GenerateQuad("warpgate", Color(1, 1, 1));
 	meshList[GEO_WARP_GATE_TILE]->textureID = LoadTGA("Image//TILE//Warp_Gate_Tile.tga");
+	meshList[GEO_BOMB_CRATE] = MeshBuilder::GenerateQuad("bomb crate", Color(1, 1, 1));
+	meshList[GEO_BOMB_CRATE]->textureID = LoadTGA("Image//InteractiveBlocks//bombcrate.tga");
+	meshList[GEO_TREE_SEEDS] = MeshBuilder::GenerateQuad("tree seeds", Color(1, 1, 1));
+	meshList[GEO_TREE_SEEDS]->textureID = LoadTGA("Image//InteractiveBlocks//treeSapling.tga");
+	meshList[GEO_VINE_SEEDS] = MeshBuilder::GenerateQuad("vine seeds", Color(1, 1, 1));
+	meshList[GEO_VINE_SEEDS]->textureID = LoadTGA("Image//InteractiveBlocks//smallVine.tga");
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("Player", Color(1, 1, 1), 2, 6, 1.f);
 	meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//playerAnimation.tga");
 
@@ -155,7 +168,7 @@ CentralMesh::CentralMesh()
 	meshList[GEO_SKELEARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
 	meshList[GEO_SKELEARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow.tga");
 	meshList[GEO_SPIDERWEB] = MeshBuilder::GenerateQuad("spiderweb", Color(1, 1, 1));
-	meshList[GEO_SPIDERWEB]->textureID = LoadTGA("Image//Cobweb.tga");
+	meshList[GEO_SPIDERWEB]->textureID = LoadTGA("Image//PROJECTILES//Cobweb.tga");
 
 	// BACKGROUND
 	meshList[GO_BACKGROUND_1] = MeshBuilder::GenerateQuad("background 1", Color(1, 1, 1));

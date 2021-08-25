@@ -6,6 +6,7 @@
 #include "SceneBase.h"
 #include "SceneGame.h"
 #include "Player.h"
+#include "GameLevelManager.h"
 
 class SceneGUI : public SceneBase, public SingletonPattern<SceneGUI>
 {
@@ -19,6 +20,7 @@ public:
 	virtual void Exit();
 	void renderGUI();
 	bool RenderPause;
+	bool RenderRetry;
 
 protected:
 	SceneGUI();
@@ -27,6 +29,7 @@ protected:
 	float m_worldWidth;
 	float m_worldHeight;
 	Color ContButton;
+	Color RetryButton;
 	Color MenuButton;
 	Color QuitButton;
 

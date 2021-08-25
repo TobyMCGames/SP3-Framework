@@ -12,9 +12,10 @@ public:
 		SPIKE,
 		SOIL,
 		GRASS_SOIL,
-		GRASS_SOIL_FLOWERS,
+		CAVE_TILE,
+		LAVA_TILE,
+		STONE_WATERFALL_TILE,
 		OOB_TILE,
-		// leave this last
 		NUM_TILE
 	};
 	GameObject* ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 scale, Vector3 vel = Vector3(0, 0, 0), Vector3 normal = Vector3(1, 0, 0));
