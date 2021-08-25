@@ -14,12 +14,13 @@ void PlayerBase::Update(double dt, float m_speed)
 
 void PlayerBase::Response(GameObject* go)
 {
-
+	
 }
 
 void PlayerBase::dead()
 {
-
+	//this->active = false;
+	std::cout << "you dieded" << std::endl;
 }
 
 int PlayerBase::getScrollSensitivity()

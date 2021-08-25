@@ -73,7 +73,6 @@ void Player::Update(double dt, float m_speed)
 			curDirection = LEFT;
 	}
 
-
 	static bool ShiftPressed = false;
 	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
@@ -261,7 +260,6 @@ void Player::Update(double dt, float m_speed)
 		{
 			curItem = 0;
 		}
-
 		switch (curItem)
 		{
 		case TREE_SEED:
@@ -372,6 +370,10 @@ void Player::Response(GameObject* go)
 			curLocation = ON_GROUND;
 		}
 	}
+
+	if (go->type == GameObject::OUTOFBOUNDS_TILE)
+		dead();
+
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
 		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET))
 	{

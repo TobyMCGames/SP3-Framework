@@ -42,10 +42,12 @@ protected:
 	bool teleport;
 	float webbedTimeLeft;
 	
+	
 private:
 	Player();
 	~Player();
 	SpriteAnimation* PlayerAnimation;
+	Vector3 m_force;
 
 };
 

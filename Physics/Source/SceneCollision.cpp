@@ -28,11 +28,11 @@ void SceneCollision::Init()
 	m_objectCount = 0;
 
 	Math::InitRNG();
-	loadMap("Maps//SideScrollmap.csv");
+	loadMap("Maps//Level4.csv");
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 		getworldWidth(),getworldHeight());
 	camera->setpanTarget(player);
-	
+	//camera->setDebugMode();
 }
 
 GameObject* SceneCollision::FetchGO()
@@ -206,7 +206,8 @@ bool SceneCollision::Update(double dt)
 	{
 		RButtonState = false;
 	}
-
+	if (player == nullptr || player->active == false)
+		return false;
 	player->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
 	if(player->getClone() != nullptr)
 		player->getClone()->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
@@ -260,7 +261,8 @@ void SceneCollision::Render()
 			continue;
 		if (go->active)
 		{
-			RenderGO(go);
+			if (go->type != GameObject::OUTOFBOUNDS_TILE)
+				RenderGO(go);
 		}
 	}
 

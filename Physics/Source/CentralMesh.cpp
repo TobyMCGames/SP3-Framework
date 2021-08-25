@@ -43,6 +43,7 @@ int CentralMesh::GetTextWidth(int ID)
 	return textWidth[ID];
 }
 
+
 CentralMesh::CentralMesh()
 {
 	for (int i = 0; i < NUM_GEOMETRY; ++i)
@@ -52,8 +53,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	meshList[GEO_BALL] = MeshBuilder::GenerateSphere("ball", Color(1, 1, 1), 10, 10, 1.f);
 	meshList[GEO_CYLINDER] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 1, 1), 20, 1.f, 1.f);
-	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 1,1), 2.f);
-	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("Quad", Color(0, 1, 0));
+	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1,1,1), 2.f);
+	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("Quad", Color(1, 0, 0));
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 	meshList[GEO_TEXT]->material.kAmbient.Set(1, 0, 0);

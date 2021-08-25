@@ -23,6 +23,11 @@ GameLevelBase::~GameLevelBase()
 
 void GameLevelBase::RenderPlayer()
 {
+	if (player->isControl())
+		centralMesh->ChangeMat(CentralMesh::GEO_QUAD, Color(0.f, 1.f, 0.f), 1.0f, 0.1f, 0.1f, 0.1f);
+	else
+		centralMesh->ChangeMat(CentralMesh::GEO_QUAD, Color(1.f, 0.f, 0.f), 1.0f, 0.1f, 0.1f, 0.1f);
+
 	modelStack->PushMatrix();
 	{
 		modelStack->Translate(player->pos.x, player->pos.y, player->pos.z + zOffset);
@@ -33,7 +38,6 @@ void GameLevelBase::RenderPlayer()
 				modelStack->Rotate(180, 0, 1, 0);
 
 			modelStack->Scale(player->scale.x, player->scale.y, player->scale.z);
-			//RenderMesh(meshList[GEO_PLAYER], false);
 			player->Render();
 		}
 		modelStack->PopMatrix();
@@ -62,15 +66,13 @@ void GameLevelBase::RenderPlayer()
 			modelStack->PopMatrix();
 		}
 		modelStack->PopMatrix();
-		if (player->isControl())
-		{
 			modelStack->PushMatrix();
-			modelStack->Translate(0, 5.f, zOffset);
-			modelStack->Rotate(45, 0, 0, 1);
-			meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD), false);
-			zOffset += 0.001f;
+				modelStack->Translate(0, 5.f, zOffset);
+				modelStack->Rotate(45, 0, 0, 1);
+				meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),true);
+				zOffset += 0.001f;
 			modelStack->PopMatrix();
-		}
+
 	}
 	modelStack->PopMatrix();
 	if (cloned == true)
@@ -81,6 +83,10 @@ void GameLevelBase::RenderPlayer()
 
 void GameLevelBase::RenderPlayerClone()
 {
+	if (player->getClone()->isControl())
+		centralMesh->ChangeMat(CentralMesh::GEO_QUAD, Color(0.f, 1.f, 0.f), 1.0f, 0.1f, 0.1f, 0.1f);
+	else
+		centralMesh->ChangeMat(CentralMesh::GEO_QUAD, Color(1.f, 0.f, 0.f), 1.0f, 0.1f, 0.1f, 0.1f);
 	modelStack->PushMatrix();
 	{
 		modelStack->Translate(player->getClone()->getpos().x, player->getClone()->getpos().y, player->getClone()->getpos().z + zOffset);
@@ -91,7 +97,6 @@ void GameLevelBase::RenderPlayerClone()
 				modelStack->Rotate(180, 0, 1, 0);
 
 			modelStack->Scale(player->getClone()->getscale().x, player->getClone()->getscale().y, player->getClone()->getscale().z);
-			//RenderMesh(meshList[GEO_PLAYER], false);
 			player->getClone()->Render();
 		}
 		modelStack->PopMatrix();
@@ -121,15 +126,12 @@ void GameLevelBase::RenderPlayerClone()
 		}
 		modelStack->PopMatrix();
 	}
-	if (player->getClone()->isControl())
-	{
 		modelStack->PushMatrix();
 		modelStack->Translate(0,5.f,zOffset);
 		modelStack->Rotate(45, 0, 0, 1);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),false);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),true);
 		zOffset += 0.001f;
 		modelStack->PopMatrix();
-	}
 	modelStack->PopMatrix();
 	zOffset += 0.001f;
 }
@@ -177,7 +179,6 @@ void GameLevelBase::swapcontrols(double dt)
 		player->getAnimation()->Reset();
 		player->getAnimation()->PlayAnimation("Idle",-1,1);
 		meshRender->GetCamera()->setpanTarget(player->getClone());
-		//meshRender->GetCamera()->setPanning(true);
 	}
 	else if (player->isControl() == false)
 	{
@@ -190,7 +191,6 @@ void GameLevelBase::swapcontrols(double dt)
 		player->getClone()->getAnimation()->Reset();
 		player->getClone()->getAnimation()->PlayAnimation("CloneIdle", -1, 1);
 		meshRender->GetCamera()->setpanTarget(player);
-		//meshRender->GetCamera()->setPanning(true);
 	}
 }
 
@@ -227,7 +227,9 @@ bool GameLevelBase::loadMap(std::string file_path)
 	}
 	float xOffset = 0, yOffset = 0;
 	std::string key = "";
-
+	EntityFactory* entityFactory = EntityFactory::GetInstance();
+	InteractableFactory* interactableFactory = InteractableFactory::GetInstance();
+	TileFactory* tileFactory = TileFactory::GetInstance();
 	for (int row = linesinreverse.size()-1; row >= 0; row--)
 	{
 		for (int col = 0; col < linesinreverse[row].size(); col++)
@@ -248,45 +250,50 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 
 				}
+				// note tilefactory takes in scale first then vel.
 				else if (key == "1") // brick
 				{
-					temp = TileFactory::getObject(TileFactory::BRICK, pos, vel, scale);
+					temp = tileFactory->ProduceTile(TileFactory::BRICK, pos,scale,vel);
 				}
 				else if (key == "2") // stonebrick
 				{
-					temp = TileFactory::getObject(TileFactory::STONEBRICK, pos, vel, scale);
+					temp = tileFactory->ProduceTile(TileFactory::STONEBRICK, pos, scale, vel);
 				}
 				else if (key == "3") // spike
 				{
-					temp = TileFactory::getObject(TileFactory::SPIKE, pos, vel, scale);
+					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel);
+				}
+				else if (key == "OAB") // outofbounds
+				{
+					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel);
 				}
 				else if (key == "4") // zombie
 				{
-					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
 				}
 				else if (key == "5") // skelearcher
 				{
-					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
 				}
 				else if (key == "6") // spider
 				{
-					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
 				}
 				else if (key == "7") //nymph
 				{
-					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
 				}
 				else if (key == "8") //turret
 				{
-					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::TURRET, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::TURRET, pos, vel, scale);
 				}
 				else if (key == "9") // boomer
 				{
-					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
 				}
 				else if (key == "10")// demon lord
 				{
-					tempEntity = EntityFactory::GetInstance()->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
 				}
 				else if (key == "P")//player
 				{
@@ -299,17 +306,17 @@ bool GameLevelBase::loadMap(std::string file_path)
 				}
 				else if (key == "WB") // Weapon Station Bow
 				{
-					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_BOW_STATION, pos, scale);
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_BOW_STATION, pos, scale);
 				}
 				else if (key == "WS") // Weapon Station Staff
 				{
-					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_STAFF_STATION, pos, scale);
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_STAFF_STATION, pos, scale);
 				}
 				else if (key == "WP") // Weapon Station Portal
 				{
-					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_PORTAL_STATION, pos, scale);
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_PORTAL_STATION, pos, scale);
 				}
-
+				
 				if (tempEntity != nullptr)
 				{
 					EntityList.push_back(tempEntity);
