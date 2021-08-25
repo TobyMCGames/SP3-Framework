@@ -13,6 +13,7 @@ Zombie::Zombie()
 	damage = 15;
 	attackSoundTimer = 0;
 	idleSoundTimer = 0;
+	jump = false;
 }
 
 Zombie::~Zombie()
@@ -124,6 +125,7 @@ void Zombie::Update(double dt, float m_speed)
 		attackSoundTimer = 0;
 	}
 	//cout << "Collide Pos: "<< GamePhysics::GetInstance()->GetCollidePos() << endl;
+
 }
 
 void Zombie::Response(GameObject* go)
@@ -157,12 +159,20 @@ void Zombie::Response(GameObject* go)
 				
 			}
 		}
+		if (currState == ATTACK)
+		{
+			if ((GamePhysics::GetInstance()->GetCollidePos() == COL_LEFT || GamePhysics::GetInstance()->GetCollidePos() == COL_RIGHT) && curLocation == ON_GROUND)
+			{
+				vel.y += JumpForce;
+				curLocation = IN_AIR;
+			}
+		}
 	}
 	if (go->type == GameObject::GO_ARROW ||
-		go->type == GameObject::GO_PORTAL ||
 		go->type == GameObject::GO_MAGICBALL) // player damage zombie
 	{
 		takeDamage(go->damage);
+		go->active = false;
 
 		if (health <= 0)
 		{
@@ -178,6 +188,14 @@ void Zombie::Response(GameObject* go)
 			else if (randHurtSound == 1)
 				CSoundController::GetInstance()->PlaySoundByID(12);
 		}
+	}
+	//attack player
+	if (go->type == GameObject::GO_PLAYER)
+	{
+		//if (pos.x <= (go->pos.x + go->scale.x / 2))
+		//{
+			cout << "touched player" << endl;
+		//}
 	}
 }
 

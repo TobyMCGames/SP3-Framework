@@ -8,15 +8,16 @@
 #include "MeshRender.h"
 
 Player::Player()
-	: curWeapon(Player::PORTALGUN)
+	: curWeapon(Player::BOW)
 	, curItem(0)
 	, scrollsnap(0)
 	, PlayerAnimation(NULL)
-	,playerclone(nullptr)
-	,cloneinited(false)
-	,controlled(true)
-	,swap(false)
-	,Pexitspeed(0,0,0)
+	, playerclone(nullptr)
+	, cloneinited(false)
+	, controlled(true)
+	, swap(false)
+	, Pexitspeed(0, 0, 0)
+	, isCompleted(false)
 {
 	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -35,6 +36,7 @@ Player::Player()
 	SlowTimeEnd = false;
 	isWebbedBySpider = false;
 	teleport = false;
+	//friction = 0;
 
 	// Init sprite
 	PlayerAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_PLAYER));
@@ -47,6 +49,7 @@ Player::Player()
 
 Player::~Player()
 {
+	delete PlayerAnimation;
 }
 
 
@@ -148,7 +151,7 @@ void Player::Update(double dt, float m_speed)
 				CSoundController::GetInstance()->PlaySoundByID(1);
 				Projectile* arrow =
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
-						pos + (normal * scale.x), normal,scale, normal);
+						pos + (normal * scale.x), normal, Vector3(3.42f, 1.26f, 1.f) , normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
@@ -158,7 +161,7 @@ void Player::Update(double dt, float m_speed)
 				CSoundController::GetInstance()->PlaySoundByID(2);
 				Projectile* magicBall =
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
-						pos + (normal * scale.x), normal, scale, normal);
+						pos + (normal * scale.x), normal, Vector3(3.6f, 2.34f, 1.f) , normal);
 
 					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 					cout << "Magic ball created" << endl;
@@ -169,7 +172,7 @@ void Player::Update(double dt, float m_speed)
 					CSoundController::GetInstance()->PlaySoundByID(3);
 					Projectile* portal =
 						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-							pos + (normal * scale.x), normal, scale, normal);
+							pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
 					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 					cout << "portal created" << endl;
 					break;
@@ -187,9 +190,16 @@ void Player::Update(double dt, float m_speed)
 			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
 		}
 
-		vel.x = 0;
+		/*float friction = 0.5;*/
+
+		if(!teleport)
+			vel.x = 0;
+
 		if (curLocation == ON_GROUND)
 		{
+			if (teleport)
+				vel.x = 0;
+			teleport = false;
 			PlayerAnimation->PlayAnimation("Idle", -1, 1);
 			if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) || cKeyboardController->IsKeyPressed(GLFW_KEY_D))
 			{
@@ -199,11 +209,20 @@ void Player::Update(double dt, float m_speed)
 		}
 		else if (curLocation == IN_AIR)
 		{
+			//vel.x *= 0.2 * dt * m_speed;
 			if (vel.y < 0)
 			{
 				PlayerAnimation->Reset();
 				PlayerAnimation->PlayAnimation("Falling", 1, 2);
 			}
+			//if (cKeyboardController->IsKeyDown(GLFW_KEY_D) && vel.x >= 0)
+			//{
+			//	vel.x -= friction *dt *m_speed;
+			//}
+			//if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && vel.x <= 0)
+			//{
+			//	vel.x += friction * dt * m_speed;
+			//}
 		}
 		if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 		{
@@ -264,12 +283,15 @@ void Player::Update(double dt, float m_speed)
 		{
 		case TREE_SEED:
 			//std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			curWeapon = PORTALGUN;
 			break;
 		case VINE_SEED:
 			//std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			curWeapon = BOW;
 			break;
 		case BOMBS:
 			//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			curWeapon = STAFF;
 			break;
 		default:
 			//std::cout << "Invalid curItem in Player.cpp" << std::endl;
@@ -299,6 +321,15 @@ void Player::Update(double dt, float m_speed)
 	else
 	{
 		Default_Speed = 15;
+	}
+
+	if (InvincibilityTimer > 0)
+	{
+		InvincibilityTimer -= dt * m_speed;
+	}
+	else
+	{
+		curState = STATE_NORMAL;
 	}
 }
 
@@ -377,38 +408,48 @@ void Player::Response(GameObject* go)
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
 		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET))
 	{
-		takeDamage(go->damage);
-		int randHurtSound = rand() % 3;
-
-		if (randHurtSound == 0)
-			CSoundController::GetInstance()->PlaySoundByID(5);
-		else if (randHurtSound == 1)
-			CSoundController::GetInstance()->PlaySoundByID(6);
-		else if (randHurtSound == 2)
-			CSoundController::GetInstance()->PlaySoundByID(7);
-
-		if (health <= 0)
+		if (curState == STATE_NORMAL)
 		{
-			dead();
+			takeDamage(go->damage);
+			curState = STATE_INVINCIBLE;
+			InvincibilityTimer = 1.5;
+			int randHurtSound = rand() % 3;
+
+			if (randHurtSound == 0)
+				CSoundController::GetInstance()->PlaySoundByID(5);
+			else if (randHurtSound == 1)
+				CSoundController::GetInstance()->PlaySoundByID(6);
+			else if (randHurtSound == 2)
+				CSoundController::GetInstance()->PlaySoundByID(7);
+
+			if (health <= 0)
+			{
+				dead();
+			}
 		}
 	}
 	if (go->type == GameObject::GO_SPIDERWEB)
 	{
 		isWebbedBySpider = true;
 		webbedTimeLeft = 3.f;
-		takeDamage(go->damage);
-		int randHurtSound = rand() % 3;
-
-		if (randHurtSound == 0)
-			CSoundController::GetInstance()->PlaySoundByID(5);
-		else if (randHurtSound == 1)
-			CSoundController::GetInstance()->PlaySoundByID(6);
-		else if (randHurtSound == 2)
-			CSoundController::GetInstance()->PlaySoundByID(7);
-
-		if (health <= 0)
+		if (curState == STATE_NORMAL)
 		{
-			dead();
+			takeDamage(go->damage);
+			curState = STATE_INVINCIBLE;
+			InvincibilityTimer = 1.5;
+			int randHurtSound = rand() % 3;
+
+			if (randHurtSound == 0)
+				CSoundController::GetInstance()->PlaySoundByID(5);
+			else if (randHurtSound == 1)
+				CSoundController::GetInstance()->PlaySoundByID(6);
+			else if (randHurtSound == 2)
+				CSoundController::GetInstance()->PlaySoundByID(7);
+
+			if (health <= 0)
+			{
+				dead();
+			}
 		}
 	}
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_E) && (controlled == true))
@@ -424,14 +465,13 @@ void Player::Response(GameObject* go)
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
 			break;
+		case WARP_GATE:
+			isCompleted = true;
+			break;
 		}
 	}
 	if (go->type == GameObject::PORTAL_GATE_ENTRANCE)
 	{
-		/*if (teleport == true)
-		{
-			return;
-		}*/
 
 		for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
 		{
@@ -439,11 +479,13 @@ void Player::Response(GameObject* go)
 			{
 				if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i) != go)
 				{
-					//teleport = true;
+					teleport = true;
 					Vector3 portalN = GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->normal;
 					Vector3 portalPos = GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos;
 					float angle;
-					angle = acosf((-portalN).Dot(go->normal) / (portalN.Length() * go->normal.Length()));
+					angle = atan2f(go->normal.y, go->normal.x);
+					Vector3 ExitN = portalN.Rotated(Math::RadianToDegree(-angle));
+					angle = atan2f(-ExitN.y, -ExitN.x);
 					vel.Rotate(Math::RadianToDegree(angle));
 					//if portal facing right
 					if (portalN.x == 1)
@@ -465,8 +507,6 @@ void Player::Response(GameObject* go)
 					{
 						pos.Set(portalPos.x, portalPos.y + (go->scale.y + 0.1));
 					}
-					
-
 					break;
 				}
 				else

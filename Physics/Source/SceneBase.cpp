@@ -163,7 +163,8 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack->Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_MAGICBALL), false);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_MAGICBALL), false);
+		go->Render();
 		modelStack->PopMatrix();
 		break;
 
@@ -334,6 +335,12 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PopMatrix();
 		modelStack->PopMatrix();
 		break;
+	case GameObject::WARP_GATE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_WARP_GATE_TILE), false);
+		modelStack->PopMatrix();
 	}
 	zOffset += 0.001f;
 }
@@ -350,5 +357,9 @@ void SceneBase::Destroy()
 
 void SceneBase::Exit()
 {
-	
+	camera = nullptr;
+	modelStack = nullptr;
+	viewStack = nullptr;
+	projectionStack = nullptr;
+	cKeyboardController = nullptr;
 }

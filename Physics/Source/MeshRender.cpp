@@ -104,6 +104,7 @@ MeshRender::MeshRender()
 MeshRender::~MeshRender()
 {
 	centralMesh->DestroyInstance();
+	centralMesh = nullptr;
 
 	glDeleteProgram(m_programID);
 	glDeleteVertexArrays(1, &m_vertexArrayID);

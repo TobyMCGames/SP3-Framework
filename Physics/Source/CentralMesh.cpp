@@ -104,8 +104,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
-	//meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 1, 1));
-	//meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//player.tga");
+	meshList[GEO_WARP_GATE_TILE] = MeshBuilder::GenerateQuad("warpgate", Color(1, 1, 1));
+	meshList[GEO_WARP_GATE_TILE]->textureID = LoadTGA("Image//TILE//Warp_Gate_Tile.tga");
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("Player", Color(1, 1, 1), 2, 6, 1.f);
 	meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//playerAnimation.tga");
 
@@ -142,8 +142,8 @@ CentralMesh::CentralMesh()
 	//Weapons
 	meshList[GEO_ARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
 	meshList[GEO_ARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow_hitbox.tga");
-	meshList[GEO_MAGICBALL] = MeshBuilder::GenerateQuad("magicball", Color(1, 1, 1));
-	meshList[GEO_MAGICBALL]->textureID = LoadTGA("Image//PROJECTILES//energy_ball_hitbox.tga");
+	meshList[GEO_MAGICBALL] = MeshBuilder::GenerateSpriteAnimation("magicball", Color(1, 1, 1), 2, 3, 1.f);
+	meshList[GEO_MAGICBALL]->textureID = LoadTGA("Image//PROJECTILES//energy_ball_animation_hitbox.tga");
 	meshList[GEO_PORTAL] = MeshBuilder::GenerateQuad("portal", Color(1, 1, 1));
 	meshList[GEO_PORTAL]->textureID = LoadTGA("Image//PROJECTILES//portal_hitbox.tga");
 

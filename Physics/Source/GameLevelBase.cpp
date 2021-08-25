@@ -267,7 +267,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel);
 				}
-				else if (key == "4") // zombie
+				else if (key == "Z") // zombie
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
 				}
@@ -316,7 +316,12 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_PORTAL_STATION, pos, scale);
 				}
-				
+				else if (key == "GATE")
+				{
+					pos.Set(xOffset + scale.x, yOffset + scale.y, 0);
+					tempInteract = InteractableFactory::GetInstance()->produceInteractable(InteractableFactory::PTYPE_WARP_GATE, pos, scale * 2);
+				}
+
 				if (tempEntity != nullptr)
 				{
 					EntityList.push_back(tempEntity);
@@ -604,10 +609,41 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 			}
 		}
 		// projectile cleanup
-		//if (cleanUpVector.size() != 0)
-		//	cleanupList(&cleanUpVector);
 		if (projectileList.size() != 0)
 			cleanupLists(false, &projectileList);
+
+		for (int j = i + 1; j < EntityList.size(); j++)
+		{
+			AdvanceGO* mob2 = EntityList[j];
+			if (mob2 == nullptr)
+				continue;
+			if (!mob2->active)
+				continue;
+			if (mob2->type == GameObject::GO_PLAYER || mob2->type == GameObject::GO_PLAYERCLONE)
+			{
+				AdvanceGO* temp = mob1;
+				mob1 = mob2;
+				mob2 = temp;
+			}
+			if ((mob1->type == GameObject::GO_PLAYER || mob1->type == GameObject::GO_PLAYERCLONE))
+			{
+				if (GamePhysics::GetInstance()->CheckCollision(mob1, mob2, dt, GAMESPEED))
+				{
+					GamePhysics::GetInstance()->CheckCollisionResponse(mob1, mob2, dt, GAMESPEED);
+					//cout << "Collided" << endl;
+					break;
+				}
+			}
+			else
+			{
+				if (GamePhysics::GetInstance()->CheckCollision(mob1, mob2, dt, m_speed))
+				{
+					GamePhysics::GetInstance()->CheckCollisionResponse(mob1, mob2, dt, m_speed);
+					//cout << "Collided" << endl;
+					break;
+				}
+			}
+		}
 
 		///////  Only player or clone  can collide with
 		if (mob1->type != GameObject::GO_PLAYER && mob1->type != GameObject::GO_PLAYERCLONE)
@@ -708,6 +744,8 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 
 					}
 				}
+
+				//for (int j = 0; j < InteractableList)
 			}
 			else // delete projectile if they are no longer on screen
 			{
