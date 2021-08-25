@@ -22,6 +22,9 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 		case CAVE_TILE:
 			newTile->type = GameObject::CAVE_TILE;
 			break;
+		case LAVA_TILE:
+			newTile->type = GameObject::LAVA_TILE;
+			break;
 		case OOB_TILE:
 			newTile->type = GameObject::OUTOFBOUNDS_TILE;
 			break;

@@ -104,6 +104,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_GRASS_SOIL_TILE]->textureID = LoadTGA("Image//TILE//Grass_Soil_Tile.tga");
 	meshList[GEO_CAVE_TILE] = MeshBuilder::GenerateQuad("cave_tile", Color(1, 1, 1));
 	meshList[GEO_CAVE_TILE]->textureID = LoadTGA("Image//TILE//Cave_Tile.tga");
+	meshList[GEO_LAVA_TILE] = MeshBuilder::GenerateQuad("lava_tile", Color(1, 1, 1));
+	meshList[GEO_LAVA_TILE]->textureID = LoadTGA("Image//TILE//Lava_Tile.tga");
 
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");

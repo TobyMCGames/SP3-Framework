@@ -13,6 +13,7 @@ public:
 		SOIL,
 		GRASS_SOIL,
 		CAVE_TILE,
+		LAVA_TILE,
 		OOB_TILE,
 		NUM_TILE
 	};
