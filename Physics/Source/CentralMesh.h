@@ -68,11 +68,11 @@ public:
 		GEO_ARROW,
 		GEO_MAGICBALL,
 		GEO_PORTAL,
-		GEO_SPIDERWEB,
 
 		//enemy projectiles
 		GEO_TURRETBULLET,
 		GEO_SKELEARROW,
+		GEO_SPIDERWEB,
 
 		NUM_GEOMETRY,
 	};
