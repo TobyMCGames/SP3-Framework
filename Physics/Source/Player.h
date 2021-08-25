@@ -25,6 +25,8 @@ public:
 	virtual void Render();
 	SpriteAnimation* getAnimation();
 	int portalCounter;
+
+	bool isCompleted;
 	
 protected:
 	int Inventory[NUM_ITEMS];
@@ -43,10 +45,12 @@ protected:
 	float webbedTimeLeft;
 	//float friction;
 	
+	
 private:
 	Player();
 	~Player();
 	SpriteAnimation* PlayerAnimation;
+	Vector3 m_force;
 
 };
 

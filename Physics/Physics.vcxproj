@@ -202,6 +202,7 @@
     <ClCompile Include="Source\SpiderWeb.cpp" />
     <ClCompile Include="Source\SpriteAnimation.cpp" />
     <ClCompile Include="Source\Tile.cpp" />
+    <ClCompile Include="Source\TileFactory.cpp" />
     <ClCompile Include="Source\Turret.cpp" />
     <ClCompile Include="Source\TurretBullet.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
@@ -244,7 +245,6 @@
     <ClInclude Include="Source\Portal.h" />
     <ClInclude Include="Source\Projectile.h" />
     <ClInclude Include="Source\ProjectileFactory.h" />
-    <ClInclude Include="Source\Prototype.h" />
     <ClInclude Include="Source\EntityFactory.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneBase.h" />

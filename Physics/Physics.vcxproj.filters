@@ -230,6 +230,9 @@
     <ClCompile Include="Source\SoundInfo.cpp">
       <Filter>Source Files\Sounds</Filter>
     </ClCompile>
+    <ClCompile Include="Source\TileFactory.cpp">
+      <Filter>DesignPatterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -303,9 +306,6 @@
     </ClInclude>
     <ClInclude Include="Source\SceneCamera.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Prototype.h">
-      <Filter>DesignPatterns</Filter>
     </ClInclude>
     <ClInclude Include="Source\Arrow.h">
       <Filter>Header Files\Projectiles</Filter>

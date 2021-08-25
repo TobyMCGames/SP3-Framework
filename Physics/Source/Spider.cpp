@@ -127,7 +127,7 @@ void Spider::Update(double dt, float m_speed)
 		{
 			if (StateCounter > MaxStateCounter)
 			{
-				currState = PATROL;
+				currState = IDLE;
 				StateCounter = 0;
 				cout << "ATTACK: Reset Counter " << StateCounter << endl;
 			}

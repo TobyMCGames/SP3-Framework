@@ -177,8 +177,11 @@ void SceneGUI::renderGUI()
 	// render the backgroudn for the stats gui
 	//RenderMeshOnScreen(meshList[GUI_STATS_BG],39.75,52.5,85,15); 
 
-	//render border for weapon
+	//render border for item
 	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_BORDER), 6, 6, 9.5,10);
+	
+
+	// Render border for item itself
 
 	//// render Attack 
 	//RenderMeshOnScreen(meshList[GUI_ATK_ICON], 39.5, 50, 3, 3);
