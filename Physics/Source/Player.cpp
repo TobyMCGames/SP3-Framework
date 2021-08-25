@@ -47,6 +47,7 @@ Player::Player()
 
 Player::~Player()
 {
+	delete PlayerAnimation;
 }
 
 

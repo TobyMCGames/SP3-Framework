@@ -163,7 +163,8 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack->Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_MAGICBALL), false);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_MAGICBALL), false);
+		go->Render();
 		modelStack->PopMatrix();
 		break;
 
