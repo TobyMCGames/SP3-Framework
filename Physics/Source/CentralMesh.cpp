@@ -72,6 +72,8 @@ CentralMesh::CentralMesh()
 	// SCENE GUI
 	meshList[GUI_PAUSE] = MeshBuilder::GenerateQuad("pauseScreen", Color(1, 1, 1));
 	meshList[GUI_PAUSE]->textureID = LoadTGA("Image/GUI/PauseScreen.tga");
+	meshList[GUI_RETRY] = MeshBuilder::GenerateQuad("pauseScreen", Color(0.2, 0.2, 0.2));
+	//meshList[GUI_RETRY]->textureID = LoadTGA("Image/GUI/PauseScreen.tga");
 	meshList[GUI_BORDER] = MeshBuilder::GenerateQuad("Border", Color(1, 1, 1));
 	meshList[GUI_BORDER]->textureID = LoadTGA("Image/GUI/border.tga");
 	meshList[GUI_HEART] = MeshBuilder::GenerateQuad("Hearts_sprite", Color(1, 1, 1));
@@ -153,7 +155,7 @@ CentralMesh::CentralMesh()
 	meshList[GEO_SKELEARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
 	meshList[GEO_SKELEARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow.tga");
 	meshList[GEO_SPIDERWEB] = MeshBuilder::GenerateQuad("spiderweb", Color(1, 1, 1));
-	meshList[GEO_SPIDERWEB]->textureID = LoadTGA("Image//Cobweb.tga");
+	meshList[GEO_SPIDERWEB]->textureID = LoadTGA("Image//PROJECTILES//Cobweb.tga");
 
 	// BACKGROUND
 	meshList[GO_BACKGROUND_1] = MeshBuilder::GenerateQuad("background 1", Color(1, 1, 1));

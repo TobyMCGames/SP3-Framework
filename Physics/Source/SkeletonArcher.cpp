@@ -7,6 +7,7 @@ SkeletonArcher::SkeletonArcher()
 	:currState(BEHAVIOUR::IDLE)
 {
 	health = 45;
+	damage = 5;
 	Default_Speed = 5;
 	StateCounter = 0;
 	attackTimer = 0;
@@ -68,7 +69,7 @@ void SkeletonArcher::Update(double dt, float m_speed)
 				CSoundController::GetInstance()->PlaySoundByID(1);
 				Projectile* skelearrow =
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_SKELEARROW,
-						pos + (normal * scale.x), normal, scale, normal);
+						pos + (normal * scale.x), normal, Vector3(3.42f, 1.26f, 1.f), normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(skelearrow);
 
 				shootCounter = 0;

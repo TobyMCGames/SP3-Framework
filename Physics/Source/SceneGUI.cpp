@@ -24,6 +24,7 @@ void SceneGUI::Init()
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 	Math::InitRNG();
 	RenderPause = false;
+	RenderRetry = false;
 
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0,m_worldWidth,m_worldHeight);
 }
@@ -42,6 +43,7 @@ bool SceneGUI::Update(double dt)
 	float posX = x / w * 80; //convert (0,800) to (0,80)
 	float posY = 1 - (y / h) * 60; //convert (600,0) to (0,60)
 	ContButton.Set(1, 1, 1);
+	RetryButton.Set(1, 1, 1);
 	MenuButton.Set(1, 1, 1);
 	QuitButton.Set(1, 1, 1);
 
@@ -56,6 +58,7 @@ bool SceneGUI::Update(double dt)
 		cout << "X: " << posX << ", " << "Y: " << posY << endl;
 	}
 
+	//pause menu select
 	if (RenderPause)
 	{
 		Application::changeCursor(false);
@@ -117,6 +120,58 @@ bool SceneGUI::Update(double dt)
 			SceneGame::GetInstance()->ispaused = false;
 			bLButtonState = false;
 			RenderPause = false;
+		}
+	}
+
+	//retry menu select
+	if (RenderRetry)
+	{
+		Application::changeCursor(false);
+		if (posX > 25 && posX < 40 && posY > -28 && posY < -25)
+		{
+			RetryButton.Set(1, 0, 0);
+			static bool MouseState = false;
+			if (!MouseState && Application::IsMousePressed(0))
+			{
+				MouseState = true;
+			}
+			else if (MouseState && !Application::IsMousePressed(0))
+			{
+				MouseState = false;
+				SceneGame::GetInstance()->ispaused = false;
+				RenderRetry = false;
+				GameLevelManager::GetInstance()->getcurrentLevel()->Exit();
+				GameLevelManager::GetInstance()->getcurrentLevel()->Init();
+				Application::changeCursor(true);
+			}
+		}
+		if (posX > 25 && posX < 50 && posY > -33 && posY < -30)
+		{
+			MenuButton.Set(1, 0, 0);
+			static bool MouseState = false;
+			if (!MouseState && Application::IsMousePressed(0))
+			{
+				MouseState = true;
+			}
+			else if (MouseState && !Application::IsMousePressed(0))
+			{
+				MouseState = false;
+				GameStateManager::GetInstance()->SetActiveGameState("IntroState");
+			}
+		}
+		if (posX > 25 && posX < 40 && posY > -38 && posY < -35)
+		{
+			QuitButton.Set(1, 0, 0);
+			static bool MouseState = false;
+			if (!MouseState && Application::IsMousePressed(0))
+			{
+				MouseState = true;
+			}
+			else if (MouseState && !Application::IsMousePressed(0))
+			{
+				MouseState = false;
+				return false;
+			}
 		}
 	}
 
@@ -193,6 +248,13 @@ void SceneGUI::renderGUI()
 	{
 		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_PAUSE), 40, 30, 80, 70);
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "RESUME", ContButton, 3, 29, 30);
+		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "MAIN MENU", MenuButton, 3, 29, 25);
+		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "QUIT", QuitButton, 3, 29, 20);
+	}
+	if (RenderRetry)
+	{
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_RETRY), 40, 30, 80, 70);
+		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "RETRY", RetryButton, 3, 29, 30);
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "MAIN MENU", MenuButton, 3, 29, 25);
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "QUIT", QuitButton, 3, 29, 20);
 	}

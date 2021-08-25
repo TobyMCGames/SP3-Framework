@@ -18,6 +18,7 @@ Player::Player()
 	, swap(false)
 	, Pexitspeed(0, 0, 0)
 	, isCompleted(false)
+	,isdead(false)
 {
 	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -440,6 +441,7 @@ void Player::Response(GameObject* go)
 			if (health <= 0)
 			{
 				dead();
+				isdead = true;
 			}
 		}
 	}

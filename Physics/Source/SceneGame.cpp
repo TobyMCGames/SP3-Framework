@@ -43,7 +43,8 @@ void SceneGame::Init()
 bool SceneGame::Update(double dt)
 {
 	static bool bLButtonState = false;
-	if (!bLButtonState && (cKeyboardController->IsKeyPressed(GLFW_KEY_P) || cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE)))
+	if (!bLButtonState && (cKeyboardController->IsKeyPressed(GLFW_KEY_P) || cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE)) 
+		&& !Player::GetInstance()->isdead)
 	{
 		bLButtonState = true;
 		if (ispaused == false)
@@ -51,13 +52,19 @@ bool SceneGame::Update(double dt)
 			CSoundController::GetInstance()->PlaySoundByID(22);
 		}
 	}
-	else if (bLButtonState && (!cKeyboardController->IsKeyPressed(GLFW_KEY_P) && !cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE)))
+	else if (bLButtonState && (!cKeyboardController->IsKeyPressed(GLFW_KEY_P) && !cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE)) 
+		&& !Player::GetInstance()->isdead)
 	{
 		bLButtonState = false;
 		SceneGUI::GetInstance()->RenderPause = true;
 		ispaused = true;
 	}
 
+	if (Player::GetInstance()->isdead)
+	{
+		SceneGUI::GetInstance()->RenderRetry = true;
+		ispaused = true;
+	}
 
 	if (!ispaused)
 		if (GameLevelManager::GetInstance()->Update(dt) == false)
