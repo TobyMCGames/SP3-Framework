@@ -169,10 +169,10 @@ void Zombie::Response(GameObject* go)
 		}
 	}
 	if (go->type == GameObject::GO_ARROW ||
-		go->type == GameObject::GO_PORTAL ||
 		go->type == GameObject::GO_MAGICBALL) // player damage zombie
 	{
 		takeDamage(go->damage);
+		go->active = false;
 
 		if (health <= 0)
 		{

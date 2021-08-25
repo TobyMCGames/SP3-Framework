@@ -2,11 +2,13 @@
 #define MAGICBALL_H
 
 #include "Projectile.h"
+#include "SpriteAnimation.h"
 
 class MagicBall : public Projectile
 {
 private:
-
+	SpriteAnimation* FadingAnimation;
+	float timer;
 public:
 	MagicBall();
 	~MagicBall();

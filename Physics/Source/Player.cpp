@@ -48,6 +48,7 @@ Player::Player()
 
 Player::~Player()
 {
+	delete PlayerAnimation;
 }
 
 
@@ -151,7 +152,7 @@ void Player::Update(double dt, float m_speed)
 				CSoundController::GetInstance()->PlaySoundByID(1);
 				Projectile* arrow =
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
-						pos + (normal * scale.x), normal,scale, normal);
+						pos + (normal * scale.x), normal, Vector3(3.42f, 1.26f, 1.f) , normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
@@ -161,7 +162,7 @@ void Player::Update(double dt, float m_speed)
 				CSoundController::GetInstance()->PlaySoundByID(2);
 				Projectile* magicBall =
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
-						pos + (normal * scale.x), normal, scale, normal);
+						pos + (normal * scale.x), normal, Vector3(3.6f, 2.34f, 1.f) , normal);
 
 					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
 					cout << "Magic ball created" << endl;
@@ -172,7 +173,7 @@ void Player::Update(double dt, float m_speed)
 					CSoundController::GetInstance()->PlaySoundByID(3);
 					Projectile* portal =
 						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-							pos + (normal * scale.x), normal, scale, normal);
+							pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
 					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 					cout << "portal created" << endl;
 					break;
@@ -455,7 +456,9 @@ void Player::Response(GameObject* go)
 					Vector3 portalN = GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->normal;
 					Vector3 portalPos = GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos;
 					float angle;
-					angle = acosf((-portalN).Dot(go->normal) / (portalN.Length() * go->normal.Length()));
+					angle = atan2f(go->normal.y, go->normal.x);
+					Vector3 ExitN = portalN.Rotated(Math::RadianToDegree(-angle));
+					angle = atan2f(-ExitN.y, -ExitN.x);
 					vel.Rotate(Math::RadianToDegree(angle));
 					//if portal facing right
 					if (portalN.x == 1)

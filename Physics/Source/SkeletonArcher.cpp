@@ -6,6 +6,7 @@
 SkeletonArcher::SkeletonArcher()
 	:currState(BEHAVIOUR::IDLE)
 {
+	health = 45;
 	Default_Speed = 5;
 	StateCounter = 0;
 	attackTimer = 0;
@@ -119,9 +120,26 @@ void SkeletonArcher::Response(GameObject* go)
 			}
 		}
 	}
-	if (go->type == GameObject::GO_ARROW)
+	if (go->type == GameObject::GO_ARROW ||
+		go->type == GameObject::GO_MAGICBALL) // player damage zombie
 	{
+		takeDamage(go->damage);
 		go->active = false;
+
+		if (health <= 0)
+		{
+			CSoundController::GetInstance()->PlaySoundByID(13);
+			dead();
+		}
+		else
+		{
+			int randHurtSound = rand() % 2;
+
+			if (randHurtSound == 0)
+				CSoundController::GetInstance()->PlaySoundByID(11);
+			else if (randHurtSound == 1)
+				CSoundController::GetInstance()->PlaySoundByID(12);
+		}
 	}
 }
 
