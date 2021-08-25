@@ -263,11 +263,23 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel);
 				}
-				else if (key == "4") // spike
+				else if (key == "4") // cave tile
+				{
+					temp = tileFactory->ProduceTile(TileFactory::CAVE_TILE, pos, scale, vel);
+				}
+				else if (key == "5") // lava tile
+				{
+					temp = tileFactory->ProduceTile(TileFactory::LAVA_TILE, pos, scale, vel);
+				}
+				else if (key == "6") // lava tile
+				{
+					temp = tileFactory->ProduceTile(TileFactory::STONE_WATERFALL_TILE, pos, scale, vel);
+				}
+				else if (key == "7") // spike
 				{
 					temp = tileFactory->ProduceTile(TileFactory::SOIL, pos, scale, vel);
 				}
-				else if (key == "5") // spike
+				else if (key == "8") // spike
 				{
 					temp = tileFactory->ProduceTile(TileFactory::GRASS_SOIL, pos, scale, vel);
 				}
@@ -327,6 +339,14 @@ bool GameLevelBase::loadMap(std::string file_path)
 				else if (key == "BC") // Bomb Crate
 				{
 					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_BOMB_CRATE, pos, scale);
+				}
+				else if (key == "TS") // Tree seeds
+				{
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_TREE_SEEDS, pos, scale);
+				}
+				else if (key == "VS") // Vine seeds
+				{
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_VINE_SEEDS, pos, scale);
 				}
 				else if (key == "GATE")
 				{
@@ -490,6 +510,11 @@ bool GameLevelBase::CheckWithinScreen(GameObject* go)
 		return false;
 	}
 	return true;
+}
+
+bool GameLevelBase::CheckobjSurrounding(GameObject* go)
+{
+	return false;
 }
 
 void GameLevelBase::CollisionChecks(double dt, float m_speed)
@@ -700,7 +725,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 				Vector3 FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
 				float angle = atan2f(FutureN.y, FutureN.x);
 				//Find how many tiles mob is away from left side
-				LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) / 2;
+				LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) *0.5;
 				XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
 				if (XnumTiles > 0)
 				{

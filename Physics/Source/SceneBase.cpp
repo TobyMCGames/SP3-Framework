@@ -141,6 +141,30 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PopMatrix();
 		break;
 
+	case GameObject::CAVE_TILE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_CAVE_TILE), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::LAVA_TILE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_LAVA_TILE), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::STONE_WATERFALL_TILE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STONE_WATERFALL_TILE), false);
+		modelStack->PopMatrix();
+		break;
+
 	case GameObject::SPIKE_TILE:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -327,6 +351,29 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOMB_CRATE), false);
+		modelStack->PopMatrix();
+		break;
+	case GameObject::TREE_SEEDS:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_TREE_SEEDS), false);
+		modelStack->PopMatrix();
+		break;
+	case GameObject::VINE_SEEDS:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_VINE_SEEDS), false);
+		modelStack->PopMatrix();
+		break;
+		break;
+	case GameObject::GO_BOMB:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		//modelStack->Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		go->Render();
 		modelStack->PopMatrix();
 		break;
 	}

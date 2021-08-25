@@ -8,3 +8,8 @@ Projectile::~Projectile()
 {
 
 }
+
+Projectile::ProjectileState Projectile::getProjectilestate()
+{
+	return projectileState;
+}
