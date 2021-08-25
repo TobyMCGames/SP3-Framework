@@ -491,6 +491,14 @@ void Player::Response(GameObject* go)
 			Inventory[BOMBS]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
+		case VINE_SEEDS:
+			Inventory[VINE_SEED]++;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
+			break;
+		case TREE_SEEDS:
+			Inventory[TREE_SEED]++;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
+			break;
 		case WARP_GATE:
 			isCompleted = true;
 			cKeyboardController->ResetKey(GLFW_KEY_E);

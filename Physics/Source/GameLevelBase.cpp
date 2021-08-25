@@ -320,6 +320,14 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_BOMB_CRATE, pos, scale);
 				}
+				else if (key == "TS") // Tree seeds
+				{
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_TREE_SEEDS, pos, scale);
+				}
+				else if (key == "VS") // Vine seeds
+				{
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_VINE_SEEDS, pos, scale);
+				}
 				else if (key == "GATE")
 				{
 					pos.Set(xOffset + scale.x, yOffset + scale.y, 0);
