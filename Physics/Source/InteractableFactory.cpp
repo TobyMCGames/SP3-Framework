@@ -21,6 +21,9 @@ Interactables* InteractableFactory::produceInteractable(INTERACTABLES_TYPES Inte
 	case PTYPE_PORTAL_EXIT:
 		newInteractable = new PortalGate(GameObject::PORTAL_GATE_EXIT);
 		break;
+	case PTYPE_BOMB_CRATE:
+		newInteractable = new BombCrate(GameObject::BOMB_CRATE);
+		break;
 	case PTYPE_WARP_GATE:
 		newInteractable = new PortalGate(GameObject::WARP_GATE);
 		break;

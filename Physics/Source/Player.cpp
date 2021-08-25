@@ -307,6 +307,7 @@ void Player::Update(double dt, float m_speed)
 			break;
 		case BOMBS:
 			//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
+			//std::cout << "Bombs:" << Inventory[BOMBS] << endl;
 			curWeapon = STAFF;
 			break;
 		default:
@@ -469,21 +470,30 @@ void Player::Response(GameObject* go)
 			}
 		}
 	}
+
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_E) && (controlled == true))
 	{
 		switch (go->type)
 		{
 		case WEAPON_STATION_BOW:
 			this->curWeapon = BOW;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WEAPON_STATION_STAFF:
 			this->curWeapon = STAFF;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
+			break;
+		case BOMB_CRATE:
+			Inventory[BOMBS]++;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WARP_GATE:
 			isCompleted = true;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		}
 	}
