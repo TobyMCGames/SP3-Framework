@@ -41,6 +41,7 @@ protected:
 	Vector3 Pexitspeed;
 	bool teleport;
 	float webbedTimeLeft;
+	//float friction;
 	
 private:
 	Player();

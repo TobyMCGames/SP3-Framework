@@ -12,11 +12,21 @@ protected:
 		ATTACK,
 		NUM_STATES,
 	};
+
+	enum COLLIDEPOS
+	{
+		NOTHING,
+		COL_UP,
+		COL_DOWN,
+		COL_LEFT,
+		COL_RIGHT
+	};
 	float speedBoostTimer;
 	float attackTimer;
 	float StateCounter;
 	const float JumpForce = 15;
 	const float MaxStateCounter = 1;
+	bool jump = false;
 
 	float attackSoundTimer;
 	float idleSoundTimer;

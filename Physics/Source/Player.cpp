@@ -8,7 +8,7 @@
 #include "MeshRender.h"
 
 Player::Player()
-	: curWeapon(Player::PORTALGUN)
+	: curWeapon(Player::BOW)
 	, curItem(0)
 	, scrollsnap(0)
 	, PlayerAnimation(NULL)
@@ -35,6 +35,7 @@ Player::Player()
 	SlowTimeEnd = false;
 	isWebbedBySpider = false;
 	teleport = false;
+	//friction = 0;
 
 	// Init sprite
 	PlayerAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_PLAYER));
@@ -73,6 +74,7 @@ void Player::Update(double dt, float m_speed)
 			curDirection = LEFT;
 	}
 
+	cout << vel.x << endl;
 
 	static bool ShiftPressed = false;
 	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
@@ -188,9 +190,16 @@ void Player::Update(double dt, float m_speed)
 			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
 		}
 
-		vel.x = 0;
+		/*float friction = 0.5;*/
+
+		if(!teleport)
+			vel.x = 0;
+
 		if (curLocation == ON_GROUND)
 		{
+			if (teleport)
+				vel.x = 0;
+			teleport = false;
 			PlayerAnimation->PlayAnimation("Idle", -1, 1);
 			if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) || cKeyboardController->IsKeyPressed(GLFW_KEY_D))
 			{
@@ -200,11 +209,20 @@ void Player::Update(double dt, float m_speed)
 		}
 		else if (curLocation == IN_AIR)
 		{
+			//vel.x *= 0.2 * dt * m_speed;
 			if (vel.y < 0)
 			{
 				PlayerAnimation->Reset();
 				PlayerAnimation->PlayAnimation("Falling", 1, 2);
 			}
+			//if (cKeyboardController->IsKeyDown(GLFW_KEY_D) && vel.x >= 0)
+			//{
+			//	vel.x -= friction *dt *m_speed;
+			//}
+			//if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && vel.x <= 0)
+			//{
+			//	vel.x += friction * dt * m_speed;
+			//}
 		}
 		if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 		{
@@ -426,10 +444,6 @@ void Player::Response(GameObject* go)
 	}
 	if (go->type == GameObject::PORTAL_GATE_ENTRANCE)
 	{
-		/*if (teleport == true)
-		{
-			return;
-		}*/
 
 		for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
 		{
@@ -437,7 +451,7 @@ void Player::Response(GameObject* go)
 			{
 				if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i) != go)
 				{
-					//teleport = true;
+					teleport = true;
 					Vector3 portalN = GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->normal;
 					Vector3 portalPos = GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->pos;
 					float angle;
@@ -463,8 +477,6 @@ void Player::Response(GameObject* go)
 					{
 						pos.Set(portalPos.x, portalPos.y + (go->scale.y + 0.1));
 					}
-					
-
 					break;
 				}
 				else
