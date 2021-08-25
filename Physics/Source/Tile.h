@@ -5,14 +5,19 @@ protected:
 	enum TILE_TYPE
 	{
 		PASSIVE_TILE,
+		AGGRO_TILE,
 		INTERACTIVE_TILE
 	};
 	TILE_TYPE tiletype;
 public:
 	Tile();
-	Tile(GameObject::GAMEOBJECT_TYPE objtype);
 	~Tile();
-	GameObject* clone(Vector3 pos, Vector3 vel,Vector3 scale,Vector3 Normal);
 	void Response(GameObject* go);
 	void Render();
+	bool getDestructable();
+	void setDestructable(bool destructable);
+
+private:
+	bool destructable;
+
 };

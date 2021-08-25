@@ -20,6 +20,12 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 {
 	if ((go1->active == false) || (go2->active == false))
 		return false;
+
+	if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END)
+		&& (go2->type == GameObject::OUTOFBOUNDS_TILE))
+	{
+		return AABB(go1, go2);
+	}
 	if (go1->type == GameObject::GO_BALL && go2->type == GameObject::GO_BALL)
 	{
 		if ((go1->pos - go2->pos).LengthSquared() <= (go1->scale.x + go2->scale.x) * (go1->scale.x + go2->scale.x))
@@ -125,19 +131,16 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 		return AABB(go1, go2);
 	}
 
-	else if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END) && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
+	else if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END) 
+	&& (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
 	{
 		return CheckCorner(go1, go2, dt * m_speed);
 	}
-
+	
 	if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END)&&
 		(go2->type > GameObject::PROJECTILE_START && go2->type < GameObject::PROJECTILE_END))
 	{
-
-		if (AABB(go1, go2))
-		{
-			return true;
-		}
+		return AABB(go1, go2);
 	}
 	else if ((go1->type > GameObject::PROJECTILE_START && go1->type < GameObject::PROJECTILE_END) &&
 		(go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
@@ -161,18 +164,12 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 	else if ((go1->type == GameObject::GO_PLAYER || go1->type == GameObject::GO_PLAYERCLONE) &&
 		(go2->type > GameObject::INTERACTABLE_START && go2->type < GameObject::INTERACTABLE_END))
 	{
-		if (AABB(go1, go2))
-		{
-			return true;
-		}
+		return AABB(go1, go2);
 	}
 	else if ((go1->type > GameObject::PROJECTILE_START && go1->type < GameObject::PROJECTILE_END) &&
 		(go2->type > GameObject::INTERACTABLE_START && go2->type < GameObject::INTERACTABLE_END))
 	{
-		if (AABB(go1, go2))
-		{
-			return true;
-		}
+		return AABB(go1, go2);
 	}
 	return false;
 }
@@ -247,7 +244,17 @@ void GamePhysics::CheckCollisionResponse(GameObject* go1, GameObject* go2, doubl
 
 	}
 
+	if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END)
+		&& go2->type == GameObject::OUTOFBOUNDS_TILE)
+	{
+		go1->Response(go2);
+	}
+
 	else if ((go1->type > GameObject::ENTITY_START && go1->type < GameObject::ENTITY_END) && (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
+	{
+		go1->Response(go2);
+	}
+	else if ((go1->type > GameObject::ENTITY_START && go1->type == GameObject::ENTITY_END && go2->type == GameObject::OUTOFBOUNDS_TILE))
 	{
 		go1->Response(go2);
 	}
@@ -496,13 +503,13 @@ GamePhysics::COLLIDEPOS GamePhysics::checkCollidePos(GameObject* go1, GameObject
 
 GamePhysics::COLLIDEPOS GamePhysics::checkCollidePos(float velX, float velY)
 {
-	if (velX == 0)
+	if (velX == 0.f)
 	{
-		if (velY > 0)
+		if (velY > 0.f)
 		{
 			return UP;
 		}
-		else if (velY < 0)
+		else if (velY < 0.f)
 		{
 			return DOWN;
 		}
@@ -511,16 +518,17 @@ GamePhysics::COLLIDEPOS GamePhysics::checkCollidePos(float velX, float velY)
 			return NOTHING;
 		}
 	}
-	if (velY == 0)
+	if (velY == 0.f)
 	{
-		if (velX > 0)
+		if (velX > 0.f)
 		{
 			return RIGHT;
 		}
-		else if (velX < 0)
+		else if (velX < 0.f)
 		{
 			return LEFT;
 		}
 	}
 	return NOTHING;
 }
+

@@ -76,7 +76,6 @@ void Player::Update(double dt, float m_speed)
 			curDirection = LEFT;
 	}
 
-
 	static bool ShiftPressed = false;
 	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
@@ -210,20 +209,22 @@ void Player::Update(double dt, float m_speed)
 		}
 		else if (curLocation == IN_AIR)
 		{
-			//vel.x *= 0.2 * dt * m_speed;
+			float friction = 4;
 			if (vel.y < 0)
 			{
 				PlayerAnimation->Reset();
 				PlayerAnimation->PlayAnimation("Falling", 1, 2);
 			}
-			//if (cKeyboardController->IsKeyDown(GLFW_KEY_D) && vel.x >= 0)
-			//{
-			//	vel.x -= friction *dt *m_speed;
-			//}
-			//if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && vel.x <= 0)
-			//{
-			//	vel.x += friction * dt * m_speed;
-			//}
+			if (vel.x > 0.1)
+			{
+				vel.x -= friction * dt * m_speed;
+			}
+			else if (vel.x < -0.1 )
+			{
+				vel.x += friction * dt * m_speed;
+			}
+			else
+				vel.x = 0;
 		}
 		if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 		{
@@ -280,7 +281,6 @@ void Player::Update(double dt, float m_speed)
 		{
 			curItem = 0;
 		}
-
 		switch (curItem)
 		{
 		case TREE_SEED:
@@ -403,6 +403,10 @@ void Player::Response(GameObject* go)
 			curLocation = ON_GROUND;
 		}
 	}
+
+	if (go->type == GameObject::OUTOFBOUNDS_TILE)
+		dead();
+
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
 		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET))
 	{

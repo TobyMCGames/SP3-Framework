@@ -1,7 +1,8 @@
 #pragma once
+#include "SingletonPattern.h"
 #include "Tile.h"
 
-class TileFactory
+class TileFactory :public SingletonPattern<TileFactory>
 {
 public:
 	enum TILE_LIST
@@ -13,43 +14,8 @@ public:
 		GRASS_SOIL,
 		NUM_TILE
 	};
-
-	static GameObject* getObject(int choice,Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal = Vector3(1,0,0));
-	TileFactory();
-	~TileFactory();
-	
-
-private:
-	static Tile* TilePrototypes[NUM_TILE];
+	GameObject* ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 scale, Vector3 vel = Vector3(0, 0, 0), Vector3 normal = Vector3(1, 0, 0));
 };
-
-Tile* TileFactory::TilePrototypes[] = {
-	new Tile(GameObject::GAMEOBJECT_TYPE::BRICK_TILE),
-	new Tile(GameObject::GAMEOBJECT_TYPE::STONE_BRICK_TILE),
-	new Tile(GameObject::GAMEOBJECT_TYPE::SPIKE_TILE),
-	new Tile(GameObject::GAMEOBJECT_TYPE::SOIL_TILE),
-	new Tile(GameObject::GAMEOBJECT_TYPE::GRASS_SOIL_TILE),
-};
-
-GameObject* TileFactory::getObject(int choice,Vector3 pos,Vector3 vel,Vector3 scale,Vector3 normal) {
-	return TilePrototypes[choice]->clone(pos,vel,scale,normal);
-}
-
-TileFactory::TileFactory()
-{
-
-}
-
-TileFactory::~TileFactory()
-{
-	// delete array here	
-	int arrsize = sizeof(TilePrototypes) / sizeof(TilePrototypes[0]);
-	for (int i = 0; i < arrsize; i++)
-	{
-		delete TilePrototypes[i];
-		TilePrototypes[i] = nullptr;
-	}
-}
 
 
 

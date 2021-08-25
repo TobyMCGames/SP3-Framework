@@ -4,7 +4,6 @@
 #include "AdvanceGO.h"
 #include <vector>
 #include "Projectile.h"
-#include "Prototype.h"
 #include "SoundController.h"
 
 class Entity : public AdvanceGO

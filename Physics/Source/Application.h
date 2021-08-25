@@ -23,7 +23,6 @@ public:
 	static double GetYScrollOffset();
 	static void changeCursor(bool gameCursor);
 
-
 private:
 	Application();
 	~Application();

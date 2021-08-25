@@ -45,10 +45,12 @@ protected:
 	float webbedTimeLeft;
 	//float friction;
 	
+	
 private:
 	Player();
 	~Player();
 	SpriteAnimation* PlayerAnimation;
+	Vector3 m_force;
 
 };
 
