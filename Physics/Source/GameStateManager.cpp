@@ -65,7 +65,7 @@ void GameStateManager::Destroy()
 		scene->Exit();
 		scene->Destroy();
 	}
-	// Clear the map
+	// w the map
 	GameStateMap.clear();
 	cSoundController->DestroyInstance();
 }

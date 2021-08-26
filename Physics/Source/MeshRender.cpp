@@ -137,7 +137,7 @@ void MeshRender::RenderText(Mesh* mesh, std::string text, Color color)
 	glEnable(GL_DEPTH_TEST);
 }
 
-void MeshRender::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+void MeshRender::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y,int maxX)
 {
 	if(!mesh || mesh->textureID <= 0)
 		return;
@@ -162,10 +162,16 @@ void MeshRender::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, f
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
 
 	float accumulator = 0;
+	int offsetY = 0;
 	for(unsigned i = 0; i < text.length(); ++i)
 	{
+		if (0.5f + accumulator > maxX && maxX != 0 && text[i] == ' ')
+		{
+			accumulator = 0;
+			offsetY -= size * 0.5f;
+		}
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(0.5f + accumulator, 0.5f, 0); //1.0f is the spacing of each character, you may change this value
+		characterSpacing.SetToTranslation(0.5f + accumulator, 0.5f + offsetY, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 

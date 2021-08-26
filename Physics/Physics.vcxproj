@@ -159,6 +159,7 @@
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\CentralMesh.cpp" />
     <ClCompile Include="Source\DemonLord.cpp" />
+    <ClCompile Include="Source\Dialogue.cpp" />
     <ClCompile Include="Source\DisguisedEnemy.cpp" />
     <ClCompile Include="Source\DemonBall.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
@@ -209,6 +210,7 @@
     <ClCompile Include="Source\Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AABB.h" />
     <ClInclude Include="Source\AdvanceGO.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Boomer.h" />
@@ -217,6 +219,7 @@
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\CentralMesh.h" />
     <ClInclude Include="Source\DemonLord.h" />
+    <ClInclude Include="Source\Dialogue.h" />
     <ClInclude Include="Source\DisguisedEnemy.h" />
     <ClInclude Include="Source\DemonBall.h" />
     <ClInclude Include="Source\Entity.h" />

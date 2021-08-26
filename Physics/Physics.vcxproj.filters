@@ -233,6 +233,9 @@
     <ClCompile Include="Source\TileFactory.cpp">
       <Filter>DesignPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Dialogue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -420,6 +423,12 @@
     </ClInclude>
     <ClInclude Include="Source\SoundInfo.h">
       <Filter>Header Files\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AABB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Dialogue.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,11 +5,12 @@
 #include "GLFW/glfw3.h"
 
 #include "GameStateManager.h"
-
 SceneGUI::SceneGUI()
 	: m_worldHeight(0)
 	, m_worldWidth(0)
 {
+	GameDialogues.LoadDialogue("Dialogues//Level_4_dialogues.txt"); // load level 4 texts
+	GameDialogues.setActive(true);
 }
 
 SceneGUI::~SceneGUI()
@@ -121,6 +122,8 @@ bool SceneGUI::Update(double dt)
 			bLButtonState = false;
 			RenderPause = false;
 		}
+
+		
 	}
 
 	//retry menu select
@@ -174,6 +177,8 @@ bool SceneGUI::Update(double dt)
 			}
 		}
 	}
+	// if in dialogue
+		//GameDialogues.Update(dt); 
 
 	return true;
 }
@@ -197,6 +202,7 @@ void SceneGUI::Render()
 	modelStack->LoadIdentity();
 
 	renderGUI();
+	renderDialogue();
 }
 
 void SceneGUI::Destroy()
@@ -258,6 +264,12 @@ void SceneGUI::renderGUI()
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "MAIN MENU", MenuButton, 3, 29, 25);
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "QUIT", QuitButton, 3, 29, 20);
 	}
+}
+
+void SceneGUI::renderDialogue()
+{
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT)
+		, GameDialogues.getCurrentText(), Color(0, 1, 0), 3, 3, 50, 10);
 }
 
 
