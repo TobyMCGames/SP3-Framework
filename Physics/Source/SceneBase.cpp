@@ -149,6 +149,14 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PopMatrix();
 		break;
 
+	case GameObject::FRAGILE_CAVE_TILE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_FRAGILE_CAVE_TILE), false);
+		modelStack->PopMatrix();
+		break;
+
 	case GameObject::LAVA_TILE:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -162,6 +170,46 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STONE_WATERFALL_TILE), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::DOOR_1_TILE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DOOR_1), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::DOOR_2_TILE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DOOR_2), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::DOOR_3_TILE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DOOR_3), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::DOOR_4_TILE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DOOR_4), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::DOOR_5_TILE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DOOR_5), false);
 		modelStack->PopMatrix();
 		break;
 
@@ -254,7 +302,8 @@ void SceneBase::RenderGO(GameObject* go)
 		else
 			modelStack->Rotate(0, 0, 1, 0);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_ZOMBIE), false);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_ZOMBIE), false);
+		go->Render();
 		modelStack->PopMatrix();
 		break;
 	case GameObject::GO_SKELEARCHER:
@@ -290,14 +339,16 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SPIDER), false);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SPIDER), false);
+		go->Render();
 		modelStack->PopMatrix();
 		break;
 	case GameObject::GO_TURRET:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_TURRET), false);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_TURRET), false);
+		go->Render();
 		modelStack->PopMatrix();
 		break;
 	case GameObject::WEAPON_STATION_BOW:

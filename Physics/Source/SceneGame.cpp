@@ -6,8 +6,10 @@
 
 #include "GameStateManager.h"
 #include "GameLevelManager.h"
-#include "SceneCollision.h"
+#include "Level1.h"
+#include "Level2.h"
 #include "Level3.h"
+#include "Level4.h"
 
 #include "SceneGUI.h"
 SceneGame::SceneGame()
@@ -31,10 +33,12 @@ void SceneGame::Init()
 	// Create game Levels
 	//GameLevelManager::GetInstance()->AddGameLevel("Level1A", SceneCollision::GetInstance());
 	
+	GameLevelManager::GetInstance()->AddGameLevel("Level1", Level1::GetInstance());
+	GameLevelManager::GetInstance()->AddGameLevel("Level2", Level2::GetInstance());
 	GameLevelManager::GetInstance()->AddGameLevel("Level3", Level3::GetInstance());
-	GameLevelManager::GetInstance()->AddGameLevel("Level4", SceneCollision::GetInstance());
+	GameLevelManager::GetInstance()->AddGameLevel("Level4", Level4::GetInstance());
 	// Set Active Game Level
-	GameLevelManager::GetInstance()->SetActiveGameLevel("Level4");
+	GameLevelManager::GetInstance()->SetActiveGameLevel("Level1");
 
 	Application::changeCursor(true);
 	ispaused = false;

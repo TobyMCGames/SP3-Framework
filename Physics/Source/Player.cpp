@@ -46,6 +46,7 @@ Player::Player()
 	PlayerAnimation->AddAnimation("Jumping", 6, 8);
 	PlayerAnimation->AddAnimation("Falling", 9, 11);
 	PlayerAnimation->PlayAnimation("Idle", -1, 6.f);
+	
 }
 
 Player::~Player()
@@ -56,9 +57,51 @@ Player::~Player()
 
 void Player::Update(double dt, float m_speed)
 {
-	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
-								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
-								pos.z);
+	if (SlowTime == true)
+		mana -= 5 * dt * m_speed;
+	if (playerclone != nullptr)
+		mana -= 2 * dt * m_speed;
+	if (mana <= 0)
+	{
+		if (SlowTime == true)
+		{
+			SlowTimeEnd = true;
+			SlowTime = false;
+			GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
+		}
+		if (playerclone != nullptr)
+		{
+			GameLevelManager::GetInstance()->getcurrentLevel()->setcloneDeleted(true);
+			GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(false);
+			controlled = true;
+		}
+	}
+	static bool recharging = false;
+	if (SlowTime == false && playerclone == nullptr)
+	{
+		if (recharging == false)
+		{
+			RechargeTime = 9.f;
+			recharging = true;
+		}
+		else
+		{
+			if (mana != 100)
+			{
+				if (RechargeTime <= 0)
+				{
+					if (mana > 100)
+					{
+						mana = 100;
+						recharging = false;
+					}
+					mana += 5 * dt * m_speed;
+				}
+				else
+					RechargeTime -= dt * m_speed;
+			}
+		}
+	}
 	double x, y;
 	Application::GetCursorPos(&x, &y);
 	int w = Application::GetWindowWidth();
@@ -77,17 +120,19 @@ void Player::Update(double dt, float m_speed)
 			curDirection = LEFT;
 	}
 	///// Slow time mechanic
-	static bool ShiftPressed = false;
-	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_LEFT_SHIFT) && mana - 5 * dt * m_speed > 0)
 	{
-		ShiftPressed = true;
-		SlowTimeStart = true;
+		if (SlowTime == false)
+			SlowTimeStart = true;
+		SlowTime = true;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
 	}
-	else if (ShiftPressed && !cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
 	{
-		ShiftPressed = false;
-		SlowTimeEnd = true;
+		cKeyboardController->ResetKey(GLFW_KEY_LEFT_SHIFT);
+		if (SlowTime == true)
+			SlowTimeEnd = true;
+		SlowTime = false;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
 	}
 
@@ -105,7 +150,7 @@ void Player::Update(double dt, float m_speed)
 	//////Create Clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
-		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false) // summon the clone
+		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false && mana - 2 * dt * m_speed > 0) // summon the clone
 		{
 			if (curLocation != Entity::IN_AIR)
 			{
@@ -250,38 +295,32 @@ void Player::Update(double dt, float m_speed)
 		}
 		if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 		{
-			if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
-			{
 				vel.x = Default_Speed;
 				curDirection = RIGHT;
-			}
 		}
 
-			else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
-			{
-				if (pos.x - Default_Speed * dt > scale.x / 2)
-				{
-					vel.x = -Default_Speed;
-					curDirection = LEFT;
-				}
-			}
-
-			if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
-			{
-				vel.x = 0;
-				PlayerAnimation->PlayAnimation("Idle", -1, 1);
-			}
-
-			if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
-			{
-				//cSoundController->PlaySoundByID(2);
-				CSoundController::GetInstance()->PlaySoundByID(4);
-				this->vel.y += getJumpForce();
-				this->curLocation = IN_AIR;
-				PlayerAnimation->Reset();
-				PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
-			}
+		else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
+		{
+				vel.x = -Default_Speed;
+				curDirection = LEFT;
 		}
+
+		if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
+		{
+			vel.x = 0;
+			PlayerAnimation->PlayAnimation("Idle", -1, 1);
+		}
+
+		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+		{
+			//cSoundController->PlaySoundByID(2);
+			CSoundController::GetInstance()->PlaySoundByID(4);
+			this->vel.y += getJumpForce();
+			this->curLocation = IN_AIR;
+			PlayerAnimation->Reset();
+			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
+		}
+	}
 
 	scrollsnap += Application::GetYScrollOffset();
 
@@ -578,6 +617,11 @@ void Player::Render()
 SpriteAnimation* Player::getAnimation()
 {
 	return PlayerAnimation;
+}
+
+int Player::GetCurItem()
+{
+	return Inventory[curItem];
 }
 
 void Player::ChangeTimeline()

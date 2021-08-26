@@ -1,41 +1,39 @@
-#include "SceneCollision.h"
+#include "Level4.h"
 #include "GL\glew.h"
 #include "Application.h"
 #include <sstream>
 #include <cmath>
 #include "Player.h"
+#include "GameLevelManager.h"
 
 //Remove later
 #include "InteractableFactory.h"
 
-SceneCollision::SceneCollision()
+Level4::Level4()
 {
 	std::cout << "Initialising SceneCollision" << std::endl;
 }
 
-SceneCollision::~SceneCollision()
+Level4::~Level4()
 {
 }
 
-void SceneCollision::Init()
+void Level4::Init()
 {
 	SceneBase::Init();
-	//Calculating aspect ratio
-	//m_worldHeight = 100.f;
-	//m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
 	//Physics code here
 	m_objectCount = 0;
 
 	Math::InitRNG();
-	loadMap("Maps//Level4.csv");
+	UpdateLevel();
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 		getworldWidth(),getworldHeight());
 	camera->setpanTarget(player);
 	//camera->setDebugMode();
 }
 
-GameObject* SceneCollision::FetchGO()
+GameObject* Level4::FetchGO()
 {
 	//Exercise 2a: implement FetchGO()
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); it++)
@@ -59,19 +57,32 @@ GameObject* SceneCollision::FetchGO()
 	return map.back();
 }
 
-void SceneCollision::ReturnGO(GameObject *go)
+void Level4::ReturnGO(GameObject *go)
 {
 	//Exercise 3: implement ReturnGO()
 	go->active = false;
 	m_objectCount--;
 }
 
-void SceneCollision::UpdateLevel()
+void Level4::UpdateLevel()
 {
-	//switch (curLevel)
+	if (curSubLevel < numSubLevels + 1)
+	{
+		switch (curSubLevel)
+		{
+		case 1:
+			GameLevelBase::Exit();
+			loadMap("Maps//Map_LEVEL_4.csv");
+			break;
+		}
+	}
+	else
+	{
+		//GameLevelManager::GetInstance()->SetActiveGameLevel("Level2");
+	}
 }
 
-bool SceneCollision::Update(double dt)
+bool Level4::Update(double dt)
 {
 	SceneBase::Update(dt);
 	if (player->isControl() == true)
@@ -225,11 +236,18 @@ bool SceneCollision::Update(double dt)
 		if (CheckWithinScreen(player->getClone()))
 			player->getClone()->setpos(player->getClone()->getpos() + player->getClone()->getvel() * dt * GAMESPEED);
 	}
+	if (Player::GetInstance()->isCompleted)
+	{
+		curSubLevel++;
+		GameLevelBase::Exit();
+		UpdateLevel();
+		Player::GetInstance()->isCompleted = false;
+	}
 	return true;
 }
 
 
-void SceneCollision::Render()
+void Level4::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -256,7 +274,7 @@ void SceneCollision::Render()
 	modelStack->PushMatrix();
 	modelStack->Translate(getworldWidth()/2, getworldHeight()/2,-1);
 	modelStack->Scale(getworldWidth(), getworldHeight(), -1);
-	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GO_BACKGROUND_1), false);
+	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GO_BACKGROUND_CAVE), false);
 	modelStack->PopMatrix();
 	zOffset = 0.001f;
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
@@ -292,7 +310,8 @@ void SceneCollision::Render()
 			RenderGO(go);
 		}
 	}
-	RenderPlayer();
+	if (player != nullptr)
+		RenderPlayer();
 
 	for (std::vector<AdvanceGO*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
 	{
@@ -323,12 +342,12 @@ void SceneCollision::Render()
 
 }
 
-void SceneCollision::Destroy()
+void Level4::Destroy()
 {
 	DestroyInstance();
 }
 
-void SceneCollision::Exit()
+void Level4::Exit()
 {
 	SceneBase::Exit();
 	GameLevelBase::Exit();

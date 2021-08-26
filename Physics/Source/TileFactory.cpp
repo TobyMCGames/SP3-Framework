@@ -22,11 +22,29 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 		case CAVE_TILE:
 			newTile->type = GameObject::CAVE_TILE;
 			break;
+		case FRAGILE_CAVE_TILE:
+			newTile->type = GameObject::FRAGILE_CAVE_TILE;
+			break;
 		case LAVA_TILE:
 			newTile->type = GameObject::LAVA_TILE;
 			break;
 		case STONE_WATERFALL_TILE:
 			newTile->type = GameObject::STONE_WATERFALL_TILE;
+			break;
+		case DOOR_1_TILE:
+			newTile->type = GameObject::DOOR_1_TILE;
+			break;
+		case DOOR_2_TILE:
+			newTile->type = GameObject::DOOR_2_TILE;
+			break;
+		case DOOR_3_TILE:
+			newTile->type = GameObject::DOOR_3_TILE;
+			break;
+		case DOOR_4_TILE:
+			newTile->type = GameObject::DOOR_4_TILE;
+			break;
+		case DOOR_5_TILE:
+			newTile->type = GameObject::DOOR_5_TILE;
 			break;
 		case OOB_TILE:
 			newTile->type = GameObject::OUTOFBOUNDS_TILE;
@@ -34,6 +52,7 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 	}
 	newTile->active = true;
 	newTile->pos = pos;
+	newTile->OGpos = pos;
 	newTile->vel = vel;
 	newTile->scale = scale;
 	newTile->normal = normal;

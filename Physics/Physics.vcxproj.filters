@@ -125,9 +125,6 @@
     <ClCompile Include="Source\GameLevelManager.cpp">
       <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneCollision.cpp">
-      <Filter>Source Files\GameLevels</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -233,8 +230,14 @@
     <ClCompile Include="Source\TileFactory.cpp">
       <Filter>DesignPatterns</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Dialogue.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\Level1.cpp">
+      <Filter>Source Files\GameLevels</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Level2.cpp">
+      <Filter>Source Files\GameLevels</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Level4.cpp">
+      <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,9 +305,6 @@
       <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLevelManager.h">
-      <Filter>Header Files\GameLevels</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneCollision.h">
       <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneCamera.h">
@@ -429,6 +429,15 @@
     </ClInclude>
     <ClInclude Include="Source\Dialogue.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Level1.h">
+      <Filter>Header Files\GameLevels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Level2.h">
+      <Filter>Header Files\GameLevels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Level4.h">
+      <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

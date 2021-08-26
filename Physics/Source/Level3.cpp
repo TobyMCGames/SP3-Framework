@@ -10,7 +10,7 @@
 
 Level3::Level3()
 {
-	std::cout << "Initialising SceneCollision" << std::endl;
+	std::cout << "Initialising Level3" << std::endl;
 }
 
 Level3::~Level3()
@@ -27,11 +27,12 @@ void Level3::Init()
 	//Physics code here
 	m_objectCount = 0;
 
-
 	Math::InitRNG();
-	loadMap("Maps//Map_LEVEL_3a.csv");
-	camera->Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45,getworldWidth(),getworldHeight());
+	UpdateLevel();
+	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
+		getworldWidth(),getworldHeight());
 	camera->setpanTarget(player);
+	//camera->setDebugMode();
 }
 
 GameObject* Level3::FetchGO()
@@ -65,14 +66,52 @@ void Level3::ReturnGO(GameObject *go)
 	m_objectCount--;
 }
 
+void Level3::UpdateLevel()
+{
+	if (curSubLevel < numSubLevels + 1)
+	{
+		switch (curSubLevel)
+		{
+		case 1:
+			GameLevelBase::Exit();
+			loadMap("Maps//Map_LEVEL_3.csv");
+			camera->setpanTarget(player);
+			break;
+		case 2:
+			GameLevelBase::Exit();
+			loadMap("Maps//Map_LEVEL_3a.csv");
+			camera->setpanTarget(player);
+			break;
+		}
+	}
+	else
+	{
+		GameLevelManager::GetInstance()->SetActiveGameLevel("Level4");
+	}
+}
+
 bool Level3::Update(double dt)
 {
 	SceneBase::Update(dt);
-	camera->Update(dt);
+	if (player->isControl() == true)
+	{
+		if (camera->getPanningMode() == false)
+			camera->Update(dt);
+		else
+			camera->panToTarget(dt, m_speed);
+	}
+	
+	else if (player->getClone()->isControl() == true)
+	{
+		if (camera->getPanningMode() == false)
+			camera->Update(dt);
+		else
+			camera->panToTarget(dt,m_speed);
+	}
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
-		if (projectileList[i]->active == false)
+ 		if (projectileList[i]->active == false)
 			continue;
 		AdvanceGO* curProjectile = projectileList[i];
 		if (curProjectile->type == GameObject::GO_ARROW ||
@@ -87,15 +126,42 @@ bool Level3::Update(double dt)
 	
 	for (int i = 0; i < EntityList.size(); i++)
 	{
+		if (EntityList[i] == nullptr)
+			continue;
 		if (EntityList[i]->active == false)
 			continue;
-		if (EntityList[i]->type == GameObject::GO_PLAYER)
+		if ((EntityList[i]->type == GameObject::GO_PLAYER)) {
 			EntityList[i]->Update(dt, GAMESPEED);
+		}
+		else if (EntityList[i]->type == GameObject::GO_PLAYERCLONE)
+		{
+			EntityList[i]->Update(dt, GAMESPEED);
+		}
 		else
 		{
-			if (CheckWithinScreen(EntityList[i]))
+			if (CheckWithinScreen(EntityList[i])) 
+			{
 				EntityList[i]->Update(dt, m_speed);
+			}
 		}
+		if (clonedeleted == true)
+		{
+			if (EntityList[i]->type == GameObject::GO_PLAYERCLONE)
+			{
+				delete EntityList[i];
+				EntityList[i] = nullptr;
+				player->resetClone();
+				setcloned(false);
+				clonedeleted = false;
+			}
+		}
+	}
+	cleanupLists(false, &EntityList);
+
+	if (player->getSwap() == true)
+	{
+		swapcontrols(dt);
+		player->setSwap(false);
 	}
 
 	if (Application::IsKeyPressed('9'))
@@ -164,11 +230,27 @@ bool Level3::Update(double dt)
 	{
 		RButtonState = false;
 	}
-
+	if (player == nullptr || player->active == false)
+		return false;
 	player->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
-
+	if(player->getClone() != nullptr)
+		player->getClone()->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
 	CollisionChecks(dt, m_speed);
-	player->pos += player->vel * dt * GAMESPEED;
+	if (CheckWithinScreen(player))
+		player->pos += player->vel * dt * GAMESPEED;
+
+	if (player->getClone() != nullptr)
+	{
+		if (CheckWithinScreen(player->getClone()))
+			player->getClone()->setpos(player->getClone()->getpos() + player->getClone()->getvel() * dt * GAMESPEED);
+	}
+	if (Player::GetInstance()->isCompleted)
+	{
+		curSubLevel++;
+		GameLevelBase::Exit();
+		UpdateLevel();
+		Player::GetInstance()->isCompleted = false;
+	}
 	return true;
 }
 
@@ -198,26 +280,27 @@ void Level3::Render()
 
 	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_AXES), false);
 	modelStack->PushMatrix();
-	modelStack->Translate(getworldWidth()/2, getworldHeight()/2, 0);
+	modelStack->Translate(getworldWidth()/2, getworldHeight()/2,-1);
 	modelStack->Scale(getworldWidth(), getworldHeight(), -1);
 	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GO_BACKGROUND_1), false);
 	modelStack->PopMatrix();
-	zOffset = 0;
+	zOffset = 0.001f;
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false)
 			continue;
 		if (go->active)
 		{
-			RenderGO(go);
+			if (go->type != GameObject::OUTOFBOUNDS_TILE)
+				RenderGO(go);
 		}
 	}
 
 	for (std::vector<AdvanceGO*>::iterator it = InteractableList.begin(); it != InteractableList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false) 
 			continue;
 		if (go->active)
 		{
@@ -228,19 +311,20 @@ void Level3::Render()
 	for (std::vector<AdvanceGO*>::iterator it = EntityList.begin(); it != EntityList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false)
 			continue;
 		if (go->active)
 		{
 			RenderGO(go);
 		}
 	}
-	RenderPlayer();
+	if (player != nullptr)
+		RenderPlayer();
 
 	for (std::vector<AdvanceGO*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr)
+		if (go == nullptr || go->active == false)
 			continue;
 		if (go->active)
 		{
@@ -254,15 +338,15 @@ void Level3::Render()
 	
 	std::ostringstream ss;
 	//Exercise 5: Render m_objectCount
-	/*ss << "GameObject Count: " << m_objectCount;
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3, 0, 12);*/
+	ss << "GameObject Count: " << m_objectCount;
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3, 0, 12);
 	
 	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1, 0, 0), 3,67,56);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3,40,40);
 	
-	/*meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "Collision", Color(0, 1, 0), 3, 0, 0);*/
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "Collision", Color(0, 1, 0), 3, 0, 0);
 
 }
 
@@ -282,6 +366,7 @@ void Level3::Exit()
 		delete go;
 		map.pop_back();
 	}
+
 }
 /*
 void SceneCollision::ResetList(void)

@@ -240,15 +240,10 @@ void SceneGUI::renderGUI()
 
 	//render border for item
 	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_BORDER), 6, 6, 9.5,10);
+	ss << Player::GetInstance()->GetCurItem();
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1,1,1), 6, 9.5, 10);
 	
 
-	// Render border for item itself
-
-	//// render Attack 
-	//RenderMeshOnScreen(meshList[GUI_ATK_ICON], 39.5, 50, 3, 3);
-	////render attack value
-	//ss << 5; // player's attack value
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1, 1, 1), 3,41.5,48.5);
 
 	if (RenderPause)
 	{
