@@ -46,6 +46,7 @@ Player::Player()
 	PlayerAnimation->AddAnimation("Jumping", 6, 8);
 	PlayerAnimation->AddAnimation("Falling", 9, 11);
 	PlayerAnimation->PlayAnimation("Idle", -1, 6.f);
+	
 }
 
 Player::~Player()
@@ -56,9 +57,8 @@ Player::~Player()
 
 void Player::Update(double dt, float m_speed)
 {
-	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
-								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
-								pos.z);
+	if (SlowTime == true)
+		mana -= 5 * dt * m_speed;
 	double x, y;
 	Application::GetCursorPos(&x, &y);
 	int w = Application::GetWindowWidth();
@@ -77,17 +77,21 @@ void Player::Update(double dt, float m_speed)
 			curDirection = LEFT;
 	}
 	///// Slow time mechanic
-	static bool ShiftPressed = false;
-	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	//static bool ShiftPressed = false;
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
-		ShiftPressed = true;
+		//ShiftPressed = true;
+		cKeyboardController->ResetKey(GLFW_KEY_LEFT_SHIFT);
 		SlowTimeStart = true;
+		SlowTime = true;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
 	}
-	else if (ShiftPressed && !cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	else if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
 	{
-		ShiftPressed = false;
+		//ShiftPressed = false;
+		cKeyboardController->ResetKey(GLFW_KEY_LEFT_SHIFT);
 		SlowTimeEnd = true;
+		SlowTime = false;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
 	}
 
@@ -250,38 +254,32 @@ void Player::Update(double dt, float m_speed)
 		}
 		if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 		{
-			if (pos.x + Default_Speed * dt < maxpoint.x - (scale.x / 2))
-			{
 				vel.x = Default_Speed;
 				curDirection = RIGHT;
-			}
 		}
 
-			else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
-			{
-				if (pos.x - Default_Speed * dt > scale.x / 2)
-				{
-					vel.x = -Default_Speed;
-					curDirection = LEFT;
-				}
-			}
-
-			if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
-			{
-				vel.x = 0;
-				PlayerAnimation->PlayAnimation("Idle", -1, 1);
-			}
-
-			if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
-			{
-				//cSoundController->PlaySoundByID(2);
-				CSoundController::GetInstance()->PlaySoundByID(4);
-				this->vel.y += getJumpForce();
-				this->curLocation = IN_AIR;
-				PlayerAnimation->Reset();
-				PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
-			}
+		else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
+		{
+				vel.x = -Default_Speed;
+				curDirection = LEFT;
 		}
+
+		if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
+		{
+			vel.x = 0;
+			PlayerAnimation->PlayAnimation("Idle", -1, 1);
+		}
+
+		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+		{
+			//cSoundController->PlaySoundByID(2);
+			CSoundController::GetInstance()->PlaySoundByID(4);
+			this->vel.y += getJumpForce();
+			this->curLocation = IN_AIR;
+			PlayerAnimation->Reset();
+			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
+		}
+	}
 
 	scrollsnap += Application::GetYScrollOffset();
 

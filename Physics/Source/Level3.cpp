@@ -28,7 +28,7 @@ void Level3::Init()
 	m_objectCount = 0;
 
 	Math::InitRNG();
-	loadMap("Maps//Map_LEVEL_3.csv");
+	UpdateLevel();
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 		getworldWidth(),getworldHeight());
 	camera->setpanTarget(player);
@@ -86,20 +86,12 @@ void Level3::UpdateLevel()
 	}
 	else
 	{
-		GameLevelManager::GetInstance()->SetActiveGameLevel("Level1A");
+		GameLevelManager::GetInstance()->SetActiveGameLevel("Level4");
 	}
 }
 
 bool Level3::Update(double dt)
 {
-	if (Player::GetInstance()->isCompleted)
-	{
-		curSubLevel++;
-		GameLevelBase::Exit();
-		UpdateLevel();
-		Player::GetInstance()->isCompleted = false;
-	}
-
 	SceneBase::Update(dt);
 	if (player->isControl() == true)
 	{
@@ -252,6 +244,13 @@ bool Level3::Update(double dt)
 		if (CheckWithinScreen(player->getClone()))
 			player->getClone()->setpos(player->getClone()->getpos() + player->getClone()->getvel() * dt * GAMESPEED);
 	}
+	if (Player::GetInstance()->isCompleted)
+	{
+		curSubLevel++;
+		GameLevelBase::Exit();
+		UpdateLevel();
+		Player::GetInstance()->isCompleted = false;
+	}
 	return true;
 }
 
@@ -319,7 +318,8 @@ void Level3::Render()
 			RenderGO(go);
 		}
 	}
-	RenderPlayer();
+	if (player != nullptr)
+		RenderPlayer();
 
 	for (std::vector<AdvanceGO*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
 	{

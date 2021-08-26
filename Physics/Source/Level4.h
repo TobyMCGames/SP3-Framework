@@ -1,5 +1,5 @@
-#ifndef GAME_LEVEL_COLLISION_H
-#define GAME_LEVEL_COLLISION_H
+#ifndef GAME_LEVEL_4_H
+#define GAME_LEVEL_4_H
 
 #include "GameObject.h"
 #include <vector>
@@ -8,9 +8,9 @@
 #include "Player.h"
 #include "Entity.h"
 
-class SceneCollision : public GameLevelBase, public SingletonPattern<SceneCollision>
+class Level4 : public GameLevelBase, public SingletonPattern<Level4>
 {
-	friend SingletonPattern<SceneCollision>;
+	friend SingletonPattern<Level4>;
 	static const int MIN_LINE_LENGTH = 2;
 	static const int MAX_LINE_LENGTH = 4;
 	static const int LINE_THICKNESS = 1;
@@ -31,16 +31,16 @@ public:
 	void UpdateLevel();
 
 protected:
-	SceneCollision();
-	~SceneCollision();
+	Level4();
+	~Level4();
 
 	//Physics
 	//std::vector<GameObject *> m_goList;
 
 	int m_objectCount;
 
-	int curLevel = 1;
-	int numLevel = 1;
+	int curSubLevel = 1;
+	int numSubLevels = 1;
 };
 
 #endif

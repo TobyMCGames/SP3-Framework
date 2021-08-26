@@ -48,6 +48,7 @@ struct GameObject
 		SOIL_TILE,
 		GRASS_SOIL_TILE,
 		CAVE_TILE,
+		FRAGILE_CAVE_TILE,
 		LAVA_TILE,
 		STONE_WATERFALL_TILE,
 		PASSIVE_TILE_END,
@@ -68,6 +69,11 @@ struct GameObject
 		TREE_SEEDS,
 		VINE_SEEDS,
 		FALLING_PLATFORM,
+		DOOR_1_TILE,
+		DOOR_2_TILE,
+		DOOR_3_TILE,
+		DOOR_4_TILE,
+		DOOR_5_TILE,
 		INTERACTABLE_END,
 
 		GO_TOTAL //must be last
@@ -94,6 +100,7 @@ struct GameObject
 	int health;
 	int damage;
 	float Default_Speed;
+	Vector3 OGpos;
 
 	virtual void Response(GameObject* go) = 0;
 	virtual void Render() = 0;
