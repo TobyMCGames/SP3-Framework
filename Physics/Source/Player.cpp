@@ -470,10 +470,16 @@ void Player::Response(GameObject* go)
 		dead();
 
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
-		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET))
+		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET) || 
+		(go->type == GameObject::GO_SPIDER) || (go->type == GameObject::GO_SPIDERWEB))
 	{
 		if (curState == STATE_NORMAL)
 		{
+			if (go->type == GameObject::GO_SPIDERWEB)
+			{
+				isWebbedBySpider = true;
+				webbedTimeLeft = 3.f;
+			}
 			takeDamage(go->damage);
 			curState = STATE_INVINCIBLE;
 			InvincibilityTimer = 1.5;
@@ -490,30 +496,6 @@ void Player::Response(GameObject* go)
 			{
 				dead();
 				isdead = true;
-			}
-		}
-	}
-	if (go->type == GameObject::GO_SPIDERWEB)
-	{
-		isWebbedBySpider = true;
-		webbedTimeLeft = 3.f;
-		if (curState == STATE_NORMAL)
-		{
-			takeDamage(go->damage);
-			curState = STATE_INVINCIBLE;
-			InvincibilityTimer = 1.5;
-			int randHurtSound = rand() % 3;
-
-			if (randHurtSound == 0)
-				CSoundController::GetInstance()->PlaySoundByID(5);
-			else if (randHurtSound == 1)
-				CSoundController::GetInstance()->PlaySoundByID(6);
-			else if (randHurtSound == 2)
-				CSoundController::GetInstance()->PlaySoundByID(7);
-
-			if (health <= 0)
-			{
-				dead();
 			}
 		}
 	}
