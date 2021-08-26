@@ -53,6 +53,7 @@ public:
 		GEO_DOOR_3,
 		GEO_DOOR_4,
 		GEO_DOOR_5,
+		GEO_TREE_TILE,
 
 		GEO_BOMB,
 		GEO_WARP_GATE_TILE,

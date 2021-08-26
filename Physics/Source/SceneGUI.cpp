@@ -234,9 +234,20 @@ void SceneGUI::renderGUI()
 
 	//render border for item
 	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_BORDER), 6, 6, 9.5,10);
-	ss << Player::GetInstance()->GetCurItem();
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1,1,1), 6, 9.5, 10);
-	
+	switch (Player::GetInstance()->GetCurItem())
+	{
+	case PlayerBase::TREE_SEED:
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TREE_SEEDS), 6, 7, 7, 7);
+		break;
+	case PlayerBase::VINE_SEED:
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_VINE_SEEDS), 6, 7, 7, 7);
+		break;
+	case PlayerBase::BOMBS:
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_BOMB_CRATE), 6, 7, 7, 7);
+		break;
+	}
+	ss << Player::GetInstance()->GetCurItemAmt();
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1,1,1), 4, 7.5, 6);
 
 
 	if (RenderPause)

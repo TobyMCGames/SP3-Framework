@@ -24,6 +24,7 @@ public:
 	void setControl(bool controlled);
 	SpriteAnimation* getAnimation();
 	int GetCurItem();
+	int GetCurItemAmt();
 	void ChangeTimeline();
 
 	bool cloneinited;

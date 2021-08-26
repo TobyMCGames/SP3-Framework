@@ -955,20 +955,30 @@ void GameLevelBase::ChangeTimelineBlocks()
 		delete map[i];
 		map[i] = temp;
 	}
-//	for (int i = 0; i < EntityList.size(); i++)
-//	{
-//		AdvanceGO* temp = EntityList[i];
-//		if (temp == nullptr)
-//			continue;
-//		if (temp->active == false)
-//			continue;
-//
-//		switch (temp->type)
-//		{
-//		case GameObject::GO_TURRET:
-//			//temp->curStat
-//		}
-//	}
+	for (int i = 0; i < InteractableList.size(); i++)
+	{
+		AdvanceGO* temp = InteractableList[i];
+		if (temp == nullptr)
+			continue;
+		if (temp->active == false)
+			continue;
+
+		switch (temp->type)
+		{
+		case GameObject::TREE_SAPLING_TILE:
+			if (temp->pos == temp->OGpos)
+			{
+				temp->pos.y += TILEHEIGHT;
+				temp->scale.Set(TILEWIDTH * 3, TILEHEIGHT * 3, 1);
+			}
+			else
+			{
+				temp->pos = temp->OGpos;
+				temp->scale.Set(TILEWIDTH, TILEHEIGHT, 1);
+			}
+			break;
+		}
+	}
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()

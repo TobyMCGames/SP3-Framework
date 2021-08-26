@@ -120,6 +120,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_DOOR_4]->textureID = LoadTGA("Image//TILE//Door4.tga");
 	meshList[GEO_DOOR_5] = MeshBuilder::GenerateQuad("door5", Color(1, 1, 1));
 	meshList[GEO_DOOR_5]->textureID = LoadTGA("Image//TILE//Door5.tga");
+	meshList[GEO_TREE_TILE] = MeshBuilder::GenerateQuad("tree", Color(1, 1, 1));
+	meshList[GEO_TREE_TILE]->textureID = LoadTGA("Image//TILE//Tree_Tile.tga");
 
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");

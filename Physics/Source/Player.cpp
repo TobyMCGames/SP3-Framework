@@ -545,9 +545,47 @@ void Player::Response(GameObject* go)
 		case TREE_SEEDS:
 			Inventory[TREE_SEED]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			go->active = false;
+			break;
+		case TREE_SAPLING_TILE:
+			if (go->pos == go->OGpos)
+			{
+				Inventory[TREE_SEED]++;
+				cKeyboardController->ResetKey(GLFW_KEY_E);
+				go->active = false;
+			}
 			break;
 		case WARP_GATE:
 			isCompleted = true;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
+			break;
+		case SOIL_TILE:
+			if (curItem == TREE_SEED)
+			{
+				bool HasTree = false;
+				for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
+				{
+					if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->type == TREE_SAPLING_TILE)
+					{
+						if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->OGpos == go->pos)
+						{
+							HasTree = true;
+							break;
+						}
+					}
+				}
+				if (HasTree == false)
+				{
+					Inventory[curItem]--;
+					AdvanceGO* temp = InteractableFactory::GetInstance()->produceInteractable(
+						InteractableFactory::PTYPE_TREE,
+						Vector3(go->pos.x, go->pos.y + 5, go->pos.z),
+						Vector3(5, 5, 1)
+					);
+					temp->OGpos = temp->pos;
+					GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->push_back(temp);
+				}
+			}
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		}
@@ -620,6 +658,11 @@ SpriteAnimation* Player::getAnimation()
 }
 
 int Player::GetCurItem()
+{
+	return curItem;
+}
+
+int Player::GetCurItemAmt()
 {
 	return Inventory[curItem];
 }
