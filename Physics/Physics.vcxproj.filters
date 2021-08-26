@@ -200,9 +200,6 @@
     <ClCompile Include="Source\LogRoot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Level3.cpp">
-      <Filter>Source Files\GameLevels</Filter>
-    </ClCompile>
     <ClCompile Include="Source\PlayerClone.cpp">
       <Filter>Source Files\Entities\Player</Filter>
     </ClCompile>
@@ -232,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="Source\TileFactory.cpp">
       <Filter>DesignPatterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Level3.cpp">
+      <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -391,9 +391,6 @@
     <ClInclude Include="Source\LogRoot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Level3.h">
-      <Filter>Header Files\GameLevels</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Player.h">
       <Filter>Header Files\Entities\Player</Filter>
     </ClInclude>
@@ -420,6 +417,9 @@
     </ClInclude>
     <ClInclude Include="Source\SoundInfo.h">
       <Filter>Header Files\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Level3.h">
+      <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
