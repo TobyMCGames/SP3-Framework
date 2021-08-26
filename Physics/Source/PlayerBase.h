@@ -21,6 +21,7 @@ public:
 
 	enum Weapons
 	{
+		BARE_HANDS,
 		BOW,
 		STAFF,
 		PORTALGUN

@@ -102,8 +102,13 @@ CentralMesh::CentralMesh()
 	meshList[GEO_SOIL_TILE]->textureID = LoadTGA("Image//TILE//Soil_Tile.tga");
 	meshList[GEO_GRASS_SOIL_TILE] = MeshBuilder::GenerateQuad("soil", Color(1, 1, 1));
 	meshList[GEO_GRASS_SOIL_TILE]->textureID = LoadTGA("Image//TILE//Grass_Soil_Tile.tga");
+	meshList[GEO_CAVE_TILE] = MeshBuilder::GenerateQuad("cave_tile", Color(1, 1, 1));
+	meshList[GEO_CAVE_TILE]->textureID = LoadTGA("Image//TILE//Cave_Tile.tga");
+	meshList[GEO_LAVA_TILE] = MeshBuilder::GenerateQuad("lava_tile", Color(1, 1, 1));
+	meshList[GEO_LAVA_TILE]->textureID = LoadTGA("Image//TILE//Lava_Tile.tga");
+	meshList[GEO_STONE_WATERFALL_TILE] = MeshBuilder::GenerateQuad("stone_waterfall_tile", Color(1, 1, 1));
+	meshList[GEO_STONE_WATERFALL_TILE]->textureID = LoadTGA("Image//TILE//Stone_Waterfall_Tile.tga");
 
-	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
 	meshList[GEO_WARP_GATE_TILE] = MeshBuilder::GenerateQuad("warpgate", Color(1, 1, 1));
@@ -124,6 +129,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_STAFF]->textureID = LoadTGA("Image//WEAPONS//staff_blue.tga");
 	meshList[GEO_PORTALGUN] = MeshBuilder::GenerateQuad("portal gun", Color(1, 1, 1));
 	meshList[GEO_PORTALGUN]->textureID = LoadTGA("Image//WEAPONS//portal_gun.tga");
+	meshList[GEO_BOMB] = MeshBuilder::GenerateSpriteAnimation("bomb ANimation", Color(1, 1, 1),3,3);
+	meshList[GEO_BOMB]->textureID = LoadTGA("Image//WEAPONS//Bomb_Animation.tga");
 
 	//Interactables
 	meshList[GEO_WEAPON_STATION] = MeshBuilder::GenerateQuad("Stone Pedastal", Color(1, 1, 1));

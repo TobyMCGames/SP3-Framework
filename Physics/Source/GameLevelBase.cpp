@@ -263,6 +263,26 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel);
 				}
+				else if (key == "4") // cave tile
+				{
+					temp = tileFactory->ProduceTile(TileFactory::CAVE_TILE, pos, scale, vel);
+				}
+				else if (key == "5") // lava tile
+				{
+					temp = tileFactory->ProduceTile(TileFactory::LAVA_TILE, pos, scale, vel);
+				}
+				else if (key == "6") // lava tile
+				{
+					temp = tileFactory->ProduceTile(TileFactory::STONE_WATERFALL_TILE, pos, scale, vel);
+				}
+				else if (key == "7") // spike
+				{
+					temp = tileFactory->ProduceTile(TileFactory::SOIL, pos, scale, vel);
+				}
+				else if (key == "8") // spike
+				{
+					temp = tileFactory->ProduceTile(TileFactory::GRASS_SOIL, pos, scale, vel);
+				}
 				else if (key == "OOB") // outofbounds
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel);
@@ -376,12 +396,12 @@ float GameLevelBase::getworldHeight()
 
 float GameLevelBase::getTileWidth()
 {
-	return TILEWIDTH + offset;
+	return TILEWIDTH;
 }
 
 float GameLevelBase::getTileHeight()
 {
-	return TILEHEIGHT + offset;
+	return TILEHEIGHT;
 }
 
 
@@ -490,6 +510,11 @@ bool GameLevelBase::CheckWithinScreen(GameObject* go)
 		return false;
 	}
 	return true;
+}
+
+bool GameLevelBase::CheckobjSurrounding(GameObject* go)
+{
+	return false;
 }
 
 void GameLevelBase::CollisionChecks(double dt, float m_speed)
@@ -698,9 +723,9 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 
 				Vector3 FuturePos = projectile->pos + projectile->vel * dt * m_speed;
 				Vector3 FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
-				float angle = atan2f(FutureN.y, FutureN.y);
+				float angle = atan2f(FutureN.y, FutureN.x);
 				//Find how many tiles mob is away from left side
-				LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) / 2;
+				LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) *0.5;
 				XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
 				if (XnumTiles > 0)
 				{
@@ -862,12 +887,26 @@ void GameLevelBase::ChangeTimelineBlocks()
 		default:
 			break;
 		}
-		if (temp == nullptr)
+		if (temp == map[i])
 			continue;
 
 		delete map[i];
 		map[i] = temp;
 	}
+//	for (int i = 0; i < EntityList.size(); i++)
+//	{
+//		AdvanceGO* temp = EntityList[i];
+//		if (temp == nullptr)
+//			continue;
+//		if (temp->active == false)
+//			continue;
+//
+//		switch (temp->type)
+//		{
+//		case GameObject::GO_TURRET:
+//			//temp->curStat
+//		}
+//	}
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()

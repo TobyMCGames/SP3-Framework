@@ -47,6 +47,9 @@ struct GameObject
 		SPIKE_TILE,
 		SOIL_TILE,
 		GRASS_SOIL_TILE,
+		CAVE_TILE,
+		LAVA_TILE,
+		STONE_WATERFALL_TILE,
 		PASSIVE_TILE_END,
 
 		AGGRO_TILE_START,
@@ -94,6 +97,7 @@ struct GameObject
 
 	virtual void Response(GameObject* go) = 0;
 	virtual void Render() = 0;
+	//virtual void timeTravel() = 0;
 	
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);

@@ -92,7 +92,7 @@ bool SceneCollision::Update(double dt)
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
-		if (projectileList[i]->active == false)
+ 		if (projectileList[i]->active == false)
 			continue;
 		AdvanceGO* curProjectile = projectileList[i];
 		if (curProjectile->type == GameObject::GO_ARROW ||

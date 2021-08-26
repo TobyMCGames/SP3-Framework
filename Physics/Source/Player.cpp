@@ -8,8 +8,8 @@
 #include "MeshRender.h"
 
 Player::Player()
-	: curWeapon(Player::BOW)
-	, curItem(0)
+	: curWeapon(Player::BARE_HANDS)
+	, curItem(2)
 	, scrollsnap(0)
 	, PlayerAnimation(NULL)
 	, playerclone(nullptr)
@@ -190,9 +190,17 @@ void Player::Update(double dt, float m_speed)
 				break;
 			}
 		}
+		/*switch (curItem)
+		{
+		case BOMBS:
+			Projectile* bomb = ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
+				(pos + normal * scale.x), normal, Vector3(5, 5, 1), normal);
+			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
+			cout << "bomb created" << endl;
+			break;
+		}*/
 	}
-	/// Movement Mechanic
-
+	
 	if (controlled)
 	{
 		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
@@ -204,10 +212,10 @@ void Player::Update(double dt, float m_speed)
 			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
 		}
 
-		/*float friction = 0.5;*/
+			/*float friction = 0.5;*/
 
-		if(!teleport)
-			vel.x = 0;
+			if(!teleport)
+				vel.x = 0;
 
 		if (curLocation == ON_GROUND)
 		{
@@ -249,33 +257,33 @@ void Player::Update(double dt, float m_speed)
 			}
 		}
 
-		else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
-		{
-			if (pos.x - Default_Speed * dt > scale.x / 2)
+			else if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
 			{
-				vel.x = -Default_Speed;
-				curDirection = LEFT;
+				if (pos.x - Default_Speed * dt > scale.x / 2)
+				{
+					vel.x = -Default_Speed;
+					curDirection = LEFT;
+				}
+			}
+
+			if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
+			{
+				vel.x = 0;
+				PlayerAnimation->PlayAnimation("Idle", -1, 1);
+			}
+
+			if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
+			{
+				//cSoundController->PlaySoundByID(2);
+				CSoundController::GetInstance()->PlaySoundByID(4);
+				this->vel.y += getJumpForce();
+				this->curLocation = IN_AIR;
+				PlayerAnimation->Reset();
+				PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
 			}
 		}
 
-		if (cKeyboardController->IsKeyDown(GLFW_KEY_A) && cKeyboardController->IsKeyDown(GLFW_KEY_D))
-		{
-			vel.x = 0;
-			PlayerAnimation->PlayAnimation("Idle", -1, 1);
-		}
-
-		if (cKeyboardController->IsKeyPressed(GLFW_KEY_SPACE) && curLocation == Entity::ON_GROUND)
-		{
-			//cSoundController->PlaySoundByID(2);
-			CSoundController::GetInstance()->PlaySoundByID(4);
-			this->vel.y += getJumpForce();
-			this->curLocation = IN_AIR;
-			PlayerAnimation->Reset();
-			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
-		}
-	}
-
-		scrollsnap += Application::GetYScrollOffset();
+	scrollsnap += Application::GetYScrollOffset();
 
 		if (scrollsnap > getScrollSensitivity())
 		{

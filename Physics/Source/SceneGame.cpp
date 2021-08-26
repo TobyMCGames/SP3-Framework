@@ -29,11 +29,13 @@ void SceneGame::Init()
 	SceneGUI::GetInstance()->Init();
 
 	// Create game Levels
-	GameLevelManager::GetInstance()->AddGameLevel("Level1A", SceneCollision::GetInstance());
+	//GameLevelManager::GetInstance()->AddGameLevel("Level1A", SceneCollision::GetInstance());
+	
 	GameLevelManager::GetInstance()->AddGameLevel("Level3", Level3::GetInstance());
-
+	GameLevelManager::GetInstance()->AddGameLevel("Level4", SceneCollision::GetInstance());
 	// Set Active Game Level
-	GameLevelManager::GetInstance()->SetActiveGameLevel("Level3");
+	GameLevelManager::GetInstance()->SetActiveGameLevel("Level4");
+
 	Application::changeCursor(true);
 	ispaused = false;
 }
