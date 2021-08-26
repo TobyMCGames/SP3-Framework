@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "SpriteAnimation.h"
 
 class Spider : public Entity
 {
@@ -24,6 +25,7 @@ protected:
 	BEHAVIOUR currState;
 
 	float speedBoost;
+	SpriteAnimation* SpiderAnimation;
 	//void FlipHorizontalDirection(void);
 public:
 	Spider();

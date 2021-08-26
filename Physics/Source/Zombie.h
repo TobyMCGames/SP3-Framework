@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "SpriteAnimation.h"
 
 class Zombie : public Entity
 {
@@ -27,14 +28,13 @@ protected:
 	const float JumpForce = 15;
 	const float MaxStateCounter = 1;
 	bool jump = false;
-
 	float attackSoundTimer;
 	float idleSoundTimer;
-
 	BEHAVIOUR currState;
-
 	float speedBoost;
 	void FlipHorizontalDirection(void);
+
+	SpriteAnimation* ZombieAnimation;
 public:
 	Zombie();
 	~Zombie();

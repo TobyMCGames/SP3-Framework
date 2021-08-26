@@ -302,7 +302,8 @@ void SceneBase::RenderGO(GameObject* go)
 		else
 			modelStack->Rotate(0, 0, 1, 0);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_ZOMBIE), false);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_ZOMBIE), false);
+		go->Render();
 		modelStack->PopMatrix();
 		break;
 	case GameObject::GO_SKELEARCHER:
@@ -338,14 +339,16 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SPIDER), false);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SPIDER), false);
+		go->Render();
 		modelStack->PopMatrix();
 		break;
 	case GameObject::GO_TURRET:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_TURRET), false);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_TURRET), false);
+		go->Render();
 		modelStack->PopMatrix();
 		break;
 	case GameObject::WEAPON_STATION_BOW:

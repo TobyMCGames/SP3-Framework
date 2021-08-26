@@ -3,7 +3,8 @@
 #include "ProjectileFactory.h"
 
 Spider::Spider()
-	:currState(BEHAVIOUR::IDLE)
+	:currState(BEHAVIOUR::IDLE),
+	SpiderAnimation(NULL)
 {
 	Default_Speed = 5;
 	StateCounter = 0;
@@ -12,19 +13,33 @@ Spider::Spider()
 	speedBoost = 5;
 	health = 100;
 	shootCounter = 0;
-	return;
+
+	SpiderAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_SPIDER));
+	SpiderAnimation->AddAnimation("Idle", 0, 4);
+	SpiderAnimation->AddAnimation("Walking", 6, 11);
+	SpiderAnimation->AddAnimation("Shooting", 12, 15);
 }
 
 Spider::~Spider()
 {
-	return;
+	delete SpiderAnimation;
 }
 
 void Spider::Update(double dt, float m_speed)
 {
 	if (currState != IDLE)
+	{
+		SpiderAnimation->Reset();
+		SpiderAnimation->PlayAnimation("Walking", -1, 1.5);
 		pos.x += vel.x * dt * m_speed;
+	}
 	pos.y += vel.y * dt * m_speed;
+
+	if (SpiderAnimation != NULL)
+	{
+		SpiderAnimation->Update(dt * m_speed);
+	}
+
 	switch (currState)
 	{
 	case IDLE:
@@ -33,6 +48,8 @@ void Spider::Update(double dt, float m_speed)
 			currState = PATROL;
 			StateCounter = 0;
 			cout << "switching to Patrol state" << endl;
+			SpiderAnimation->Reset();
+			SpiderAnimation->PlayAnimation("Idle", 1, 1.5);
 		}
 		StateCounter++;
 		break;
@@ -80,7 +97,8 @@ void Spider::Update(double dt, float m_speed)
 						ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_SPIDERPOISON,
 							pos + (normal * scale.x), normal, scale, normal);
 					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(spiderpoison);
-
+					SpiderAnimation->Reset();
+					SpiderAnimation->PlayAnimation("Shooting", -1, 1.5);
 					shootCounter = 0;
 				}
 				shootCounter += dt * m_speed;
@@ -204,6 +222,16 @@ void Spider::Response(GameObject* go)
 
 void Spider::Render()
 {
+	if (SpiderAnimation != NULL) {
+		MeshRender::GetInstance()->RenderAnimation(
+			SpiderAnimation->GetSprite(),
+			SpiderAnimation->GetCurFrame(),
+			6,
+			3,
+			6,
+			false
+		);
+	}
 }
 
 void Spider::dead()

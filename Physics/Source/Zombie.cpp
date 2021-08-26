@@ -2,7 +2,8 @@
 #include "GameLevelManager.h"
 
 Zombie::Zombie()
-	:currState(BEHAVIOUR::IDLE)
+	:currState(BEHAVIOUR::IDLE),
+	ZombieAnimation(NULL)
 {
 	Default_Speed = 2;
 	StateCounter = 0;
@@ -14,17 +15,26 @@ Zombie::Zombie()
 	attackSoundTimer = 0;
 	idleSoundTimer = 0;
 	jump = false;
+
+	ZombieAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_ZOMBIE));
+	ZombieAnimation->AddAnimation("Idle", 4, 4);
+	ZombieAnimation->AddAnimation("Walking", 0, 3);
 }
 
 Zombie::~Zombie()
 {
 	//return;
+	delete ZombieAnimation;
 }
 
 void Zombie::Update(double dt, float m_speed)
 {
 	if (currState != IDLE)
+	{
 		pos.x += vel.x * dt * m_speed;
+		ZombieAnimation->Reset();
+		ZombieAnimation->PlayAnimation("Walking", -1, 3);
+	}
 	pos.y += vel.y * dt * m_speed;
 	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 	switch (currState)
@@ -33,6 +43,8 @@ void Zombie::Update(double dt, float m_speed)
 		if (StateCounter > MaxStateCounter)
 		{
 			currState = PATROL;
+			ZombieAnimation->Reset();
+			ZombieAnimation->PlayAnimation("Idle", 1, 1.5);
 			StateCounter = 0;
 			cout << "switching to Patrol state" << endl;
 		}
@@ -96,6 +108,10 @@ void Zombie::Update(double dt, float m_speed)
 		break;
 	}
 
+	if (ZombieAnimation != NULL)
+	{
+		ZombieAnimation->Update(dt * m_speed);
+	}
 
 	//play sounds
 	if (currState == ATTACK)
@@ -201,6 +217,16 @@ void Zombie::Response(GameObject* go)
 
 void Zombie::Render()
 {
+	if (ZombieAnimation != NULL) {
+		MeshRender::GetInstance()->RenderAnimation(
+			ZombieAnimation->GetSprite(),
+			ZombieAnimation->GetCurFrame(),
+			6,
+			2,
+			4,
+			false
+		);
+	}
 }
 
 void Zombie::dead()

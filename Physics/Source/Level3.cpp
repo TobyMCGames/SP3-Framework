@@ -75,10 +75,12 @@ void Level3::UpdateLevel()
 		case 1:
 			GameLevelBase::Exit();
 			loadMap("Maps//Map_LEVEL_3.csv");
+			camera->setpanTarget(player);
 			break;
 		case 2:
 			GameLevelBase::Exit();
 			loadMap("Maps//Map_LEVEL_3a.csv");
+			camera->setpanTarget(player);
 			break;
 		}
 	}
