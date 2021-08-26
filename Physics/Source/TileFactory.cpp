@@ -22,6 +22,9 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 		case CAVE_TILE:
 			newTile->type = GameObject::CAVE_TILE;
 			break;
+		case FRAGILE_CAVE_TILE:
+			newTile->type = GameObject::FRAGILE_CAVE_TILE;
+			break;
 		case LAVA_TILE:
 			newTile->type = GameObject::LAVA_TILE;
 			break;
@@ -34,6 +37,7 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 	}
 	newTile->active = true;
 	newTile->pos = pos;
+	newTile->OGpos = pos;
 	newTile->vel = vel;
 	newTile->scale = scale;
 	newTile->normal = normal;

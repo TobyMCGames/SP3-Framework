@@ -104,6 +104,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_GRASS_SOIL_TILE]->textureID = LoadTGA("Image//TILE//Grass_Soil_Tile.tga");
 	meshList[GEO_CAVE_TILE] = MeshBuilder::GenerateQuad("cave_tile", Color(1, 1, 1));
 	meshList[GEO_CAVE_TILE]->textureID = LoadTGA("Image//TILE//Cave_Tile.tga");
+	meshList[GEO_FRAGILE_CAVE_TILE] = MeshBuilder::GenerateQuad("fragile_cave_tile", Color(1, 1, 1));
+	meshList[GEO_FRAGILE_CAVE_TILE]->textureID = LoadTGA("Image//TILE//Fragile_Rock.tga");
 	meshList[GEO_LAVA_TILE] = MeshBuilder::GenerateQuad("lava_tile", Color(1, 1, 1));
 	meshList[GEO_LAVA_TILE]->textureID = LoadTGA("Image//TILE//Lava_Tile.tga");
 	meshList[GEO_STONE_WATERFALL_TILE] = MeshBuilder::GenerateQuad("stone_waterfall_tile", Color(1, 1, 1));
@@ -173,6 +175,8 @@ CentralMesh::CentralMesh()
 	// BACKGROUND
 	meshList[GO_BACKGROUND_1] = MeshBuilder::GenerateQuad("background 1", Color(1, 1, 1));
 	meshList[GO_BACKGROUND_1]->textureID = LoadTGA("Image//BACKGROUND//Test_background.tga");
+	meshList[GO_BACKGROUND_CAVE] = MeshBuilder::GenerateQuad("background cave", Color(1, 1, 1));
+	meshList[GO_BACKGROUND_CAVE]->textureID = LoadTGA("Image//BACKGROUND//Cave_background.tga");
 }
 
 CentralMesh::~CentralMesh()
