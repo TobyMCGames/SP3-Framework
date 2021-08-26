@@ -241,7 +241,7 @@ void Spider::dead()
 
 
 // enable this when flipped horizontally sprite for spider is made
-//void Spider::FlipHorizontalDirection(void)
-//{
-//	vel.x *= -1;
-//}
+void Spider::FlipHorizontalDirection(void)
+{
+	vel.x *= -1;
+}
