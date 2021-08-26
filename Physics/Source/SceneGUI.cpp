@@ -5,11 +5,12 @@
 #include "GLFW/glfw3.h"
 
 #include "GameStateManager.h"
-
 SceneGUI::SceneGUI()
 	: m_worldHeight(0)
 	, m_worldWidth(0)
 {
+	GameDialogues.LoadDialogue("Dialogues//Level_4_dialogues.txt"); // load level 4 texts
+	GameDialogues.setActive(true);
 }
 
 SceneGUI::~SceneGUI()
@@ -121,6 +122,8 @@ bool SceneGUI::Update(double dt)
 			bLButtonState = false;
 			RenderPause = false;
 		}
+
+		
 	}
 
 	//retry menu select
@@ -174,6 +177,8 @@ bool SceneGUI::Update(double dt)
 			}
 		}
 	}
+	// if in dialogue
+		//GameDialogues.Update(dt); 
 
 	return true;
 }
@@ -197,6 +202,7 @@ void SceneGUI::Render()
 	modelStack->LoadIdentity();
 
 	renderGUI();
+	renderDialogue();
 }
 
 void SceneGUI::Destroy()
@@ -234,15 +240,21 @@ void SceneGUI::renderGUI()
 
 	//render border for item
 	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_BORDER), 6, 6, 9.5,10);
-	
+	switch (Player::GetInstance()->GetCurItem())
+	{
+	case PlayerBase::TREE_SEED:
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TREE_SEEDS), 6, 7, 7, 7);
+		break;
+	case PlayerBase::VINE_SEED:
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_VINE_SEEDS), 6, 7, 7, 7);
+		break;
+	case PlayerBase::BOMBS:
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_BOMB_CRATE), 6, 7, 7, 7);
+		break;
+	}
+	ss << Player::GetInstance()->GetCurItemAmt();
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1,1,1), 4, 7.5, 6);
 
-	// Render border for item itself
-
-	//// render Attack 
-	//RenderMeshOnScreen(meshList[GUI_ATK_ICON], 39.5, 50, 3, 3);
-	////render attack value
-	//ss << 5; // player's attack value
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1, 1, 1), 3,41.5,48.5);
 
 	if (RenderPause)
 	{
@@ -258,6 +270,12 @@ void SceneGUI::renderGUI()
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "MAIN MENU", MenuButton, 3, 29, 25);
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "QUIT", QuitButton, 3, 29, 20);
 	}
+}
+
+void SceneGUI::renderDialogue()
+{
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT)
+		, GameDialogues.getCurrentText(), Color(0, 1, 0), 3, 3, 50, 10);
 }
 
 

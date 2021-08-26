@@ -59,6 +59,49 @@ void Player::Update(double dt, float m_speed)
 {
 	if (SlowTime == true)
 		mana -= 5 * dt * m_speed;
+	if (playerclone != nullptr)
+		mana -= 2 * dt * m_speed;
+	if (mana <= 0)
+	{
+		if (SlowTime == true)
+		{
+			SlowTimeEnd = true;
+			SlowTime = false;
+			GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
+		}
+		if (playerclone != nullptr)
+		{
+			GameLevelManager::GetInstance()->getcurrentLevel()->setcloneDeleted(true);
+			GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(false);
+			controlled = true;
+		}
+	}
+	static bool recharging = false;
+	if (SlowTime == false && playerclone == nullptr)
+	{
+		if (recharging == false)
+		{
+			RechargeTime = 9.f;
+			recharging = true;
+		}
+		else
+		{
+			if (mana != 100)
+			{
+				if (RechargeTime <= 0)
+				{
+					if (mana > 100)
+					{
+						mana = 100;
+						recharging = false;
+					}
+					mana += 5 * dt * m_speed;
+				}
+				else
+					RechargeTime -= dt * m_speed;
+			}
+		}
+	}
 	double x, y;
 	Application::GetCursorPos(&x, &y);
 	int w = Application::GetWindowWidth();
@@ -77,20 +120,18 @@ void Player::Update(double dt, float m_speed)
 			curDirection = LEFT;
 	}
 	///// Slow time mechanic
-	//static bool ShiftPressed = false;
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_LEFT_SHIFT) && mana - 5 * dt * m_speed > 0)
 	{
-		//ShiftPressed = true;
-		cKeyboardController->ResetKey(GLFW_KEY_LEFT_SHIFT);
-		SlowTimeStart = true;
+		if (SlowTime == false)
+			SlowTimeStart = true;
 		SlowTime = true;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
 	}
-	else if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
+	if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
 	{
-		//ShiftPressed = false;
 		cKeyboardController->ResetKey(GLFW_KEY_LEFT_SHIFT);
-		SlowTimeEnd = true;
+		if (SlowTime == true)
+			SlowTimeEnd = true;
 		SlowTime = false;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
 	}
@@ -106,10 +147,10 @@ void Player::Update(double dt, float m_speed)
 		SlowTimeEnd = false;
 	}
 
-	////// Create Clone Mechanic
+	//////Create Clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
-		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false) // summon the clone
+		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false && mana - 2 * dt * m_speed > 0) // summon the clone
 		{
 			if (curLocation != Entity::IN_AIR)
 			{
@@ -198,7 +239,7 @@ void Player::Update(double dt, float m_speed)
 		{
 		case BOMBS:
 			Projectile* bomb = ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
-				(pos + normal * scale.x), normal, Vector3(5, 5, 1), normal);
+				(pos + normal * scale.x), normal, Vector3(3,3, 1), normal);
 			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
 			cout << "bomb created" << endl;
 			break;
@@ -279,6 +320,11 @@ void Player::Update(double dt, float m_speed)
 			PlayerAnimation->Reset();
 			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
 		}
+		else if (cKeyboardController->IsKeyReleased(GLFW_KEY_SPACE) && curLocation == Entity::IN_AIR)
+		{
+			if (this->vel.y > 0)
+				vel.y *= 0.7;
+		}
 	}
 
 	scrollsnap += Application::GetYScrollOffset();
@@ -354,6 +400,11 @@ void Player::Update(double dt, float m_speed)
 	{
 		curState = STATE_NORMAL;
 	}
+	if (health <= 0)
+	{
+		dead();
+		isdead = true;
+	}
 }
 
 bool Player::getSwap()
@@ -423,16 +474,33 @@ void Player::Response(GameObject* go)
 		{
 			curLocation = ON_GROUND;
 		}
+		switch (go->type)
+		{
+		case SPIKE_TILE:
+			if (curState == STATE_NORMAL)
+			{
+				takeDamage(5);
+				curState = STATE_INVINCIBLE;
+				InvincibilityTimer = 1.5;
+			}
+			break;
+		}
 	}
 
 	if (go->type == GameObject::OUTOFBOUNDS_TILE)
 		dead();
 
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
-		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET))
+		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET) || 
+		(go->type == GameObject::GO_SPIDER) || (go->type == GameObject::GO_SPIDERWEB))
 	{
 		if (curState == STATE_NORMAL)
 		{
+			if (go->type == GameObject::GO_SPIDERWEB)
+			{
+				isWebbedBySpider = true;
+				webbedTimeLeft = 3.f;
+			}
 			takeDamage(go->damage);
 			curState = STATE_INVINCIBLE;
 			InvincibilityTimer = 1.5;
@@ -444,36 +512,6 @@ void Player::Response(GameObject* go)
 				CSoundController::GetInstance()->PlaySoundByID(6);
 			else if (randHurtSound == 2)
 				CSoundController::GetInstance()->PlaySoundByID(7);
-
-			if (health <= 0)
-			{
-				dead();
-				isdead = true;
-			}
-		}
-	}
-	if (go->type == GameObject::GO_SPIDERWEB)
-	{
-		isWebbedBySpider = true;
-		webbedTimeLeft = 3.f;
-		if (curState == STATE_NORMAL)
-		{
-			takeDamage(go->damage);
-			curState = STATE_INVINCIBLE;
-			InvincibilityTimer = 1.5;
-			int randHurtSound = rand() % 3;
-
-			if (randHurtSound == 0)
-				CSoundController::GetInstance()->PlaySoundByID(5);
-			else if (randHurtSound == 1)
-				CSoundController::GetInstance()->PlaySoundByID(6);
-			else if (randHurtSound == 2)
-				CSoundController::GetInstance()->PlaySoundByID(7);
-
-			if (health <= 0)
-			{
-				dead();
-			}
 		}
 	}
 
@@ -504,9 +542,47 @@ void Player::Response(GameObject* go)
 		case TREE_SEEDS:
 			Inventory[TREE_SEED]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			go->active = false;
+			break;
+		case TREE_SAPLING_TILE:
+			if (go->pos == go->OGpos)
+			{
+				Inventory[TREE_SEED]++;
+				cKeyboardController->ResetKey(GLFW_KEY_E);
+				go->active = false;
+			}
 			break;
 		case WARP_GATE:
 			isCompleted = true;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
+			break;
+		case SOIL_TILE:
+			if (curItem == TREE_SEED)
+			{
+				bool HasTree = false;
+				for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
+				{
+					if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->type == TREE_SAPLING_TILE)
+					{
+						if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->OGpos == go->pos)
+						{
+							HasTree = true;
+							break;
+						}
+					}
+				}
+				if (HasTree == false)
+				{
+					Inventory[curItem]--;
+					AdvanceGO* temp = InteractableFactory::GetInstance()->produceInteractable(
+						InteractableFactory::PTYPE_TREE,
+						Vector3(go->pos.x, go->pos.y + 5, go->pos.z),
+						Vector3(5, 5, 1)
+					);
+					temp->OGpos = temp->pos;
+					GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->push_back(temp);
+				}
+			}
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		}
@@ -576,6 +652,16 @@ void Player::Render()
 SpriteAnimation* Player::getAnimation()
 {
 	return PlayerAnimation;
+}
+
+int Player::GetCurItem()
+{
+	return curItem;
+}
+
+int Player::GetCurItemAmt()
+{
+	return Inventory[curItem];
 }
 
 void Player::ChangeTimeline()

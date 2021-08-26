@@ -63,3 +63,12 @@ struct TreeSeeds : public Interactables
 	virtual void Response(GameObject* go) {};
 	virtual void Render() {};
 };
+
+struct Tree : public Interactables
+{
+	Tree(GameObject::GAMEOBJECT_TYPE gotype) { type = gotype; };
+	~Tree() {};
+	virtual void Update(double dt, float m_speed) {};
+	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
+};

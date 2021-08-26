@@ -424,6 +424,12 @@
     <ClInclude Include="Source\SoundInfo.h">
       <Filter>Header Files\Sounds</Filter>
     </ClInclude>
+    <ClInclude Include="Source\AABB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Dialogue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Level1.h">
       <Filter>Header Files\GameLevels</Filter>
     </ClInclude>

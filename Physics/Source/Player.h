@@ -23,6 +23,8 @@ public:
 	void resetClone();
 	void setControl(bool controlled);
 	SpriteAnimation* getAnimation();
+	int GetCurItem();
+	int GetCurItemAmt();
 	void ChangeTimeline();
 
 	bool cloneinited;
@@ -45,7 +47,7 @@ protected:
 	Vector3 Pexitspeed;
 	bool teleport;
 	float webbedTimeLeft;
-	//float friction;
+	float RechargeTime;
 	
 	
 private:

@@ -113,7 +113,6 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 		if ((go1->pos - go2->pos).LengthSquared() <= (go1->scale.x + go2->scale.x) * (go1->scale.x + go2->scale.x))
 		{
 			Vector3 collisionNormal = go2->pos - go1->pos;
-
 			float period = (2 * Math::PI) / Math::DegreeToRadian(go2->angularVelocity);
 			float distance = (go1->pos - go2->pivot).Dot((go2->pos - go2->pivot).Normalized());
 			float speed = (2 * Math::PI * distance) / period;
@@ -123,7 +122,6 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 
 			if (DiffVel.Dot(collisionNormal) > 0)
 				return true;
-
 		}
 	}
 	else if ((go1->type == GameObject::GO_PLAYER  || (go1->type == GameObject::GO_PLAYERCLONE))&& (go2->type > GameObject::ENTITY_START && go2->type < GameObject::ENTITY_END))
@@ -150,7 +148,6 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 				return AABB(go1, go2);
 			}
 			return CheckCorner(go1,go2, dt*m_speed);
-
 		}
 	else if ((go1->type == GameObject::GO_PLAYER || go1->type == GameObject::GO_PLAYERCLONE) &&
 		(go2->type > GameObject::INTERACTABLE_START && go2->type < GameObject::INTERACTABLE_END))
@@ -425,7 +422,7 @@ GamePhysics::COLLIDEPOS GamePhysics::GetCollidePos()
 	return collidepos;
 }
 
-bool GamePhysics::AABB(GameObject* go1, GameObject* go2)
+bool GamePhysics::AABB(GameObject* go1, GameObject* go2,bool overlap)
 {
 	Vector3 go1min, go1max, go2min, go2max;
 
@@ -444,8 +441,19 @@ bool GamePhysics::AABB(GameObject* go1, GameObject* go2)
 	go2max.x += go2->scale.x * 0.5;
 	go2max.y += go2->scale.y * 0.5;
 
-	bool collisionX = go1min.x <= go2max.x && go1max.x >= go2min.x;
-	bool collisionY = go1min.y <= go2max.y && go1max.y >= go2min.y;
+	bool collisionX = false; 
+	bool collisionY = false; 
+	if (overlap == false)
+	{
+		collisionX = go1min.x <= go2max.x && go1max.x >= go2min.x;
+		collisionY = go1min.y <= go2max.y && go1max.y >= go2min.y;
+	}
+	else
+	{
+		collisionX = go1min.x >= go2max.x && go1max.x <= go2min.x;
+		collisionY = go1min.y >= go2max.x && go1max.y <= go2max.y;
+	}
+	
 	if (collisionX && collisionY)
 	{
 		//std::cout << "collision happened" << std::endl;
