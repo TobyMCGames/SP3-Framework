@@ -287,6 +287,26 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::FRAGILE_CAVE_TILE, pos, scale, vel);
 				}
+				else if (key == "10")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DOOR_1_TILE, pos, scale, vel);
+				}
+				else if (key == "11")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DOOR_2_TILE, pos, scale, vel);
+				}
+				else if (key == "12")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DOOR_3_TILE, pos, scale, vel);
+				}
+				else if (key == "13")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DOOR_4_TILE, pos, scale, vel);
+				}
+				else if (key == "14")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DOOR_5_TILE, pos, scale, vel);
+				}
 				else if (key == "OOB") // outofbounds
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel);
