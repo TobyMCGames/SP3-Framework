@@ -147,7 +147,7 @@ void Player::Update(double dt, float m_speed)
 		SlowTimeEnd = false;
 	}
 
-	////// Create Clone Mechanic
+	//////Create Clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
 		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false && mana - 2 * dt * m_speed > 0) // summon the clone
@@ -239,7 +239,7 @@ void Player::Update(double dt, float m_speed)
 		{
 		case BOMBS:
 			Projectile* bomb = ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
-				(pos + normal * scale.x), normal, Vector3(5, 5, 1), normal);
+				(pos + normal * scale.x), normal, Vector3(3,3, 1), normal);
 			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
 			cout << "bomb created" << endl;
 			break;

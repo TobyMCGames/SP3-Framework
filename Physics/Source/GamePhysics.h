@@ -36,8 +36,8 @@ public:
 	void CheckCollisionResponse(GameObject* go1, GameObject* go2, double dt, float m_speed);
 	bool CheckCorner(GameObject* go1, GameObject* go2, double dt);
 	COLLIDEPOS GetCollidePos();
-	//AABB for projectiles
-	bool AABB(GameObject* go1, GameObject* go2);
+	//AABB for projectiles over = true if you want to see if go1 is in go2
+	bool AABB(GameObject* go1, GameObject* go2,bool overlap = false);
 	bool DistanceCheck(GameObject* go1, GameObject* go2);
 	COLLIDEPOS checkCollidePos(GameObject* go1, GameObject* go2);
 	COLLIDEPOS checkCollidePos(float velX, float velY);
