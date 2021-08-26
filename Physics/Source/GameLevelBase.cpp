@@ -887,7 +887,7 @@ void GameLevelBase::ChangeTimelineBlocks()
 		default:
 			break;
 		}
-		if (temp == nullptr)
+		if (temp == map[i])
 			continue;
 
 		delete map[i];
