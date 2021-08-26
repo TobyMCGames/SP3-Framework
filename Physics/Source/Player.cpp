@@ -323,7 +323,7 @@ void Player::Update(double dt, float m_speed)
 		else if (cKeyboardController->IsKeyReleased(GLFW_KEY_SPACE) && curLocation == Entity::IN_AIR)
 		{
 			if (this->vel.y > 0)
-				vel.y *= 0.3;
+				vel.y *= 0.7;
 		}
 	}
 
