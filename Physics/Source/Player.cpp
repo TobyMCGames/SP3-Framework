@@ -320,6 +320,11 @@ void Player::Update(double dt, float m_speed)
 			PlayerAnimation->Reset();
 			PlayerAnimation->PlayAnimation("Jumping", 1, getJumpForce() / -GamePhysics::GetInstance()->gravity.y);
 		}
+		else if (cKeyboardController->IsKeyReleased(GLFW_KEY_SPACE) && curLocation == Entity::IN_AIR)
+		{
+			if (this->vel.y > 0)
+				vel.y *= 0.3;
+		}
 	}
 
 	scrollsnap += Application::GetYScrollOffset();
@@ -395,6 +400,11 @@ void Player::Update(double dt, float m_speed)
 	{
 		curState = STATE_NORMAL;
 	}
+	if (health <= 0)
+	{
+		dead();
+		isdead = true;
+	}
 }
 
 bool Player::getSwap()
@@ -464,6 +474,17 @@ void Player::Response(GameObject* go)
 		{
 			curLocation = ON_GROUND;
 		}
+		switch (go->type)
+		{
+		case SPIKE_TILE:
+			if (curState == STATE_NORMAL)
+			{
+				takeDamage(5);
+				curState = STATE_INVINCIBLE;
+				InvincibilityTimer = 1.5;
+			}
+			break;
+		}
 	}
 
 	if (go->type == GameObject::OUTOFBOUNDS_TILE)
@@ -491,12 +512,6 @@ void Player::Response(GameObject* go)
 				CSoundController::GetInstance()->PlaySoundByID(6);
 			else if (randHurtSound == 2)
 				CSoundController::GetInstance()->PlaySoundByID(7);
-
-			if (health <= 0)
-			{
-				dead();
-				isdead = true;
-			}
 		}
 	}
 
