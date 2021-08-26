@@ -4,7 +4,8 @@
 #include "SkeleArrow.h"
 
 SkeletonArcher::SkeletonArcher()
-	:currState(BEHAVIOUR::IDLE)
+	:currState(BEHAVIOUR::IDLE),
+	SkeletonAnimation(NULL)
 {
 	health = 45;
 	damage = 5;
@@ -12,21 +13,43 @@ SkeletonArcher::SkeletonArcher()
 	StateCounter = 0;
 	attackTimer = 0;
 	shootCounter = 0;
+
+	SkeletonAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_SKELETONARCHER));
+	SkeletonAnimation->AddAnimation("Idle", 3, 3);
+	SkeletonAnimation->AddAnimation("Walking", 0, 2);
+	//SkeletonAnimation->PlayAnimation("Walking", -1, 1);
 }
 
 SkeletonArcher::~SkeletonArcher()
 {
+	delete SkeletonAnimation;
 }
 
 void SkeletonArcher::Update(double dt, float m_speed)
 {
-	//cout << (pos - Player::GetInstance()->pos).Length() << endl;
-	if (currState != IDLE)
+
+
+	if (currState != IDLE && currState != ATTACK)
+	{
 		pos.x += vel.x * dt * m_speed;
+		SkeletonAnimation->Reset();
+		SkeletonAnimation->PlayAnimation("Walking", -1, 1);
+	}
+	else if (vel.x == 0)
+	{
+		SkeletonAnimation->Reset();
+		SkeletonAnimation->PlayAnimation("Idle", 1, 1);
+	}
+
+	if (SkeletonAnimation != NULL)
+	{
+		SkeletonAnimation->Update(dt * m_speed);
+	}
+
 	pos.y += vel.y * dt * m_speed;
 	switch (currState)
-	{
-	case IDLE:
+	{	case IDLE:
+
 		if ((pos - Player::GetInstance()->pos).Length() <= 40)
 		{
 			currState = ATTACK;
@@ -146,6 +169,16 @@ void SkeletonArcher::Response(GameObject* go)
 
 void SkeletonArcher::Render()
 {
+	if (SkeletonAnimation != NULL) {
+		MeshRender::GetInstance()->RenderAnimation(
+			SkeletonAnimation->GetSprite(),
+			SkeletonAnimation->GetCurFrame(),
+			6,
+			2,
+			3,
+			false
+		);
+	}
 }
 
 void SkeletonArcher::dead()
