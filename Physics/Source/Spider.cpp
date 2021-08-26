@@ -13,6 +13,7 @@ Spider::Spider()
 	speedBoost = 5;
 	health = 100;
 	shootCounter = 0;
+	damage = 12;
 
 	SpiderAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_SPIDER));
 	SpiderAnimation->AddAnimation("Idle", 0, 4);
@@ -241,7 +242,7 @@ void Spider::dead()
 
 
 // enable this when flipped horizontally sprite for spider is made
-//void Spider::FlipHorizontalDirection(void)
-//{
-//	vel.x *= -1;
-//}
+void Spider::FlipHorizontalDirection(void)
+{
+	vel.x *= -1;
+}

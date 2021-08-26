@@ -26,7 +26,7 @@ protected:
 
 	float speedBoost;
 	SpriteAnimation* SpiderAnimation;
-	//void FlipHorizontalDirection(void);
+	void FlipHorizontalDirection(void);
 public:
 	Spider();
 	~Spider();

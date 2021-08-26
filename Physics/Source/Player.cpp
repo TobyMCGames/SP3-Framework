@@ -147,7 +147,7 @@ void Player::Update(double dt, float m_speed)
 		SlowTimeEnd = false;
 	}
 
-	////// Create Clone Mechanic
+	//////Create Clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
 		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false && mana - 2 * dt * m_speed > 0) // summon the clone
@@ -239,7 +239,7 @@ void Player::Update(double dt, float m_speed)
 		{
 		case BOMBS:
 			Projectile* bomb = ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
-				(pos + normal * scale.x), normal, Vector3(5, 5, 1), normal);
+				(pos + normal * scale.x), normal, Vector3(3,3, 1), normal);
 			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
 			cout << "bomb created" << endl;
 			break;
@@ -470,10 +470,16 @@ void Player::Response(GameObject* go)
 		dead();
 
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
-		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET))
+		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET) || 
+		(go->type == GameObject::GO_SPIDER) || (go->type == GameObject::GO_SPIDERWEB))
 	{
 		if (curState == STATE_NORMAL)
 		{
+			if (go->type == GameObject::GO_SPIDERWEB)
+			{
+				isWebbedBySpider = true;
+				webbedTimeLeft = 3.f;
+			}
 			takeDamage(go->damage);
 			curState = STATE_INVINCIBLE;
 			InvincibilityTimer = 1.5;
@@ -490,30 +496,6 @@ void Player::Response(GameObject* go)
 			{
 				dead();
 				isdead = true;
-			}
-		}
-	}
-	if (go->type == GameObject::GO_SPIDERWEB)
-	{
-		isWebbedBySpider = true;
-		webbedTimeLeft = 3.f;
-		if (curState == STATE_NORMAL)
-		{
-			takeDamage(go->damage);
-			curState = STATE_INVINCIBLE;
-			InvincibilityTimer = 1.5;
-			int randHurtSound = rand() % 3;
-
-			if (randHurtSound == 0)
-				CSoundController::GetInstance()->PlaySoundByID(5);
-			else if (randHurtSound == 1)
-				CSoundController::GetInstance()->PlaySoundByID(6);
-			else if (randHurtSound == 2)
-				CSoundController::GetInstance()->PlaySoundByID(7);
-
-			if (health <= 0)
-			{
-				dead();
 			}
 		}
 	}
