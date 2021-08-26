@@ -271,15 +271,15 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::LAVA_TILE, pos, scale, vel);
 				}
-				else if (key == "6") // lava tile
+				else if (key == "6") // stone waterfall tile
 				{
 					temp = tileFactory->ProduceTile(TileFactory::STONE_WATERFALL_TILE, pos, scale, vel);
 				}
-				else if (key == "7") // spike
+				else if (key == "7") // soil
 				{
 					temp = tileFactory->ProduceTile(TileFactory::SOIL, pos, scale, vel);
 				}
-				else if (key == "8") // spike
+				else if (key == "8") // grass soil
 				{
 					temp = tileFactory->ProduceTile(TileFactory::GRASS_SOIL, pos, scale, vel);
 				}
