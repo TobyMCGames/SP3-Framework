@@ -29,7 +29,7 @@ void Level3::Init()
 
 
 	Math::InitRNG();
-	loadMap("Maps//Map_LEVEL_3a.csv");
+	loadMap("Maps//Map_LEVEL_3.csv");
 	camera->Init(Vector3(0,0,5), Vector3(0,0, 0), Vector3(0, 1, 0), 80, 45,getworldWidth(),getworldHeight());
 	camera->setpanTarget(player);
 }
@@ -65,10 +65,41 @@ void Level3::ReturnGO(GameObject *go)
 	m_objectCount--;
 }
 
+void Level3::UpdateLevel()
+{
+	if (curSubLevel < numSubLevels + 1)
+	{
+		switch (curSubLevel)
+		{
+		case 1:
+			GameLevelBase::Exit();
+			loadMap("Maps//Map_LEVEL_3.csv");
+			break;
+		case 2:
+			GameLevelBase::Exit();
+			loadMap("Maps//Map_LEVEL_3a.csv");
+			break;
+		}
+	}
+	else
+	{
+		GameLevelManager::GetInstance()->SetActiveGameLevel("Level1A");
+	}
+}
+
 bool Level3::Update(double dt)
 {
 	SceneBase::Update(dt);
 	camera->Update(dt);
+
+
+	if (Player::GetInstance()->isCompleted)
+	{
+		curSubLevel++;
+		GameLevelBase::Exit();
+		UpdateLevel();
+		Player::GetInstance()->isCompleted = false;
+	}
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
@@ -164,11 +195,11 @@ bool Level3::Update(double dt)
 	{
 		RButtonState = false;
 	}
-
-	player->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
-
+	if(player != nullptr)
+		player->vel += GamePhysics::GetInstance()->gravity * dt * GAMESPEED;
 	CollisionChecks(dt, m_speed);
-	player->pos += player->vel * dt * GAMESPEED;
+	if (player != nullptr)
+		player->pos += player->vel * dt * GAMESPEED;
 	return true;
 }
 
@@ -235,7 +266,8 @@ void Level3::Render()
 			RenderGO(go);
 		}
 	}
-	RenderPlayer();
+	if(player != nullptr)
+		RenderPlayer();
 
 	for (std::vector<AdvanceGO*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
 	{
@@ -283,6 +315,8 @@ void Level3::Exit()
 		map.pop_back();
 	}
 }
+
+
 /*
 void SceneCollision::ResetList(void)
 {
