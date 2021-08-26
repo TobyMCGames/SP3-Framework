@@ -4,10 +4,10 @@
 #include "GameObject.h"
 #include <vector>
 #include "GameLevelBase.h"
-#include "GameLevelManager.h"
 #include "GamePhysics.h"
 #include "Player.h"
 #include "Entity.h"
+#include "GameLevelManager.h"
 
 class Level3 : public GameLevelBase, public SingletonPattern<Level3>
 {
@@ -24,14 +24,12 @@ public:
 	virtual void Render();
 	virtual void Destroy();
 	virtual void Exit();
+
 	//void ResetList(void);
 	GameObject* FetchGO();
 	void ReturnGO(GameObject *go);
+
 	void UpdateLevel();
-	/*void MakePillar(float x, float  y, float thickness, GameObject::GAMEOBJECT_TYPE type);
-	void MakeThinWall(float x, float y, float angleDeg, float thickness, float height);
-	void MakeThickWall(float x, float y, float angleDeg, float thickness, float height);
-	void MakeFlipper(float x, float y, Vector3 pivotPos, float defaultAngle, float angleSpeed, float thickness, float height);*/
 
 protected:
 	Level3();

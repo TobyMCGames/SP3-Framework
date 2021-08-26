@@ -271,17 +271,21 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::LAVA_TILE, pos, scale, vel);
 				}
-				else if (key == "6") // stone waterfall tile
+				else if (key == "6") // Stone Waterfall tile
 				{
 					temp = tileFactory->ProduceTile(TileFactory::STONE_WATERFALL_TILE, pos, scale, vel);
 				}
-				else if (key == "7") // soil
+				else if (key == "7") // Soil tile
 				{
 					temp = tileFactory->ProduceTile(TileFactory::SOIL, pos, scale, vel);
 				}
 				else if (key == "8") // grass soil
 				{
 					temp = tileFactory->ProduceTile(TileFactory::GRASS_SOIL, pos, scale, vel);
+				}
+				else if (key == "9") // fragile cave
+				{
+					temp = tileFactory->ProduceTile(TileFactory::FRAGILE_CAVE_TILE, pos, scale, vel);
 				}
 				else if (key == "OOB") // outofbounds
 				{
@@ -863,13 +867,16 @@ void GameLevelBase::ChangeAllIntObject(GameObject::GAMEOBJECT_TYPE Changeto, Gam
 
 void GameLevelBase::ChangeTimelineBlocks()
 {
+	int XTilesInWorld = getworldWidth() / (getTileWidth());
+	int YTilesInWorld = getworldHeight() / (getTileHeight());
+	bool revertTile = false;
 	for (int i = 0; i < map.size(); i++)
 	{
 		GameObject* temp;
 		temp = map[i];
 		if (temp == nullptr)
 			continue;
-
+		int pos = i;
 		switch (temp->type)
 		{
 		case GameObject::BRICK_TILE:
@@ -884,6 +891,41 @@ void GameLevelBase::ChangeTimelineBlocks()
 		case GameObject::GRASS_SOIL_TILE:
 			temp = ChangeMapObject(GameObject::SOIL_TILE, temp);
 			break;
+		case GameObject::FRAGILE_CAVE_TILE:
+			if (temp->pos == temp->OGpos && revertTile == false)
+			{
+				while (pos - XTilesInWorld >= 0)
+				{
+					if (map[pos - XTilesInWorld] == nullptr)
+					{
+						map[pos] = nullptr;
+						pos -= XTilesInWorld;
+						map[pos] = temp;
+						temp->pos.y -= TILEHEIGHT;
+					}
+					else
+						break;
+				}
+			}
+			else
+			{
+				revertTile = true;
+				while (pos + XTilesInWorld < YTilesInWorld * XTilesInWorld)
+				{
+					if (temp->pos.y < temp->OGpos.y)
+					{
+						pos += XTilesInWorld;
+						temp->pos.y += TILEHEIGHT;
+					}
+					else
+					{
+						map[i] = nullptr;
+						map[pos] = temp;
+						break;
+					}
+				}
+			}
+			continue;
 		default:
 			break;
 		}

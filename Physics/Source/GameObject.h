@@ -48,6 +48,7 @@ struct GameObject
 		SOIL_TILE,
 		GRASS_SOIL_TILE,
 		CAVE_TILE,
+		FRAGILE_CAVE_TILE,
 		LAVA_TILE,
 		STONE_WATERFALL_TILE,
 		DOOR_1_TILE,
@@ -99,6 +100,7 @@ struct GameObject
 	int health;
 	int damage;
 	float Default_Speed;
+	Vector3 OGpos;
 
 	virtual void Response(GameObject* go) = 0;
 	virtual void Render() = 0;
