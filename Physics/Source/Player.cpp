@@ -56,6 +56,8 @@ Player::~Player()
 
 void Player::Update(double dt, float m_speed)
 {
+	if (SlowTime == true)
+		mana -= 5 * dt * m_speed;
 	static Vector3 maxpoint = Vector3(GameLevelManager::GetInstance()->getcurrentLevel()->getworldWidth(),
 								GameLevelManager::GetInstance()->getcurrentLevel()->getworldHeight(),
 								pos.z);
@@ -77,17 +79,21 @@ void Player::Update(double dt, float m_speed)
 			curDirection = LEFT;
 	}
 	///// Slow time mechanic
-	static bool ShiftPressed = false;
-	if (!ShiftPressed && cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	//static bool ShiftPressed = false;
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 	{
-		ShiftPressed = true;
+		//ShiftPressed = true;
+		cKeyboardController->ResetKey(GLFW_KEY_LEFT_SHIFT);
 		SlowTimeStart = true;
+		SlowTime = true;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 1.f;
 	}
-	else if (ShiftPressed && !cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	else if (cKeyboardController->IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
 	{
-		ShiftPressed = false;
+		//ShiftPressed = false;
+		cKeyboardController->ResetKey(GLFW_KEY_LEFT_SHIFT);
 		SlowTimeEnd = true;
+		SlowTime = false;
 		GameLevelManager::GetInstance()->getcurrentLevel()->m_speed = 2.7f;
 	}
 

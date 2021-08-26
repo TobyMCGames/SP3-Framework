@@ -1,4 +1,4 @@
-#include "SceneCollision.h"
+#include "Level4.h"
 #include "GL\glew.h"
 #include "Application.h"
 #include <sstream>
@@ -8,16 +8,16 @@
 //Remove later
 #include "InteractableFactory.h"
 
-SceneCollision::SceneCollision()
+Level4::Level4()
 {
 	std::cout << "Initialising SceneCollision" << std::endl;
 }
 
-SceneCollision::~SceneCollision()
+Level4::~Level4()
 {
 }
 
-void SceneCollision::Init()
+void Level4::Init()
 {
 	SceneBase::Init();
 
@@ -25,14 +25,14 @@ void SceneCollision::Init()
 	m_objectCount = 0;
 
 	Math::InitRNG();
-	loadMap("Maps//Map_LEVEL_1.csv");
+	loadMap("Maps//Map_LEVEL_4.csv");
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 		getworldWidth(),getworldHeight());
 	camera->setpanTarget(player);
 	//camera->setDebugMode();
 }
 
-GameObject* SceneCollision::FetchGO()
+GameObject* Level4::FetchGO()
 {
 	//Exercise 2a: implement FetchGO()
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); it++)
@@ -56,19 +56,19 @@ GameObject* SceneCollision::FetchGO()
 	return map.back();
 }
 
-void SceneCollision::ReturnGO(GameObject *go)
+void Level4::ReturnGO(GameObject *go)
 {
 	//Exercise 3: implement ReturnGO()
 	go->active = false;
 	m_objectCount--;
 }
 
-void SceneCollision::UpdateLevel()
+void Level4::UpdateLevel()
 {
 	//switch (curLevel)
 }
 
-bool SceneCollision::Update(double dt)
+bool Level4::Update(double dt)
 {
 	SceneBase::Update(dt);
 	if (player->isControl() == true)
@@ -226,7 +226,7 @@ bool SceneCollision::Update(double dt)
 }
 
 
-void SceneCollision::Render()
+void Level4::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -320,12 +320,12 @@ void SceneCollision::Render()
 
 }
 
-void SceneCollision::Destroy()
+void Level4::Destroy()
 {
 	DestroyInstance();
 }
 
-void SceneCollision::Exit()
+void Level4::Exit()
 {
 	SceneBase::Exit();
 	GameLevelBase::Exit();

@@ -170,7 +170,10 @@
     <ClCompile Include="Source\GameStateManager.cpp" />
     <ClCompile Include="Source\InteractableFactory.cpp" />
     <ClCompile Include="Source\KeyboardController.cpp" />
+    <ClCompile Include="Source\Level1.cpp" />
+    <ClCompile Include="Source\Level2.cpp" />
     <ClCompile Include="Source\Level3.cpp" />
+    <ClCompile Include="Source\Level4.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
     <ClCompile Include="Source\LogRoot.cpp" />
@@ -187,7 +190,6 @@
     <ClCompile Include="Source\ProjectileFactory.cpp" />
     <ClCompile Include="Source\SceneBase.cpp" />
     <ClCompile Include="Source\SceneCamera.cpp" />
-    <ClCompile Include="Source\SceneCollision.cpp" />
     <ClCompile Include="Source\SceneGUI.cpp" />
     <ClCompile Include="Source\SceneGame.cpp" />
     <ClCompile Include="Source\SceneCredits.cpp" />
@@ -229,7 +231,10 @@
     <ClInclude Include="Source\InteractableFactory.h" />
     <ClInclude Include="Source\Interactables.h" />
     <ClInclude Include="Source\KeyboardController.h" />
+    <ClInclude Include="Source\Level1.h" />
+    <ClInclude Include="Source\Level2.h" />
     <ClInclude Include="Source\Level3.h" />
+    <ClInclude Include="Source\Level4.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
@@ -249,7 +254,6 @@
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneBase.h" />
     <ClInclude Include="Source\SceneCamera.h" />
-    <ClInclude Include="Source\SceneCollision.h" />
     <ClInclude Include="Source\SceneCredits.h" />
     <ClInclude Include="Source\SceneHTP.h" />
     <ClInclude Include="Source\SceneGame.h" />

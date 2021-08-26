@@ -125,9 +125,6 @@
     <ClCompile Include="Source\GameLevelManager.cpp">
       <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneCollision.cpp">
-      <Filter>Source Files\GameLevels</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -200,6 +197,9 @@
     <ClCompile Include="Source\LogRoot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Level3.cpp">
+      <Filter>Source Files\GameLevels</Filter>
+    </ClCompile>
     <ClCompile Include="Source\PlayerClone.cpp">
       <Filter>Source Files\Entities\Player</Filter>
     </ClCompile>
@@ -230,7 +230,13 @@
     <ClCompile Include="Source\TileFactory.cpp">
       <Filter>DesignPatterns</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Level3.cpp">
+    <ClCompile Include="Source\Level1.cpp">
+      <Filter>Source Files\GameLevels</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Level2.cpp">
+      <Filter>Source Files\GameLevels</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Level4.cpp">
       <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
   </ItemGroup>
@@ -299,9 +305,6 @@
       <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLevelManager.h">
-      <Filter>Header Files\GameLevels</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneCollision.h">
       <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneCamera.h">
@@ -391,6 +394,9 @@
     <ClInclude Include="Source\LogRoot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Level3.h">
+      <Filter>Header Files\GameLevels</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Player.h">
       <Filter>Header Files\Entities\Player</Filter>
     </ClInclude>
@@ -418,7 +424,13 @@
     <ClInclude Include="Source\SoundInfo.h">
       <Filter>Header Files\Sounds</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Level3.h">
+    <ClInclude Include="Source\Level1.h">
+      <Filter>Header Files\GameLevels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Level2.h">
+      <Filter>Header Files\GameLevels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Level4.h">
       <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
   </ItemGroup>
