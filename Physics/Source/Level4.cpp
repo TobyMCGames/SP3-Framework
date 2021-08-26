@@ -29,8 +29,8 @@ void Level4::Init()
 	UpdateLevel();
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 		getworldWidth(),getworldHeight());
-	//camera->setpanTarget(player);
-	camera->setDebugMode();
+	camera->setpanTarget(player);
+	//camera->setDebugMode();
 }
 
 GameObject* Level4::FetchGO()

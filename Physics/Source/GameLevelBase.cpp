@@ -247,7 +247,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 					key += linesinreverse[row][col];
 				}
 				// note tilefactory takes in scale first then vel.
-				else if (key == "1") // brick
+			    if (key == "1") // brick
 				{
 					temp = tileFactory->ProduceTile(TileFactory::BRICK, pos,scale,vel);
 				}
