@@ -291,7 +291,8 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SPIDER), false);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SPIDER), false);
+		go->Render();
 		modelStack->PopMatrix();
 		break;
 	case GameObject::GO_TURRET:
