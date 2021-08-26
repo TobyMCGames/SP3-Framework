@@ -39,8 +39,8 @@ protected:
 
 	int m_objectCount;
 
-	int curLevel = 1;
-	int numLevel = 1;
+	int curSubLevel = 1;
+	int numSubLevels = 1;
 };
 
 #endif
