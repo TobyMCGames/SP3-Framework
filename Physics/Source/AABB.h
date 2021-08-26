@@ -6,6 +6,7 @@ class AABB
 public:
 	Vector3 min;
 	Vector3 max;
+	AABB() {}
 	AABB(Vector3 min, Vector3 max)
 	{
 		this->min = min;

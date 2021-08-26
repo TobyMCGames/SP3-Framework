@@ -235,7 +235,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 		for (int col = 0; col < linesinreverse[row].size(); col++)
 		{
 			scale.Set(TILEWIDTH, TILEHEIGHT, 1);
-			pos.Set(xOffset + scale.x / 2, yOffset + scale.y / 2, 0);
+			pos.Set(xOffset + scale.x *0.5f, yOffset + scale.y *0.5f, 0);
 			vel.SetZero();
 			temp = nullptr;
 			tempEntity = nullptr;
@@ -245,10 +245,6 @@ bool GameLevelBase::loadMap(std::string file_path)
 				if (col == linesinreverse[row].size() - 1)
 				{
 					key += linesinreverse[row][col];
-				}
-				if (key == "0")
-				{
-
 				}
 				// note tilefactory takes in scale first then vel.
 				else if (key == "1") // brick
@@ -309,35 +305,35 @@ bool GameLevelBase::loadMap(std::string file_path)
 				}
 				else if (key == "OOB") // outofbounds
 				{
-					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel);
+					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel,scale);
 				}
 				else if (key == "Z") // zombie
 				{
-					tempEntity = entityFactory->produceEntity(EntityFactory::ZOMBIE, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::ZOMBIE, pos,vel,scale);
 				}
 				else if (key == "SA") // skelearcher
 				{
-					tempEntity = entityFactory->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel,scale);
 				}
 				else if (key == "SS") // spider
 				{
-					tempEntity = entityFactory->produceEntity(EntityFactory::SPIDER, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::SPIDER, pos, vel,scale);
 				}
 				else if (key == "NYM") //nymph
 				{
-					tempEntity = entityFactory->produceEntity(EntityFactory::NYMPH, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::NYMPH, pos, vel,scale);
 				}
 				else if (key == "TT") //turret
 				{
-					tempEntity = entityFactory->produceEntity(EntityFactory::TURRET, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::TURRET, pos, vel,scale);
 				}
 				else if (key == "BM") // boomer
 				{
-					tempEntity = entityFactory->produceEntity(EntityFactory::BOOMER, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::BOOMER, pos, vel,scale);
 				}
 				else if (key == "DL")// demon lord
 				{
-					tempEntity = entityFactory->produceEntity(EntityFactory::DEMON_LORD, pos, vel, scale);
+					tempEntity = entityFactory->produceEntity(EntityFactory::DEMON_LORD, pos, vel,scale);
 				}
 				else if (key == "P")//player
 				{
@@ -406,7 +402,6 @@ bool GameLevelBase::loadMap(std::string file_path)
 	m_worldHeight = (linesinreverse.size())* getTileHeight();
 	return true;
 }
-
 
 float GameLevelBase::getworldWidth()
 {
@@ -795,6 +790,13 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 								GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, GAMESPEED);
 							}
 						}
+						else if (projectile->type == GameObject::GO_BOMB)
+						{
+							if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, GAMESPEED))
+							{
+								GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, GAMESPEED);
+							}
+						}
 						else
 						{
 							if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, m_speed))
@@ -895,6 +897,8 @@ void GameLevelBase::ChangeTimelineBlocks()
 		GameObject* temp;
 		temp = map[i];
 		if (temp == nullptr)
+			continue;
+		else if (temp->active == false)
 			continue;
 		int pos = i;
 		switch (temp->type)

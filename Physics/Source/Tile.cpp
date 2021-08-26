@@ -3,7 +3,7 @@
 
 Tile::Tile() :
 	tiletype(PASSIVE_TILE),
-	destructable(true)
+	destructable(false)
 {
 }
 
@@ -16,14 +16,10 @@ Tile::~Tile()
 
 void Tile::Response(GameObject* go)
 {
-	if (tiletype == TILE_TYPE::PASSIVE_TILE)
+	if (go->type == GameObject::GO_BOMB)
 	{
-		// passive response here
-	}
-	else if (tiletype == TILE_TYPE::INTERACTIVE_TILE)
-	{
-		// interactive response here
-		
+		if (destructable == true)
+			this->active = false;
 	}
 }
 

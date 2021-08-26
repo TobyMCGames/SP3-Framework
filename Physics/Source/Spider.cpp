@@ -40,7 +40,6 @@ void Spider::Update(double dt, float m_speed)
 	{
 		SpiderAnimation->Update(dt * m_speed);
 	}
-
 	switch (currState)
 	{
 	case IDLE:
@@ -193,6 +192,17 @@ void Spider::Response(GameObject* go)
 			}
 		}
 	}
+	if (go->type == GameObject::GO_BOMB)
+	{
+		takeDamage(go->damage);
+		go->active = false;
+		if (health <= 0)
+		{
+			//CSoundController::GetInstance()->PlaySoundByID(13);
+			dead();
+		}
+	}
+		
 	if (go->type == GameObject::GO_ARROW ||
 		go->type == GameObject::GO_MAGICBALL)// player damage spider
 	{

@@ -6,6 +6,7 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 	{
 		case BRICK:
 			newTile->type = GameObject::BRICK_TILE;
+			newTile->setDestructable(true);
 			break;
 		case STONEBRICK:
 			newTile->type = GameObject::STONE_BRICK_TILE;
