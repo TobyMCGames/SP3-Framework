@@ -218,6 +218,7 @@ void SceneGUI::Exit()
 void SceneGUI::renderGUI()
 {
 	std::ostringstream ss;
+	std::ostringstream coins;
 	// render health icon
 	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_HEART),3,57,3,3);
 
@@ -234,6 +235,11 @@ void SceneGUI::renderGUI()
 	float Mana = Player::GetInstance()->getmana();
 	// render the energy bar 
 	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_ENERGYBAR),8.8f - ((100.f - Mana) * 3.8f/99.f),53,((Mana*7.5f)/100.f),2);//the x value can be replaced by the player's health /20
+
+	//render coins icon
+	meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_COIN), 3, 49, 4, 4);
+	coins << Player::GetInstance()->getCoins();
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), coins.str(), Color(1, 1, 1), 3, 5, 47.55);
 
 	// render the backgroudn for the stats gui
 	//RenderMeshOnScreen(meshList[GUI_STATS_BG],39.75,52.5,85,15); 

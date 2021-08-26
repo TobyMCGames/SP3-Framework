@@ -153,12 +153,16 @@ CentralMesh::CentralMesh()
 	meshList[GEO_PORTAL_GATE_ENTRANCE]->textureID = LoadTGA("Image//InteractiveBlocks//PortalGate_1.tga");
 	meshList[GEO_PORTAL_GATE_EXIT] = MeshBuilder::GenerateQuad("Portal gate 2", Color(1, 1, 1));
 	meshList[GEO_PORTAL_GATE_EXIT]->textureID = LoadTGA("Image//InteractiveBlocks//PortalGate_2.tga");
+	meshList[GEO_COIN] = MeshBuilder::GenerateQuad("coin", Color(1, 1, 1));
+	meshList[GEO_COIN]->textureID = LoadTGA("Image//InteractiveBlocks//coin.tga");
+	meshList[GEO_HEALTHPOTION] = MeshBuilder::GenerateQuad("health", Color(1, 1, 1));
+	meshList[GEO_HEALTHPOTION]->textureID = LoadTGA("Image//InteractiveBlocks//Health_Potion.tga");
 
 	// Enemy
 	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateSpriteAnimation("Zombie", Color(1, 1, 1), 2, 4 ,1.f);
 	meshList[GEO_ZOMBIE]->textureID = LoadTGA("Image//Enemy//ZombieAnimation.tga");
-	meshList[GEO_SKELETONARCHER] = MeshBuilder::GenerateQuad("skeleton archer", Color(1, 1, 1));
-	meshList[GEO_SKELETONARCHER]->textureID = LoadTGA("Image//Enemy//skeleton.tga");
+	meshList[GEO_SKELETONARCHER] = MeshBuilder::GenerateSpriteAnimation("skeleton archer", Color(1, 1, 1), 2 , 3 ,1.f);
+	meshList[GEO_SKELETONARCHER]->textureID = LoadTGA("Image//Enemy//SkeletonAnimation2.tga");
 	meshList[GEO_SPIDER] = MeshBuilder::GenerateSpriteAnimation("Spider", Color(1, 1, 1), 3, 6,1.f);
 	meshList[GEO_SPIDER]->textureID = LoadTGA("Image//Enemy//SpiderAnimation.tga");
 	meshList[GEO_NYMPH] = MeshBuilder::GenerateQuad("Nymph", Color(1, 1, 1));

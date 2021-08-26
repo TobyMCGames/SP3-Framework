@@ -72,3 +72,21 @@ struct Tree : public Interactables
 	virtual void Response(GameObject* go) {};
 	virtual void Render() {};
 };
+
+struct Coin : public Interactables
+{
+	Coin(GameObject::GAMEOBJECT_TYPE gotype) { type = gotype; };
+	~Coin() {};
+	virtual void Update(double dt, float m_speed) {};
+	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
+};
+
+struct HealthPotion : public Interactables
+{
+	HealthPotion(GameObject::GAMEOBJECT_TYPE gotype) { type = gotype; };
+	~HealthPotion() {};
+	virtual void Update(double dt, float m_speed) {};
+	virtual void Response(GameObject* go) {};
+	virtual void Render() {};
+};

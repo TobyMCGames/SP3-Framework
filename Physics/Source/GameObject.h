@@ -75,6 +75,8 @@ struct GameObject
 		DOOR_3_TILE,
 		DOOR_4_TILE,
 		DOOR_5_TILE,
+		COIN,
+		HEALTHPOTION,
 		INTERACTABLE_END,
 
 		GO_TOTAL //must be last
