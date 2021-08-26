@@ -110,6 +110,16 @@ CentralMesh::CentralMesh()
 	meshList[GEO_LAVA_TILE]->textureID = LoadTGA("Image//TILE//Lava_Tile.tga");
 	meshList[GEO_STONE_WATERFALL_TILE] = MeshBuilder::GenerateQuad("stone_waterfall_tile", Color(1, 1, 1));
 	meshList[GEO_STONE_WATERFALL_TILE]->textureID = LoadTGA("Image//TILE//Stone_Waterfall_Tile.tga");
+	meshList[GEO_DOOR_1] = MeshBuilder::GenerateQuad("door1", Color(1, 1, 1));
+	meshList[GEO_DOOR_1]->textureID = LoadTGA("Image//TILE//Door1.tga");
+	meshList[GEO_DOOR_2] = MeshBuilder::GenerateQuad("door2", Color(1, 1, 1));
+	meshList[GEO_DOOR_2]->textureID = LoadTGA("Image//TILE//Door2.tga");
+	meshList[GEO_DOOR_3] = MeshBuilder::GenerateQuad("door3", Color(1, 1, 1));
+	meshList[GEO_DOOR_3]->textureID = LoadTGA("Image//TILE//Door3.tga");
+	meshList[GEO_DOOR_4] = MeshBuilder::GenerateQuad("door4", Color(1, 1, 1));
+	meshList[GEO_DOOR_4]->textureID = LoadTGA("Image//TILE//Door4.tga");
+	meshList[GEO_DOOR_5] = MeshBuilder::GenerateQuad("door5", Color(1, 1, 1));
+	meshList[GEO_DOOR_5]->textureID = LoadTGA("Image//TILE//Door5.tga");
 
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");

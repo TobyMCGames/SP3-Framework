@@ -69,6 +69,11 @@ struct GameObject
 		TREE_SEEDS,
 		VINE_SEEDS,
 		FALLING_PLATFORM,
+		DOOR_1_TILE,
+		DOOR_2_TILE,
+		DOOR_3_TILE,
+		DOOR_4_TILE,
+		DOOR_5_TILE,
 		INTERACTABLE_END,
 
 		GO_TOTAL //must be last
