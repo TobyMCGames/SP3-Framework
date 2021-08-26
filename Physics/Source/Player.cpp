@@ -587,6 +587,23 @@ void Player::Response(GameObject* go)
 			break;
 		}
 	}
+
+	if (go->type == GameObject::COIN)
+	{
+		coins++;
+		go->active = false;
+	}
+
+	if (go->type == GameObject::HEALTHPOTION)
+	{
+		if (health < 100)
+		{
+			health += 20;
+			go->active = false;
+		}
+
+	}
+
 	if (go->type == GameObject::PORTAL_GATE_ENTRANCE)
 	{
 

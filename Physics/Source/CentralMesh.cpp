@@ -153,6 +153,10 @@ CentralMesh::CentralMesh()
 	meshList[GEO_PORTAL_GATE_ENTRANCE]->textureID = LoadTGA("Image//InteractiveBlocks//PortalGate_1.tga");
 	meshList[GEO_PORTAL_GATE_EXIT] = MeshBuilder::GenerateQuad("Portal gate 2", Color(1, 1, 1));
 	meshList[GEO_PORTAL_GATE_EXIT]->textureID = LoadTGA("Image//InteractiveBlocks//PortalGate_2.tga");
+	meshList[GEO_COIN] = MeshBuilder::GenerateQuad("coin", Color(1, 1, 1));
+	meshList[GEO_COIN]->textureID = LoadTGA("Image//InteractiveBlocks//coin.tga");
+	meshList[GEO_HEALTHPOTION] = MeshBuilder::GenerateQuad("health", Color(1, 1, 1));
+	meshList[GEO_HEALTHPOTION]->textureID = LoadTGA("Image//InteractiveBlocks//Health_Potion.tga");
 
 	// Enemy
 	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateSpriteAnimation("Zombie", Color(1, 1, 1), 2, 4 ,1.f);

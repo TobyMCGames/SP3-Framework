@@ -372,6 +372,14 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_VINE_SEEDS, pos, scale);
 				}
+				else if (key == "C") // coin
+				{
+				tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_COIN, pos, scale);
+				}
+				else if (key == "HP") // health potion
+				{
+				tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_HEALTHPOTION, pos, scale);
+				}
 				else if (key == "GATE")
 				{
 					pos.Set(xOffset + scale.x, yOffset + scale.y, 0);

@@ -70,11 +70,11 @@ void SkeletonArcher::Update(double dt, float m_speed)
 				vel.x = -Default_Speed;
 				normal.Set(-1.f, -1.f, 0.f);
 			}
-			if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
+		/*	if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
 			{
 				vel.y += JumpForce;
 				curLocation = IN_AIR;
-			}
+			}*/
 		}
 		if((pos - Player::GetInstance()->pos).Length() <= 40)
 		{

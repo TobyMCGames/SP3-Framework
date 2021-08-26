@@ -430,6 +430,19 @@ void SceneBase::RenderGO(GameObject* go)
 		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_VINE_SEEDS), false);
 		modelStack->PopMatrix();
 		break;
+	case GameObject::COIN:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_COIN), false);
+		modelStack->PopMatrix();
+		break;
+	case GameObject::HEALTHPOTION:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_HEALTHPOTION), false);
+		modelStack->PopMatrix();
 		break;
 	case GameObject::GO_BOMB:
 		modelStack->PushMatrix();

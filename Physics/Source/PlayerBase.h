@@ -41,6 +41,7 @@ public:
 	virtual bool isControl()=0;
 	virtual void setControl(bool control)=0;
 	float getmana();
+	int getCoins();
 	int gethealth();
 
 protected:
@@ -55,4 +56,5 @@ protected:
 	float current_scene_worldwidth;
 	float current_scene_worldheight;
 	float mana;
+	int coins;
 };
