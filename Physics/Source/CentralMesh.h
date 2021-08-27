@@ -96,6 +96,8 @@ public:
 		GEO_ARROW,
 		GEO_MAGICBALL,
 		GEO_PORTAL,
+		GEO_DEMONBALL_CHARGE,
+		GEO_DEMONBALL,
 
 		//enemy projectiles
 		GEO_TURRETBULLET,

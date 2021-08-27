@@ -10,15 +10,19 @@ protected:
 		// insert more states here
 		ARRIVAL,
 		IDLE,
+		ATTACK_DEMONBALL,
 		RETREAT,
 		NUM_STATES,
 	};
 
 	SpriteAnimation* Floating;
+	SpriteAnimation* Charging;
 	BEHAVIOUR curFSM;
 
 	float portalSpinTime;
 	Vector3 portalScale;
+
+	float FSMcounter;
 public:
 	DemonLord();
 	~DemonLord();
