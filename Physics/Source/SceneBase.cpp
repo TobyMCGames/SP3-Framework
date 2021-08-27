@@ -213,6 +213,22 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PopMatrix();
 		break;
 
+	case GameObject::DARK_FOREST_GROUND:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DARK_FOREST_GROUND), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::DARK_FOREST_GRASS:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DARK_FOREST_GRASS), false);
+		modelStack->PopMatrix();
+		break;
+
 	case GameObject::SPIKE_TILE:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);

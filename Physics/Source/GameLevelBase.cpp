@@ -303,6 +303,14 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::DOOR_5_TILE, pos, scale, vel);
 				}
+				else if (key == "15")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS, pos, scale, vel);
+				}
+				else if (key == "16")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GROUND, pos, scale, vel);
+				}
 				else if (key == "OOB") // outofbounds
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel,scale);
