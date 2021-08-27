@@ -74,13 +74,13 @@ void Level1::UpdateLevel()
 				getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
 			break;
-		/*case 2:
+		case 2:
 			GameLevelBase::Exit();
 			loadMap("Maps//Map_LEVEL_1a.csv");
 			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 				getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
-			break;*/
+			break;
 		}
 	}
 	else
