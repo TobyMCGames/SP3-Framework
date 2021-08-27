@@ -485,6 +485,7 @@ void Player::Response(GameObject* go)
 				takeDamage(5);
 				curState = STATE_INVINCIBLE;
 				InvincibilityTimer = 1.5;
+				Player::playRandHurtSound();
 			}
 			break;
 		}
@@ -510,14 +511,7 @@ void Player::Response(GameObject* go)
 			takeDamage(go->damage);
 			curState = STATE_INVINCIBLE;
 			InvincibilityTimer = 1.5;
-			int randHurtSound = rand() % 3;
-
-			if (randHurtSound == 0)
-				CSoundController::GetInstance()->PlaySoundByID(5);
-			else if (randHurtSound == 1)
-				CSoundController::GetInstance()->PlaySoundByID(6);
-			else if (randHurtSound == 2)
-				CSoundController::GetInstance()->PlaySoundByID(7);
+			playRandHurtSound();
 		}
 	}
 
@@ -694,5 +688,16 @@ void Player::ChangeTimeline()
 	level->ChangeTimelineBlocks();
 }
 
+void Player::playRandHurtSound()
+{
+	int randHurtSound = rand() % 3;
 
+	if (randHurtSound == 0)
+		CSoundController::GetInstance()->PlaySoundByID(5);
+	else if (randHurtSound == 1)
+		CSoundController::GetInstance()->PlaySoundByID(6);
+	else if (randHurtSound == 2)
+		CSoundController::GetInstance()->PlaySoundByID(7);
+	return;
+}
 

@@ -25,6 +25,7 @@ public:
 	SpriteAnimation* getAnimation();
 	int GetCurItem();
 	int GetCurItemAmt();
+
 	void ChangeTimeline();
 
 	bool cloneinited;
@@ -48,6 +49,7 @@ protected:
 	bool teleport;
 	float webbedTimeLeft;
 	float RechargeTime;
+	void playRandHurtSound();
 	
 	
 private:
