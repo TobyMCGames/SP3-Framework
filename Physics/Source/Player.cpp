@@ -187,6 +187,7 @@ void Player::Update(double dt, float m_speed)
 	{
 		ChangeTimeline();
 		timetraveled = 0.6f;
+		CSoundController::GetInstance()->PlaySoundByID(23);
 		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
 	}
 	if (timetraveled > 0)
