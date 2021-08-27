@@ -44,6 +44,9 @@ GameStateManager::GameStateManager()
 	// pause menu
 	cSoundController->LoadSound("Sounds\\Sounds_Pause_Menu\\close_pause_menu.wav", 21, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Pause_Menu\\open_pause_menu.wav", 22, true);
+
+	// player time travel sound
+	cSoundController->LoadSound("Sounds\\Sounds_Player\\Time_travel.wav", 23, true);
 }
 
 GameStateManager::~GameStateManager()
