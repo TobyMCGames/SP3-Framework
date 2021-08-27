@@ -58,6 +58,9 @@ GameStateManager::GameStateManager()
 	// boomer sounds
 	cSoundController->LoadSound("Sounds\\Sounds_Boomer\\boomer_primed.wav", 27, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Boomer\\explosion.ogg", 28, true);
+
+	// health potion
+	cSoundController->LoadSound("Sounds\\Sounds_Item\\Health_Restore.ogg", 29, true);
 }
 
 GameStateManager::~GameStateManager()
