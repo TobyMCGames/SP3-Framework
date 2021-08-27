@@ -52,6 +52,7 @@ protected:
 	bool teleport;
 	float webbedTimeLeft;
 	float RechargeTime;
+	bool InFuture;
 	void playRandHurtSound();
 	
 	

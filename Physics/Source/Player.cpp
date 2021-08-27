@@ -20,6 +20,7 @@ Player::Player()
 	, isCompleted(false)
 	, isdead(false)
 	, timetraveled(0)
+	, InFuture(false)
 {
 	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -338,6 +339,26 @@ void Player::Update(double dt, float m_speed)
 			if (this->vel.y > 0)
 				vel.y *= 0.7;
 		}
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_1))
+	{
+		curItem = TREE_SEED;
+		cKeyboardController->ResetKey(GLFW_KEY_1);
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_2))
+	{
+		curItem = VINE_SEED;
+		cKeyboardController->ResetKey(GLFW_KEY_2);
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_3))
+	{
+		curItem = BOMBS;
+		cKeyboardController->ResetKey(GLFW_KEY_3);
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_4))
+	{
+		curItem = WEAPON;
+		cKeyboardController->ResetKey(GLFW_KEY_4);
 	}
 
 	scrollsnap += Application::GetYScrollOffset();
@@ -696,7 +717,8 @@ int Player::GetCurItemAmt()
 void Player::ChangeTimeline()
 {
 	GameLevelBase* level = GameLevelManager::GetInstance()->getcurrentLevel();
-	level->ChangeTimelineBlocks();
+	level->ChangeTimelineBlocks(InFuture);
+	InFuture = !InFuture;
 }
 
 void Player::playRandHurtSound()
