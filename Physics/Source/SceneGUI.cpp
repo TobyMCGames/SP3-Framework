@@ -3,7 +3,6 @@
 #include "Application.h"
 #include <sstream>
 #include "GLFW/glfw3.h"
-
 #include "GameStateManager.h"
 SceneGUI::SceneGUI()
 	: m_worldHeight(0)
@@ -11,7 +10,7 @@ SceneGUI::SceneGUI()
 	, Timetravel(NULL)
 {
 	GameDialogues.LoadDialogue("Dialogues//Level_4_dialogues.txt"); // load level 4 texts
-	GameDialogues.setActive(true);
+	GameDialogues.setActive(false);
 }
 
 SceneGUI::~SceneGUI()
@@ -134,7 +133,6 @@ bool SceneGUI::Update(double dt)
 
 		
 	}
-
 	//retry menu select
 	if (RenderRetry)
 	{
@@ -195,6 +193,26 @@ bool SceneGUI::Update(double dt)
 		if (Player::GetInstance()->timetraveled > 0)
 			Timetravel->Update(dt);
 	}
+	if (Player::GetInstance()->IsInDialogue() == true)
+	{
+		if (GameDialogues.getcurrentSceneConvo()== 0)
+		{
+			GameDialogues.playDialogue(Player::GetInstance()->getDialoginProgress());
+			GameDialogues.setActive(true);
+		}
+		else
+		{
+			GameDialogues.Update(dt);
+			if (GameDialogues.getEndConvo() == true)
+			{
+				GameDialogues.setEndConvo(false);
+				Player::GetInstance()->setInDialogue(false);
+				GameDialogues.setcurrentSceneConvo(0);
+				
+			}
+		}
+			
+	}
 	return true;
 }
 
@@ -217,7 +235,6 @@ void SceneGUI::Render()
 	modelStack->LoadIdentity();
 
 	renderGUI();
-	renderDialogue();
 }
 
 void SceneGUI::Destroy()
@@ -320,12 +337,38 @@ void SceneGUI::renderGUI()
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "MAIN MENU", MenuButton, 3, 29, 25);
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "QUIT", QuitButton, 3, 29, 20);
 	}
+	if (Player::GetInstance()->IsInDialogue() == true)
+	{
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::TEXT_BOX),40,10,40,20);
+		renderDialogue();
+	}
 }
+
+bool SceneGUI::getRenderPause()
+{
+	return RenderPause;
+}
+
+void SceneGUI::setRenderPause(bool RenderPause)
+{
+	this->RenderPause = RenderPause;
+}
+
+bool SceneGUI::getRenderRetry()
+{
+	return RenderRetry;
+}
+
+void SceneGUI::setRenderRetry(bool RenderPause)
+{
+	this->RenderPause = RenderPause;
+}
+
 
 void SceneGUI::renderDialogue()
 {
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT)
-		, GameDialogues.getCurrentText(), Color(0, 1, 0), 3, 3, 50, 10);
+		, GameDialogues.getCurrentText(), Color(0, 1, 0),2.5,22,15,12.5);
 }
 
 

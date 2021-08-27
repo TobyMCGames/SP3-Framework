@@ -77,7 +77,6 @@ protected:
 
 
 	bool bLightEnabled;
-
 	//float zOffset;
 };
 

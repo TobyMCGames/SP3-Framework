@@ -6,7 +6,9 @@ public:
 	enum CONVO_SENTENCES
 	{
 		SENTENCE_START =0,
-		LEVEL_1_START =1,
+		TUTS_TEST =1,
+		TUTS_TEST2 =2,
+	/*LEVEL_1_START =1,
 		LEVEL_1_END =2,
 		LEVEL_4_START =3,
 		LEVEL_4_GREETINGS =4,
@@ -18,10 +20,11 @@ public:
 
 	const int TextSpeed = 60;
 	const int maxtimer = 60;
+
 	Dialogue();
 	~Dialogue();
 	bool LoadDialogue(std::string filename);
-	void playDialogue(CONVO_SENTENCES currentSceneConvo,int convoindex);
+	void playDialogue(int currentSceneConvo);
 	int getcurrentTextIndex();
 	void setcurrenTextIndex(int currentTextIndex);
 	bool getActive();
@@ -30,6 +33,8 @@ public:
 	void setcurrentSceneConvo(int currentSceneConvo);
 	int getcurrentSceneConvo();
 	std::string getCurrentText();
+	bool getEndConvo();
+	void setEndConvo(bool endConvo);
 
 private:
 	// vector that stores all the sentences 
@@ -40,6 +45,8 @@ private:
 	int currentTextIndex;
 	// if active then it will be updating.
 	bool Active;
+
+	bool endConvo;
 
 	// indicator to show which conversation we are having
 	int currentSceneConvo;

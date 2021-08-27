@@ -87,6 +87,9 @@ CentralMesh::CentralMesh()
 	meshList[GUI_STATS_BG]->textureID = LoadTGA("Image//GUI//Stats_background.tga");
 	meshList[GUI_ATK_ICON] = MeshBuilder::GenerateQuad("atkicon", Color(1, 1, 1));
 	meshList[GUI_ATK_ICON]->textureID = LoadTGA("Image//GUI//AtkIcon.tga");
+	meshList[TEXT_BOX] = MeshBuilder::GenerateQuad("Textbox",Color(1,1,1));
+	meshList[TEXT_BOX]->textureID = LoadTGA("Image//GUI//Dialogue_Text_Box.tga");
+
 
 	// TILE
 	//meshList[PASSIVE_TILE] = MeshBuilder::GenerateQuad("passivetile", Color(1, 1, 1));

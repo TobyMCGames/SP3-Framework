@@ -1,12 +1,12 @@
 #ifndef GAME_LEVEL_BASE_H
 #define GAME_LEVEL_BASE_H
-
 #include "SceneBase.h"
 #include "GamePhysics.h"
 #include <vector>
 #include <string>
 #include "SceneCamera.h"
 #include <map>
+#include "Text.h"
 
 
 using namespace std;
@@ -25,6 +25,8 @@ protected:
 	vector<AdvanceGO*> EntityList;
 	vector<AdvanceGO*> projectileList;
 	vector<AdvanceGO*> InteractableList;
+	vector<Text> TextList; // dialogue;
+
 	Player* player;
 	bool cloned;
 	bool clonedeleted;
@@ -43,6 +45,7 @@ public:
 	void RenderPlayer();
 	void RenderPlayerClone();
 	void mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal);
+	void initDialogueText(std::string DialogueKey,Vector3 position);
 	bool getcloned();
 	void setcloned(bool cloned);
 	void setcloneDeleted(bool clonedeleted);
@@ -56,7 +59,6 @@ public:
 	void cleanupList(std::vector<int>* indexlist);
 	void cleanupLists(bool clearAll,std::vector<AdvanceGO*>* advobjlist = nullptr , std::vector<GameObject*>* golist = nullptr);
 	bool CheckWithinScreen(GameObject* go);
-	bool CheckobjSurrounding(GameObject* go);
 	void CollisionChecks(double dt, float m_speed);
 
 	GameObject* ChangeMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject* toChange);

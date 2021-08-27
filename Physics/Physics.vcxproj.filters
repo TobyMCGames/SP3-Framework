@@ -239,6 +239,12 @@
     <ClCompile Include="Source\Level4.cpp">
       <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Dialogue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -438,6 +444,9 @@
     </ClInclude>
     <ClInclude Include="Source\Level4.h">
       <Filter>Header Files\GameLevels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Text.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

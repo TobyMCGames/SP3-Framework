@@ -34,6 +34,11 @@ public:
 	int portalCounter;
 	bool isCompleted;
 	bool isdead;
+	bool IsInDialogue();
+	void setInDialogue(bool inDialogue);
+	void setDialoginProgress(int dialogueinProgress);
+	int getDialoginProgress();
+	
 	float timetraveled;
 	
 protected:
@@ -52,6 +57,8 @@ protected:
 	bool teleport;
 	float webbedTimeLeft;
 	float RechargeTime;
+	bool inDialogue;
+	int dialogueinProgress;
 	bool InFuture;
 	void playRandHurtSound();
 	

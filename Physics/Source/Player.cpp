@@ -13,14 +13,15 @@ Player::Player()
 	, scrollsnap(0)
 	, PlayerAnimation(NULL)
 	, playerclone(nullptr)
-	, cloneinited(false)
 	, controlled(true)
 	, swap(false)
 	, Pexitspeed(0, 0, 0)
 	, isCompleted(false)
-	, isdead(false)
 	, timetraveled(0)
 	, InFuture(false)
+	,isdead(false)
+	,inDialogue(false)
+	,dialogueinProgress(0)
 {
 	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -555,14 +556,17 @@ void Player::Response(GameObject* go)
 		{
 		case WEAPON_STATION_BOW:
 			this->curWeapon = BOW;
+			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WEAPON_STATION_STAFF:
 			this->curWeapon = STAFF;
+			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
+			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case BOMB_CRATE:
@@ -626,6 +630,7 @@ void Player::Response(GameObject* go)
 	if (go->type == GameObject::COIN)
 	{
 		coins++;
+		CSoundController::GetInstance()->PlaySoundByID(26);
 		go->active = false;
 	}
 
@@ -720,6 +725,27 @@ void Player::ChangeTimeline()
 	level->ChangeTimelineBlocks(InFuture);
 	InFuture = !InFuture;
 }
+
+bool Player::IsInDialogue()
+{
+	return this->inDialogue;
+}
+
+void Player::setInDialogue(bool inDialogue)
+{
+	this->inDialogue = inDialogue;
+}
+
+void Player::setDialoginProgress(int dialogueinProgress)
+{
+	this->dialogueinProgress = dialogueinProgress;
+}
+
+int Player::getDialoginProgress()
+{
+	return dialogueinProgress;
+}
+
 
 void Player::playRandHurtSound()
 {

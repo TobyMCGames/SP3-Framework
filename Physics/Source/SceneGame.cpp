@@ -62,13 +62,13 @@ bool SceneGame::Update(double dt)
 		&& !Player::GetInstance()->isdead)
 	{
 		bLButtonState = false;
-		SceneGUI::GetInstance()->RenderPause = true;
+		SceneGUI::GetInstance()->setRenderPause(true);
 		ispaused = true;
 	}
 
 	if (Player::GetInstance()->isdead)
 	{
-		SceneGUI::GetInstance()->RenderRetry = true;
+		SceneGUI::GetInstance()->setRenderRetry(true);
 		ispaused = true;
 	}
 
@@ -81,8 +81,6 @@ bool SceneGame::Update(double dt)
 
 	return true;
 }
-
-
 void SceneGame::Render()
 {
 	GameLevelManager::GetInstance()->Render();
