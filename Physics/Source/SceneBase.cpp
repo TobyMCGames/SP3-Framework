@@ -213,6 +213,22 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PopMatrix();
 		break;
 
+	case GameObject::DARK_FOREST_GROUND:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DARK_FOREST_GROUND), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::DARK_FOREST_GRASS:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DARK_FOREST_GRASS), false);
+		modelStack->PopMatrix();
+		break;
+
 	case GameObject::SPIKE_TILE:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -273,6 +289,7 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SKELEARROW), false);
+		//go->Render();
 		modelStack->PopMatrix();
 		break;
 
@@ -299,8 +316,6 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		if(go->vel.x < 0)
 			modelStack->Rotate(180, 0, 1, 0);
-		else
-			modelStack->Rotate(0, 0, 1, 0);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_ZOMBIE), false);
 		go->Render();
@@ -311,8 +326,13 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PushMatrix();
 		{
 			modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
-			modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-			meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SKELETONARCHER), false);
+			modelStack->PushMatrix();
+				if (go->normal.x > 0)
+					modelStack->Rotate(180, 0, 1, 0);
+				modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+				//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_SKELETONARCHER), false);
+				go->Render();
+			modelStack->PopMatrix();
 			modelStack->PushMatrix();
 			{
 				modelStack->Translate(0, 0,0.001f);
@@ -326,7 +346,8 @@ void SceneBase::RenderGO(GameObject* go)
 				}
 				modelStack->PushMatrix();
 				{
-					modelStack->Translate(0.35, 0, 0);
+					modelStack->Translate(1.35, 0, 0);
+					modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
 				}
 				modelStack->PopMatrix();
@@ -425,13 +446,26 @@ void SceneBase::RenderGO(GameObject* go)
 		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_VINE_SEEDS), false);
 		modelStack->PopMatrix();
 		break;
+	case GameObject::COIN:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_COIN), false);
+		modelStack->PopMatrix();
+		break;
+	case GameObject::HEALTHPOTION:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_HEALTHPOTION), false);
+		modelStack->PopMatrix();
 		break;
 	case GameObject::GO_BOMB:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
 		//modelStack->Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
-		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
-		go->Render();
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);	
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOMB), false);
 		modelStack->PopMatrix();
 		break;
 	}

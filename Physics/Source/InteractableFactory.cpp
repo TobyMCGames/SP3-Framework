@@ -33,6 +33,12 @@ Interactables* InteractableFactory::produceInteractable(INTERACTABLES_TYPES Inte
 	case PTYPE_VINE_SEEDS:
 		newInteractable = new VineSeeds(GameObject::VINE_SEEDS);
 		break;
+	case PTYPE_COIN:
+		newInteractable = new Coin(GameObject::COIN);
+		break;
+	case PTYPE_HEALTHPOTION:
+		newInteractable = new HealthPotion(GameObject::HEALTHPOTION);
+		break;
 	case PTYPE_WARP_GATE:
 		newInteractable = new PortalGate(GameObject::WARP_GATE);
 		break;

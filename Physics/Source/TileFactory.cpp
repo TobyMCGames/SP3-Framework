@@ -6,6 +6,7 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 	{
 		case BRICK:
 			newTile->type = GameObject::BRICK_TILE;
+			newTile->setDestructable(true);
 			break;
 		case STONEBRICK:
 			newTile->type = GameObject::STONE_BRICK_TILE;
@@ -45,6 +46,12 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 			break;
 		case DOOR_5_TILE:
 			newTile->type = GameObject::DOOR_5_TILE;
+			break;
+		case DARK_FOREST_GRASS:
+			newTile->type = GameObject::DARK_FOREST_GRASS;
+			break;
+		case DARK_FOREST_GROUND:
+			newTile->type = GameObject::DARK_FOREST_GROUND;
 			break;
 		case OOB_TILE:
 			newTile->type = GameObject::OUTOFBOUNDS_TILE;

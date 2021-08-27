@@ -267,7 +267,13 @@ void GamePhysics::CheckCollisionResponse(GameObject* go1, GameObject* go2, doubl
 	else if ((go1->type > GameObject::PROJECTILE_START && go1->type < GameObject::PROJECTILE_END)
 		&& (go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
 	{
-		go1->Response(go2);
+		if (go1->type == GameObject::GO_BOMB)
+		{
+			go1->Response(go2);
+			go2->Response(go1);
+		}
+		else
+			go1->Response(go2);
 	}
 	else if ((go1->type == GameObject::GO_PLAYER || go1->type == GameObject::GO_PLAYERCLONE)
 		&& (go2->type > GameObject::INTERACTABLE_START && go2->type < GameObject::INTERACTABLE_END))

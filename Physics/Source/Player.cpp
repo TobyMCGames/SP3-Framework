@@ -74,6 +74,7 @@ void Player::Update(double dt, float m_speed)
 		{
 			GameLevelManager::GetInstance()->getcurrentLevel()->setcloneDeleted(true);
 			GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(false);
+			MeshRender::GetInstance()->GetCamera()->setpanTarget(this);
 			controlled = true;
 		}
 	}
@@ -178,8 +179,6 @@ void Player::Update(double dt, float m_speed)
 			swap = true;
 			vel.SetZero();
 		}
-		
-		
 		cKeyboardController->ResetKey(GLFW_KEY_TAB);
 	}
 
@@ -238,15 +237,19 @@ void Player::Update(double dt, float m_speed)
 				break;
 			}
 		}
-		/*switch (curItem)
+		switch (curItem)
 		{
 		case BOMBS:
-			Projectile* bomb = ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
-				(pos + normal * scale.x), normal, Vector3(3,3, 1), normal);
-			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
-			cout << "bomb created" << endl;
+			if (Inventory[BOMBS] > 0)
+			{
+				Projectile* bomb = ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
+					(pos + normal * scale.x), normal, Vector3(3, 3, 1), normal);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
+				Inventory[BOMBS]--;
+				cout << "bomb created" << endl;
+			}
 			break;
-		}*/
+		}
 	}
 	
 	if (controlled)
@@ -485,13 +488,17 @@ void Player::Response(GameObject* go)
 				takeDamage(5);
 				curState = STATE_INVINCIBLE;
 				InvincibilityTimer = 1.5;
+				Player::playRandHurtSound();
 			}
 			break;
 		}
 	}
 
+
 	if (go->type == GameObject::OUTOFBOUNDS_TILE)
-		dead();
+	{
+		isdead = true;
+	}
 
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
 		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET) || 
@@ -507,14 +514,7 @@ void Player::Response(GameObject* go)
 			takeDamage(go->damage);
 			curState = STATE_INVINCIBLE;
 			InvincibilityTimer = 1.5;
-			int randHurtSound = rand() % 3;
-
-			if (randHurtSound == 0)
-				CSoundController::GetInstance()->PlaySoundByID(5);
-			else if (randHurtSound == 1)
-				CSoundController::GetInstance()->PlaySoundByID(6);
-			else if (randHurtSound == 2)
-				CSoundController::GetInstance()->PlaySoundByID(7);
+			playRandHurtSound();
 		}
 	}
 
@@ -537,6 +537,7 @@ void Player::Response(GameObject* go)
 		case BOMB_CRATE:
 			Inventory[BOMBS]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			go->active = false;
 			break;
 		case VINE_SEEDS:
 			Inventory[VINE_SEED]++;
@@ -590,6 +591,23 @@ void Player::Response(GameObject* go)
 			break;
 		}
 	}
+
+	if (go->type == GameObject::COIN)
+	{
+		coins++;
+		go->active = false;
+	}
+
+	if (go->type == GameObject::HEALTHPOTION)
+	{
+		if (health < 100)
+		{
+			health += 20;
+			go->active = false;
+		}
+
+	}
+
 	if (go->type == GameObject::PORTAL_GATE_ENTRANCE)
 	{
 
@@ -671,5 +689,16 @@ void Player::ChangeTimeline()
 	level->ChangeTimelineBlocks();
 }
 
+void Player::playRandHurtSound()
+{
+	int randHurtSound = rand() % 3;
 
+	if (randHurtSound == 0)
+		CSoundController::GetInstance()->PlaySoundByID(5);
+	else if (randHurtSound == 1)
+		CSoundController::GetInstance()->PlaySoundByID(6);
+	else if (randHurtSound == 2)
+		CSoundController::GetInstance()->PlaySoundByID(7);
+	return;
+}
 

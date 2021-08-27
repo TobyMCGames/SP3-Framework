@@ -59,6 +59,11 @@ float PlayerBase::getmana()
 	return mana;
 }
 
+int PlayerBase::getCoins()
+{
+	return coins;
+}
+
 int PlayerBase::gethealth()
 {
 	return health;
@@ -66,6 +71,7 @@ int PlayerBase::gethealth()
 
 PlayerBase::PlayerBase()
 	:mana(100)
+	,coins(0)
 	,SlowTime(false)
 	,TimeSpeed(1)
 	,current_scene_worldwidth(0)
