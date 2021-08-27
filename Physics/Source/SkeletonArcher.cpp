@@ -27,15 +27,13 @@ SkeletonArcher::~SkeletonArcher()
 
 void SkeletonArcher::Update(double dt, float m_speed)
 {
-
-
 	if (currState != IDLE && currState != ATTACK)
 	{
 		pos.x += vel.x * dt * m_speed;
 		SkeletonAnimation->Reset();
 		SkeletonAnimation->PlayAnimation("Walking", -1, 1);
 	}
-	else if (vel.x == 0)
+	else
 	{
 		SkeletonAnimation->Reset();
 		SkeletonAnimation->PlayAnimation("Idle", 1, 1);
@@ -53,7 +51,6 @@ void SkeletonArcher::Update(double dt, float m_speed)
 		if ((pos - Player::GetInstance()->pos).Length() <= 40)
 		{
 			currState = ATTACK;
-			cout << "switching to Attack state" << endl;
 			vel.x = 0;
 		}
 		break;
@@ -70,13 +67,12 @@ void SkeletonArcher::Update(double dt, float m_speed)
 				vel.x = -Default_Speed;
 				normal.Set(-1.f, -1.f, 0.f);
 			}
-		/*	if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
+			if ((pos - Player::GetInstance()->pos).Length() <= 40)
 			{
-				vel.y += JumpForce;
-				curLocation = IN_AIR;
-			}*/
+				currState = ATTACK;
+			}
 		}
-		if((pos - Player::GetInstance()->pos).Length() <= 40)
+		if((pos - Player::GetInstance()->pos).Length() >= 80)
 		{
 			currState = IDLE;
 		}
@@ -102,7 +98,6 @@ void SkeletonArcher::Update(double dt, float m_speed)
 		else
 		{
 			currState = CHASE;
-			cout << "switching to Chase state" << endl;
 		}
 		break;
 	default:
@@ -141,6 +136,12 @@ void SkeletonArcher::Response(GameObject* go)
 				else
 					curDirection = LEFT;
 
+			}
+
+			if ((GamePhysics::GetInstance()->GetCollidePos() == COL_LEFT || GamePhysics::GetInstance()->GetCollidePos() == COL_RIGHT) && curLocation == ON_GROUND)
+			{
+				vel.y += JumpForce;
+				curLocation = IN_AIR;
 			}
 		}
 	}

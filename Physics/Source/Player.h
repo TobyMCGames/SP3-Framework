@@ -27,6 +27,8 @@ public:
 	int GetCurItemAmt();
 
 	void ChangeTimeline();
+	void Reset();
+	void ResetVariables();
 
 	bool cloneinited;
 	int portalCounter;

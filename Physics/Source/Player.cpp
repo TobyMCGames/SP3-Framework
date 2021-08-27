@@ -443,7 +443,6 @@ PlayerBase::Weapons Player::getcurWeapon()
 	return curWeapon;
 }
 
-
 PlayerClone* Player::getClone()
 {
 	return playerclone;
@@ -481,6 +480,28 @@ void Player::setControl(bool controlled)
 	this->controlled = controlled;
 }
 
+void Player::Reset()
+{
+	portalCounter = 0;
+	if (playerclone != nullptr)
+		playerclone = nullptr;
+	curWeapon = BARE_HANDS;
+	curItem = 0;
+	scrollsnap = 0;
+	cloneinited = false;
+	controlled = true;
+	swap = false;
+	Pexitspeed.Set(0, 0, 0);
+	isCompleted = false;
+	isdead = false;
+}
+
+void Player::ResetVariables()
+{
+	coins = 0;
+	health = 100;
+	mana = 100;
+}
 
 void Player::Response(GameObject* go)
 {
