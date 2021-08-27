@@ -534,7 +534,8 @@ void Player::Response(GameObject* go)
 
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
 		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET) || 
-		(go->type == GameObject::GO_SPIDER) || (go->type == GameObject::GO_SPIDERWEB))
+		(go->type == GameObject::GO_SPIDER) || (go->type == GameObject::GO_SPIDERWEB) || 
+		(go->type == GameObject::GO_HEAVYSKELEARCHER))
 	{
 		if (curState == STATE_NORMAL)
 		{

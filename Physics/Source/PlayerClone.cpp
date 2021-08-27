@@ -312,7 +312,7 @@ void PlayerClone::Response(GameObject* go)
 		}
 	}
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
-		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET))
+		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET) || (go->type == GameObject::GO_HEAVYSKELEARCHER))
 	{
 		takeDamage(go->damage);
 		int randHurtSound = rand() % 3;

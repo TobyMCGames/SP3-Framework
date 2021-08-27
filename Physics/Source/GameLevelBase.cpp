@@ -385,6 +385,10 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel,scale);
 				}
+				else if (key == "HSK") // Heavy skelearcher
+				{
+					tempEntity = entityFactory->produceEntity(EntityFactory::HEAVY_SKELE_ARCHER, pos, vel, scale);
+				}
 				else if (key == "SS") // spider
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::SPIDER, pos, vel,scale);

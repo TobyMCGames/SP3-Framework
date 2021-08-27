@@ -17,6 +17,7 @@ Boomer::Boomer()
 	BoomerAnimation->AddAnimation("Chasing", 6, 11);
 	BoomerAnimation->AddAnimation("Priming", 18, 19);
 	BoomerAnimation->AddAnimation("Explode", 24, 24);
+
 }
 
 Boomer::~Boomer()
@@ -50,6 +51,7 @@ void Boomer::Update(double dt, float m_speed)
 		BoomerAnimation->Reset();
 		BoomerAnimation->PlayAnimation("Priming", -1, 0.5);
 	}
+
 
 	pos.y += vel.y * dt * m_speed;
 	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
@@ -99,11 +101,6 @@ void Boomer::Update(double dt, float m_speed)
 			{
 				vel.x = -Default_Speed;
 			}
-	/*		if (((Player::GetInstance()->pos.y - pos.y) > 0) && curLocation == Entity::ON_GROUND)
-			{
-				vel.y += JumpForce;
-				curLocation = IN_AIR;
-			}*/
 		}
 		else
 		{
@@ -125,7 +122,7 @@ void Boomer::Update(double dt, float m_speed)
 			{
 				Player::GetInstance()->takeDamage(30);
 			}
-			dead();
+			//dead();
 		}
 		explodeTimer += dt * m_speed;
 		break;
