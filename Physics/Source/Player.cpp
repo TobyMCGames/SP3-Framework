@@ -630,6 +630,7 @@ void Player::Response(GameObject* go)
 	if (go->type == GameObject::COIN)
 	{
 		coins++;
+		CSoundController::GetInstance()->PlaySoundByID(26);
 		go->active = false;
 	}
 

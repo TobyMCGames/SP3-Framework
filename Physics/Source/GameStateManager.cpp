@@ -51,6 +51,9 @@ GameStateManager::GameStateManager()
 	// spider
 	cSoundController->LoadSound("Sounds\\Sounds_Spider\\hurt.wav", 24, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Spider\\kill.wav", 25, true);
+
+	// pickup coin
+	cSoundController->LoadSound("Sounds\\Sounds_Item\\Pickup_Coin.ogg", 26, true);
 }
 
 GameStateManager::~GameStateManager()
