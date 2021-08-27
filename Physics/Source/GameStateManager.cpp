@@ -47,6 +47,10 @@ GameStateManager::GameStateManager()
 
 	// player time travel sound
 	cSoundController->LoadSound("Sounds\\Sounds_Player\\Time_travel.wav", 23, true);
+
+	// spider
+	cSoundController->LoadSound("Sounds\\Sounds_Spider\\hurt.wav", 24, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Spider\\kill.wav", 25, true);
 }
 
 GameStateManager::~GameStateManager()
