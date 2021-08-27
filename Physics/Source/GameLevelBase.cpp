@@ -41,37 +41,41 @@ void GameLevelBase::RenderPlayer()
 			player->Render();
 		}
 		modelStack->PopMatrix();
-		modelStack->PushMatrix();
+		if (player->GetCurItem() == Player::WEAPON)
 		{
-			modelStack->Translate(0, 0, 0.001f);
-			zOffset += 0.001f;
-			if (player->normal.x >= 0)
-				modelStack->Rotate(Math::RadianToDegree(atan2f(player->normal.y, player->normal.x)), 0, 0, 1);
-			else
-			{
-				modelStack->Rotate(180, 0, 1, 0);
-				modelStack->Rotate(Math::RadianToDegree(atan2f(player->normal.y, -player->normal.x)), 0, 0, 1);
-			}
 			modelStack->PushMatrix();
 			{
-				modelStack->Translate(3, 0, 0);
-				modelStack->Scale(player->scale.x, player->scale.y, player->scale.z);
-				if (player->getcurWeapon() == Player::BOW)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
-				else if (player->getcurWeapon() == Player::STAFF)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
-				else if (player->getcurWeapon() == Player::PORTALGUN)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
+				modelStack->Translate(0, 0, 0.001f);
+				zOffset += 0.001f;
+				if (player->normal.x >= 0)
+					modelStack->Rotate(Math::RadianToDegree(atan2f(player->normal.y, player->normal.x)), 0, 0, 1);
+				else
+				{
+					modelStack->Rotate(180, 0, 1, 0);
+					modelStack->Rotate(Math::RadianToDegree(atan2f(player->normal.y, -player->normal.x)), 0, 0, 1);
+				}
+				modelStack->PushMatrix();
+				{
+					modelStack->Translate(3, 0, 0);
+					modelStack->Scale(player->scale.x, player->scale.y, player->scale.z);
+					if (player->getcurWeapon() == Player::BOW)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
+					else if (player->getcurWeapon() == Player::STAFF)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
+					else if (player->getcurWeapon() == Player::PORTALGUN)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
+				}
+				modelStack->PopMatrix();
 			}
 			modelStack->PopMatrix();
 		}
+		modelStack->PushMatrix();
+			modelStack->Translate(0, 5.f, zOffset);
+			modelStack->Rotate(45, 0, 0, 1);
+			CentralMesh::GetInstance()->ChangeMat(CentralMesh::GEO_QUAD, Color(0, 1, 0), 1, 0.6, 0.3, 1.f);
+			meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),false);
+			zOffset += 0.001f;
 		modelStack->PopMatrix();
-			modelStack->PushMatrix();
-				modelStack->Translate(0, 5.f, zOffset);
-				modelStack->Rotate(45, 0, 0, 1);
-				meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),true);
-				zOffset += 0.001f;
-			modelStack->PopMatrix();
 
 	}
 	modelStack->PopMatrix();
@@ -100,36 +104,40 @@ void GameLevelBase::RenderPlayerClone()
 			player->getClone()->Render();
 		}
 		modelStack->PopMatrix();
-		modelStack->PushMatrix();
+		if (player->GetCurItem() == Player::WEAPON)
 		{
-			modelStack->Translate(0, 0, 0.001f);
-			zOffset += 0.001f;
-			if (player->getClone()->getnormal().x >= 0)
-				modelStack->Rotate(Math::RadianToDegree(atan2f(player->getClone()->getnormal().y, player->getClone()->getnormal().x)), 0, 0, 1);
-			else
-			{
-				modelStack->Rotate(180, 0, 1, 0);
-				modelStack->Rotate(Math::RadianToDegree(atan2f(player->getClone()->getnormal().y, -player->getClone()->getnormal().x)), 0, 0, 1);
-			}
 			modelStack->PushMatrix();
 			{
-				modelStack->Translate(3, 0, 0);
-				modelStack->Scale(player->getClone()->getscale().x, player->getClone()->getscale().y, player->getClone()->getscale().z);
-				if (player->getClone()->getcurWeapon() == Player::BOW)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
-				else if (player->getClone()->getcurWeapon() == Player::STAFF)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
-				else if (player->getClone()->getcurWeapon() == Player::PORTALGUN)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
+				modelStack->Translate(0, 0, 0.001f);
+				zOffset += 0.001f;
+				if (player->getClone()->getnormal().x >= 0)
+					modelStack->Rotate(Math::RadianToDegree(atan2f(player->getClone()->getnormal().y, player->getClone()->getnormal().x)), 0, 0, 1);
+				else
+				{
+					modelStack->Rotate(180, 0, 1, 0);
+					modelStack->Rotate(Math::RadianToDegree(atan2f(player->getClone()->getnormal().y, -player->getClone()->getnormal().x)), 0, 0, 1);
+				}
+				modelStack->PushMatrix();
+				{
+					modelStack->Translate(3, 0, 0);
+					modelStack->Scale(player->getClone()->getscale().x, player->getClone()->getscale().y, player->getClone()->getscale().z);
+					if (player->getClone()->getcurWeapon() == Player::BOW)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
+					else if (player->getClone()->getcurWeapon() == Player::STAFF)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
+					else if (player->getClone()->getcurWeapon() == Player::PORTALGUN)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
+				}
+				modelStack->PopMatrix();
 			}
 			modelStack->PopMatrix();
 		}
-		modelStack->PopMatrix();
 	}
 		modelStack->PushMatrix();
 		modelStack->Translate(0,5.f,zOffset);
 		modelStack->Rotate(45, 0, 0, 1);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),true);
+		CentralMesh::GetInstance()->ChangeMat(CentralMesh::GEO_QUAD, Color(1, 1, 1), 1, 0.6, 0.3, 1.f);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),false);
 		zOffset += 0.001f;
 		modelStack->PopMatrix();
 	modelStack->PopMatrix();
@@ -348,6 +356,22 @@ bool GameLevelBase::loadMap(std::string file_path)
 				else if (key == "14")
 				{
 					temp = tileFactory->ProduceTile(TileFactory::DOOR_5_TILE, pos, scale, vel);
+				}
+				else if (key == "15")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS, pos, scale, vel);
+				}
+				else if (key == "16")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GROUND, pos, scale, vel);
+				}
+				else if (key == "17")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::CASTLE_PLATFORM, pos, scale, vel);
+				}
+				else if (key == "18")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::LARGE_STONE_2, pos, scale, vel);
 				}
 				else if (key == "OOB") // outofbounds
 				{
@@ -961,77 +985,150 @@ void GameLevelBase::ChangeAllIntObject(GameObject::GAMEOBJECT_TYPE Changeto, Gam
 {
 }
 
-void GameLevelBase::ChangeTimelineBlocks()
+void GameLevelBase::ChangeTimelineBlocks(bool revert)
 {
 	int XTilesInWorld = getworldWidth() / (getTileWidth());
 	int YTilesInWorld = getworldHeight() / (getTileHeight());
 	bool revertTile = false;
-	for (int i = 0; i < map.size(); i++)
+	if (!revert)
 	{
-		GameObject* temp;
-		temp = map[i];
-		if (temp == nullptr)
-			continue;
-		else if (temp->active == false)
-			continue;
-		int pos = i;
-		switch (temp->type)
+		for (int i = 0; i < map.size(); i++)
 		{
-		case GameObject::BRICK_TILE:
-			temp = ChangeMapObject(GameObject::STONE_BRICK_TILE, temp);
-			break;
-		case GameObject::STONE_BRICK_TILE:
-			temp = ChangeMapObject(GameObject::BRICK_TILE, temp);
-			break;
-		case GameObject::SOIL_TILE:
-			temp = ChangeMapObject(GameObject::GRASS_SOIL_TILE, temp);
-			break;
-		case GameObject::GRASS_SOIL_TILE:
-			temp = ChangeMapObject(GameObject::SOIL_TILE, temp);
-			break;
-		case GameObject::FRAGILE_CAVE_TILE:
-			if (temp->pos == temp->OGpos && revertTile == false)
+			GameObject* temp;
+			temp = map[i];
+			if (temp == nullptr)
+				continue;
+			else if (temp->active == false)
+				continue;
+			int pos = i;
+			switch (temp->type)
 			{
-				while (pos - XTilesInWorld >= 0)
+			case GameObject::BRICK_TILE:
+				temp = ChangeMapObject(GameObject::STONE_BRICK_TILE, temp);
+				break;
+			case GameObject::STONE_BRICK_TILE:
+				temp = ChangeMapObject(GameObject::BRICK_TILE, temp);
+				break;
+			case GameObject::SOIL_TILE:
+				temp = ChangeMapObject(GameObject::GRASS_SOIL_TILE, temp);
+				break;
+			case GameObject::GRASS_SOIL_TILE:
+				temp = ChangeMapObject(GameObject::SOIL_TILE, temp);
+				break;
+			case GameObject::FRAGILE_CAVE_TILE:
+				if (temp->pos == temp->OGpos && revertTile == false)
 				{
-					if (map[pos - XTilesInWorld] == nullptr)
+					while (pos - XTilesInWorld >= 0)
 					{
-						map[pos] = nullptr;
-						pos -= XTilesInWorld;
-						map[pos] = temp;
-						temp->pos.y -= TILEHEIGHT;
-					}
-					else
-						break;
-				}
-			}
-			else
-			{
-				revertTile = true;
-				while (pos + XTilesInWorld < YTilesInWorld * XTilesInWorld)
-				{
-					if (temp->pos.y < temp->OGpos.y)
-					{
-						pos += XTilesInWorld;
-						temp->pos.y += TILEHEIGHT;
-					}
-					else
-					{
-						map[i] = nullptr;
-						map[pos] = temp;
-						break;
+						if (map[pos - XTilesInWorld] == nullptr)
+						{
+							map[pos] = nullptr;
+							pos -= XTilesInWorld;
+							map[pos] = temp;
+							temp->pos.y -= TILEHEIGHT;
+						}
+						else
+							break;
 					}
 				}
+				else
+				{
+					revertTile = true;
+					while (pos + XTilesInWorld < YTilesInWorld * XTilesInWorld)
+					{
+						if (temp->pos.y < temp->OGpos.y)
+						{
+							pos += XTilesInWorld;
+							temp->pos.y += TILEHEIGHT;
+						}
+						else
+						{
+							map[i] = nullptr;
+							map[pos] = temp;
+							break;
+						}
+					}
+				}
+				continue;
+			default:
+				break;
 			}
-			continue;
-		default:
-			break;
-		}
-		if (temp == map[i])
-			continue;
+			if (temp == map[i])
+				continue;
 
-		delete map[i];
-		map[i] = temp;
+			delete map[i];
+			map[i] = temp;
+		}
+	}
+	else
+	{
+		for (int i = map.size() - 1; i >= 0; i--)
+		{
+			GameObject* temp;
+			temp = map[i];
+			if (temp == nullptr)
+				continue;
+			else if (temp->active == false)
+				continue;
+			int pos = i;
+			switch (temp->type)
+			{
+			case GameObject::BRICK_TILE:
+				temp = ChangeMapObject(GameObject::STONE_BRICK_TILE, temp);
+				break;
+			case GameObject::STONE_BRICK_TILE:
+				temp = ChangeMapObject(GameObject::BRICK_TILE, temp);
+				break;
+			case GameObject::SOIL_TILE:
+				temp = ChangeMapObject(GameObject::GRASS_SOIL_TILE, temp);
+				break;
+			case GameObject::GRASS_SOIL_TILE:
+				temp = ChangeMapObject(GameObject::SOIL_TILE, temp);
+				break;
+			case GameObject::FRAGILE_CAVE_TILE:
+				if (temp->pos == temp->OGpos && revertTile == false)
+				{
+					while (pos - XTilesInWorld >= 0)
+					{
+						if (map[pos - XTilesInWorld] == nullptr)
+						{
+							map[pos] = nullptr;
+							pos -= XTilesInWorld;
+							map[pos] = temp;
+							temp->pos.y -= TILEHEIGHT;
+						}
+						else
+							break;
+					}
+				}
+				else
+				{
+					revertTile = true;
+					while (pos + XTilesInWorld < YTilesInWorld * XTilesInWorld)
+					{
+						if (temp->pos.y < temp->OGpos.y)
+						{
+							pos += XTilesInWorld;
+							temp->pos.y += TILEHEIGHT;
+						}
+						else
+						{
+							map[i] = nullptr;
+							map[pos] = temp;
+							break;
+						}
+					}
+				}
+				continue;
+			default:
+				break;
+			}
+			if (temp == map[i])
+				continue;
+
+			delete map[i];
+			map[i] = temp;
+		}
 	}
 	for (int i = 0; i < InteractableList.size(); i++)
 	{
@@ -1084,8 +1181,9 @@ void GameLevelBase::Exit()
 	{
 		if (EntityList[i]->type == GameObject::GO_PLAYER)
 		{
-			player->DestroyInstance();
-			player = nullptr;
+			//player->DestroyInstance();
+			//player = nullptr;		
+			player->Reset();
 		}
 		else
 			delete EntityList[i];

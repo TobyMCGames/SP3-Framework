@@ -13,6 +13,15 @@ protected:
 		ATTACK,
 		NUM_STATES,
 	};
+
+	enum COLLIDEPOS
+	{
+		NOTHING,
+		COL_UP,
+		COL_DOWN,
+		COL_LEFT,
+		COL_RIGHT
+	};
 	BEHAVIOUR currState;
 	float shootCounter;
 	float attackTimer;

@@ -66,7 +66,7 @@ public:
 	void ChangeIntObject(GameObject::GAMEOBJECT_TYPE Changeto, AdvanceGO* toChange);
 	void ChangeAllIntObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange);
 
-	void ChangeTimelineBlocks();
+	void ChangeTimelineBlocks(bool revert);
 
 
 	float m_speed;

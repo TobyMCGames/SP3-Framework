@@ -38,12 +38,12 @@ bool SceneBase::Update(double dt)
 	//Keyboard Section
 	/*if(Application::IsKeyPressed('1'))
 		glEnable(GL_CULL_FACE);*/
-	if(Application::IsKeyPressed('2'))
+	/*if(Application::IsKeyPressed('2'))
 		glDisable(GL_CULL_FACE);
 	if(Application::IsKeyPressed('3'))
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	if(Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
 	
 	fps = (float)(1.f / dt);
 
@@ -213,6 +213,38 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PopMatrix();
 		break;
 
+	case GameObject::DARK_FOREST_GROUND:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DARK_FOREST_GROUND), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::DARK_FOREST_GRASS:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DARK_FOREST_GRASS), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::CASTLE_PLATFORM:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_CASTLE_PLATFORM), false);
+		modelStack->PopMatrix();
+		break;
+
+	case GameObject::LARGE_STONE_2:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_LARGESTONE2), false);
+		modelStack->PopMatrix();
+		break;
+
 	case GameObject::SPIKE_TILE:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -354,6 +386,13 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_TURRET), false);
 		go->Render();
+		modelStack->PopMatrix();
+		break;
+	case GameObject::GO_BOOMER:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOOMER), false);
 		modelStack->PopMatrix();
 		break;
 	case GameObject::WEAPON_STATION_BOW:

@@ -50,8 +50,9 @@ public:
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y,int maxX=0);
 	void RenderMesh(Mesh *mesh, bool enableLight);
-	void RenderAnimation(Mesh* mesh, unsigned offset, unsigned count, unsigned int numRow, unsigned int numCol, bool enableLight);
+	void RenderAnimation(Mesh* mesh, unsigned offset, unsigned count, bool enableLight);
 	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey);
+	void RenderAnimationOnScreen(Mesh* mesh, unsigned offset, unsigned count, float x, float y, float sizex, float sizey);
 
 	MS* GetModelStack();
 	MS* GetViewStack();

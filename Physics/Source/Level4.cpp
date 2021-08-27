@@ -27,9 +27,6 @@ void Level4::Init()
 
 	Math::InitRNG();
 	UpdateLevel();
-	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
-		getworldWidth(),getworldHeight());
-	camera->setpanTarget(player);
 	//camera->setDebugMode();
 }
 
@@ -73,6 +70,9 @@ void Level4::UpdateLevel()
 		case 1:
 			GameLevelBase::Exit();
 			loadMap("Maps//Map_LEVEL_4.csv");
+			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
+				getworldWidth(), getworldHeight());
+			camera->setpanTarget(player);
 			break;
 		}
 	}

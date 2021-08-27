@@ -211,21 +211,12 @@ void Spider::Response(GameObject* go)
 
 		if (health <= 0)
 		{
-			//CSoundController::GetInstance()->PlaySoundByID(13);
+			CSoundController::GetInstance()->PlaySoundByID(25);
 			dead();
 		}
 		else
 		{
-			int randHurtSound = rand() % 2;
-
-			if (randHurtSound == 0)
-			{
-				//CSoundController::GetInstance()->PlaySoundByID(11);
-			}
-			else if (randHurtSound == 1)
-			{
-				//CSoundController::GetInstance()->PlaySoundByID(12);
-			}
+			CSoundController::GetInstance()->PlaySoundByID(24);
 		}
 	}
 	return;
@@ -237,8 +228,6 @@ void Spider::Render()
 		MeshRender::GetInstance()->RenderAnimation(
 			SpiderAnimation->GetSprite(),
 			SpiderAnimation->GetCurFrame(),
-			6,
-			3,
 			6,
 			false
 		);

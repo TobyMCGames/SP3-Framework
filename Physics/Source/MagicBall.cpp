@@ -43,8 +43,6 @@ void MagicBall::Render()
 			FadingAnimation->GetSprite(),
 			FadingAnimation->GetCurFrame(),
 			6,
-			2,
-			3,
 			false
 		);
 	}

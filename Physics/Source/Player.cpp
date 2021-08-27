@@ -17,6 +17,8 @@ Player::Player()
 	, swap(false)
 	, Pexitspeed(0, 0, 0)
 	, isCompleted(false)
+	, timetraveled(0)
+	, InFuture(false)
 	,isdead(false)
 	,inDialogue(false)
 	,dialogueinProgress(0)
@@ -183,12 +185,15 @@ void Player::Update(double dt, float m_speed)
 	}
 
 	/////// Switching Timeline Mechanic
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT))
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT) && timetraveled <= 0)
 	{
 		ChangeTimeline();
+		timetraveled = 0.6f;
+		CSoundController::GetInstance()->PlaySoundByID(23);
 		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
 	}
-
+	if (timetraveled > 0)
+		timetraveled -= dt;
 	/// Shooting Mechanic
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -201,14 +206,16 @@ void Player::Update(double dt, float m_speed)
 		bLButtonState = false;
 
 		//FireWeapon = true;
-		switch (curWeapon)
+		if (curItem == WEAPON)
 		{
+			switch (curWeapon)
+			{
 			case BOW:
 			{
 				CSoundController::GetInstance()->PlaySoundByID(1);
 				Projectile* arrow =
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_ARROW,
-						pos + (normal * scale.x), normal, Vector3(3.42f, 1.26f, 1.f) , normal);
+						pos + (normal * scale.x), normal, Vector3(3.42f, 1.26f, 1.f), normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(arrow);
 				cout << "arrow created" << endl;
 				break;
@@ -218,35 +225,39 @@ void Player::Update(double dt, float m_speed)
 				CSoundController::GetInstance()->PlaySoundByID(2);
 				Projectile* magicBall =
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_MAGICBALL,
-						pos + (normal * scale.x), normal, Vector3(3.6f, 2.34f, 1.f) , normal);
+						pos + (normal * scale.x), normal, Vector3(3.6f, 2.34f, 1.f), normal);
 
-					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
-					cout << "Magic ball created" << endl;
-					break;
+				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(magicBall);
+				cout << "Magic ball created" << endl;
+				break;
 			}
 			case PORTALGUN:
 			{
 				CSoundController::GetInstance()->PlaySoundByID(3);
 				Projectile* portal =
 					ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_PORTAL,
-						pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f) , normal);
+						pos + (normal * scale.x), normal, Vector3(4.5f, 1.89f, 1.f), normal);
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(portal);
 				cout << "portal created" << endl;
 				break;
 			}
-		}
-		switch (curItem)
-		{
-		case BOMBS:
-			if (Inventory[BOMBS] > 0)
-			{
-				Projectile* bomb = ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
-					(pos + normal * scale.x), normal, Vector3(3, 3, 1), normal);
-				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
-				Inventory[BOMBS]--;
-				cout << "bomb created" << endl;
 			}
-			break;
+		}
+		else
+		{
+			switch (curItem)
+			{
+			case BOMBS:
+				if (Inventory[BOMBS] > 0)
+				{
+					Projectile* bomb = ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PTYPE_BOMB,
+						(pos + normal * scale.x), normal, Vector3(3, 3, 1), normal);
+					GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(bomb);
+					Inventory[BOMBS]--;
+					cout << "bomb created" << endl;
+				}
+				break;
+			}
 		}
 	}
 	
@@ -330,46 +341,48 @@ void Player::Update(double dt, float m_speed)
 				vel.y *= 0.7;
 		}
 	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_1))
+	{
+		curItem = TREE_SEED;
+		cKeyboardController->ResetKey(GLFW_KEY_1);
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_2))
+	{
+		curItem = VINE_SEED;
+		cKeyboardController->ResetKey(GLFW_KEY_2);
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_3))
+	{
+		curItem = BOMBS;
+		cKeyboardController->ResetKey(GLFW_KEY_3);
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_4))
+	{
+		curItem = WEAPON;
+		cKeyboardController->ResetKey(GLFW_KEY_4);
+	}
 
 	scrollsnap += Application::GetYScrollOffset();
 
-		if (scrollsnap > getScrollSensitivity())
-		{
-			curItem++;
-			scrollsnap = 0;
-		}
-		else if (scrollsnap < 0)
-		{
-			curItem--;
-			scrollsnap = getScrollSensitivity();
-		}
-		if (curItem < 0)
-		{
-			curItem = NUM_ITEMS - 1;
-		}
-		else if (curItem >= NUM_ITEMS)
-		{
-			curItem = 0;
-		}
-		switch (curItem)
-		{
-		case TREE_SEED:
-			//std::cout << "Current item is TREE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
-			curWeapon = PORTALGUN;
-			break;
-		case VINE_SEED:
-			//std::cout << "Current item is VINE_SEED and there are " << Inventory[curItem] << " in inventory" << std::endl;
-			curWeapon = BOW;
-			break;
-		case BOMBS:
-			//std::cout << "Current item is BOMB and there are " << Inventory[curItem] << " in inventory" << std::endl;
-			//std::cout << "Bombs:" << Inventory[BOMBS] << endl;
-			curWeapon = STAFF;
-			break;
-		default:
-			//std::cout << "Invalid curItem in Player.cpp" << std::endl;
-			break;
-		}
+	if (scrollsnap > getScrollSensitivity())
+	{
+		curItem++;
+		scrollsnap = 0;
+	}
+	else if (scrollsnap < 0)
+	{
+		curItem--;
+		scrollsnap = getScrollSensitivity();
+	}
+	if (curItem < 0)
+	{
+		curItem = NUM_ITEMS - 1;
+	}
+	else if (curItem >= NUM_ITEMS)
+	{
+		curItem = 0;
+	}
+
 	if (curLocation == IN_AIR)
 	{
 		//cout << "In air" << endl;
@@ -431,7 +444,6 @@ PlayerBase::Weapons Player::getcurWeapon()
 	return curWeapon;
 }
 
-
 PlayerClone* Player::getClone()
 {
 	return playerclone;
@@ -469,6 +481,28 @@ void Player::setControl(bool controlled)
 	this->controlled = controlled;
 }
 
+void Player::Reset()
+{
+	portalCounter = 0;
+	if (playerclone != nullptr)
+		playerclone = nullptr;
+	curWeapon = BARE_HANDS;
+	curItem = 0;
+	scrollsnap = 0;
+	cloneinited = false;
+	controlled = true;
+	swap = false;
+	Pexitspeed.Set(0, 0, 0);
+	isCompleted = false;
+	isdead = false;
+	health = 100;
+	mana = 100;
+}
+
+void Player::ResetCoins()
+{
+	coins = 0;
+}
 
 void Player::Response(GameObject* go)
 {
@@ -486,6 +520,7 @@ void Player::Response(GameObject* go)
 				takeDamage(5);
 				curState = STATE_INVINCIBLE;
 				InvincibilityTimer = 1.5;
+				Player::playRandHurtSound();
 			}
 			break;
 		}
@@ -511,14 +546,7 @@ void Player::Response(GameObject* go)
 			takeDamage(go->damage);
 			curState = STATE_INVINCIBLE;
 			InvincibilityTimer = 1.5;
-			int randHurtSound = rand() % 3;
-
-			if (randHurtSound == 0)
-				CSoundController::GetInstance()->PlaySoundByID(5);
-			else if (randHurtSound == 1)
-				CSoundController::GetInstance()->PlaySoundByID(6);
-			else if (randHurtSound == 2)
-				CSoundController::GetInstance()->PlaySoundByID(7);
+			playRandHurtSound();
 		}
 	}
 
@@ -667,8 +695,6 @@ void Player::Render()
 			PlayerAnimation->GetSprite(),
 			PlayerAnimation->GetCurFrame(),
 			6,
-			2,
-			6,
 			false
 		);
 	}
@@ -692,7 +718,8 @@ int Player::GetCurItemAmt()
 void Player::ChangeTimeline()
 {
 	GameLevelBase* level = GameLevelManager::GetInstance()->getcurrentLevel();
-	level->ChangeTimelineBlocks();
+	level->ChangeTimelineBlocks(InFuture);
+	InFuture = !InFuture;
 }
 
 bool Player::IsInDialogue()
@@ -716,5 +743,16 @@ int Player::getDialoginProgress()
 }
 
 
+void Player::playRandHurtSound()
+{
+	int randHurtSound = rand() % 3;
 
+	if (randHurtSound == 0)
+		CSoundController::GetInstance()->PlaySoundByID(5);
+	else if (randHurtSound == 1)
+		CSoundController::GetInstance()->PlaySoundByID(6);
+	else if (randHurtSound == 2)
+		CSoundController::GetInstance()->PlaySoundByID(7);
+	return;
+}
 

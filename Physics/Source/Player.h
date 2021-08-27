@@ -25,7 +25,12 @@ public:
 	SpriteAnimation* getAnimation();
 	int GetCurItem();
 	int GetCurItemAmt();
+
 	void ChangeTimeline();
+	void Reset();
+	void ResetCoins();
+
+	bool cloneinited;
 	int portalCounter;
 	bool isCompleted;
 	bool isdead;
@@ -34,6 +39,7 @@ public:
 	void setDialoginProgress(int dialogueinProgress);
 	int getDialoginProgress();
 	
+	float timetraveled;
 	
 protected:
 	int Inventory[NUM_ITEMS];
@@ -53,6 +59,9 @@ protected:
 	float RechargeTime;
 	bool inDialogue;
 	int dialogueinProgress;
+	bool InFuture;
+	void playRandHurtSound();
+	
 	
 private:
 	Player();
