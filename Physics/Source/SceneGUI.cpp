@@ -271,6 +271,20 @@ void SceneGUI::renderGUI()
 	case PlayerBase::BOMBS:
 		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_BOMB_CRATE), 6, 7, 7, 7);
 		break;
+	case PlayerBase::WEAPON:
+		switch (Player::GetInstance()->getcurWeapon())
+		{
+		case Player::BOW:
+			meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_BOW), 6, 7, 7, 7);
+			break;
+		case Player::STAFF:
+			meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), 6, 7, 7, 7);
+			break;
+		case Player::PORTALGUN:
+			meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), 6, 7, 7, 7);
+			break;
+		}
+		break;
 	}
 	ss << Player::GetInstance()->GetCurItemAmt();
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1,1,1), 4, 7.5, 6);

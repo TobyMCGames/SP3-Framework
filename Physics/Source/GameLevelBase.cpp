@@ -41,37 +41,41 @@ void GameLevelBase::RenderPlayer()
 			player->Render();
 		}
 		modelStack->PopMatrix();
-		modelStack->PushMatrix();
+		if (player->GetCurItem() == Player::WEAPON)
 		{
-			modelStack->Translate(0, 0, 0.001f);
-			zOffset += 0.001f;
-			if (player->normal.x >= 0)
-				modelStack->Rotate(Math::RadianToDegree(atan2f(player->normal.y, player->normal.x)), 0, 0, 1);
-			else
-			{
-				modelStack->Rotate(180, 0, 1, 0);
-				modelStack->Rotate(Math::RadianToDegree(atan2f(player->normal.y, -player->normal.x)), 0, 0, 1);
-			}
 			modelStack->PushMatrix();
 			{
-				modelStack->Translate(3, 0, 0);
-				modelStack->Scale(player->scale.x, player->scale.y, player->scale.z);
-				if (player->getcurWeapon() == Player::BOW)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
-				else if (player->getcurWeapon() == Player::STAFF)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
-				else if (player->getcurWeapon() == Player::PORTALGUN)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
+				modelStack->Translate(0, 0, 0.001f);
+				zOffset += 0.001f;
+				if (player->normal.x >= 0)
+					modelStack->Rotate(Math::RadianToDegree(atan2f(player->normal.y, player->normal.x)), 0, 0, 1);
+				else
+				{
+					modelStack->Rotate(180, 0, 1, 0);
+					modelStack->Rotate(Math::RadianToDegree(atan2f(player->normal.y, -player->normal.x)), 0, 0, 1);
+				}
+				modelStack->PushMatrix();
+				{
+					modelStack->Translate(3, 0, 0);
+					modelStack->Scale(player->scale.x, player->scale.y, player->scale.z);
+					if (player->getcurWeapon() == Player::BOW)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
+					else if (player->getcurWeapon() == Player::STAFF)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
+					else if (player->getcurWeapon() == Player::PORTALGUN)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
+				}
+				modelStack->PopMatrix();
 			}
 			modelStack->PopMatrix();
 		}
+		modelStack->PushMatrix();
+			modelStack->Translate(0, 5.f, zOffset);
+			modelStack->Rotate(45, 0, 0, 1);
+			CentralMesh::GetInstance()->ChangeMat(CentralMesh::GEO_QUAD, Color(0, 1, 0), 1, 0.6, 0.3, 1.f);
+			meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),false);
+			zOffset += 0.001f;
 		modelStack->PopMatrix();
-			modelStack->PushMatrix();
-				modelStack->Translate(0, 5.f, zOffset);
-				modelStack->Rotate(45, 0, 0, 1);
-				meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),true);
-				zOffset += 0.001f;
-			modelStack->PopMatrix();
 
 	}
 	modelStack->PopMatrix();
@@ -100,36 +104,40 @@ void GameLevelBase::RenderPlayerClone()
 			player->getClone()->Render();
 		}
 		modelStack->PopMatrix();
-		modelStack->PushMatrix();
+		if (player->GetCurItem() == Player::WEAPON)
 		{
-			modelStack->Translate(0, 0, 0.001f);
-			zOffset += 0.001f;
-			if (player->getClone()->getnormal().x >= 0)
-				modelStack->Rotate(Math::RadianToDegree(atan2f(player->getClone()->getnormal().y, player->getClone()->getnormal().x)), 0, 0, 1);
-			else
-			{
-				modelStack->Rotate(180, 0, 1, 0);
-				modelStack->Rotate(Math::RadianToDegree(atan2f(player->getClone()->getnormal().y, -player->getClone()->getnormal().x)), 0, 0, 1);
-			}
 			modelStack->PushMatrix();
 			{
-				modelStack->Translate(3, 0, 0);
-				modelStack->Scale(player->getClone()->getscale().x, player->getClone()->getscale().y, player->getClone()->getscale().z);
-				if (player->getClone()->getcurWeapon() == Player::BOW)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
-				else if (player->getClone()->getcurWeapon() == Player::STAFF)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
-				else if (player->getClone()->getcurWeapon() == Player::PORTALGUN)
-					meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
+				modelStack->Translate(0, 0, 0.001f);
+				zOffset += 0.001f;
+				if (player->getClone()->getnormal().x >= 0)
+					modelStack->Rotate(Math::RadianToDegree(atan2f(player->getClone()->getnormal().y, player->getClone()->getnormal().x)), 0, 0, 1);
+				else
+				{
+					modelStack->Rotate(180, 0, 1, 0);
+					modelStack->Rotate(Math::RadianToDegree(atan2f(player->getClone()->getnormal().y, -player->getClone()->getnormal().x)), 0, 0, 1);
+				}
+				modelStack->PushMatrix();
+				{
+					modelStack->Translate(3, 0, 0);
+					modelStack->Scale(player->getClone()->getscale().x, player->getClone()->getscale().y, player->getClone()->getscale().z);
+					if (player->getClone()->getcurWeapon() == Player::BOW)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOW), false);
+					else if (player->getClone()->getcurWeapon() == Player::STAFF)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), false);
+					else if (player->getClone()->getcurWeapon() == Player::PORTALGUN)
+						meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), false);
+				}
+				modelStack->PopMatrix();
 			}
 			modelStack->PopMatrix();
 		}
-		modelStack->PopMatrix();
 	}
 		modelStack->PushMatrix();
 		modelStack->Translate(0,5.f,zOffset);
 		modelStack->Rotate(45, 0, 0, 1);
-		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),true);
+		CentralMesh::GetInstance()->ChangeMat(CentralMesh::GEO_QUAD, Color(1, 1, 1), 1, 0.6, 0.3, 1.f);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_QUAD),false);
 		zOffset += 0.001f;
 		modelStack->PopMatrix();
 	modelStack->PopMatrix();

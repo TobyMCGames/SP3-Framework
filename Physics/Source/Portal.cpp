@@ -40,7 +40,7 @@ void Portal::Update(double dt, float m_speed)
 void Portal::Response(GameObject* go)
 {
 	if ((go->type > GameObject::PASSIVE_TILE_START &&
-		go->type < GameObject::PASSIVE_TILE_END) || (go->type == GameObject::GO_TURRET) || (go->type == GameObject::GO_ZOMBIE))
+		go->type < GameObject::PASSIVE_TILE_END))
 	{
 		this->active = false;
 		Vector3 PGateNormal;
