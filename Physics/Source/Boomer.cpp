@@ -120,11 +120,11 @@ void Boomer::Update(double dt, float m_speed)
 		{
 			BoomerAnimation->Reset();
 			BoomerAnimation->PlayAnimation("Explode", 1, maxAnimTimer);
-			CSoundController::GetInstance()->PlaySoundByID(28);
 			explosionAnimTimer += dt * m_speed;
 
 			if (explosionAnimTimer > maxAnimTimer)
 			{
+				CSoundController::GetInstance()->PlaySoundByID(28);
 				if ((pos - Player::GetInstance()->pos).Length() <= 20)
 				{
 					Player::GetInstance()->takeDamage(30);
