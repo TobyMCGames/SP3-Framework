@@ -228,7 +228,7 @@ void MeshRender::RenderMesh(Mesh *mesh, bool enableLight)
 	}
 }
 
-void MeshRender::RenderAnimation(Mesh* mesh, unsigned offset, unsigned count, unsigned int numRow, unsigned int numCol, bool enableLight)
+void MeshRender::RenderAnimation(Mesh* mesh, unsigned offset, unsigned count, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 
@@ -285,6 +285,27 @@ void MeshRender::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, f
 	modelStack.Translate(x, y, 1);
 	modelStack.Scale(sizex, sizey, 1);
 	RenderMesh(mesh, false); //UI should not have light
+	projectionStack.PopMatrix();
+	viewStack.PopMatrix();
+	modelStack.PopMatrix();
+	glEnable(GL_DEPTH_TEST);
+}
+
+void MeshRender::RenderAnimationOnScreen(Mesh* mesh, unsigned offset, unsigned count, float x, float y, float sizex, float sizey)
+{
+	glDisable(GL_DEPTH_TEST);
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity();
+	//to do: scale and translate accordingly
+	modelStack.Translate(x, y, 1);
+	modelStack.Scale(sizex, sizey, 1);
+	RenderAnimation(mesh, offset, count, false); //UI should not have light
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();
 	modelStack.PopMatrix();

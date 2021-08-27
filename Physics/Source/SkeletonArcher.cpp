@@ -175,8 +175,6 @@ void SkeletonArcher::Render()
 			SkeletonAnimation->GetSprite(),
 			SkeletonAnimation->GetCurFrame(),
 			6,
-			2,
-			3,
 			false
 		);
 	}

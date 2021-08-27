@@ -25,6 +25,7 @@ public:
 	SpriteAnimation* getAnimation();
 	int GetCurItem();
 	int GetCurItemAmt();
+
 	void ChangeTimeline();
 	void Reset();
 	void ResetVariables();
@@ -33,6 +34,7 @@ public:
 	int portalCounter;
 	bool isCompleted;
 	bool isdead;
+	float timetraveled;
 	
 protected:
 	int Inventory[NUM_ITEMS];
@@ -50,6 +52,7 @@ protected:
 	bool teleport;
 	float webbedTimeLeft;
 	float RechargeTime;
+	void playRandHurtSound();
 	
 	
 private:

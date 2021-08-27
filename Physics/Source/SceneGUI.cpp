@@ -8,6 +8,7 @@
 SceneGUI::SceneGUI()
 	: m_worldHeight(0)
 	, m_worldWidth(0)
+	, Timetravel(NULL)
 {
 	GameDialogues.LoadDialogue("Dialogues//Level_4_dialogues.txt"); // load level 4 texts
 	GameDialogues.setActive(true);
@@ -28,6 +29,10 @@ void SceneGUI::Init()
 	RenderRetry = false;
 
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0,m_worldWidth,m_worldHeight);
+
+	Timetravel = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_TIMETRAVEL));
+	Timetravel->AddAnimation("travel", 0, 11);
+	Timetravel->PlayAnimation("travel", 1, 0.6f);
 }
 bool SceneGUI::Update(double dt)
 {
@@ -57,6 +62,10 @@ bool SceneGUI::Update(double dt)
 	{
 		MouseState = false;
 		cout << "X: " << posX << ", " << "Y: " << posY << endl;
+	}
+	if (Player::GetInstance()->timetraveled <= 0)
+	{
+		Timetravel->Reset();
 	}
 
 	//pause menu select
@@ -180,6 +189,11 @@ bool SceneGUI::Update(double dt)
 	// if in dialogue
 		//GameDialogues.Update(dt); 
 
+	if (Timetravel != NULL)
+	{
+		if (Player::GetInstance()->timetraveled > 0)
+			Timetravel->Update(dt);
+	}
 	return true;
 }
 
@@ -257,10 +271,39 @@ void SceneGUI::renderGUI()
 	case PlayerBase::BOMBS:
 		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_BOMB_CRATE), 6, 7, 7, 7);
 		break;
+	case PlayerBase::WEAPON:
+		switch (Player::GetInstance()->getcurWeapon())
+		{
+		case Player::BOW:
+			meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_BOW), 6, 7, 7, 7);
+			break;
+		case Player::STAFF:
+			meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_STAFF), 6, 7, 7, 7);
+			break;
+		case Player::PORTALGUN:
+			meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_PORTALGUN), 6, 7, 7, 7);
+			break;
+		}
+		break;
 	}
 	ss << Player::GetInstance()->GetCurItemAmt();
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1,1,1), 4, 7.5, 6);
 
+	if (Timetravel != NULL)
+	{
+		if (Player::GetInstance()->timetraveled > 0)
+		{
+			MeshRender::GetInstance()->RenderAnimationOnScreen(
+				Timetravel->GetSprite(),
+				Timetravel->GetCurFrame(),
+				6,
+				40,
+				30,
+				85,
+				65
+			);
+		}
+	}
 
 	if (RenderPause)
 	{

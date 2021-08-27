@@ -353,8 +353,6 @@ void PlayerClone::Render()
 			CloneAnimation->GetSprite(),
 			CloneAnimation->GetCurFrame(),
 			6,
-			2,
-			6,
 			false
 		);
 	}
