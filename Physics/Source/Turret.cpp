@@ -97,8 +97,6 @@ void Turret::Render()
 			TurretAnimation->GetSprite(),
 			TurretAnimation->GetCurFrame(),
 			6,
-			2,
-			3,
 			false
 		);
 	}

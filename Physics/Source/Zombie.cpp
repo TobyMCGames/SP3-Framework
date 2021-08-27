@@ -222,8 +222,6 @@ void Zombie::Render()
 			ZombieAnimation->GetSprite(),
 			ZombieAnimation->GetCurFrame(),
 			6,
-			2,
-			4,
 			false
 		);
 	}

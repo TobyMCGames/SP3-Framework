@@ -47,8 +47,6 @@ void Bomb::Render()
 			bombanimation->GetSprite(),
 			bombanimation->GetCurFrame(),
 			6,
-			2,
-			6,
 			false
 		);
 	}

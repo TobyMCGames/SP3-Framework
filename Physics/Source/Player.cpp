@@ -18,7 +18,8 @@ Player::Player()
 	, swap(false)
 	, Pexitspeed(0, 0, 0)
 	, isCompleted(false)
-	,isdead(false)
+	, isdead(false)
+	, timetraveled(0)
 {
 	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -183,12 +184,14 @@ void Player::Update(double dt, float m_speed)
 	}
 
 	/////// Switching Timeline Mechanic
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT))
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT) && timetraveled <= 0)
 	{
 		ChangeTimeline();
+		timetraveled = 0.6f;
 		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
 	}
-
+	if (timetraveled > 0)
+		timetraveled -= dt;
 	/// Shooting Mechanic
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -641,8 +644,6 @@ void Player::Render()
 		MeshRender::GetInstance()->RenderAnimation(
 			PlayerAnimation->GetSprite(),
 			PlayerAnimation->GetCurFrame(),
-			6,
-			2,
 			6,
 			false
 		);

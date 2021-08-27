@@ -36,6 +36,7 @@ protected:
 	Color RetryButton;
 	Color MenuButton;
 	Color QuitButton;
+	SpriteAnimation* Timetravel;
 	Dialogue GameDialogues;
 };
 

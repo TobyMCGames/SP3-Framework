@@ -31,6 +31,7 @@ public:
 	int portalCounter;
 	bool isCompleted;
 	bool isdead;
+	float timetraveled;
 	
 protected:
 	int Inventory[NUM_ITEMS];

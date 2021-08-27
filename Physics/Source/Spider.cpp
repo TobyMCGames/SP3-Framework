@@ -228,8 +228,6 @@ void Spider::Render()
 			SpiderAnimation->GetSprite(),
 			SpiderAnimation->GetCurFrame(),
 			6,
-			3,
-			6,
 			false
 		);
 	}

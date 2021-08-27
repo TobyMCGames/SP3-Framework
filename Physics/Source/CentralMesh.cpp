@@ -73,7 +73,6 @@ CentralMesh::CentralMesh()
 	meshList[GUI_PAUSE] = MeshBuilder::GenerateQuad("pauseScreen", Color(1, 1, 1));
 	meshList[GUI_PAUSE]->textureID = LoadTGA("Image/GUI/PauseScreen.tga");
 	meshList[GUI_RETRY] = MeshBuilder::GenerateQuad("pauseScreen", Color(0.2, 0.2, 0.2));
-	//meshList[GUI_RETRY]->textureID = LoadTGA("Image/GUI/PauseScreen.tga");
 	meshList[GUI_BORDER] = MeshBuilder::GenerateQuad("Border", Color(1, 1, 1));
 	meshList[GUI_BORDER]->textureID = LoadTGA("Image/GUI/border.tga");
 	meshList[GUI_HEART] = MeshBuilder::GenerateQuad("Hearts_sprite", Color(1, 1, 1));
@@ -135,6 +134,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_VINE_SEEDS]->textureID = LoadTGA("Image//InteractiveBlocks//smallVine.tga");
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("Player", Color(1, 1, 1), 2, 6, 1.f);
 	meshList[GEO_PLAYER]->textureID = LoadTGA("Image//Player//playerAnimation.tga");
+	meshList[GEO_TIMETRAVEL] = MeshBuilder::GenerateSpriteAnimation("time_travel", Color(1.f, 1.f, 1.f), 2, 6, 1.f);
+	meshList[GEO_TIMETRAVEL]->textureID = LoadTGA("Image/Player/TimeTravel_animation.tga");
 
 	//Weapons
 	meshList[GEO_BOW] = MeshBuilder::GenerateQuad("bow", Color(1, 1, 1));
