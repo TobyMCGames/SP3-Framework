@@ -127,6 +127,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_TREE_TILE]->textureID = LoadTGA("Image//TILE//Tree_Tile.tga");
 	meshList[GEO_CASTLE_PLATFORM] = MeshBuilder::GenerateQuad("castle platform", Color(1, 1, 1));
 	meshList[GEO_CASTLE_PLATFORM]->textureID = LoadTGA("Image//TILE//Castle_Platform.tga");
+	meshList[GEO_LARGESTONE2] = MeshBuilder::GenerateQuad("largestone2", Color(1, 1, 1));
+	meshList[GEO_LARGESTONE2]->textureID = LoadTGA("Image//TILE//LargeStone2.tga");
 
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
