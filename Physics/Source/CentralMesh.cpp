@@ -184,7 +184,7 @@ CentralMesh::CentralMesh()
 	meshList[GEO_TURRET] = MeshBuilder::GenerateSpriteAnimation("turret", Color(1, 1, 1), 2, 3,1.f);
 	meshList[GEO_TURRET]->textureID = LoadTGA("Image//Enemy//TurretAnimation.tga");
 	meshList[GEO_BOOMER] = MeshBuilder::GenerateSpriteAnimation("boomer", Color(1, 1, 1), 5, 6, 1.f);
-	meshList[GEO_BOOMER]->textureID = LoadTGA("Image//Enemy//BoomerAnimation.tga");
+	meshList[GEO_BOOMER]->textureID = LoadTGA("Image//Enemy//BoomerAnimation2.tga");
 	meshList[GEO_DEMONLORD] = MeshBuilder::GenerateSpriteAnimation("demonlord", Color(1, 1, 1), 1, 3, 1.f);
 	meshList[GEO_DEMONLORD]->textureID = LoadTGA("Image//Enemy//DemonLord_animation.tga");
 	meshList[GEO_DEMONLORD_PORTAL] = MeshBuilder::GenerateQuad("demonlord portal", Color(1, 1, 1), 1);

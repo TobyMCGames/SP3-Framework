@@ -31,8 +31,9 @@ protected:
 	float explodeTimer;
 	const float maxExplodeTime = 2.5;
 	SpriteAnimation* BoomerAnimation;
+	float explosionAnimTimer;
+	const float maxAnimTimer = 1;
 
-public:
 public:
 	Boomer();
 	~Boomer();
