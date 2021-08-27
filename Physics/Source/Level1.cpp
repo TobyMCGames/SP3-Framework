@@ -159,7 +159,7 @@ bool Level1::Update(double dt)
 
 	if (player->getSwap() == true)
 	{
-		swapcontrols(dt);
+		swapcontrols();
 		player->setSwap(false);
 	}
 

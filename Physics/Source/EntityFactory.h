@@ -1,6 +1,7 @@
 #pragma once
 #include "Zombie.h"
 #include "SkeletonArcher.h"
+#include "HeavySkeleArcher.h"
 #include "Spider.h"
 #include "Boomer.h"
 #include "Turret.h"
@@ -16,6 +17,7 @@ public:
 		// entities
 		ZOMBIE,
 		SKELE_ARCHER,
+		HEAVY_SKELE_ARCHER,
 		SPIDER,
 		BOOMER,
 		TURRET,

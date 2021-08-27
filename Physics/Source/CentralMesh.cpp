@@ -175,6 +175,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_ZOMBIE]->textureID = LoadTGA("Image//Enemy//ZombieAnimation.tga");
 	meshList[GEO_SKELETONARCHER] = MeshBuilder::GenerateSpriteAnimation("skeleton archer", Color(1, 1, 1), 2 , 3 ,1.f);
 	meshList[GEO_SKELETONARCHER]->textureID = LoadTGA("Image//Enemy//SkeletonAnimation2.tga");
+	meshList[GEO_HEAVYSKELEARCHER] = MeshBuilder::GenerateSpriteAnimation("heavy skeleton archer", Color(1, 1, 1), 2, 3, 1.f);
+	meshList[GEO_HEAVYSKELEARCHER]->textureID = LoadTGA("Image//Enemy//HeavySkeleArcherAnimation.tga");
 	meshList[GEO_SPIDER] = MeshBuilder::GenerateSpriteAnimation("Spider", Color(1, 1, 1), 3, 6,1.f);
 	meshList[GEO_SPIDER]->textureID = LoadTGA("Image//Enemy//SpiderAnimation.tga");
 	meshList[GEO_NYMPH] = MeshBuilder::GenerateQuad("Nymph", Color(1, 1, 1));

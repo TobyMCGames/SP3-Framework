@@ -29,7 +29,6 @@ public:
 	void ChangeTimeline();
 	void Reset();
 	void ResetCoins();
-
 	bool cloneinited;
 	int portalCounter;
 	bool isCompleted;
@@ -60,7 +59,6 @@ protected:
 	bool inDialogue;
 	int dialogueinProgress;
 	bool InFuture;
-	void playRandHurtSound();
 	
 	
 private:

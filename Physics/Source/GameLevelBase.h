@@ -49,7 +49,7 @@ public:
 	bool getcloned();
 	void setcloned(bool cloned);
 	void setcloneDeleted(bool clonedeleted);
-	void swapcontrols(double dt);
+	void swapcontrols();
 	void entityPush(Entity* entity);
 	bool loadMap(std::string file_path);
 	float getworldWidth();

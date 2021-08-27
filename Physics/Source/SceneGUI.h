@@ -24,7 +24,7 @@ public:
 	bool getRenderPause();
 	void setRenderPause(bool RenderPause);
 	bool getRenderRetry();
-	void setRenderRetry(bool RenderPause);
+	void setRenderRetry(bool RenderRetry);
 
 protected:
 	SceneGUI();

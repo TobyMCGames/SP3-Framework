@@ -169,6 +169,7 @@
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\GamePhysics.cpp" />
     <ClCompile Include="Source\GameStateManager.cpp" />
+    <ClCompile Include="Source\HeavySkeleArcher.cpp" />
     <ClCompile Include="Source\InteractableFactory.cpp" />
     <ClCompile Include="Source\KeyboardController.cpp" />
     <ClCompile Include="Source\Level1.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GamePhysics.h" />
     <ClInclude Include="Source\GameStateManager.h" />
+    <ClInclude Include="Source\HeavySkeleArcher.h" />
     <ClInclude Include="Source\InteractableFactory.h" />
     <ClInclude Include="Source\Interactables.h" />
     <ClInclude Include="Source\KeyboardController.h" />

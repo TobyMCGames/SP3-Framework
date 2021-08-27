@@ -14,6 +14,10 @@ Entity* EntityFactory::produceEntity(EntityTypes entityType, Vector3 pos, Vector
 		newEntity = new SkeletonArcher();
 		newEntity->type = GameObject::GO_SKELEARCHER;
 		break;
+	case HEAVY_SKELE_ARCHER:
+		newEntity = new HeavySkeletonArcher();
+		newEntity->type = GameObject::GO_HEAVYSKELEARCHER;
+		break;
 	case SPIDER:
 		newEntity = new Spider();
 		newEntity->type = GameObject::GO_SPIDER;
