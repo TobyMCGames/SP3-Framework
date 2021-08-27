@@ -44,6 +44,7 @@ public:
 	float getmana();
 	int getCoins();
 	int gethealth();
+	void playRandHurtSound();
 
 protected:
 	PlayerBase();

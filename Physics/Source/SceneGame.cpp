@@ -94,9 +94,10 @@ void SceneGame::Destroy()
 
 void SceneGame::Exit()
 {
-
 	GameLevelManager::GetInstance()->Destroy();
 	GameLevelManager::DestroyInstance();
 	SceneGUI::GetInstance()->Exit();
 	SceneGUI::GetInstance()->Destroy();
+	Player::GetInstance()->Reset();
+	Player::DestroyInstance();
 }
