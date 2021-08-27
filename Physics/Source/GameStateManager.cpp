@@ -53,7 +53,7 @@ GameStateManager::GameStateManager()
 	cSoundController->LoadSound("Sounds\\Sounds_Spider\\kill.wav", 25, true);
 
 	// pickup coin
-	cSoundController->LoadSound("Sounds\\Sounds_Item\\Pickup_Coin.ogg", 26, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Item\\Pickup_Coin.wav", 26, true);
 
 	// boomer sounds
 	cSoundController->LoadSound("Sounds\\Sounds_Boomer\\boomer_primed.wav", 27, true);
