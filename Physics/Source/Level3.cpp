@@ -71,7 +71,7 @@ void Level3::UpdateLevel()
 		{
 		case 1:
 			GameLevelBase::Exit();
-			loadMap("Maps//Map_LEVEL_3.csv");
+			loadMap("Maps//Map_LEVEL_3b.csv");
 			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 				getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);

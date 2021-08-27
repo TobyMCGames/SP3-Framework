@@ -38,7 +38,7 @@ void SceneGame::Init()
 	GameLevelManager::GetInstance()->AddGameLevel("Level3", Level3::GetInstance());
 	GameLevelManager::GetInstance()->AddGameLevel("Level4", Level4::GetInstance());
 	// Set Active Game Level
-	GameLevelManager::GetInstance()->SetActiveGameLevel("Level1");
+	GameLevelManager::GetInstance()->SetActiveGameLevel("Level3");
 
 	Application::changeCursor(true);
 	ispaused = false;
@@ -94,9 +94,10 @@ void SceneGame::Destroy()
 
 void SceneGame::Exit()
 {
-
 	GameLevelManager::GetInstance()->Destroy();
 	GameLevelManager::DestroyInstance();
 	SceneGUI::GetInstance()->Exit();
 	SceneGUI::GetInstance()->Destroy();
+	Player::GetInstance()->Reset();
+	Player::DestroyInstance();
 }

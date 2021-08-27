@@ -30,7 +30,6 @@ protected:
 	const float JumpForce = 15;
 	float explodeTimer;
 	const float maxExplodeTime = 2.5;
-
 	SpriteAnimation* BoomerAnimation;
 
 public:

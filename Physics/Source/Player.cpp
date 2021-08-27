@@ -35,7 +35,7 @@ Player::Player()
 	cKeyboardController = CKeyboardController::GetInstance();
 
 	// Slow down time mechanic
-	TimeSpeed = 1.f; // is this variable even used?
+	TimeSpeed = 1.f;
 	SlowTimeStart = false;
 	SlowTimeEnd = false;
 	isWebbedBySpider = false;
@@ -630,6 +630,7 @@ void Player::Response(GameObject* go)
 	if (go->type == GameObject::COIN)
 	{
 		coins++;
+		CSoundController::GetInstance()->PlaySoundByID(26);
 		go->active = false;
 	}
 
@@ -638,6 +639,7 @@ void Player::Response(GameObject* go)
 		if (health < 100)
 		{
 			health += 20;
+			CSoundController::GetInstance()->PlaySoundByID(29);
 			go->active = false;
 		}
 
