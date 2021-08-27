@@ -78,7 +78,7 @@ void Level4::UpdateLevel()
 	}
 	else
 	{
-		//GameLevelManager::GetInstance()->SetActiveGameLevel("Level2");
+		GameLevelManager::GetInstance()->SetActiveGameLevel("LevelFinal");
 	}
 }
 

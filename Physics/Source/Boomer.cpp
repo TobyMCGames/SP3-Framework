@@ -10,13 +10,14 @@ Boomer::Boomer()
 	Default_Speed = 10;
 	StateCounter = 0;
 	explodeTimer = 0;
+	explosionAnimTimer = 0;
 
 	BoomerAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_BOOMER));
 	BoomerAnimation->AddAnimation("Idle", 12, 12);
 	BoomerAnimation->AddAnimation("Walking", 0, 5);
 	BoomerAnimation->AddAnimation("Chasing", 6, 11);
 	BoomerAnimation->AddAnimation("Priming", 18, 19);
-	BoomerAnimation->AddAnimation("Explode", 24, 24);
+	BoomerAnimation->AddAnimation("Explode", 24, 27);
 
 }
 
@@ -118,13 +119,18 @@ void Boomer::Update(double dt, float m_speed)
 		if (explodeTimer >= maxExplodeTime)
 		{
 			BoomerAnimation->Reset();
-			BoomerAnimation->PlayAnimation("Explode", -1, 1);
+			BoomerAnimation->PlayAnimation("Explode", 1, maxAnimTimer);
 			CSoundController::GetInstance()->PlaySoundByID(28);
-			if ((pos - Player::GetInstance()->pos).Length() <= 20)
+			explosionAnimTimer += dt * m_speed;
+
+			if (explosionAnimTimer > maxAnimTimer)
 			{
-				Player::GetInstance()->takeDamage(30);
+				if ((pos - Player::GetInstance()->pos).Length() <= 20)
+				{
+					Player::GetInstance()->takeDamage(30);
+				}
+				dead();
 			}
-			//dead();
 		}
 		explodeTimer += dt * m_speed;
 		break;
@@ -192,7 +198,7 @@ void Boomer::Response(GameObject* go)
 			//play hurt sounds
 		}
 	}
-	if (go->type == GO_PLAYER)
+	if (go->type == GO_PLAYER || go->type == GO_PLAYERCLONE)
 	{
 		CSoundController::GetInstance()->PlaySoundByID(27);
 		currState = EXPLODE;
