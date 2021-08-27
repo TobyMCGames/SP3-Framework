@@ -181,8 +181,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_NYMPH]->textureID = LoadTGA("Image//Enemy//nymph.tga");
 	meshList[GEO_TURRET] = MeshBuilder::GenerateSpriteAnimation("turret", Color(1, 1, 1), 2, 3,1.f);
 	meshList[GEO_TURRET]->textureID = LoadTGA("Image//Enemy//TurretAnimation.tga");
-	meshList[GEO_BOOMER] = MeshBuilder::GenerateQuad("boomer", Color(1, 1, 1));
-	meshList[GEO_BOOMER]->textureID = LoadTGA("Image//Enemy//boomer.tga");
+	meshList[GEO_BOOMER] = MeshBuilder::GenerateSpriteAnimation("boomer", Color(1, 1, 1), 5, 6, 1.f);
+	meshList[GEO_BOOMER]->textureID = LoadTGA("Image//Enemy//BoomerAnimation.tga");
 
 	//Weapons
 	meshList[GEO_ARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
