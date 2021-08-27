@@ -373,6 +373,10 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::LARGE_STONE_2, pos, scale, vel);
 				}
+				else if (key == "19")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::WOOD_LOG, pos, scale, vel);
+				}
 				else if (key == "OOB") // outofbounds
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel,scale);

@@ -245,6 +245,14 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PopMatrix();
 		break;
 
+	case GameObject::WOOD_LOG:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_WOOD_LOG), false);
+		modelStack->PopMatrix();
+		break;
+
 	case GameObject::SPIKE_TILE:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
