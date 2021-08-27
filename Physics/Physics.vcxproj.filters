@@ -248,6 +248,9 @@
     <ClCompile Include="Source\HeavySkeleArcher.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\LevelFinal.cpp">
+      <Filter>Source Files\GameLevels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -453,6 +456,9 @@
     </ClInclude>
     <ClInclude Include="Source\HeavySkeleArcher.h">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelFinal.h">
+      <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

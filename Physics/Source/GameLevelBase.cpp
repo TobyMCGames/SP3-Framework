@@ -407,6 +407,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				}
 				else if (key == "DL")// demon lord
 				{
+					scale.Set(50, 50, 1);
 					tempEntity = entityFactory->produceEntity(EntityFactory::DEMON_LORD, pos, vel,scale);
 				}
 				else if (key == "P")//player
