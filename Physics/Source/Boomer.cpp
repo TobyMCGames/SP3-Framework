@@ -7,9 +7,16 @@ Boomer::Boomer()
 {
 	health = 45;
 	damage = 0;
-	Default_Speed = 12;
+	Default_Speed = 10;
 	StateCounter = 0;
 	explodeTimer = 0;
+
+	BoomerAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_BOOMER));
+	BoomerAnimation->AddAnimation("Idle", 12, 12);
+	BoomerAnimation->AddAnimation("Walking", 0, 5);
+	BoomerAnimation->AddAnimation("Chasing", 6, 11);
+	BoomerAnimation->AddAnimation("Priming", 18, 19);
+	BoomerAnimation->AddAnimation("Explode", 24, 24);
 }
 
 Boomer::~Boomer()
@@ -23,6 +30,27 @@ void Boomer::Update(double dt, float m_speed)
 	{
 		pos.x += vel.x * dt * m_speed;
 	}
+	if (currState == IDLE)
+	{
+		BoomerAnimation->Reset();
+		BoomerAnimation->PlayAnimation("Idle", 1, 1);
+	}
+	else if (currState == PATROL)
+	{
+		BoomerAnimation->Reset();
+		BoomerAnimation->PlayAnimation("Walking", -1, 1);
+	}
+	else if (currState == ATTACK)
+	{
+		BoomerAnimation->Reset();
+		BoomerAnimation->PlayAnimation("Chasing", -1, 1);
+	}
+	else if (currState == EXPLODE)
+	{
+		BoomerAnimation->Reset();
+		BoomerAnimation->PlayAnimation("Priming", -1, 0.5);
+	}
+
 	pos.y += vel.y * dt * m_speed;
 	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 	switch (currState)
@@ -91,7 +119,9 @@ void Boomer::Update(double dt, float m_speed)
 		vel.x = 0;
 		if (explodeTimer >= maxExplodeTime)
 		{
-			if ((pos - Player::GetInstance()->pos).Length() <= 30)
+			BoomerAnimation->Reset();
+			BoomerAnimation->PlayAnimation("Explode", -1, 1);
+			if ((pos - Player::GetInstance()->pos).Length() <= 20)
 			{
 				Player::GetInstance()->takeDamage(30);
 			}
@@ -101,6 +131,10 @@ void Boomer::Update(double dt, float m_speed)
 		break;
 	default:
 		break;
+	}
+	if (BoomerAnimation != NULL)
+	{
+		BoomerAnimation->Update(dt * m_speed);
 	}
 }
 
@@ -167,6 +201,14 @@ void Boomer::Response(GameObject* go)
 
 void Boomer::Render()
 {
+	if (BoomerAnimation != NULL) {
+		MeshRender::GetInstance()->RenderAnimation(
+			BoomerAnimation->GetSprite(),
+			BoomerAnimation->GetCurFrame(),
+			6,
+			false
+		);
+	}
 }
 
 void Boomer::dead()
