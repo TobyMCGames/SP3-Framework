@@ -7,7 +7,7 @@
 class PlayerBase :public Entity
 {
 private:
-	const int scrollSensitivity = 3;
+	const int scrollSensitivity = 1;
 	const float JumpForce = 22;
 
 public:

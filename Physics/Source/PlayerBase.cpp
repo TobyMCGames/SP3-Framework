@@ -69,6 +69,7 @@ int PlayerBase::gethealth()
 	return health;
 }
 
+
 PlayerBase::PlayerBase()
 	:mana(100)
 	,coins(0)

@@ -919,77 +919,150 @@ void GameLevelBase::ChangeAllIntObject(GameObject::GAMEOBJECT_TYPE Changeto, Gam
 {
 }
 
-void GameLevelBase::ChangeTimelineBlocks()
+void GameLevelBase::ChangeTimelineBlocks(bool revert)
 {
 	int XTilesInWorld = getworldWidth() / (getTileWidth());
 	int YTilesInWorld = getworldHeight() / (getTileHeight());
 	bool revertTile = false;
-	for (int i = 0; i < map.size(); i++)
+	if (!revert)
 	{
-		GameObject* temp;
-		temp = map[i];
-		if (temp == nullptr)
-			continue;
-		else if (temp->active == false)
-			continue;
-		int pos = i;
-		switch (temp->type)
+		for (int i = 0; i < map.size(); i++)
 		{
-		case GameObject::BRICK_TILE:
-			temp = ChangeMapObject(GameObject::STONE_BRICK_TILE, temp);
-			break;
-		case GameObject::STONE_BRICK_TILE:
-			temp = ChangeMapObject(GameObject::BRICK_TILE, temp);
-			break;
-		case GameObject::SOIL_TILE:
-			temp = ChangeMapObject(GameObject::GRASS_SOIL_TILE, temp);
-			break;
-		case GameObject::GRASS_SOIL_TILE:
-			temp = ChangeMapObject(GameObject::SOIL_TILE, temp);
-			break;
-		case GameObject::FRAGILE_CAVE_TILE:
-			if (temp->pos == temp->OGpos && revertTile == false)
+			GameObject* temp;
+			temp = map[i];
+			if (temp == nullptr)
+				continue;
+			else if (temp->active == false)
+				continue;
+			int pos = i;
+			switch (temp->type)
 			{
-				while (pos - XTilesInWorld >= 0)
+			case GameObject::BRICK_TILE:
+				temp = ChangeMapObject(GameObject::STONE_BRICK_TILE, temp);
+				break;
+			case GameObject::STONE_BRICK_TILE:
+				temp = ChangeMapObject(GameObject::BRICK_TILE, temp);
+				break;
+			case GameObject::SOIL_TILE:
+				temp = ChangeMapObject(GameObject::GRASS_SOIL_TILE, temp);
+				break;
+			case GameObject::GRASS_SOIL_TILE:
+				temp = ChangeMapObject(GameObject::SOIL_TILE, temp);
+				break;
+			case GameObject::FRAGILE_CAVE_TILE:
+				if (temp->pos == temp->OGpos && revertTile == false)
 				{
-					if (map[pos - XTilesInWorld] == nullptr)
+					while (pos - XTilesInWorld >= 0)
 					{
-						map[pos] = nullptr;
-						pos -= XTilesInWorld;
-						map[pos] = temp;
-						temp->pos.y -= TILEHEIGHT;
-					}
-					else
-						break;
-				}
-			}
-			else
-			{
-				revertTile = true;
-				while (pos + XTilesInWorld < YTilesInWorld * XTilesInWorld)
-				{
-					if (temp->pos.y < temp->OGpos.y)
-					{
-						pos += XTilesInWorld;
-						temp->pos.y += TILEHEIGHT;
-					}
-					else
-					{
-						map[i] = nullptr;
-						map[pos] = temp;
-						break;
+						if (map[pos - XTilesInWorld] == nullptr)
+						{
+							map[pos] = nullptr;
+							pos -= XTilesInWorld;
+							map[pos] = temp;
+							temp->pos.y -= TILEHEIGHT;
+						}
+						else
+							break;
 					}
 				}
+				else
+				{
+					revertTile = true;
+					while (pos + XTilesInWorld < YTilesInWorld * XTilesInWorld)
+					{
+						if (temp->pos.y < temp->OGpos.y)
+						{
+							pos += XTilesInWorld;
+							temp->pos.y += TILEHEIGHT;
+						}
+						else
+						{
+							map[i] = nullptr;
+							map[pos] = temp;
+							break;
+						}
+					}
+				}
+				continue;
+			default:
+				break;
 			}
-			continue;
-		default:
-			break;
-		}
-		if (temp == map[i])
-			continue;
+			if (temp == map[i])
+				continue;
 
-		delete map[i];
-		map[i] = temp;
+			delete map[i];
+			map[i] = temp;
+		}
+	}
+	else
+	{
+		for (int i = map.size() - 1; i >= 0; i--)
+		{
+			GameObject* temp;
+			temp = map[i];
+			if (temp == nullptr)
+				continue;
+			else if (temp->active == false)
+				continue;
+			int pos = i;
+			switch (temp->type)
+			{
+			case GameObject::BRICK_TILE:
+				temp = ChangeMapObject(GameObject::STONE_BRICK_TILE, temp);
+				break;
+			case GameObject::STONE_BRICK_TILE:
+				temp = ChangeMapObject(GameObject::BRICK_TILE, temp);
+				break;
+			case GameObject::SOIL_TILE:
+				temp = ChangeMapObject(GameObject::GRASS_SOIL_TILE, temp);
+				break;
+			case GameObject::GRASS_SOIL_TILE:
+				temp = ChangeMapObject(GameObject::SOIL_TILE, temp);
+				break;
+			case GameObject::FRAGILE_CAVE_TILE:
+				if (temp->pos == temp->OGpos && revertTile == false)
+				{
+					while (pos - XTilesInWorld >= 0)
+					{
+						if (map[pos - XTilesInWorld] == nullptr)
+						{
+							map[pos] = nullptr;
+							pos -= XTilesInWorld;
+							map[pos] = temp;
+							temp->pos.y -= TILEHEIGHT;
+						}
+						else
+							break;
+					}
+				}
+				else
+				{
+					revertTile = true;
+					while (pos + XTilesInWorld < YTilesInWorld * XTilesInWorld)
+					{
+						if (temp->pos.y < temp->OGpos.y)
+						{
+							pos += XTilesInWorld;
+							temp->pos.y += TILEHEIGHT;
+						}
+						else
+						{
+							map[i] = nullptr;
+							map[pos] = temp;
+							break;
+						}
+					}
+				}
+				continue;
+			default:
+				break;
+			}
+			if (temp == map[i])
+				continue;
+
+			delete map[i];
+			map[i] = temp;
+		}
 	}
 	for (int i = 0; i < InteractableList.size(); i++)
 	{
@@ -1042,8 +1115,9 @@ void GameLevelBase::Exit()
 	{
 		if (EntityList[i]->type == GameObject::GO_PLAYER)
 		{
-			player->DestroyInstance();
-			player = nullptr;
+			//player->DestroyInstance();
+			//player = nullptr;		
+			player->Reset();
 		}
 		else
 			delete EntityList[i];

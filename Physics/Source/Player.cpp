@@ -20,6 +20,7 @@ Player::Player()
 	, isCompleted(false)
 	, isdead(false)
 	, timetraveled(0)
+	, InFuture(false)
 {
 	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -339,6 +340,26 @@ void Player::Update(double dt, float m_speed)
 				vel.y *= 0.7;
 		}
 	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_1))
+	{
+		curItem = TREE_SEED;
+		cKeyboardController->ResetKey(GLFW_KEY_1);
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_2))
+	{
+		curItem = VINE_SEED;
+		cKeyboardController->ResetKey(GLFW_KEY_2);
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_3))
+	{
+		curItem = BOMBS;
+		cKeyboardController->ResetKey(GLFW_KEY_3);
+	}
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_4))
+	{
+		curItem = WEAPON;
+		cKeyboardController->ResetKey(GLFW_KEY_4);
+	}
 
 	scrollsnap += Application::GetYScrollOffset();
 
@@ -422,7 +443,6 @@ PlayerBase::Weapons Player::getcurWeapon()
 	return curWeapon;
 }
 
-
 PlayerClone* Player::getClone()
 {
 	return playerclone;
@@ -460,6 +480,28 @@ void Player::setControl(bool controlled)
 	this->controlled = controlled;
 }
 
+void Player::Reset()
+{
+	portalCounter = 0;
+	if (playerclone != nullptr)
+		playerclone = nullptr;
+	curWeapon = BARE_HANDS;
+	curItem = 0;
+	scrollsnap = 0;
+	cloneinited = false;
+	controlled = true;
+	swap = false;
+	Pexitspeed.Set(0, 0, 0);
+	isCompleted = false;
+	isdead = false;
+}
+
+void Player::ResetVariables()
+{
+	coins = 0;
+	health = 100;
+	mana = 100;
+}
 
 void Player::Response(GameObject* go)
 {
@@ -675,7 +717,8 @@ int Player::GetCurItemAmt()
 void Player::ChangeTimeline()
 {
 	GameLevelBase* level = GameLevelManager::GetInstance()->getcurrentLevel();
-	level->ChangeTimelineBlocks();
+	level->ChangeTimelineBlocks(InFuture);
+	InFuture = !InFuture;
 }
 
 void Player::playRandHurtSound()
