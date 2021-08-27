@@ -46,7 +46,6 @@ void Zombie::Update(double dt, float m_speed)
 			ZombieAnimation->Reset();
 			ZombieAnimation->PlayAnimation("Idle", 1, 1.5);
 			StateCounter = 0;
-			cout << "switching to Patrol state" << endl;
 		}
 		else
 		{
@@ -59,13 +58,11 @@ void Zombie::Update(double dt, float m_speed)
 		{
 			currState = IDLE;
 			StateCounter = 0;
-			cout << "switching to Idle state" << endl;
 		}
 		else if ((pos - Player::GetInstance()->pos).Length() <= 30)
 		{
 			currState = ATTACK;
 			StateCounter = 0;
-			cout << "switching to Attack state" << endl;
 		}
 		else
 		{
@@ -100,7 +97,6 @@ void Zombie::Update(double dt, float m_speed)
 			{
 				currState = PATROL;
 				StateCounter = 0;
-				cout << "ATTACK: Reset Counter " << StateCounter << endl;
 			}
 		}
 		StateCounter += dt * m_speed;

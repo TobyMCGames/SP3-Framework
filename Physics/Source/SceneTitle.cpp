@@ -27,6 +27,7 @@ void SceneTitle::Init()
 	CSoundController::GetInstance()->PlaySoundByID(17);
 
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0,m_worldWidth,m_worldHeight);
+	Player::GetInstance()->ResetCoins();
 
 }
 bool SceneTitle::Update(double dt)

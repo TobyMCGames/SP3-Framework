@@ -468,6 +468,26 @@ void Player::setControl(bool controlled)
 	this->controlled = controlled;
 }
 
+void Player::Reset()
+{
+	portalCounter = 0;
+	if (playerclone != nullptr)
+		playerclone = nullptr;
+	curWeapon = BARE_HANDS;
+	curItem = 0;
+	scrollsnap = 0;
+	cloneinited = false;
+	controlled = true;
+	swap = false;
+	Pexitspeed.Set(0, 0, 0);
+	isCompleted = false;
+	isdead = false;
+}
+
+void Player::ResetCoins()
+{
+	coins = 0;
+}
 
 void Player::Response(GameObject* go)
 {

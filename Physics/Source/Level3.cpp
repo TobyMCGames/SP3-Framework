@@ -74,7 +74,7 @@ void Level3::UpdateLevel()
 		{
 		case 1:
 			GameLevelBase::Exit();
-			loadMap("Maps//Map_LEVEL_3.csv");
+			loadMap("Maps//Map_LEVEL_3b.csv");
 			camera->setpanTarget(player);
 			break;
 		case 2:

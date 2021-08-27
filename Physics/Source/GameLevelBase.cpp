@@ -1018,8 +1018,9 @@ void GameLevelBase::Exit()
 	{
 		if (EntityList[i]->type == GameObject::GO_PLAYER)
 		{
-			player->DestroyInstance();
-			player = nullptr;
+			//player->DestroyInstance();
+			//player = nullptr;		
+			player->Reset();
 		}
 		else
 			delete EntityList[i];
