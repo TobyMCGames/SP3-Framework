@@ -87,6 +87,7 @@ void Boomer::Update(double dt, float m_speed)
 	case ATTACK:
 		if ((pos - Player::GetInstance()->pos).Length() <= 10)
 		{
+			CSoundController::GetInstance()->PlaySoundByID(27);
 			currState = EXPLODE;
 		}
 		if ((pos - Player::GetInstance()->pos).Length() <= 60)
@@ -121,6 +122,7 @@ void Boomer::Update(double dt, float m_speed)
 		{
 			BoomerAnimation->Reset();
 			BoomerAnimation->PlayAnimation("Explode", -1, 1);
+			CSoundController::GetInstance()->PlaySoundByID(28);
 			if ((pos - Player::GetInstance()->pos).Length() <= 20)
 			{
 				Player::GetInstance()->takeDamage(30);
@@ -195,6 +197,7 @@ void Boomer::Response(GameObject* go)
 	}
 	if (go->type == GO_PLAYER)
 	{
+		CSoundController::GetInstance()->PlaySoundByID(27);
 		currState = EXPLODE;
 	}
 }
