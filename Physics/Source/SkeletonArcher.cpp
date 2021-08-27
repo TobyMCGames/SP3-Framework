@@ -27,8 +27,6 @@ SkeletonArcher::~SkeletonArcher()
 
 void SkeletonArcher::Update(double dt, float m_speed)
 {
-
-
 	if (currState != IDLE && currState != ATTACK)
 	{
 		pos.x += vel.x * dt * m_speed;

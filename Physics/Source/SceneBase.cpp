@@ -356,6 +356,13 @@ void SceneBase::RenderGO(GameObject* go)
 		go->Render();
 		modelStack->PopMatrix();
 		break;
+	case GameObject::GO_BOOMER:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOOMER), false);
+		modelStack->PopMatrix();
+		break;
 	case GameObject::WEAPON_STATION_BOW:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);

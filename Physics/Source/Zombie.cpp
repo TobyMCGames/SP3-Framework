@@ -5,7 +5,7 @@ Zombie::Zombie()
 	:currState(BEHAVIOUR::IDLE),
 	ZombieAnimation(NULL)
 {
-	Default_Speed = 2;
+	Default_Speed = 4;
 	StateCounter = 0;
 	attackTimer = 0;
 	speedBoostTimer = 0;
@@ -207,6 +207,7 @@ void Zombie::Response(GameObject* go)
 		//if (pos.x <= (go->pos.x + go->scale.x / 2))
 		//{
 			cout << "touched player" << endl;
+			currState = IDLE;
 		//}
 	}
 }

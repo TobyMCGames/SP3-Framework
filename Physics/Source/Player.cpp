@@ -430,7 +430,6 @@ PlayerBase::Weapons Player::getcurWeapon()
 	return curWeapon;
 }
 
-
 PlayerClone* Player::getClone()
 {
 	return playerclone;
@@ -484,9 +483,11 @@ void Player::Reset()
 	isdead = false;
 }
 
-void Player::ResetCoins()
+void Player::ResetVariables()
 {
 	coins = 0;
+	health = 100;
+	mana = 100;
 }
 
 void Player::Response(GameObject* go)
