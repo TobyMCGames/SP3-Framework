@@ -208,7 +208,7 @@ void GameLevelBase::setcloneDeleted(bool clonedeleted)
 	this->clonedeleted = clonedeleted;
 }
 
-void GameLevelBase::swapcontrols(double dt)
+void GameLevelBase::swapcontrols()
 {
 	if (player->isControl() == true)
 	{
@@ -752,9 +752,9 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 		if (projectileList.size() != 0)
 			cleanupLists(false, &projectileList);
 
-		for (int j = i + 1; j < EntityList.size(); j++)
+		for (int j = 0; j < EntityList.size(); j++)
 		{
-			AdvanceGO* mob2 = EntityList[j];
+		/*	AdvanceGO* mob2 = EntityList[j];
 			if (mob2 == nullptr)
 				continue;
 			if (!mob2->active)
@@ -764,21 +764,23 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 				AdvanceGO* temp = mob1;
 				mob1 = mob2;
 				mob2 = temp;
-			}
+			}*/
+			if (EntityList[j]->type == GameObject::GO_PLAYER || EntityList[j]->type == GameObject::GO_PLAYERCLONE)
+				continue;
 			if ((mob1->type == GameObject::GO_PLAYER || mob1->type == GameObject::GO_PLAYERCLONE))
 			{
-				if (GamePhysics::GetInstance()->CheckCollision(mob1, mob2, dt, GAMESPEED))
+				if (GamePhysics::GetInstance()->CheckCollision(mob1,EntityList[j], dt, GAMESPEED))
 				{
-					GamePhysics::GetInstance()->CheckCollisionResponse(mob1, mob2, dt, GAMESPEED);
+					GamePhysics::GetInstance()->CheckCollisionResponse(mob1,EntityList[j], dt, GAMESPEED);
 					//cout << "Collided" << endl;
 					break;
 				}
 			}
 			else
 			{
-				if (GamePhysics::GetInstance()->CheckCollision(mob1, mob2, dt, m_speed))
+				if (GamePhysics::GetInstance()->CheckCollision(mob1,EntityList[j], dt, m_speed))
 				{
-					GamePhysics::GetInstance()->CheckCollisionResponse(mob1, mob2, dt, m_speed);
+					GamePhysics::GetInstance()->CheckCollisionResponse(mob1,EntityList[j], dt, m_speed);
 					//cout << "Collided" << endl;
 					break;
 				}

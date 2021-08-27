@@ -152,7 +152,7 @@ bool Level4::Update(double dt)
 
 	if (player->getSwap() == true)
 	{
-		swapcontrols(dt);
+		swapcontrols();
 		player->setSwap(false);
 	}
 
@@ -329,16 +329,11 @@ void Level4::Render()
 	//On screen text
 	
 	std::ostringstream ss;
-	//Exercise 5: Render m_objectCount
-	ss << "GameObject Count: " << m_objectCount;
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3, 0, 12);
-	
 	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3,40,40);
 	
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "Collision", Color(0, 1, 0), 3, 0, 0);
 
 }
 

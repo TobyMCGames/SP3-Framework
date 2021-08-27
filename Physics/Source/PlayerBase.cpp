@@ -69,6 +69,18 @@ int PlayerBase::gethealth()
 	return health;
 }
 
+void PlayerBase::playRandHurtSound()
+{
+	int randHurtSound = rand() % 3;
+
+	if (randHurtSound == 0)
+		CSoundController::GetInstance()->PlaySoundByID(5);
+	else if (randHurtSound == 1)
+		CSoundController::GetInstance()->PlaySoundByID(6);
+	else if (randHurtSound == 2)
+		CSoundController::GetInstance()->PlaySoundByID(7);
+}
+
 
 PlayerBase::PlayerBase()
 	:mana(100)

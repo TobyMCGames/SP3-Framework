@@ -11,6 +11,9 @@ private:
 	double scrollsnap;
 	bool controlled;
 	SpriteAnimation* CloneAnimation;
+	bool isWebbedBySpider;
+	bool webbedTimeLeft;
+	bool teleport;
 
 public:
 	PlayerClone();

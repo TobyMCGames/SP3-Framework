@@ -185,10 +185,10 @@ void Player::Update(double dt, float m_speed)
 	}
 
 	/////// Switching Timeline Mechanic
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT) && timetraveled <= 0)
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT) && this->timetraveled <= 0)
 	{
 		ChangeTimeline();
-		timetraveled = 0.6f;
+		this->timetraveled = 0.6f;
 		CSoundController::GetInstance()->PlaySoundByID(23);
 		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
 	}
@@ -744,18 +744,3 @@ int Player::getDialoginProgress()
 {
 	return dialogueinProgress;
 }
-
-
-void Player::playRandHurtSound()
-{
-	int randHurtSound = rand() % 3;
-
-	if (randHurtSound == 0)
-		CSoundController::GetInstance()->PlaySoundByID(5);
-	else if (randHurtSound == 1)
-		CSoundController::GetInstance()->PlaySoundByID(6);
-	else if (randHurtSound == 2)
-		CSoundController::GetInstance()->PlaySoundByID(7);
-	return;
-}
-
