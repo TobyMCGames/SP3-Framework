@@ -191,7 +191,7 @@ bool SceneGUI::Update(double dt)
 	if (Timetravel != NULL)
 	{
 		if (Player::GetInstance()->timetraveled > 0)
-			Timetravel->Update(dt);
+ 			Timetravel->Update(dt);
 	}
 	if (Player::GetInstance()->IsInDialogue() == true)
 	{
@@ -359,9 +359,9 @@ bool SceneGUI::getRenderRetry()
 	return RenderRetry;
 }
 
-void SceneGUI::setRenderRetry(bool RenderPause)
+void SceneGUI::setRenderRetry(bool RenderRetry)
 {
-	this->RenderPause = RenderPause;
+	this->RenderRetry = RenderRetry;
 }
 
 
