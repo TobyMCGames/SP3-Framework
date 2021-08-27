@@ -153,6 +153,7 @@ bool SceneGUI::Update(double dt)
 				SceneGame::GetInstance()->ispaused = false;
 				RenderRetry = false;
 				GameLevelManager::GetInstance()->getcurrentLevel()->Exit();
+				Player::GetInstance()->Reset();
 				GameLevelManager::GetInstance()->getcurrentLevel()->Init();
 				Application::changeCursor(true);
 			}

@@ -28,7 +28,7 @@ public:
 
 	void ChangeTimeline();
 	void Reset();
-	void ResetVariables();
+	void ResetCoins();
 
 	bool cloneinited;
 	int portalCounter;

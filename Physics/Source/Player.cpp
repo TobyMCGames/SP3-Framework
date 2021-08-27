@@ -473,13 +473,13 @@ void Player::Reset()
 	Pexitspeed.Set(0, 0, 0);
 	isCompleted = false;
 	isdead = false;
-}
-
-void Player::ResetVariables()
-{
-	coins = 0;
 	health = 100;
 	mana = 100;
+}
+
+void Player::ResetCoins()
+{
+	coins = 0;
 }
 
 void Player::Response(GameObject* go)
