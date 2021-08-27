@@ -16,11 +16,7 @@ Tile::~Tile()
 
 void Tile::Response(GameObject* go)
 {
-	if (go->type == GameObject::GO_BOMB)
-	{
-		if (destructable == true)
-			this->active = false;
-	}
+
 }
 
 void Tile::Render()
