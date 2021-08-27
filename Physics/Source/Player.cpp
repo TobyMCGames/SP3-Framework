@@ -49,7 +49,6 @@ Player::Player()
 	PlayerAnimation->AddAnimation("Jumping", 6, 8);
 	PlayerAnimation->AddAnimation("Falling", 9, 11);
 	PlayerAnimation->PlayAnimation("Idle", -1, 6.f);
-	
 }
 
 Player::~Player()

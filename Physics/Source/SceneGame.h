@@ -17,11 +17,13 @@ public:
 	virtual void Render();
 	virtual void Destroy();
 	virtual void Exit();
-	bool ispaused;
+	void setisPaused(bool ispaused);
+	bool getisPaused();
 
 protected:
 	SceneGame();
 	~SceneGame();
+	bool ispaused;
 };
 
 #endif

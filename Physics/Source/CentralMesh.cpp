@@ -132,6 +132,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_CASTLE_PLATFORM]->textureID = LoadTGA("Image//TILE//Castle_Platform.tga");
 	meshList[GEO_LARGESTONE2] = MeshBuilder::GenerateQuad("largestone2", Color(1, 1, 1));
 	meshList[GEO_LARGESTONE2]->textureID = LoadTGA("Image//TILE//LargeStone2.tga");
+	meshList[GEO_WOOD_LOG] = MeshBuilder::GenerateQuad("wood_log", Color(1, 1, 1));
+	meshList[GEO_WOOD_LOG]->textureID = LoadTGA("Image//TILE//Wood_Log.tga");
 
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
@@ -155,8 +157,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_STAFF]->textureID = LoadTGA("Image//WEAPONS//staff_blue.tga");
 	meshList[GEO_PORTALGUN] = MeshBuilder::GenerateQuad("portal gun", Color(1, 1, 1));
 	meshList[GEO_PORTALGUN]->textureID = LoadTGA("Image//WEAPONS//portal_gun.tga");
-	meshList[GEO_BOMB] = MeshBuilder::GenerateQuad("bomb", Color(1, 1, 1));
-	meshList[GEO_BOMB]->textureID = LoadTGA("Image//WEAPONS//Bomb.tga");
+	meshList[GEO_BOMB] = MeshBuilder::GenerateSpriteAnimation("Bomb_animation", Color(1, 1, 1), 3,3);
+	meshList[GEO_BOMB]->textureID = LoadTGA("Image//WEAPONS//Bomb_Animation.tga");
 
 	//Interactables
 	meshList[GEO_WEAPON_STATION] = MeshBuilder::GenerateQuad("Stone Pedastal", Color(1, 1, 1));
