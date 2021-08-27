@@ -151,6 +151,40 @@ void GameLevelBase::mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vecto
 	map.push_back(nullptr);
 }
 
+void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
+{
+	Text newtext;
+	if (DialogueKey == "OD") // opening dialogue
+	{
+
+	}
+	else if (DialogueKey == "TUTB") // tutorial to bow
+	{
+		
+	}
+	else if (DialogueKey == "TUTS") // tutorial to staff 
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::TUTS_TEST);
+		newtext.setDetectionRange(10);
+	}
+	else if (DialogueKey == "TUTM") // tutorial movement
+	{
+
+	}
+	else if (DialogueKey == "TUTT") // tutorial timetravel
+	{
+
+	}
+	else if (DialogueKey == "TUTI") // tutoraial to interaction
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::TUTS_TEST2);
+		newtext.setDetectionRange(15);
+		
+	}
+	newtext.setPos(position);
+	TextList.push_back(newtext);
+}
+
 bool GameLevelBase::getcloned()
 {
 	return cloned;
@@ -230,6 +264,8 @@ bool GameLevelBase::loadMap(std::string file_path)
 	EntityFactory* entityFactory = EntityFactory::GetInstance();
 	InteractableFactory* interactableFactory = InteractableFactory::GetInstance();
 	TileFactory* tileFactory = TileFactory::GetInstance();
+	std::string DialogueKey = "";
+	bool istext = false;
 	for (int row = linesinreverse.size()-1; row >= 0; row--)
 	{
 		for (int col = 0; col < linesinreverse[row].size(); col++)
@@ -242,9 +278,19 @@ bool GameLevelBase::loadMap(std::string file_path)
 			tempInteract = nullptr;
 			if ((linesinreverse[row][col] == ',') || (col == linesinreverse[row].size() - 1))
 			{
+				
 				if (col == linesinreverse[row].size() - 1)
 				{
-					key += linesinreverse[row][col];
+					if (istext == false)
+						key += linesinreverse[row][col];
+					else
+						DialogueKey += linesinreverse[row][col];
+				}
+				if (istext == true)
+				{
+					initDialogueText(DialogueKey,pos);
+					istext = false;
+					DialogueKey = "";
 				}
 				// note tilefactory takes in scale first then vel.
 			    if (key == "1") // brick
@@ -397,8 +443,19 @@ bool GameLevelBase::loadMap(std::string file_path)
 				key = "";
 				commacounter++;
 			}
-			else
-				key += linesinreverse[row][col];
+			else 
+			{
+				if (istext == false)
+					key += linesinreverse[row][col];
+				else
+					DialogueKey += linesinreverse[row][col];
+
+				if (key == "#") // symbolizes a text obj
+				{
+					istext = true;
+				}
+			}
+				
 			if ((commacounter) > highestcol)
 				highestcol = commacounter;
 		}
@@ -537,11 +594,6 @@ bool GameLevelBase::CheckWithinScreen(GameObject* go)
 		return false;
 	}
 	return true;
-}
-
-bool GameLevelBase::CheckobjSurrounding(GameObject* go)
-{
-	return false;
 }
 
 void GameLevelBase::CollisionChecks(double dt, float m_speed)
@@ -729,6 +781,20 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 	}
 	if (EntityList.size() > 0)
 		cleanupLists(false, &EntityList);
+
+	for (int i = 0; i < TextList.size(); i++)
+	{
+		if (GamePhysics::GetInstance()->checkPlayerDialogue(player, TextList[i]))
+		{
+			//change the text here
+			if (TextList[i].getActive() == true)
+			{
+				player->setInDialogue(true);
+				player->setDialoginProgress(TextList[i].getBoundDialogue());
+				TextList[i].setActive(false);
+			}
+		}
+	}
 
 	//std::vector<int> cleanUpVector;
 	for (int j = 0; j < projectileList.size(); j++)

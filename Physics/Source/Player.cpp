@@ -13,12 +13,13 @@ Player::Player()
 	, scrollsnap(0)
 	, PlayerAnimation(NULL)
 	, playerclone(nullptr)
-	, cloneinited(false)
 	, controlled(true)
 	, swap(false)
 	, Pexitspeed(0, 0, 0)
 	, isCompleted(false)
 	,isdead(false)
+	,inDialogue(false)
+	,dialogueinProgress(0)
 {
 	portalCounter = 0;
 	for (int i = 0; i < NUM_ITEMS; i++)
@@ -693,6 +694,27 @@ void Player::ChangeTimeline()
 	GameLevelBase* level = GameLevelManager::GetInstance()->getcurrentLevel();
 	level->ChangeTimelineBlocks();
 }
+
+bool Player::IsInDialogue()
+{
+	return this->inDialogue;
+}
+
+void Player::setInDialogue(bool inDialogue)
+{
+	this->inDialogue = inDialogue;
+}
+
+void Player::setDialoginProgress(int dialogueinProgress)
+{
+	this->dialogueinProgress = dialogueinProgress;
+}
+
+int Player::getDialoginProgress()
+{
+	return dialogueinProgress;
+}
+
 
 
 

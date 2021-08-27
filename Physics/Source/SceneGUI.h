@@ -7,7 +7,7 @@
 #include "SceneGame.h"
 #include "Player.h"
 #include "GameLevelManager.h"
-#include "Dialogue.h"
+#include "Text.h"
 
 class SceneGUI : public SceneBase, public SingletonPattern<SceneGUI>
 {
@@ -21,10 +21,10 @@ public:
 	virtual void Exit();
 	void renderDialogue();
 	void renderGUI();
-	bool RenderPause;
-	bool RenderRetry;
-	bool InDialogue;
-	
+	bool getRenderPause();
+	void setRenderPause(bool RenderPause);
+	bool getRenderRetry();
+	void setRenderRetry(bool RenderPause);
 
 protected:
 	SceneGUI();
@@ -37,6 +37,8 @@ protected:
 	Color MenuButton;
 	Color QuitButton;
 	Dialogue GameDialogues;
+	bool RenderPause;
+	bool RenderRetry;
 };
 
 #endif

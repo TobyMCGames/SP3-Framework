@@ -1,6 +1,7 @@
 #pragma once
 #include "SingletonPattern.h"
 #include "GameObject.h"
+#include "Text.h"
 
 class GamePhysics : public SingletonPattern<GamePhysics>
 {
@@ -39,8 +40,11 @@ public:
 	//AABB for projectiles over = true if you want to see if go1 is in go2
 	bool AABB(GameObject* go1, GameObject* go2,bool overlap = false);
 	bool DistanceCheck(GameObject* go1, GameObject* go2);
+	// returns true if the distance of pos2 anda pos1 is inside of the range 
+	bool DistanceCheck(Vector3 pos1, Vector3 pos2,float Range);
 	COLLIDEPOS checkCollidePos(GameObject* go1, GameObject* go2);
 	COLLIDEPOS checkCollidePos(float velX, float velY);
-
+	bool checkPlayerDialogue(GameObject* player, Text textobj);
+	
 };
 

@@ -26,11 +26,14 @@ public:
 	int GetCurItem();
 	int GetCurItemAmt();
 	void ChangeTimeline();
-
-	bool cloneinited;
 	int portalCounter;
 	bool isCompleted;
 	bool isdead;
+	bool IsInDialogue();
+	void setInDialogue(bool inDialogue);
+	void setDialoginProgress(int dialogueinProgress);
+	int getDialoginProgress();
+	
 	
 protected:
 	int Inventory[NUM_ITEMS];
@@ -48,7 +51,8 @@ protected:
 	bool teleport;
 	float webbedTimeLeft;
 	float RechargeTime;
-	
+	bool inDialogue;
+	int dialogueinProgress;
 	
 private:
 	Player();

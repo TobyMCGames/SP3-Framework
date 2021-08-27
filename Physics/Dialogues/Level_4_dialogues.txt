@@ -1,13 +1,5 @@
-{1} [this is a test as to]
-[how the reader deals with storing multiple strings in one vector]
-[ i really don't know wtf is going on yes]	
-[doesit work who knows]
-{2} [ we shall see whether this works]
-[lmfaofoijwofwe ofwfowojgogie
-gbeigbeigegb
-eigbe
-gegege
-gegeg
-eggv
-vgeg]
-
+{1} [THis a test as to whether the loading file works with the dialogue class ]
+[this test also has to work when the player is within distance and play the designated dialogue]
+{2}[What is love baby dont hurt me dont hurt me no more] 
+[never gonna give you up never gonna let you down]
+[never gonna run around and desert you]

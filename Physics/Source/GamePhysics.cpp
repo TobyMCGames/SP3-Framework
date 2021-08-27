@@ -478,6 +478,13 @@ bool GamePhysics::DistanceCheck(GameObject* go1, GameObject* go2)
 		return false;
 }
 
+bool GamePhysics::DistanceCheck(Vector3 pos1,Vector3 pos2,float Range)
+{
+	Vector3 go1_go2 = pos2 - pos1;
+	return (go1_go2.LengthSquared() <= Range * Range);
+		
+}
+
 // this function always checks relative to go1
 
 GamePhysics::COLLIDEPOS GamePhysics::checkCollidePos(GameObject* go1, GameObject* go2)
@@ -535,5 +542,10 @@ GamePhysics::COLLIDEPOS GamePhysics::checkCollidePos(float velX, float velY)
 		}
 	}
 	return NOTHING;
+}
+
+bool GamePhysics::checkPlayerDialogue(GameObject* player, Text textobj)
+{
+	return (DistanceCheck(player->pos, textobj.getPos(), textobj.getDetectionRange()));
 }
 

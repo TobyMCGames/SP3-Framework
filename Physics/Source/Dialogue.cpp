@@ -21,7 +21,6 @@ Dialogue::Dialogue():
 		std::vector<std::string> temp;
 		dialogueList.push_back(temp);
 	}
-	playDialogue(CONVO_SENTENCES::LEVEL_1_START,0);
 }
 
 Dialogue::~Dialogue()
@@ -43,7 +42,6 @@ bool Dialogue::LoadDialogue(std::string file_path)
 		return false;
 	}
 	std::vector<std::string> dialogue;
-	
 	bool placement = false;
 	std::string sentenceLocation ="";
 	bool recordSentence = false;
@@ -116,10 +114,9 @@ bool Dialogue::LoadDialogue(std::string file_path)
 	return true;
 }
 
-void Dialogue::playDialogue(CONVO_SENTENCES currentSceneConvo, int currentconvoIndex)
+void Dialogue::playDialogue(int currentSceneConvo)
 {
 	this->currentSceneConvo = currentSceneConvo;
-	this->currentcovoIndex = currentconvoIndex;
 	Active = true;
 	currentTextIndex = 0;
 }
@@ -165,26 +162,19 @@ void Dialogue::Update(double dt)
 					currentTextIndex = 0;
 					currentText.clear();
 				}
-				else if ((currentSceneConvo + 1) <= TOTAL_SENTENCE - 1)
-				{
-					currentTextIndex = 0;
-					currentText.clear();
-					currentcovoIndex = 0;
-					currentSceneConvo++;
-				}
 				else
 				{
 					currentText.clear();
 					Active = false;
+					endConvo = true;
+					currentcovoIndex = 0;
 				}
-					
 				textTimer = maxtimer;
 			}
 		}
 		else
 		{
 			Active = false;
-			//currentconvoIndex += 1;
 			currentText = dialogueList[currentSceneConvo][currentcovoIndex];
 		}
 	}
@@ -232,6 +222,16 @@ int Dialogue::getcurrentSceneConvo()
 std::string Dialogue::getCurrentText()
 {
 	return currentText;
+}
+
+bool Dialogue::getEndConvo()
+{
+	return endConvo;
+}
+
+void Dialogue::setEndConvo(bool endConvo)
+{
+	this->endConvo = endConvo;
 }
 
 
