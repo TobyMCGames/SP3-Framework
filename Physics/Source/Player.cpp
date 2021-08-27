@@ -556,14 +556,17 @@ void Player::Response(GameObject* go)
 		{
 		case WEAPON_STATION_BOW:
 			this->curWeapon = BOW;
+			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WEAPON_STATION_STAFF:
 			this->curWeapon = STAFF;
+			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
+			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case BOMB_CRATE:
