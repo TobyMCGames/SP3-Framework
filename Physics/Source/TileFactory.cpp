@@ -53,6 +53,12 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 		case DARK_FOREST_GROUND:
 			newTile->type = GameObject::DARK_FOREST_GROUND;
 			break;
+		case CASTLE_PLATFORM:
+			newTile->type = GameObject::CASTLE_PLATFORM;
+			break;
+		case LARGE_STONE_2:
+			newTile->type = GameObject::LARGE_STONE_2;
+			break;
 		case OOB_TILE:
 			newTile->type = GameObject::OUTOFBOUNDS_TILE;
 			break;
