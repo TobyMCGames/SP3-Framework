@@ -82,7 +82,7 @@ bool SceneGUI::Update(double dt)
 			else if (MouseState && !Application::IsMousePressed(0))
 			{
 				MouseState = false;
-				SceneGame::GetInstance()->ispaused = false;
+				SceneGame::GetInstance()->setisPaused(false);
 				RenderPause = false;
 				Application::changeCursor(true);
 			}
@@ -118,15 +118,15 @@ bool SceneGUI::Update(double dt)
 
 		static bool bLButtonState = false;
 		if (!bLButtonState && (cKeyboardController->IsKeyPressed(GLFW_KEY_P) || cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE))
-			&& SceneGame::GetInstance()->ispaused == true)
+			&& SceneGame::GetInstance()->getisPaused() == true)
 		{
 			bLButtonState = true;
 			CSoundController::GetInstance()->PlaySoundByID(21);
 		}
 		else if (bLButtonState && (!cKeyboardController->IsKeyPressed(GLFW_KEY_P) && !cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE))
-			&& SceneGame::GetInstance()->ispaused == true)
+			&& SceneGame::GetInstance()->getisPaused() == true)
 		{
-			SceneGame::GetInstance()->ispaused = false;
+			SceneGame::GetInstance()->setisPaused(false);
 			bLButtonState = false;
 			RenderPause = false;
 		}
@@ -148,7 +148,7 @@ bool SceneGUI::Update(double dt)
 			else if (MouseState && !Application::IsMousePressed(0))
 			{
 				MouseState = false;
-				SceneGame::GetInstance()->ispaused = false;
+				SceneGame::GetInstance()->setisPaused(false);
 				RenderRetry = false;
 				GameLevelManager::GetInstance()->getcurrentLevel()->Exit();
 				Player::GetInstance()->Reset();
@@ -208,7 +208,7 @@ bool SceneGUI::Update(double dt)
 				GameDialogues.setEndConvo(false);
 				Player::GetInstance()->setInDialogue(false);
 				GameDialogues.setcurrentSceneConvo(0);
-				
+				SceneGame::GetInstance()->setisPaused(false);
 			}
 		}
 			
@@ -323,6 +323,13 @@ void SceneGUI::renderGUI()
 		}
 	}
 
+	if (Player::GetInstance()->IsInDialogue() == true)
+	{
+		SceneGame::GetInstance()->setisPaused(true);
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::TEXT_BOX), 40, 10, 40, 20);
+		renderDialogue();
+	}
+
 	if (RenderPause)
 	{
 		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GUI_PAUSE), 40, 30, 80, 70);
@@ -337,11 +344,7 @@ void SceneGUI::renderGUI()
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "MAIN MENU", MenuButton, 3, 29, 25);
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "QUIT", QuitButton, 3, 29, 20);
 	}
-	if (Player::GetInstance()->IsInDialogue() == true)
-	{
-		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::TEXT_BOX),40,10,40,20);
-		renderDialogue();
-	}
+
 }
 
 bool SceneGUI::getRenderPause()

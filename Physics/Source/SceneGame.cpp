@@ -99,3 +99,13 @@ void SceneGame::Exit()
 	Player::GetInstance()->Reset();
 	Player::DestroyInstance();
 }
+
+void SceneGame::setisPaused(bool ispaused)
+{
+	this->ispaused = ispaused;
+}
+
+bool SceneGame::getisPaused()
+{
+	return ispaused;
+}
