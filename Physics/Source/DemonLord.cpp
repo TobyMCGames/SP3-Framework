@@ -5,7 +5,7 @@
 DemonLord::DemonLord()
 	: Floating(NULL)
 	, portalSpinTime(0)
-	, portalScale(1.5, 1.5, 1)
+	, portalScale(0, 0, 1)
 {
 	curFSM = ARRIVAL;
 	portalSpinTime = 6.f;
@@ -29,6 +29,8 @@ void DemonLord::Update(double dt,float m_speed)
 		{
 			float angle = 720 * (portalSpinTime - 3.f) / 3.f;
 			normal.Rotate(angle * dt);
+			portalScale.x += 0.5 * dt;
+			portalScale.y += 0.5 * dt;
 			portalSpinTime -= dt;
 		}
 		else if (portalSpinTime <= 3 && portalSpinTime > 0)
