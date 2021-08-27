@@ -90,6 +90,7 @@ public:
 		GEO_NYMPH,
 		GEO_TURRET,
 		GEO_DEMONLORD,
+		GEO_DEMONLORD_PORTAL,
 
 		//projectiles
 		GEO_ARROW,

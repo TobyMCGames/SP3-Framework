@@ -8,10 +8,17 @@ protected:
 	enum BEHAVIOUR
 	{
 		// insert more states here
+		ARRIVAL,
+		IDLE,
+		RETREAT,
 		NUM_STATES,
 	};
 
-	SpriteAnimation* animation1;
+	SpriteAnimation* Floating;
+	BEHAVIOUR curFSM;
+
+	float portalSpinTime;
+	Vector3 portalScale;
 public:
 	DemonLord();
 	~DemonLord();

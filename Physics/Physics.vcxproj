@@ -175,6 +175,7 @@
     <ClCompile Include="Source\Level2.cpp" />
     <ClCompile Include="Source\Level3.cpp" />
     <ClCompile Include="Source\Level4.cpp" />
+    <ClCompile Include="Source\LevelFinal.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
     <ClCompile Include="Source\LogRoot.cpp" />
@@ -239,6 +240,7 @@
     <ClInclude Include="Source\Level2.h" />
     <ClInclude Include="Source\Level3.h" />
     <ClInclude Include="Source\Level4.h" />
+    <ClInclude Include="Source\LevelFinal.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
