@@ -22,6 +22,7 @@ protected:
 	float portalSpinTime;
 	Vector3 portalScale;
 
+	Vector3 ShootingPos;
 	Vector3 Shield1Direction;
 
 	float FSMcounter;

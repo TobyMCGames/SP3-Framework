@@ -9,6 +9,7 @@ DemonLord::DemonLord()
 	: Floating(NULL)
 	, portalSpinTime(0)
 	, portalScale(0, 0, 1)
+	, ShootingPos(0, 0, 0)
 	, Shield1Direction(1,0,0)
 	, FSMcounter(0)
 	, Phase(1)
@@ -76,14 +77,28 @@ void DemonLord::Update(double dt,float m_speed)
 		{
 			Charging->Update(dt);
 			FSMcounter -= dt;
+			if (pos.y - 10 < Player::GetInstance()->pos.y)
+			{
+				if (ShootingPos.y < 30)
+					ShootingPos.y += 30 * dt;
+				else
+					ShootingPos.y = 30;
+			}
+			else
+			{
+				if (ShootingPos.y > 0)
+					ShootingPos.y -= 15 * dt;
+				else
+					ShootingPos.y = 0;
+			}
 		}
 		else
 		{
-			Vector3 direction = (Player::GetInstance()->pos - pos).Normalized();
+			Vector3 direction = (Player::GetInstance()->pos - (ShootingPos + pos)).Normalized();
 			AdvanceGO* temp;
 			temp = ProjectileFactory::GetInstance()->produceProjectile(
 				ProjectileFactory::PTYPE_DEMONBALL,
-				pos,
+				ShootingPos + pos,
 				direction,
 				Vector3(10, 10, 1),
 				Vector3(1, 0, 0)
@@ -105,6 +120,7 @@ void DemonLord::Update(double dt,float m_speed)
 		else
 		{
 			active = false;
+			Player::GetInstance()->isCompleted = true;
 		}
 		portalSpinTime -= dt;
 		break;
@@ -126,22 +142,25 @@ void DemonLord::Update(double dt,float m_speed)
 		}
 		break;
 	case 3:
-		Shield1Direction = (Player::GetInstance()->pos - pos).Normalized();
-		if (ChangeTimeCounter <= 0)
+		if (curFSM != RETREAT)
 		{
-			Player::GetInstance()->ChangeTimeline();
-			ChangeTimeCounter = Math::RandFloatMinMax(1, 5);
-		}
-		else
-		{
-			ChangeTimeCounter -= dt;
-		}
-		if (health <= 0 && curFSM != RETREAT)
-		{
-			if (portalSpinTime <= 0)
+			Shield1Direction = (Player::GetInstance()->pos - pos).Normalized();
+			if (ChangeTimeCounter <= 0)
 			{
-				portalSpinTime = 6.f;
-				curFSM = RETREAT;
+				Player::GetInstance()->ChangeTimeline();
+				ChangeTimeCounter = Math::RandFloatMinMax(1, 5);
+			}
+			else
+			{
+				ChangeTimeCounter -= dt;
+			}
+			if (health <= 0)
+			{
+				if (portalSpinTime <= 0)
+				{
+					portalSpinTime = 6.f;
+					curFSM = RETREAT;
+				}
 			}
 		}
 		break;
@@ -230,7 +249,7 @@ void DemonLord::Render()
 		);
 		modelStack->PushMatrix();
 		{
-			modelStack->Translate(0, 0, 0.0001);
+			modelStack->Translate(ShootingPos.x / 50.f, ShootingPos.y / 50.f, 0.0001);
 			modelStack->Scale(0.2, 0.2, 0.2);
 			MeshRender::GetInstance()->RenderAnimation(
 				Charging->GetSprite(),
