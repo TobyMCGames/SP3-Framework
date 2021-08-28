@@ -133,6 +133,7 @@ CentralMesh::CentralMesh()
 	meshList[GEO_LARGESTONE2] = MeshBuilder::GenerateQuad("largestone2", Color(1, 1, 1));
 	meshList[GEO_LARGESTONE2]->textureID = LoadTGA("Image//TILE//LargeStone2.tga");
 
+
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
 	meshList[GEO_WARP_GATE_TILE] = MeshBuilder::GenerateQuad("warpgate", Color(1, 1, 1));
@@ -205,16 +206,24 @@ CentralMesh::CentralMesh()
 	meshList[GEO_SKELEARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow.tga");
 	meshList[GEO_SPIDERWEB] = MeshBuilder::GenerateQuad("spiderweb", Color(1, 1, 1));
 	meshList[GEO_SPIDERWEB]->textureID = LoadTGA("Image//PROJECTILES//Cobweb.tga");
+	meshList[GEO_LASER] = MeshBuilder::GenerateQuad("Laser", Color(1, 1, 1));
+	meshList[GEO_LASER]->textureID = LoadTGA("Image//PROJECTILES//Laser.tga");
+
+
 
 	// BACKGROUND
 	meshList[GO_BACKGROUND_1] = MeshBuilder::GenerateQuad("background 1", Color(1, 1, 1));
 	meshList[GO_BACKGROUND_1]->textureID = LoadTGA("Image//BACKGROUND//Test_background.tga");
 	meshList[GO_BACKGROUND_CAVE] = MeshBuilder::GenerateQuad("background cave", Color(1, 1, 1));
 	meshList[GO_BACKGROUND_CAVE]->textureID = LoadTGA("Image//BACKGROUND//Cave_background.tga");
-	meshList[GO_BACKGROUND_DARK_FOREST] = MeshBuilder::GenerateQuad("background dark forest", Color(1, 1, 1));
-	meshList[GO_BACKGROUND_DARK_FOREST]->textureID = LoadTGA("Image//BACKGROUND//Dark_Forest_Background.tga");
+	//meshList[GO_BACKGROUND_DARK_FOREST] = MeshBuilder::GenerateQuad("background dark forest", Color(1, 1, 1));
+	//meshList[GO_BACKGROUND_DARK_FOREST]->textureID = LoadTGA("Image//BACKGROUND//Dark_Forest_Background.tga");
 	meshList[GO_BACKGROUND_DARK_FOREST_MISTY] = MeshBuilder::GenerateQuad("background dark forest", Color(1, 1, 1));
 	meshList[GO_BACKGROUND_DARK_FOREST_MISTY]->textureID = LoadTGA("Image//BACKGROUND//Dark_Forest_Background_Misty.tga");
+	meshList[GO_BACKGROUND_DARK_FOREST] = MeshBuilder::GenerateQuad("dark forest 1", Color(1, 1, 1));
+	meshList[GO_BACKGROUND_DARK_FOREST]->textureID = LoadTGA("Image//BACKGROUND//Level_4//Dark_forest_BG1.tga");
+
+
 }
 
 CentralMesh::~CentralMesh()

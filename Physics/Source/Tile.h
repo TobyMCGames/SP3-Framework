@@ -16,7 +16,6 @@ public:
 	void Render();
 	bool getDestructable();
 	void setDestructable(bool destructable);
-
 private:
 	bool destructable;
 };

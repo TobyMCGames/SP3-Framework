@@ -193,6 +193,9 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 	TextList.push_back(newtext);
 }
 
+
+
+
 bool GameLevelBase::getcloned()
 {
 	return cloned;
@@ -240,7 +243,6 @@ void GameLevelBase::entityPush(Entity* entity)
 {
 	EntityList.push_back(entity);
 }
-
 
 bool GameLevelBase::loadMap(std::string file_path)
 {
@@ -291,7 +293,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					if (istext == false)
 						key += linesinreverse[row][col];
-					else
+					else if (istext == true)
 						DialogueKey += linesinreverse[row][col];
 				}
 				if (istext == true)
@@ -300,6 +302,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 					istext = false;
 					DialogueKey = "";
 				}
+
 				// note tilefactory takes in scale first then vel.
 			    if (key == "1") // brick
 				{
@@ -484,7 +487,6 @@ bool GameLevelBase::loadMap(std::string file_path)
 					istext = true;
 				}
 			}
-				
 			if ((commacounter) > highestcol)
 				highestcol = commacounter;
 		}
@@ -516,8 +518,6 @@ float GameLevelBase::getTileHeight()
 {
 	return TILEHEIGHT;
 }
-
-
 
 void GameLevelBase::cleanupList(std::vector<int>* indexlist) // NOTE
 {
@@ -962,7 +962,6 @@ GameObject* GameLevelBase::ChangeMapObject(GameObject::GAMEOBJECT_TYPE Changeto,
 	default:
 		temp = nullptr;
 	}
-
 	return temp;
 }
 
