@@ -90,3 +90,11 @@ struct HealthPotion : public Interactables
 	virtual void Response(GameObject* go) {};
 	virtual void Render() {};
 };
+struct key : public Interactables
+{
+	key(GameObject::GAMEOBJECT_TYPE gotype) { type = gotype; };
+	~key() {}
+	virtual void update(double dt, float m_speed){};
+	virtual void Response(GameObject * go) {};
+	virtual void Render(){};
+};

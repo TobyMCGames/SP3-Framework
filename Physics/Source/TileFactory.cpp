@@ -30,6 +30,9 @@ GameObject* TileFactory::ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 s
 			newTile->type = GameObject::LAVA_TILE;
 			newTile->damage = 2;
 			break;
+		case COBBLESTONE:
+			newTile->type = GameObject::GO_COBBLESTONE;
+			break;
 		case STONE_WATERFALL_TILE:
 			newTile->type = GameObject::STONE_WATERFALL_TILE;
 			break;

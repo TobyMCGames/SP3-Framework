@@ -16,6 +16,7 @@ public:
 		TREE_SEED,
 		VINE_SEED,
 		BOMBS,
+		LOCK_KEY,
 		WEAPON,
 		NUM_ITEMS
 	};

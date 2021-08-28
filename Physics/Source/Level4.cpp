@@ -74,6 +74,12 @@ void Level4::UpdateLevel()
 				getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
 			break;
+		case 2:
+			//GameLevelBase::Exit();
+			loadMap("Maps//Map_LEVEL_4b.csv");
+			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45, getworldWidth(), getworldHeight());
+			camera->setpanTarget(player);
+			break;
 		}
 	}
 	else
@@ -101,6 +107,8 @@ bool Level4::Update(double dt)
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
+		if (projectileList[i] == NULL)
+			continue;
  		if (projectileList[i]->active == false)
 			continue;
 		AdvanceGO* curProjectile = projectileList[i];
@@ -237,8 +245,10 @@ bool Level4::Update(double dt)
 	{
 		curSubLevel++;
 		GameLevelBase::Exit();
+		player->Reset();
 		UpdateLevel();
 		Player::GetInstance()->isCompleted = false;
+
 	}
 	return true;
 }

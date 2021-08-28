@@ -68,6 +68,7 @@ public:
 		GEO_COIN,
 		GEO_HEALTHPOTION,
 		GEO_TIMEPIECE,
+		GEO_KEY,
 		
 
 		GEO_BOMB,

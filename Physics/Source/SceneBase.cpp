@@ -578,6 +578,13 @@ void SceneBase::RenderGO(GameObject* go)
 		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_COBBLESTONE), false);
 		modelStack->PopMatrix();
 		break;
+	case GameObject::GO_KEY:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_KEY), false);
+		modelStack->PopMatrix();
+		break;
 	}
 	zOffset += 0.001f;
 }

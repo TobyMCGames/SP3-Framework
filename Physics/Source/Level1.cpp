@@ -108,6 +108,8 @@ bool Level1::Update(double dt)
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
+		if (projectileList[i] == NULL)
+			continue;
  		if (projectileList[i]->active == false)
 			continue;
 		AdvanceGO* curProjectile = projectileList[i];
