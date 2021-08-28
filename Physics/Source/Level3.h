@@ -25,20 +25,11 @@ public:
 	virtual void Destroy();
 	virtual void Exit();
 
-	//void ResetList(void);
-	GameObject* FetchGO();
-	void ReturnGO(GameObject *go);
-
 	void UpdateLevel();
 
 protected:
 	Level3();
 	~Level3();
-
-	//Physics
-	//std::vector<GameObject *> m_goList;
-
-	int m_objectCount;
 
 	int curSubLevel = 1;
 	int numSubLevels = 3;

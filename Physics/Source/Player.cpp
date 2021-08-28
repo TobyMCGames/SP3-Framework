@@ -9,7 +9,7 @@
 
 Player::Player()
 	: curWeapon(Player::BARE_HANDS)
-	, curItem(2)
+	, curItem(0)
 	, scrollsnap(0)
 	, PlayerAnimation(NULL)
 	, playerclone(nullptr)

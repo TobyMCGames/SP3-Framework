@@ -24,43 +24,9 @@ void Level1::Init()
 {
 	SceneBase::Init();
 
-	//Physics code here
-	m_objectCount = 0;
-
 	Math::InitRNG();
 	UpdateLevel();
 	//camera->setDebugMode();
-}
-
-GameObject* Level1::FetchGO()
-{
-	//Exercise 2a: implement FetchGO()
-	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); it++)
-	{
-		GameObject* go = (GameObject*)*it;
-		if (go->active == false)
-		{
-			go->active = true;
-			//Exercise 2b: increase object count every time an object is set to active
-			m_objectCount++;
-			return go;
-		}
-	}
-	for (int i = 0; i < 10; i++)
-	{
-		//m_goList.push_back(new GameObject(GameObject::GO_BALL));
-	}
-	//Exercise 2b: increase object count every time an object is set to active
-	map.back()->active = true;
-	m_objectCount++;
-	return map.back();
-}
-
-void Level1::ReturnGO(GameObject *go)
-{
-	//Exercise 3: implement ReturnGO()
-	go->active = false;
-	m_objectCount--;
 }
 
 void Level1::UpdateLevel()
@@ -79,6 +45,13 @@ void Level1::UpdateLevel()
 		case 2:
 			GameLevelBase::Exit();
 			loadMap("Maps//Map_LEVEL_1a.csv");
+			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
+				getworldWidth(), getworldHeight());
+			camera->setpanTarget(player);
+			break;
+		case 3:
+			GameLevelBase::Exit();
+			loadMap("Maps//Map_LEVEL_1b.csv");
 			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 				getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
@@ -287,35 +260,37 @@ void Level1::Render()
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr || go->active == false)
+		if (go == nullptr)
 			continue;
-		if (go->active)
-		{
-			if (go->type != GameObject::OUTOFBOUNDS_TILE)
-				RenderGO(go);
-		}
+		if (!CheckWithinScreen(go) || go->active == false)
+			continue;
+		
+		if (go->type != GameObject::OUTOFBOUNDS_TILE)
+			RenderGO(go);
 	}
 
 	for (std::vector<AdvanceGO*>::iterator it = InteractableList.begin(); it != InteractableList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr || go->active == false) 
+		if (go == nullptr) 
 			continue;
-		if (go->active)
-		{
-			RenderGO(go);
-		}
+
+		if (!CheckWithinScreen(go) || go->active == false)
+			continue;
+
+		RenderGO(go);
 	}
 
 	for (std::vector<AdvanceGO*>::iterator it = EntityList.begin(); it != EntityList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr || go->active == false)
+		if (go == nullptr)
 			continue;
-		if (go->active)
-		{
-			RenderGO(go);
-		}
+		
+		if (!CheckWithinScreen(go) || go->active == false)
+			continue;
+
+		RenderGO(go);
 	}
 	if (player != nullptr)
 		RenderPlayer();
@@ -323,12 +298,14 @@ void Level1::Render()
 	for (std::vector<AdvanceGO*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr || go->active == false)
+		if (go == nullptr)
 			continue;
-		if (go->active)
-		{
-			RenderGO(go);
-		}
+		
+		if (!CheckWithinScreen(go) || go->active == false)
+			continue;
+
+		RenderGO(go);
+		
 	}
 
 	
@@ -336,11 +313,6 @@ void Level1::Render()
 	//On screen text
 	
 	std::ostringstream ss;
-	//Exercise 5: Render m_objectCount
-	ss << "GameObject Count: " << m_objectCount;
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3, 0, 12);
-	
-	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3,40,40);
