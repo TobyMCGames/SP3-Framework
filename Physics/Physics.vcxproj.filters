@@ -251,6 +251,9 @@
     <ClCompile Include="Source\LevelFinal.cpp">
       <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SlowZombie.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -459,6 +462,9 @@
     </ClInclude>
     <ClInclude Include="Source\LevelFinal.h">
       <Filter>Header Files\GameLevels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SlowZombie.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

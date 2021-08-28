@@ -10,7 +10,10 @@ protected:
 		// insert more states here
 		IDLE,
 		PATROL,
+		CHASE,
 		ATTACK,
+		DMGED,
+		DIE,
 		NUM_STATES,
 	};
 
@@ -23,10 +26,11 @@ protected:
 		COL_RIGHT
 	};
 	float speedBoostTimer;
+	float speedBoostDuration;
 	float attackTimer;
 	float StateCounter;
 	const float JumpForce = 15;
-	const float MaxStateCounter = 1;
+	const float MaxStateCounter = 3;
 	bool jump = false;
 	float attackSoundTimer;
 	float idleSoundTimer;

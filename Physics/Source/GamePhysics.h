@@ -45,6 +45,7 @@ public:
 	COLLIDEPOS checkCollidePos(GameObject* go1, GameObject* go2);
 	COLLIDEPOS checkCollidePos(float velX, float velY);
 	bool checkPlayerDialogue(GameObject* player, Text textobj);
+	//bool DistanceCheckGO(GameObject* go1, GameObject* go2);
 	
 };
 

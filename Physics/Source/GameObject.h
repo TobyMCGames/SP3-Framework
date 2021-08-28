@@ -21,6 +21,7 @@ struct GameObject
 		GO_PLAYERCLONE,
 		GO_SKELEARCHER,
 		GO_HEAVYSKELEARCHER,
+		GO_SLOWZOMBIE,
 		GO_ZOMBIE,
 		GO_TURRET,
 		GO_SPIDER,
@@ -59,6 +60,7 @@ struct GameObject
 		LARGE_STONE_2,
 		DARK_FLOOR_TILE_1,
 		DARK_SOIL_TILE_1,
+		WOOD_LOG,
 		PASSIVE_TILE_END,
 
 		AGGRO_TILE_START,
@@ -97,6 +99,7 @@ struct GameObject
 	float hp;
 	bool active;
 	float mass;
+	//float detectionRange;
 	GameObject* target;
 
 	Vector3 dir; //direction/orientation
@@ -113,6 +116,7 @@ struct GameObject
 	Vector3 OGpos;
 
 	virtual void Response(GameObject* go) = 0;
+	//virtual void DistanceResponse(GameObject* go) = 0;
 	virtual void Render() = 0;
 	//virtual void handleEvent(Event::behaviour)=0;
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);

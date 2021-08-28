@@ -245,6 +245,14 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PopMatrix();
 		break;
 
+	case GameObject::WOOD_LOG:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_WOOD_LOG), false);
+		modelStack->PopMatrix();
+		break;
+
 	case GameObject::SPIKE_TILE:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -309,6 +317,15 @@ void SceneBase::RenderGO(GameObject* go)
 		modelStack->PopMatrix();
 		break;
 
+	case GameObject::GO_DEMONBALL:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DEMONBALL), false);
+		modelStack->PopMatrix();
+		break;
+
 	case GameObject::GO_SPIDERWEB:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
@@ -330,10 +347,29 @@ void SceneBase::RenderGO(GameObject* go)
 	case GameObject::GO_ZOMBIE:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
-		if(go->vel.x < 0)
+		if(go->vel.x <= 0)
 			modelStack->Rotate(180, 0, 1, 0);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_ZOMBIE), false);
+		go->Render();
+		modelStack->PopMatrix();
+		break;
+	case GameObject::GO_SLOWZOMBIE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		if (go->vel.x < 0)
+			modelStack->Rotate(180, 0, 1, 0);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		go->Render();
+		modelStack->PopMatrix();
+		break;
+	case GameObject::GO_NYMPH:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		if (go->vel.x < 0)
+			modelStack->Rotate(180, 0, 1, 0);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_NYMPH), false);
 		go->Render();
 		modelStack->PopMatrix();
 		break;
@@ -422,7 +458,7 @@ void SceneBase::RenderGO(GameObject* go)
 	case GameObject::GO_BOOMER:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
-		if (go->vel.x < 0)
+		if (go->vel.x <= 0)
 			modelStack->Rotate(180, 0, 1, 0);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOOMER), false);

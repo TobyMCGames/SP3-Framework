@@ -7,6 +7,7 @@ GameObject::GameObject(GAMEOBJECT_TYPE typeValue)
 	active(false),
 	mass(1.f),
 	hp(1),
+	//detectionRange(1),
 	target(NULL),
 	dir(1, 0, 0),
 	momentOfInertia(1),

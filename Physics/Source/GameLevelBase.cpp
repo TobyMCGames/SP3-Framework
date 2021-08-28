@@ -376,6 +376,10 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::LARGE_STONE_2, pos, scale, vel);
 				}
+				else if (key == "19")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::WOOD_LOG, pos, scale, vel);
+				}
 				else if (key == "OOB") // outofbounds
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel,scale);
@@ -383,6 +387,10 @@ bool GameLevelBase::loadMap(std::string file_path)
 				else if (key == "Z") // zombie
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::ZOMBIE, pos,vel,scale);
+				}
+				else if (key == "SZ") // zombie
+				{
+					tempEntity = entityFactory->produceEntity(EntityFactory::SLOWZOMBIE, pos, vel, scale);
 				}
 				else if (key == "SA") // skelearcher
 				{
@@ -789,8 +797,11 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 					//cout << "Collided" << endl;
 					break;
 				}
+
 			}
 		}
+
+		
 
 		///////  Only player or clone  can collide with
 		if (mob1->type != GameObject::GO_PLAYER && mob1->type != GameObject::GO_PLAYERCLONE)
@@ -827,6 +838,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 		}
 	}
 
+
 	//std::vector<int> cleanUpVector;
 	for (int j = 0; j < projectileList.size(); j++)
 	{
@@ -846,10 +858,14 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 			{
 
 				Vector3 FuturePos = projectile->pos + projectile->vel * dt * m_speed;
-				Vector3 FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
+				Vector3 FutureN;
+				if (projectile->type == GameObject::GO_DEMONBALL)
+					FutureN = projectile->vel;
+				else
+					FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
 				float angle = atan2f(FutureN.y, FutureN.x);
 				//Find how many tiles mob is away from left side
-				LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) *0.5;
+				LP = FuturePos.x - fabs((projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) *0.5);
 				XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
 				if (XnumTiles > 0)
 				{
@@ -862,7 +878,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 					XTilesAround += 2;
 
 				//Find how many tiles screen is away from bottom
-				BP = FuturePos.y - (projectile->scale.x * sin(angle) + projectile->scale.y * cos(angle)) / 2;
+				BP = FuturePos.y - fabs((projectile->scale.x * sin(angle) + projectile->scale.y * cos(angle)) * 0.5);
 				YnumTiles = (BP - fmod(BP, getTileHeight())) / getTileHeight();
 				if (YnumTiles > 0)
 				{
