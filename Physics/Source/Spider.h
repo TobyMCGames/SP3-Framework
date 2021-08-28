@@ -19,7 +19,7 @@ protected:
 	int StateCounter;
 	float shootCounter;
 	const float JumpForce = 15;
-	const int MaxStateCounter = 60;
+	const int MaxStateCounter = 40;
 	const int MaxFirerate = 3;
 	Vector3 old_spider_position;
 	BEHAVIOUR currState;

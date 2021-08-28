@@ -73,6 +73,7 @@ bool SceneGUI::Update(double dt)
 			static bool MouseState = false;
 			if (!MouseState && Application::IsMousePressed(0))
 			{
+				CSoundController::GetInstance()->PlaySoundByID(21);
 				MouseState = true;
 			}
 			else if (MouseState && !Application::IsMousePressed(0))
