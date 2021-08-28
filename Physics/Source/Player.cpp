@@ -187,7 +187,7 @@ void Player::Update(double dt, float m_speed)
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT) && this->timetraveled <= 0)
 	{
 		ChangeTimeline();
-		this->timetraveled = 0.6f;
+		this->timetraveled = 0.3f;
 		CSoundController::GetInstance()->PlaySoundByID(23);
 		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
 	}
@@ -531,10 +531,10 @@ void Player::Response(GameObject* go)
 		isdead = true;
 	}
 
-	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
-		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET) || 
-		(go->type == GameObject::GO_SPIDER) || (go->type == GameObject::GO_SPIDERWEB) || 
-		(go->type == GameObject::GO_HEAVYSKELEARCHER))
+	if ((go->type == GO_SKELEARROW) || (go->type == GO_SKELEARCHER) ||
+		(go->type == GO_ZOMBIE) || (go->type == GO_TURRETBULLET) || 
+		(go->type == GO_SPIDER) || (go->type == GO_SPIDERWEB) || 
+		(go->type == GO_HEAVYSKELEARCHER) || (go->type == GO_DEMONBALL))
 	{
 		if (curState == STATE_NORMAL)
 		{

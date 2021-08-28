@@ -31,7 +31,7 @@ void SceneGUI::Init()
 
 	Timetravel = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_TIMETRAVEL));
 	Timetravel->AddAnimation("travel", 0, 11);
-	Timetravel->PlayAnimation("travel", 1, 0.6f);
+	Timetravel->PlayAnimation("travel", 1, 0.3f);
 }
 bool SceneGUI::Update(double dt)
 {
@@ -61,10 +61,6 @@ bool SceneGUI::Update(double dt)
 	{
 		MouseState = false;
 		cout << "X: " << posX << ", " << "Y: " << posY << endl;
-	}
-	if (Player::GetInstance()->timetraveled <= 0)
-	{
-		Timetravel->Reset();
 	}
 
 	//pause menu select
@@ -321,6 +317,8 @@ void SceneGUI::renderGUI()
 				65
 			);
 		}
+		else
+			Timetravel->Reset();
 	}
 
 	if (Player::GetInstance()->IsInDialogue() == true)

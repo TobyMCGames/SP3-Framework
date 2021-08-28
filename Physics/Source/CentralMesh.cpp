@@ -132,6 +132,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_CASTLE_PLATFORM]->textureID = LoadTGA("Image//TILE//Castle_Platform.tga");
 	meshList[GEO_LARGESTONE2] = MeshBuilder::GenerateQuad("largestone2", Color(1, 1, 1));
 	meshList[GEO_LARGESTONE2]->textureID = LoadTGA("Image//TILE//LargeStone2.tga");
+	meshList[GEO_WOOD_LOG] = MeshBuilder::GenerateQuad("wood_log", Color(1, 1, 1));
+	meshList[GEO_WOOD_LOG]->textureID = LoadTGA("Image//TILE//Wood_Log.tga");
 
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
@@ -207,6 +209,10 @@ CentralMesh::CentralMesh()
 	meshList[GEO_SKELEARROW]->textureID = LoadTGA("Image//PROJECTILES//arrow.tga");
 	meshList[GEO_SPIDERWEB] = MeshBuilder::GenerateQuad("spiderweb", Color(1, 1, 1));
 	meshList[GEO_SPIDERWEB]->textureID = LoadTGA("Image//PROJECTILES//Cobweb.tga");
+	meshList[GEO_DEMONBALL_CHARGE] = MeshBuilder::GenerateSpriteAnimation("charge demonball", Color(1, 1, 1), 3, 3, 1.f);
+	meshList[GEO_DEMONBALL_CHARGE]->textureID = LoadTGA("Image//PROJECTILES//DemonBall_Charging_animation.tga");
+	meshList[GEO_DEMONBALL] = MeshBuilder::GenerateQuad("demonball", Color(1, 1, 1), 1.f);
+	meshList[GEO_DEMONBALL]->textureID = LoadTGA("Image//PROJECTILES//DemonBall.tga");
 
 	// BACKGROUND
 	meshList[GO_BACKGROUND_1] = MeshBuilder::GenerateQuad("background 1", Color(1, 1, 1));
