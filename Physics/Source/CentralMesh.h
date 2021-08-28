@@ -67,6 +67,7 @@ public:
 		GEO_COBBLESTONE,
 		GEO_COIN,
 		GEO_HEALTHPOTION,
+		GEO_KEY,
 		
 
 		GEO_BOMB,

@@ -285,6 +285,9 @@ void SceneGUI::renderGUI()
 	case PlayerBase::BOMBS:
 		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_BOMB_CRATE), 6, 7, 7, 7);
 		break;
+	case PlayerBase::LOCK_KEY:
+		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_KEY), 6, 7, 7, 7);
+		break;
 	case PlayerBase::WEAPON:
 		switch (Player::GetInstance()->getcurWeapon())
 		{

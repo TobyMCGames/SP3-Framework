@@ -591,6 +591,11 @@ void Player::Response(GameObject* go)
 				go->active = false;
 			}
 			break;
+		case GO_KEY:
+			Inventory[LOCK_KEY]++;
+			go->active = false;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
+			break;
 		case WARP_GATE:
 			isCompleted = true;
 			cKeyboardController->ResetKey(GLFW_KEY_E);

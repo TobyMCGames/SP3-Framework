@@ -483,6 +483,10 @@ bool GameLevelBase::loadMap(std::string file_path)
 					pos.Set(xOffset + scale.x, yOffset + scale.y, 0);
 					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_WARP_GATE, pos, scale * 2);
 				}
+				else if (key == "key")
+				{
+					tempInteract = interactableFactory->produceInteractable(InteractableFactory::PTYPE_KEY, pos,scale);
+				}
 
 				if (tempEntity != nullptr)
 				{
@@ -1128,6 +1132,12 @@ void GameLevelBase::ChangeTimelineBlocks(bool revert)
 				break;
 			case GameObject::STONE_BRICK_TILE:
 				temp = ChangeMapObject(GameObject::BRICK_TILE, temp);
+				break;
+			case GameObject::LAVA_TILE:
+				temp = ChangeMapObject(GameObject::GO_COBBLESTONE, temp);
+				break;
+			case GameObject::GO_COBBLESTONE:
+				temp = ChangeMapObject(GameObject::LAVA_TILE, temp);
 				break;
 			case GameObject::SOIL_TILE:
 				temp = ChangeMapObject(GameObject::GRASS_SOIL_TILE, temp);
