@@ -73,8 +73,6 @@ void Player::Update(double dt, float m_speed)
 		}
 		if (playerclone != nullptr)
 		{
-			GameLevelManager::GetInstance()->getcurrentLevel()->setcloneDeleted(true);
-			GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(false);
 			MeshRender::GetInstance()->GetCamera()->setpanTarget(this);
 			controlled = true;
 		}
@@ -153,20 +151,19 @@ void Player::Update(double dt, float m_speed)
 	//////Create Clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
-		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false && mana - 2 * dt * m_speed > 0) // summon the clone
+		if (playerclone == nullptr && mana - 2 * dt * m_speed > 0) // summon the clone
 		{
 			if (curLocation != Entity::IN_AIR)
 			{
 				InitClone();
-				GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(true);
 			}
 		}
-		else if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == true) // despawn the clone
+		else  // despawn the clone
 		{
 			if ((curLocation != Entity::IN_AIR) && (getClone()->getCurLocation() != Entity::IN_AIR))
 			{
-				GameLevelManager::GetInstance()->getcurrentLevel()->setcloneDeleted(true);
-				GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(false);
+				playerclone->active = false;
+				playerclone = nullptr;
 				controlled = true;
 			}
 		}

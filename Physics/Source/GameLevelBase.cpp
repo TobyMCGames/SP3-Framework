@@ -11,7 +11,6 @@ GameLevelBase::GameLevelBase()
 	m_worldWidth = 0;
 	m_worldHeight = 0;
 	player = nullptr;
-	cloned = false;
 	playerincontrol = true;
 	clonedeleted = false;
 }
@@ -79,7 +78,7 @@ void GameLevelBase::RenderPlayer()
 
 	}
 	modelStack->PopMatrix();
-	if (cloned == true)
+	if (player->getClone() != nullptr)
 	{
 		RenderPlayerClone();
 	}
@@ -191,19 +190,6 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 	}
 	newtext.setPos(position);
 	TextList.push_back(newtext);
-}
-
-
-
-
-bool GameLevelBase::getcloned()
-{
-	return cloned;
-}
-
-void GameLevelBase::setcloned(bool cloned)
-{
-	this->cloned = cloned;
 }
 
 void GameLevelBase::setcloneDeleted(bool clonedeleted)

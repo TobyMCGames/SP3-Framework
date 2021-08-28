@@ -176,6 +176,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_COIN]->textureID = LoadTGA("Image//InteractiveBlocks//coin.tga");
 	meshList[GEO_HEALTHPOTION] = MeshBuilder::GenerateQuad("health", Color(1, 1, 1));
 	meshList[GEO_HEALTHPOTION]->textureID = LoadTGA("Image//InteractiveBlocks//Health_Potion.tga");
+	meshList[GEO_TIMEPIECE] = MeshBuilder::GenerateQuad("time piece", Color(1, 1, 1));
+	meshList[GEO_TIMEPIECE]->textureID = LoadTGA("Image//InteractiveBlocks//Time_Piece.tga");
 
 	// Enemy
 	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateSpriteAnimation("Zombie", Color(1, 1, 1), 5, 8 ,1.f);

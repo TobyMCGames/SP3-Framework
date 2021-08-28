@@ -396,7 +396,6 @@ void PlayerClone::Response(GameObject* go)
 	{
 		this->active = false;
 		GameLevelManager::GetInstance()->getcurrentLevel()->setcloneDeleted(true);
-		GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(false);
 		GameLevelManager::GetInstance()->getcurrentLevel()->swapcontrols();
 		Player::GetInstance()->setControl(true);
 	}
