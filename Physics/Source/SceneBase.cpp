@@ -330,10 +330,19 @@ void SceneBase::RenderGO(GameObject* go)
 	case GameObject::GO_ZOMBIE:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
-		if(go->vel.x < 0)
+		if(go->vel.x <= 0)
 			modelStack->Rotate(180, 0, 1, 0);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_ZOMBIE), false);
+		go->Render();
+		modelStack->PopMatrix();
+		break;
+	case GameObject::GO_SLOWZOMBIE:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		if (go->vel.x < 0)
+			modelStack->Rotate(180, 0, 1, 0);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		go->Render();
 		modelStack->PopMatrix();
 		break;
@@ -422,7 +431,7 @@ void SceneBase::RenderGO(GameObject* go)
 	case GameObject::GO_BOOMER:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
-		if (go->vel.x < 0)
+		if (go->vel.x <= 0)
 			modelStack->Rotate(180, 0, 1, 0);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_BOOMER), false);

@@ -31,6 +31,8 @@ protected:
 	const int MaxFirerate = 2;
 
 	SpriteAnimation* HeavySkeletonAnimation;
+	//void CheckDistance(GameObject* go1, double dt, float m_speed);
+	//void CheckDistanceResponse(double dt, float m_speed);
 public:
 	HeavySkeletonArcher();
 	~HeavySkeletonArcher();

@@ -549,3 +549,7 @@ bool GamePhysics::checkPlayerDialogue(GameObject* player, Text textobj)
 	return (DistanceCheck(player->pos, textobj.getPos(), textobj.getDetectionRange()));
 }
 
+//bool GamePhysics::DistanceCheckGO(GameObject* go1, GameObject* go2)
+//{
+//	return (DistanceCheck(go1->pos, go2->pos, go2->detectionRange));
+//}

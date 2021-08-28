@@ -201,6 +201,7 @@
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\SkeleArrow.cpp" />
     <ClCompile Include="Source\SkeletonArcher.cpp" />
+    <ClCompile Include="Source\SlowZombie.cpp" />
     <ClCompile Include="Source\SoundController.cpp" />
     <ClCompile Include="Source\SoundInfo.cpp" />
     <ClCompile Include="Source\Spider.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="Source\SingletonPattern.h" />
     <ClInclude Include="Source\SkeleArrow.h" />
     <ClInclude Include="Source\SkeletonArcher.h" />
+    <ClInclude Include="Source\SlowZombie.h" />
     <ClInclude Include="Source\SoundController.h" />
     <ClInclude Include="Source\SoundInfo.h" />
     <ClInclude Include="Source\SpiderWeb.h" />
