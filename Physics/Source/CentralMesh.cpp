@@ -136,6 +136,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_LARGESTONE2]->textureID = LoadTGA("Image//TILE//LargeStone2.tga");
 	meshList[GEO_WOOD_LOG] = MeshBuilder::GenerateQuad("wood_log", Color(1, 1, 1));
 	meshList[GEO_WOOD_LOG]->textureID = LoadTGA("Image//TILE//Wood_Log.tga");
+	meshList[GEO_COBBLESTONE] = MeshBuilder::GenerateQuad("CobbleStone", Color(1, 1, 1));
+	meshList[GEO_COBBLESTONE]->textureID = LoadTGA("Image//TILE//Cobblestone.tga");
 
 
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));

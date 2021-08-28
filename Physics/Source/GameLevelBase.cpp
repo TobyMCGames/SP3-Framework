@@ -312,9 +312,21 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::STONEBRICK, pos, scale, vel);
 				}
-				else if (key == "3") // spike
+				else if (key == "3U") // spike
 				{
-					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel);
+					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel,Vector3(0,1,0));
+				}
+				else if (key == "3D")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel,Vector3(0,-1,0));
+				}
+				else if (key == "3L")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel,Vector3(-1,0,0));
+				}
+				else if (key == "3R")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::SPIKE, pos, scale, vel,Vector3(1,0,0));
 				}
 				else if (key == "4") // cave tile
 				{
@@ -380,6 +392,10 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::WOOD_LOG, pos, scale, vel);
 				}
+				else if (key == "20")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::COBBLESTONE, pos, scale,vel);
+				}
 				else if (key == "OOB") // outofbounds
 				{
 					temp = tileFactory->ProduceTile(TileFactory::OOB_TILE, pos,scale, vel,scale);
@@ -388,7 +404,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::ZOMBIE, pos,vel,scale);
 				}
-				else if (key == "SZ") // zombie
+				else if (key == "SZ") //slow  zombie
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::SLOWZOMBIE, pos, vel, scale);
 				}

@@ -27,6 +27,7 @@ public:
 		LARGE_STONE_2,
 		WOOD_LOG,
 		OOB_TILE,
+		COBBLESTONE,
 		NUM_TILE
 	};
 	GameObject* ProduceTile(TILE_LIST tile_name, Vector3 pos, Vector3 scale, Vector3 vel = Vector3(0, 0, 0), Vector3 normal = Vector3(1, 0, 0));
