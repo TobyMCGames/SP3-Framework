@@ -27,6 +27,7 @@ void Level2::Init()
 	Math::InitRNG();
 	UpdateLevel();
 	//camera->setDebugMode();
+	CSoundController::GetInstance()->PlaySoundByID(30);
 }
 
 GameObject* Level2::FetchGO()
@@ -356,7 +357,7 @@ void Level2::Exit()
 		delete go;
 		map.pop_back();
 	}
-
+	CSoundController::GetInstance()->StopSounds();
 }
 /*
 void SceneCollision::ResetList(void)
