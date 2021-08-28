@@ -93,19 +93,17 @@ bool Level4::Update(double dt)
 	SceneBase::Update(dt);
 	if (player->isControl() == true)
 	{
-		if (camera->getPanningMode() == false)
-			camera->Update(dt);
-		else
-			camera->panToTarget(dt, m_speed);
+		camera->setpanTarget(player);
 	}
-	
 	else if (player->getClone()->isControl() == true)
 	{
-		if (camera->getPanningMode() == false)
-			camera->Update(dt);
-		else
-			camera->panToTarget(dt,m_speed);
+		camera->setpanTarget(player->getClone());
 	}
+
+	if (camera->getPanningMode() == false)
+		camera->Update(dt);
+	else
+		camera->panToTarget(dt, m_speed);
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
@@ -151,7 +149,6 @@ bool Level4::Update(double dt)
 				delete EntityList[i];
 				EntityList[i] = nullptr;
 				player->resetClone();
-				setcloned(false);
 				clonedeleted = false;
 			}
 		}
