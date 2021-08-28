@@ -40,7 +40,6 @@ protected:
 		IN_AIR,
 	};
 
-
 	STATES curState;
 	LOCATION curLocation;
 	DIRECTION curDirection;

@@ -253,7 +253,6 @@ bool Level1::Update(double dt)
 	return true;
 }
 
-
 void Level1::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

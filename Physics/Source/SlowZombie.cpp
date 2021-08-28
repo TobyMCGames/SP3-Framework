@@ -45,10 +45,6 @@ void SLowZombie::Update(double dt, float m_speed)
 			SlowZombieAnimation->PlayAnimation("Idle", 1, 1.5);
 			StateCounter = 0;
 		}
-		else
-		{
-
-		}
 		StateCounter += dt * m_speed;
 		break;
 	case PATROL:

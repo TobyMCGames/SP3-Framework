@@ -136,6 +136,9 @@ CentralMesh::CentralMesh()
 	meshList[GEO_LARGESTONE2]->textureID = LoadTGA("Image//TILE//LargeStone2.tga");
 	meshList[GEO_WOOD_LOG] = MeshBuilder::GenerateQuad("wood_log", Color(1, 1, 1));
 	meshList[GEO_WOOD_LOG]->textureID = LoadTGA("Image//TILE//Wood_Log.tga");
+	meshList[GEO_COBBLESTONE] = MeshBuilder::GenerateQuad("CobbleStone", Color(1, 1, 1));
+	meshList[GEO_COBBLESTONE]->textureID = LoadTGA("Image//TILE//Cobblestone.tga");
+
 
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("SPIKE", Color(1, 1, 1));
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//TILE//Spikes_Tile.tga");
@@ -185,8 +188,10 @@ CentralMesh::CentralMesh()
 	meshList[GEO_HEAVYSKELEARCHER]->textureID = LoadTGA("Image//Enemy//HeavySkeleArcherAnimation.tga");
 	meshList[GEO_SPIDER] = MeshBuilder::GenerateSpriteAnimation("Spider", Color(1, 1, 1), 3, 6,1.f);
 	meshList[GEO_SPIDER]->textureID = LoadTGA("Image//Enemy//SpiderAnimation.tga");
-	meshList[GEO_NYMPH] = MeshBuilder::GenerateQuad("Nymph", Color(1, 1, 1));
-	meshList[GEO_NYMPH]->textureID = LoadTGA("Image//Enemy//nymph.tga");
+	meshList[GEO_NYMPH] = MeshBuilder::GenerateSpriteAnimation("Nymph", Color(1, 1, 1), 3, 8, 1.f);
+	meshList[GEO_NYMPH]->textureID = LoadTGA("Image//Enemy//NymphAnimation.tga");
+	//meshList[GEO_NYMPH] = MeshBuilder::GenerateQuad("Nymph", Color(1, 1, 1));
+	//meshList[GEO_NYMPH]->textureID = LoadTGA("Image//Enemy//nymph.tga");
 	meshList[GEO_TURRET] = MeshBuilder::GenerateSpriteAnimation("turret", Color(1, 1, 1), 2, 3,1.f);
 	meshList[GEO_TURRET]->textureID = LoadTGA("Image//Enemy//TurretAnimation.tga");
 	meshList[GEO_BOOMER] = MeshBuilder::GenerateSpriteAnimation("boomer", Color(1, 1, 1), 5, 6, 1.f);
@@ -217,16 +222,24 @@ CentralMesh::CentralMesh()
 	meshList[GEO_DEMONBALL]->textureID = LoadTGA("Image//PROJECTILES//DemonBall.tga");
 	meshList[GEO_DEMONSHIELD] = MeshBuilder::GenerateQuad("demonshield", Color(1, 1, 1), 1.f);
 	meshList[GEO_DEMONSHIELD]->textureID = LoadTGA("Image//PROJECTILES//DemonLord_Shield.tga");
+	meshList[GEO_LASER] = MeshBuilder::GenerateQuad("Laser", Color(1, 1, 1));
+	meshList[GEO_LASER]->textureID = LoadTGA("Image//PROJECTILES//Laser.tga");
+
+
 
 	// BACKGROUND
 	meshList[GO_BACKGROUND_1] = MeshBuilder::GenerateQuad("background 1", Color(1, 1, 1));
 	meshList[GO_BACKGROUND_1]->textureID = LoadTGA("Image//BACKGROUND//Test_background.tga");
 	meshList[GO_BACKGROUND_CAVE] = MeshBuilder::GenerateQuad("background cave", Color(1, 1, 1));
 	meshList[GO_BACKGROUND_CAVE]->textureID = LoadTGA("Image//BACKGROUND//Cave_background.tga");
-	meshList[GO_BACKGROUND_DARK_FOREST] = MeshBuilder::GenerateQuad("background dark forest", Color(1, 1, 1));
-	meshList[GO_BACKGROUND_DARK_FOREST]->textureID = LoadTGA("Image//BACKGROUND//Dark_Forest_Background.tga");
+	//meshList[GO_BACKGROUND_DARK_FOREST] = MeshBuilder::GenerateQuad("background dark forest", Color(1, 1, 1));
+	//meshList[GO_BACKGROUND_DARK_FOREST]->textureID = LoadTGA("Image//BACKGROUND//Dark_Forest_Background.tga");
 	meshList[GO_BACKGROUND_DARK_FOREST_MISTY] = MeshBuilder::GenerateQuad("background dark forest", Color(1, 1, 1));
 	meshList[GO_BACKGROUND_DARK_FOREST_MISTY]->textureID = LoadTGA("Image//BACKGROUND//Dark_Forest_Background_Misty.tga");
+	meshList[GO_BACKGROUND_DARK_FOREST] = MeshBuilder::GenerateQuad("dark forest 1", Color(1, 1, 1));
+	meshList[GO_BACKGROUND_DARK_FOREST]->textureID = LoadTGA("Image//BACKGROUND//Level_4//Dark_forest_BG1.tga");
+
+
 }
 
 CentralMesh::~CentralMesh()

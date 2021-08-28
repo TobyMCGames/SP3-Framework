@@ -141,11 +141,11 @@ void PlayerClone::Update(double dt, float m_speed)
 
 	cKeyboardController = CKeyboardController::GetInstance();
 	static bool bLButtonState = false;
-	if (!bLButtonState && Application::IsMousePressed(0))
+	if (!bLButtonState && Application::IsMousePressed(1))
 	{
 		bLButtonState = true;
 	}
-	else if (bLButtonState && !Application::IsMousePressed(0))
+	else if (bLButtonState && !Application::IsMousePressed(1))
 	{
 
 		bLButtonState = false;

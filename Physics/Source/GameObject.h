@@ -58,7 +58,10 @@ struct GameObject
 		DARK_FOREST_GRASS,
 		CASTLE_PLATFORM,
 		LARGE_STONE_2,
+		DARK_FLOOR_TILE_1,
+		DARK_SOIL_TILE_1,
 		WOOD_LOG,
+		GO_COBBLESTONE,
 		PASSIVE_TILE_END,
 
 		AGGRO_TILE_START,
@@ -85,7 +88,6 @@ struct GameObject
 		COIN,
 		HEALTHPOTION,
 		INTERACTABLE_END,
-
 		GO_TOTAL //must be last
 	};
 
@@ -116,9 +118,7 @@ struct GameObject
 	virtual void Response(GameObject* go) = 0;
 	//virtual void DistanceResponse(GameObject* go) = 0;
 	virtual void Render() = 0;
-	//virtual void timeTravel() = 0;
-	
-
+	//virtual void handleEvent(Event::behaviour)=0;
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
 	~GameObject();
 	void setTransform(Vector3 pos, Vector3 vel, Vector3 scale);

@@ -642,8 +642,14 @@ void Player::Response(GameObject* go)
 			CSoundController::GetInstance()->PlaySoundByID(29);
 			go->active = false;
 		}
-
 	}
+	
+	if (go->type == GameObject::LAVA_TILE)
+	{
+		takeDamage(go->damage);
+		return;
+	}
+
 
 	if (go->type == GameObject::PORTAL_GATE_ENTRANCE)
 	{

@@ -16,7 +16,7 @@ Tile::~Tile()
 
 void Tile::Response(GameObject* go)
 {
-
+	
 }
 
 void Tile::Render()

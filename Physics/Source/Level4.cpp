@@ -69,7 +69,7 @@ void Level4::UpdateLevel()
 		{
 		case 1:
 			GameLevelBase::Exit();
-			loadMap("Maps//Map_LEVEL_4.csv");
+			loadMap("Maps//Map_LEVEL_4a.csv");
 			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 				getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
@@ -274,7 +274,7 @@ void Level4::Render()
 	modelStack->PushMatrix();
 	modelStack->Translate(getworldWidth()/2, getworldHeight()/2,-1);
 	modelStack->Scale(getworldWidth(), getworldHeight(), -1);
-	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GO_BACKGROUND_CAVE), false);
+	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GO_BACKGROUND_DARK_FOREST), false);
 	modelStack->PopMatrix();
 	zOffset = 0.001f;
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
