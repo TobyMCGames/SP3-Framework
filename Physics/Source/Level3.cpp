@@ -71,7 +71,7 @@ void Level3::UpdateLevel()
 		{
 		case 1:
 			GameLevelBase::Exit();
-			loadMap("Maps//Map_LEVEL_3b.csv");
+			loadMap("Maps//Map_LEVEL_3.csv");
 			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 				getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
@@ -79,6 +79,13 @@ void Level3::UpdateLevel()
 		case 2:
 			GameLevelBase::Exit();
 			loadMap("Maps//Map_LEVEL_3a.csv");
+			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
+				getworldWidth(), getworldHeight());
+			camera->setpanTarget(player);
+			break;
+		case 3:
+			GameLevelBase::Exit();
+			loadMap("Maps//Map_LEVEL_3b.csv");
 			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 				getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
@@ -283,7 +290,7 @@ void Level3::Render()
 	modelStack->PushMatrix();
 	modelStack->Translate(getworldWidth()/2, getworldHeight()/2,-1);
 	modelStack->Scale(getworldWidth(), getworldHeight(), -1);
-	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GO_BACKGROUND_1), false);
+	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GO_BACKGROUND_CASTLE), false);
 	modelStack->PopMatrix();
 	zOffset = 0.001f;
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)

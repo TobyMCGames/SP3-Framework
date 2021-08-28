@@ -1,0 +1,9 @@
+{3}[Its a portal gun...]
+[I wonder how I can use this...]
+[< To use the portal gun, aim at a surface and press the left click button >]
+[< Once 2 portals are formed, walk into it to be teleported to the other end of the portal >]
+{4}[Hmm, That's a really long jump...]
+[Maybe a portal gun can come in handy...]
+{5}[<Not all blocks allow a portal to form>]
+
+

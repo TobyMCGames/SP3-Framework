@@ -51,7 +51,7 @@ void DisguisedEnemy::Update(double dt, float m_speed)
 		hasdisguised = true;
 		if (disguiseAnimTimer >= maxanimtime)
 		{
-			if ((pos - Player::GetInstance()->pos).Length() <= 60)
+			if ((pos - Player::GetInstance()->pos).Length() <= 50)
 			{
 				if ((Player::GetInstance()->pos.x - pos.x) > 0)
 				{

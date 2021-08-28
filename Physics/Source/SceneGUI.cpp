@@ -9,6 +9,7 @@ SceneGUI::SceneGUI()
 	, m_worldWidth(0)
 	, Timetravel(NULL)
 {
+	GameDialogues.LoadDialogue("Dialogues//Level_3_dialogues.txt"); // load level 4 texts
 	GameDialogues.LoadDialogue("Dialogues//Level_4_dialogues.txt"); // load level 4 texts
 	GameDialogues.setActive(false);
 }

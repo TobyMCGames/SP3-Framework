@@ -189,6 +189,21 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 		newtext.setDetectionRange(15);
 		
 	}
+	else if (DialogueKey == "TUTPG") // tutoraial to portalgun
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::TUTS_PORTAL_GUN);
+		newtext.setDetectionRange(10);
+	}
+	else if (DialogueKey == "TUTPGCP") // tutoraial to portalgun
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::TUTS_PORTAL_GUN_CP);
+		newtext.setDetectionRange(15);
+	}
+	else if (DialogueKey == "LONG") // tutoraial to portalgun
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LONG_DIST);
+		newtext.setDetectionRange(5);
+	}
 	newtext.setPos(position);
 	TextList.push_back(newtext);
 }
@@ -393,7 +408,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel,scale);
 				}
-				else if (key == "HSK") // Heavy skelearcher
+				else if (key == "HSA") // Heavy skelearcher
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::HEAVY_SKELE_ARCHER, pos, vel, scale);
 				}
