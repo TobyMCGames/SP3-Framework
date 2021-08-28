@@ -61,6 +61,9 @@ GameStateManager::GameStateManager()
 
 	// health potion
 	cSoundController->LoadSound("Sounds\\Sounds_Item\\Health_Restore.ogg", 29, true);
+
+	// DemonLord
+	cSoundController->LoadSound("Sounds\\Sounds_DemonLord\\DemonLord_Hurt.wav", 40, true);
 }
 
 GameStateManager::~GameStateManager()

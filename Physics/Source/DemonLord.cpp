@@ -11,6 +11,8 @@ DemonLord::DemonLord()
 	, portalScale(0, 0, 1)
 	, FSMcounter(0)
 {
+	health = 3500;
+	//health = 300;
 	curFSM = ARRIVAL;
 	portalSpinTime = 6.f;
 
@@ -89,15 +91,53 @@ void DemonLord::Update(double dt,float m_speed)
 			curFSM = IDLE;
 		}
 		break;
+	case RETREAT:
+		if (portalSpinTime > 3)
+		{
+			portalScale.x += 0.5 * dt;
+		}
+		else if (portalSpinTime > 0)
+		{
+			portalScale.x -= 0.5 * dt;
+		}
+		else
+		{
+			active = false;
+		}
+		portalSpinTime -= dt;
+		break;
 	}
 
+	if (health <= 0 && curFSM != RETREAT)
+	{
+		if (portalSpinTime <= 0)
+		{
+			portalSpinTime = 6.f;
+			curFSM = RETREAT;
+		}
+	}
 	Floating->Update(dt);
 	return;
 }
 
 void DemonLord::Response(GameObject* go) 
 {
-	std::cout << "Dlord response" << std::endl;
+	cout << health << endl;
+	if (curFSM != ARRIVAL && curFSM != RETREAT)
+	{
+		switch (go->type)
+		{
+		case GO_ARROW:
+		case GO_MAGICBALL:
+			if ((go->pos - pos).LengthSquared() <= (scale.y / 3) * (scale.y / 3))
+			{
+				go->active = false;
+				takeDamage(go->damage);
+				CSoundController::GetInstance()->PlaySoundByID(40);
+			}
+			break;
+		}
+	}
 	return;
 }
 
@@ -156,6 +196,29 @@ void DemonLord::Render()
 			);
 		}
 		modelStack->PopMatrix();
+		break;
+	case RETREAT:
+		modelStack->PushMatrix();
+		{
+			modelStack->Scale(portalScale.x, portalScale.y, portalScale.z);
+			modelStack->Translate(0, -0.035, 0);
+			MeshRender::GetInstance()->RenderMesh(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_DEMONLORD_PORTAL), false);
+		}
+		modelStack->PopMatrix();
+		if (portalSpinTime <= 6 && portalSpinTime > 3)
+		{
+			modelStack->PushMatrix();
+			{
+				modelStack->Translate(0, -0.035, 0.0001);
+				MeshRender::GetInstance()->RenderAnimation(
+					Floating->GetSprite(),
+					Floating->GetCurFrame(),
+					6,
+					false
+				);
+			}
+			modelStack->PopMatrix();
+		}
 		break;
 	}
 }

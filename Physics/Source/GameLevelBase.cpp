@@ -858,10 +858,14 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 			{
 
 				Vector3 FuturePos = projectile->pos + projectile->vel * dt * m_speed;
-				Vector3 FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
+				Vector3 FutureN;
+				if (projectile->type == GameObject::GO_DEMONBALL)
+					FutureN = projectile->vel;
+				else
+					FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
 				float angle = atan2f(FutureN.y, FutureN.x);
 				//Find how many tiles mob is away from left side
-				LP = FuturePos.x - (projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) *0.5;
+				LP = FuturePos.x - fabs((projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) *0.5);
 				XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
 				if (XnumTiles > 0)
 				{
@@ -874,7 +878,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 					XTilesAround += 2;
 
 				//Find how many tiles screen is away from bottom
-				BP = FuturePos.y - (projectile->scale.x * sin(angle) + projectile->scale.y * cos(angle)) / 2;
+				BP = FuturePos.y - fabs((projectile->scale.x * sin(angle) + projectile->scale.y * cos(angle)) * 0.5);
 				YnumTiles = (BP - fmod(BP, getTileHeight())) / getTileHeight();
 				if (YnumTiles > 0)
 				{
