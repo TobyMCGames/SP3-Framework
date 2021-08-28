@@ -7,16 +7,15 @@
 Archbishop::Archbishop()
 	:firstform(NULL)
 	, rotation(0)
-	, current_state(TRACK_PLAYER)
+	, current_state(IDLE)
 	, stateCounter(0)
 {
 	firstform = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_ARCHBISHOP_1));
 	firstform->AddAnimation("Moving",0,6);
-	firstform->AddAnimation("Idle", 0, 1);
-	firstform->PlayAnimation("Idle", -1,3.f);
-	health = 500;
+	firstform->PlayAnimation("Moving", -1,6.f);
+	health = 1000;
 	this->damage = 1;
-	Default_Speed = 2.5;
+	Default_Speed = 3.5;
 }
 
 Archbishop::~Archbishop()
@@ -42,7 +41,7 @@ void Archbishop::Update(double dt, float m_speed)
 				
 			else if (rand == 3)
 			{
-				this->damage = 3;
+				this->damage = 2.5;
 				current_state = SPINING_KAMIKAZE;
 			}
 				
@@ -59,7 +58,6 @@ void Archbishop::Update(double dt, float m_speed)
 		if (rotation <= -3600)
 		{
 			current_state = IDLE;
-			firstform->PlayAnimation("Idle", -1, 3.f);
 			rotation = 0;
 			if (Math::RandIntMinMax(0, 1) == 1)
 			{
@@ -74,7 +72,7 @@ void Archbishop::Update(double dt, float m_speed)
 		}	
 		else
 		{
-			if (Math::RandIntMinMax(1,35) == 2)
+			if (Math::RandIntMinMax(1,50) == 2)
 			{
 				Projectile* temp;
 				Vector3 scale = this->scale;
@@ -83,6 +81,7 @@ void Archbishop::Update(double dt, float m_speed)
 				temp =  ProjectileFactory::GetInstance()->produceProjectile(ProjectileFactory::PROJECTILE_TYPES::PTYPE_ARCH_BALL,
 					this->pos,vel,scale, Vector3(1, 0, 0));
 				GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(temp);
+				CSoundController::GetInstance()->PlaySoundByID(72);
 			}
 		}
 		break;
@@ -92,11 +91,11 @@ void Archbishop::Update(double dt, float m_speed)
 			vel = (Player::GetInstance()->pos - this->pos).Normalized() * 0.1f;
 			pos += vel *Default_Speed*0.5;
 			stateCounter++;
-			firstform->PlayAnimation("Moving", -1, 3.f);
+			if (stateCounter % 150 == 0)
+				CSoundController::GetInstance()->PlaySoundByID(69);
 		}
 		else 
 		{
-			firstform->PlayAnimation("Idle", -1, 3.f);
 			current_state = IDLE;
 			stateCounter = 0;
 			vel = Vector3(0, 0, 0);
@@ -113,13 +112,16 @@ void Archbishop::Update(double dt, float m_speed)
 		rotation -= 360.f * dt * m_speed;
 		vel = (Player::GetInstance()->pos - this->pos).Normalized();
 		pos += vel * dt * m_speed * Default_Speed;
+		stateCounter++; 
+		if (stateCounter % 75 == 0)
+			CSoundController::GetInstance()->PlaySoundByID(69);
 		if (rotation <= -3600)
 		{
-			firstform->PlayAnimation("Idle", -1, 3.f);
-			if (Math::RandIntMinMax(0, 1) == 1)
+			if (Math::RandIntMinMax(0,4) == 3)
 			{
 				current_state = DISARM_PLAYER;
 				rotation = 0;
+				stateCounter = 0;
 			}
 			else
 			{
@@ -131,9 +133,11 @@ void Archbishop::Update(double dt, float m_speed)
 		break;
 	case FLEE:
 		pos.y += 10;
-		firstform->PlayAnimation("Idle", -1, 3.f);
 		if (GameLevelManager::GetInstance()->getcurrentLevel()->CheckWithinScreen(this) == false)
+		{
 			this->active = false;
+			CSoundController::GetInstance()->PlaySoundByID(70);
+		}
 		break;
 	}
 	firstform->Update(dt);
@@ -145,6 +149,7 @@ void Archbishop::Response(GameObject* go)
 	{
 		takeDamage(go->damage);
 		go->active = false;
+		CSoundController::GetInstance()->PlaySoundByID(71);
 	}
 	if (health <= 0)
 		dead();

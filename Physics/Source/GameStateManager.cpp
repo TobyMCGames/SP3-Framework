@@ -72,7 +72,11 @@ GameStateManager::GameStateManager()
 
 	// spider forest BGM
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\spider_forest.ogg", 30, true, true);
-
+	// Arch Bishop
+	cSoundController->LoadSound("Sounds\\Sounds_ArchBishop\\Bishop_Charging_Sound.wav", 69, true);
+	cSoundController->LoadSound("Sounds\\Sounds_ArchBishop\\Bishop_death.wav", 70, true);
+	cSoundController->LoadSound("Sounds\\Sounds_ArchBishop\\Bishop_Hurt.wav", 71, true);
+	cSoundController->LoadSound("Sounds\\Sounds_ArchBishop\\Bishop_Energyball.wav", 72, true);
 	// DemonLord
 	cSoundController->LoadSound("Sounds\\Sounds_DemonLord\\DemonLord_Hurt.wav", 40, true);
 }

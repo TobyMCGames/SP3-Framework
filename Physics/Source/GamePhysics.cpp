@@ -146,10 +146,11 @@ bool GamePhysics::CheckCollision(GameObject* go1, GameObject* go2, double dt, fl
 	else if ((go1->type > GameObject::PROJECTILE_START && go1->type < GameObject::PROJECTILE_END) &&
 		(go2->type > GameObject::PASSIVE_TILE_START && go2->type < GameObject::PASSIVE_TILE_END))
 		{
-			if (go1->type == GameObject::GO_BOMB)
+			if (go1->type == GameObject::GO_BOMB || go1->type == GameObject::GO_ARCH_BALL)
 			{
 				return AABB(go1, go2);
 			}
+
 			return CheckCorner(go1,go2, dt*m_speed);
 		}
 	else if ((go1->type == GameObject::GO_PLAYER || go1->type == GameObject::GO_PLAYERCLONE) &&

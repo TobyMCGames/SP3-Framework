@@ -8,7 +8,7 @@
 ArchBishopBall::ArchBishopBall()
 {
 	Default_Speed = 40.f;
-	damage = 5;
+	damage = 2.5;
 }
 
 ArchBishopBall::~ArchBishopBall()
@@ -23,10 +23,8 @@ void ArchBishopBall::Update(double dt,float m_speed)
 
 void ArchBishopBall::Response(GameObject* go)
 {
-	if (go->type > GameObject::PASSIVE_TILE_START && go->type < GameObject::PASSIVE_TILE_END)
-		this->active = false;
-}
 
+}
 void ArchBishopBall::Render()
 {
 	
