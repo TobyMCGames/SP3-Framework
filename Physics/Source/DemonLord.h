@@ -22,7 +22,13 @@ protected:
 	float portalSpinTime;
 	Vector3 portalScale;
 
+	Vector3 Shield1Direction;
+
 	float FSMcounter;
+	float ChangeTimeCounter;
+
+	int Phase;
+	float MaxHealth;
 public:
 	DemonLord();
 	~DemonLord();

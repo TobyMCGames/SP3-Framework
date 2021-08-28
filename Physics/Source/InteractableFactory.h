@@ -19,6 +19,7 @@ public:
 		PTYPE_HEALTHPOTION,
 		PTYPE_VINE_SEEDS,
 		PTYPE_BOMB_CRATE,
+		PTYPE_KEY,
 		NUM_PROJECTILES,
 	};
 	Interactables* produceInteractable(INTERACTABLES_TYPES InteractableType, Vector3 pos, Vector3 scale, Vector3 normal = Vector3(1,0,0));

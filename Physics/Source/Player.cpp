@@ -73,9 +73,8 @@ void Player::Update(double dt, float m_speed)
 		}
 		if (playerclone != nullptr)
 		{
-			GameLevelManager::GetInstance()->getcurrentLevel()->setcloneDeleted(true);
-			GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(false);
-			MeshRender::GetInstance()->GetCamera()->setpanTarget(this);
+			playerclone->active = false;
+			playerclone = nullptr;
 			controlled = true;
 		}
 	}
@@ -153,20 +152,22 @@ void Player::Update(double dt, float m_speed)
 	//////Create Clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
-		if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == false && mana - 2 * dt * m_speed > 0) // summon the clone
+		if (playerclone == nullptr) // summon the clone
 		{
-			if (curLocation != Entity::IN_AIR)
+			if (mana - 2 * dt * m_speed > 0)
 			{
-				InitClone();
-				GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(true);
+				if (curLocation != Entity::IN_AIR)
+				{
+					InitClone();
+				}
 			}
 		}
-		else if (GameLevelManager::GetInstance()->getcurrentLevel()->getcloned() == true) // despawn the clone
+		else  // despawn the clone
 		{
 			if ((curLocation != Entity::IN_AIR) && (getClone()->getCurLocation() != Entity::IN_AIR))
 			{
-				GameLevelManager::GetInstance()->getcurrentLevel()->setcloneDeleted(true);
-				GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(false);
+				playerclone->active = false;
+				playerclone = nullptr;
 				controlled = true;
 			}
 		}
@@ -187,8 +188,6 @@ void Player::Update(double dt, float m_speed)
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT) && this->timetraveled <= 0)
 	{
 		ChangeTimeline();
-		this->timetraveled = 0.3f;
-		CSoundController::GetInstance()->PlaySoundByID(23);
 		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
 	}
 	if (timetraveled > 0)
@@ -486,6 +485,10 @@ void Player::Reset()
 	if (playerclone != nullptr)
 		playerclone = nullptr;
 	curWeapon = BARE_HANDS;
+	for (int i = 0; i < NUM_ITEMS; i++)
+	{
+		Inventory[i] = 0;
+	}
 	curItem = 0;
 	scrollsnap = 0;
 	cloneinited = false;
@@ -592,11 +595,18 @@ void Player::Response(GameObject* go)
 				go->active = false;
 			}
 			break;
+		case GO_KEY:
+			Inventory[LOCK_KEY]++;
+			go->active = false;
+			cKeyboardController->ResetKey(GLFW_KEY_E);
+			break;
 		case WARP_GATE:
 			isCompleted = true;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case SOIL_TILE:
+			if (Inventory[TREE_SEED] <= 0)
+				break;
 			if (curItem == TREE_SEED)
 			{
 				bool HasTree = false;
@@ -643,8 +653,14 @@ void Player::Response(GameObject* go)
 			CSoundController::GetInstance()->PlaySoundByID(29);
 			go->active = false;
 		}
-
 	}
+	
+	if (go->type == GameObject::LAVA_TILE)
+	{
+		takeDamage(go->damage);
+		return;
+	}
+
 
 	if (go->type == GameObject::PORTAL_GATE_ENTRANCE)
 	{
@@ -726,6 +742,8 @@ void Player::ChangeTimeline()
 	GameLevelBase* level = GameLevelManager::GetInstance()->getcurrentLevel();
 	level->ChangeTimelineBlocks(InFuture);
 	InFuture = !InFuture;
+	this->timetraveled = 0.3f;
+	CSoundController::GetInstance()->PlaySoundByID(23);
 }
 
 bool Player::IsInDialogue()

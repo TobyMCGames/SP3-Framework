@@ -9,10 +9,12 @@ DemonLord::DemonLord()
 	: Floating(NULL)
 	, portalSpinTime(0)
 	, portalScale(0, 0, 1)
+	, Shield1Direction(1,0,0)
 	, FSMcounter(0)
+	, Phase(1)
+	, MaxHealth(3500)
 {
-	health = 3500;
-	//health = 300;
+	health = MaxHealth;
 	curFSM = ARRIVAL;
 	portalSpinTime = 6.f;
 
@@ -63,8 +65,8 @@ void DemonLord::Update(double dt,float m_speed)
 		}
 		else
 		{
-			FSMcounter = 2.f;
-			Charging->PlayAnimation("Charging", 1, 2.f);
+			FSMcounter = 0.8f;
+			Charging->PlayAnimation("Charging", 1, 0.8f);
 			Charging->Reset();
 			curFSM = ATTACK_DEMONBALL;
 		}
@@ -108,13 +110,41 @@ void DemonLord::Update(double dt,float m_speed)
 		break;
 	}
 
-	if (health <= 0 && curFSM != RETREAT)
+	switch (Phase)
 	{
-		if (portalSpinTime <= 0)
+	case 1:
+		if (health < MaxHealth * 2 / 3)
 		{
-			portalSpinTime = 6.f;
-			curFSM = RETREAT;
+			Phase = 2;
 		}
+		break;
+	case 2:
+		Shield1Direction = (Player::GetInstance()->pos - pos).Normalized();
+		if (health < MaxHealth * 1 / 3)
+		{
+			Phase = 3;
+		}
+		break;
+	case 3:
+		Shield1Direction = (Player::GetInstance()->pos - pos).Normalized();
+		if (ChangeTimeCounter <= 0)
+		{
+			Player::GetInstance()->ChangeTimeline();
+			ChangeTimeCounter = Math::RandFloatMinMax(1, 5);
+		}
+		else
+		{
+			ChangeTimeCounter -= dt;
+		}
+		if (health <= 0 && curFSM != RETREAT)
+		{
+			if (portalSpinTime <= 0)
+			{
+				portalSpinTime = 6.f;
+				curFSM = RETREAT;
+			}
+		}
+		break;
 	}
 	Floating->Update(dt);
 	return;
@@ -129,7 +159,21 @@ void DemonLord::Response(GameObject* go)
 		{
 		case GO_ARROW:
 		case GO_MAGICBALL:
-			if ((go->pos - pos).LengthSquared() <= (scale.y / 3) * (scale.y / 3))
+			if (Phase > 1)
+			{
+				Vector3 ToProj = go->pos - pos;
+				float angle = acosf(Shield1Direction.Dot(ToProj) / (Shield1Direction.Length() * ToProj.Length()));
+				if (Math::RadianToDegree(angle) < 145)
+				{
+					if ((go->pos - pos).Length() <= (scale.y / 2))
+					{
+						cout << "Shield hit" << endl;
+						go->active = false;
+						break;
+					}
+				}
+			}
+			if ((go->pos - pos).Length() <= scale.y / 3)
 			{
 				go->active = false;
 				takeDamage(go->damage);
@@ -220,6 +264,19 @@ void DemonLord::Render()
 			modelStack->PopMatrix();
 		}
 		break;
+	}
+
+	if (Phase > 1 && curFSM != ARRIVAL && curFSM != RETREAT)
+	{
+		modelStack->PushMatrix();
+		{
+			modelStack->Rotate(Math::RadianToDegree(atan2f(Shield1Direction.y, Shield1Direction.x)), 0, 0, 1);
+			modelStack->Translate(0, 0, 0.0001);
+			modelStack->Scale(1.2, 1.2, 1);
+			modelStack->Scale(0.84, 0.99, 1);
+			MeshRender::GetInstance()->RenderMesh(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_DEMONSHIELD), false);
+		}
+		modelStack->PopMatrix();
 	}
 }
 

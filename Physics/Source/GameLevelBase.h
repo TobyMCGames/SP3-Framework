@@ -28,7 +28,6 @@ protected:
 	vector<Text> TextList; // dialogue;
 
 	Player* player;
-	bool cloned;
 	bool clonedeleted;
 	bool playerincontrol;
 	float m_worldWidth;
@@ -46,8 +45,6 @@ public:
 	void RenderPlayerClone();
 	void mapinitPlayer(Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal);
 	void initDialogueText(std::string DialogueKey,Vector3 position);
-	bool getcloned();
-	void setcloned(bool cloned);
 	void setcloneDeleted(bool clonedeleted);
 	void swapcontrols();
 	void entityPush(Entity* entity);
@@ -60,12 +57,10 @@ public:
 	void cleanupLists(bool clearAll,std::vector<AdvanceGO*>* advobjlist = nullptr , std::vector<GameObject*>* golist = nullptr);
 	bool CheckWithinScreen(GameObject* go);
 	void CollisionChecks(double dt, float m_speed);
-
 	GameObject* ChangeMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject* toChange);
 	void ChangeAllMapObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange);
 	void ChangeIntObject(GameObject::GAMEOBJECT_TYPE Changeto, AdvanceGO* toChange);
 	void ChangeAllIntObject(GameObject::GAMEOBJECT_TYPE Changeto, GameObject::GAMEOBJECT_TYPE toChange);
-
 	void ChangeTimelineBlocks(bool revert);
 
 

@@ -42,6 +42,9 @@ Interactables* InteractableFactory::produceInteractable(INTERACTABLES_TYPES Inte
 	case PTYPE_WARP_GATE:
 		newInteractable = new PortalGate(GameObject::WARP_GATE);
 		break;
+	case PTYPE_KEY:
+		newInteractable = new key(GameObject::GO_KEY);
+		break;
 	}
 	if (newInteractable != nullptr)
 	{

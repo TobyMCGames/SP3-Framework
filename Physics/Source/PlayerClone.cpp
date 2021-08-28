@@ -141,11 +141,11 @@ void PlayerClone::Update(double dt, float m_speed)
 
 	cKeyboardController = CKeyboardController::GetInstance();
 	static bool bLButtonState = false;
-	if (!bLButtonState && Application::IsMousePressed(0))
+	if (!bLButtonState && Application::IsMousePressed(1))
 	{
 		bLButtonState = true;
 	}
-	else if (bLButtonState && !Application::IsMousePressed(0))
+	else if (bLButtonState && !Application::IsMousePressed(1))
 	{
 
 		bLButtonState = false;
@@ -230,7 +230,7 @@ void PlayerClone::Update(double dt, float m_speed)
 			CloneAnimation->PlayAnimation("Idle", -1, 1);
 			if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) || cKeyboardController->IsKeyPressed(GLFW_KEY_D))
 			{
-				CloneAnimation->Reset();
+				//CloneAnimation->Reset();
 				CloneAnimation->PlayAnimation("Walking", -1, 1.5);
 			}
 		}
@@ -366,6 +366,7 @@ void PlayerClone::Update(double dt, float m_speed)
 	{
 		dead();
 	}
+	CloneAnimation->Update(dt);
 }
 
 void PlayerClone::Response(GameObject* go)
@@ -396,7 +397,6 @@ void PlayerClone::Response(GameObject* go)
 	{
 		this->active = false;
 		GameLevelManager::GetInstance()->getcurrentLevel()->setcloneDeleted(true);
-		GameLevelManager::GetInstance()->getcurrentLevel()->setcloned(false);
 		GameLevelManager::GetInstance()->getcurrentLevel()->swapcontrols();
 		Player::GetInstance()->setControl(true);
 	}

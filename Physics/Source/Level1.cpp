@@ -94,22 +94,22 @@ bool Level1::Update(double dt)
 	SceneBase::Update(dt);
 	if (player->isControl() == true)
 	{
-		if (camera->getPanningMode() == false)
-			camera->Update(dt);
-		else
-			camera->panToTarget(dt, m_speed);
+		camera->setpanTarget(player);
 	}
-	
 	else if (player->getClone()->isControl() == true)
 	{
-		if (camera->getPanningMode() == false)
-			camera->Update(dt);
-		else
-			camera->panToTarget(dt,m_speed);
+		camera->setpanTarget(player->getClone());
 	}
+
+	if (camera->getPanningMode() == false)
+		camera->Update(dt);
+	else
+		camera->panToTarget(dt, m_speed);
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
+		if (projectileList[i] == NULL)
+			continue;
  		if (projectileList[i]->active == false)
 			continue;
 		AdvanceGO* curProjectile = projectileList[i];
@@ -150,7 +150,6 @@ bool Level1::Update(double dt)
 				delete EntityList[i];
 				EntityList[i] = nullptr;
 				player->resetClone();
-				setcloned(false);
 				clonedeleted = false;
 			}
 		}
@@ -252,7 +251,6 @@ bool Level1::Update(double dt)
 	}
 	return true;
 }
-
 
 void Level1::Render()
 {

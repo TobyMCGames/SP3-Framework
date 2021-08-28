@@ -28,6 +28,8 @@ void LevelFinal::Init()
 	Math::InitRNG();
 	UpdateLevel();
 	//camera->setDebugMode();
+
+	CSoundController::GetInstance()->PlaySoundByID(18);
 }
 
 GameObject* LevelFinal::FetchGO()
@@ -87,22 +89,22 @@ bool LevelFinal::Update(double dt)
 	SceneBase::Update(dt);
 	if (player->isControl() == true)
 	{
-		if (camera->getPanningMode() == false)
-			camera->Update(dt);
-		else
-			camera->panToTarget(dt, m_speed);
+		camera->setpanTarget(player);
 	}
-	
 	else if (player->getClone()->isControl() == true)
 	{
-		if (camera->getPanningMode() == false)
-			camera->Update(dt);
-		else
-			camera->panToTarget(dt,m_speed);
+		camera->setpanTarget(player->getClone());
 	}
+
+	if (camera->getPanningMode() == false)
+		camera->Update(dt);
+	else
+		camera->panToTarget(dt,m_speed);
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
+		if (projectileList[i] == NULL)
+			continue;
  		if (projectileList[i]->active == false)
 			continue;
 		AdvanceGO* curProjectile = projectileList[i];
@@ -143,7 +145,6 @@ bool LevelFinal::Update(double dt)
 				delete EntityList[i];
 				EntityList[i] = nullptr;
 				player->resetClone();
-				setcloned(false);
 				clonedeleted = false;
 			}
 		}
@@ -310,7 +311,7 @@ void LevelFinal::Render()
 			RenderGO(go);
 			if (go->type == GameObject::GO_DEMONLORD)
 			{
-				float scaleX = 32 * go->health / 3500;
+				float scaleX = 32 * go->health / 3500.f;
 				if (scaleX < 0)
 					scaleX = 0;
 				meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_QUAD), 40, 56, scaleX, 4);
