@@ -28,6 +28,8 @@ void LevelFinal::Init()
 	Math::InitRNG();
 	UpdateLevel();
 	//camera->setDebugMode();
+
+	CSoundController::GetInstance()->PlaySoundByID(18);
 }
 
 GameObject* LevelFinal::FetchGO()
@@ -103,6 +105,8 @@ bool LevelFinal::Update(double dt)
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
+		if (projectileList[i] == NULL)
+			continue;
  		if (projectileList[i]->active == false)
 			continue;
 		AdvanceGO* curProjectile = projectileList[i];

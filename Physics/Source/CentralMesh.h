@@ -103,6 +103,7 @@ public:
 		GEO_PORTAL,
 		GEO_DEMONBALL_CHARGE,
 		GEO_DEMONBALL,
+		GEO_DEMONSHIELD,
 
 		//enemy projectiles
 		GEO_TURRETBULLET,

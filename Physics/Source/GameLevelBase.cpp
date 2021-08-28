@@ -991,6 +991,12 @@ GameObject* GameLevelBase::ChangeMapObject(GameObject::GAMEOBJECT_TYPE Changeto,
 	case GameObject::GRASS_SOIL_TILE:
 		temp = tileFactory->ProduceTile(TileFactory::GRASS_SOIL, toChange->pos, scale, vel);
 		break;
+	case GameObject::LAVA_TILE:
+		temp = tileFactory->ProduceTile(TileFactory::LAVA_TILE, toChange->pos, scale, vel);
+		break;
+	case GameObject::GO_COBBLESTONE:
+		temp = tileFactory->ProduceTile(TileFactory::COBBLESTONE, toChange->pos, scale, vel);
+		break;
 	default:
 		temp = nullptr;
 	}
@@ -1052,6 +1058,12 @@ void GameLevelBase::ChangeTimelineBlocks(bool revert)
 				break;
 			case GameObject::GRASS_SOIL_TILE:
 				temp = ChangeMapObject(GameObject::SOIL_TILE, temp);
+				break;
+			case GameObject::LAVA_TILE:
+				temp = ChangeMapObject(GameObject::GO_COBBLESTONE, temp);
+				break;
+			case GameObject::GO_COBBLESTONE:
+				temp = ChangeMapObject(GameObject::LAVA_TILE, temp);
 				break;
 			case GameObject::FRAGILE_CAVE_TILE:
 				if (temp->pos == temp->OGpos && revertTile == false)
