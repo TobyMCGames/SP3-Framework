@@ -10,7 +10,8 @@
 
 Level3::Level3()
 {
-	std::cout << "Initialising Level3" << std::endl;
+	//CSoundController::GetInstance()->StopSounds();
+	//CSoundController::GetInstance()->PlaySoundByID(30);
 }
 
 Level3::~Level3()

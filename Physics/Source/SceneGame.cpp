@@ -39,7 +39,7 @@ void SceneGame::Init()
 	GameLevelManager::GetInstance()->AddGameLevel("Level4", Level4::GetInstance());
 	GameLevelManager::GetInstance()->AddGameLevel("LevelFinal", LevelFinal::GetInstance());
 	// Set Active Game Level
-	GameLevelManager::GetInstance()->SetActiveGameLevel("LevelFinal");
+	GameLevelManager::GetInstance()->SetActiveGameLevel("Level1");
 
 	Application::changeCursor(true);
 	ispaused = false;

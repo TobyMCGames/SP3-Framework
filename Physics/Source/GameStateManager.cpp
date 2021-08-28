@@ -36,6 +36,8 @@ GameStateManager::GameStateManager()
 	//BGM
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Title_Theme.wav", 17, true, true);
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_1.wav", 18, true, true);
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_3.wav", 30, true, true);
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_4.wav", 31, true, true);
 
 	// player slow motion sounds
 	cSoundController->LoadSound("Sounds\\Sounds_Player\\Slow_Motion_Start.wav", 19, true);

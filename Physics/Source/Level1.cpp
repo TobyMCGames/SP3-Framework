@@ -11,11 +11,13 @@
 
 Level1::Level1()
 {
-	std::cout << "Initialising SceneCollision" << std::endl;
+	//CSoundController::GetInstance()->StopSounds();
+	//CSoundController::GetInstance()->PlaySoundByID(18);
 }
 
 Level1::~Level1()
 {
+	CSoundController::GetInstance()->StopSounds();
 }
 
 void Level1::Init()

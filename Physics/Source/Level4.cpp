@@ -11,7 +11,8 @@
 
 Level4::Level4()
 {
-	std::cout << "Initialising SceneCollision" << std::endl;
+	//CSoundController::GetInstance()->StopSounds();
+	//CSoundController::GetInstance()->PlaySoundByID(31);
 }
 
 Level4::~Level4()
