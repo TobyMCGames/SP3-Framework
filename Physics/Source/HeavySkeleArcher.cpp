@@ -7,7 +7,7 @@ HeavySkeletonArcher::HeavySkeletonArcher()
 	:currState(BEHAVIOUR::IDLE),
 	HeavySkeletonAnimation(NULL)
 {
-	health = 70;
+	health = 100;
 	damage = 15;
 	Default_Speed = 7;
 	StateCounter = 0;
@@ -167,6 +167,19 @@ void HeavySkeletonArcher::Response(GameObject* go)
 		}
 	}
 }
+
+//void HeavySkeletonArcher::CheckDistance(GameObject* go1, double dt, float m_speed)
+//{
+//	if (GamePhysics::GetInstance()->DistanceCheck(pos, go1->pos, 30) == true)
+//	{
+//		CheckDistanceResponse(dt, m_speed);
+//	}
+//}
+//
+//void HeavySkeletonArcher::CheckDistanceResponse(double dt, float m_speed)
+//{
+//
+//}
 
 void HeavySkeletonArcher::Render()
 {

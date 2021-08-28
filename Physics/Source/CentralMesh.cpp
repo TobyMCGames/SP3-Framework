@@ -175,8 +175,10 @@ CentralMesh::CentralMesh()
 	meshList[GEO_HEALTHPOTION]->textureID = LoadTGA("Image//InteractiveBlocks//Health_Potion.tga");
 
 	// Enemy
-	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateSpriteAnimation("Zombie", Color(1, 1, 1), 2, 4 ,1.f);
-	meshList[GEO_ZOMBIE]->textureID = LoadTGA("Image//Enemy//ZombieAnimation.tga");
+	meshList[GEO_ZOMBIE] = MeshBuilder::GenerateSpriteAnimation("Zombie", Color(1, 1, 1), 5, 8 ,1.f);
+	meshList[GEO_ZOMBIE]->textureID = LoadTGA("Image//Enemy//ZombieAnimation2.tga");
+	meshList[GEO_SLOWZOMBIE] = MeshBuilder::GenerateSpriteAnimation("Zombie", Color(1, 1, 1), 2, 4, 1.f);
+	meshList[GEO_SLOWZOMBIE]->textureID = LoadTGA("Image//Enemy//ZombieAnimation.tga");
 	meshList[GEO_SKELETONARCHER] = MeshBuilder::GenerateSpriteAnimation("skeleton archer", Color(1, 1, 1), 2 , 3 ,1.f);
 	meshList[GEO_SKELETONARCHER]->textureID = LoadTGA("Image//Enemy//SkeletonAnimation2.tga");
 	meshList[GEO_HEAVYSKELEARCHER] = MeshBuilder::GenerateSpriteAnimation("heavy skeleton archer", Color(1, 1, 1), 2, 3, 1.f);

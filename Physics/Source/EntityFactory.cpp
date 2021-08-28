@@ -8,7 +8,10 @@ Entity* EntityFactory::produceEntity(EntityTypes entityType, Vector3 pos, Vector
 	case ZOMBIE:
 		newEntity = new Zombie();
 		newEntity->type = GameObject::GO_ZOMBIE;
-		
+		break;
+	case SLOWZOMBIE:
+		newEntity = new SLowZombie();
+		newEntity->type = GameObject::GO_SLOWZOMBIE;
 		break;
 	case SKELE_ARCHER:
 		newEntity = new SkeletonArcher();

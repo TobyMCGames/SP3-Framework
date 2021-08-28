@@ -21,6 +21,7 @@ struct GameObject
 		GO_PLAYERCLONE,
 		GO_SKELEARCHER,
 		GO_HEAVYSKELEARCHER,
+		GO_SLOWZOMBIE,
 		GO_ZOMBIE,
 		GO_TURRET,
 		GO_SPIDER,
@@ -96,6 +97,7 @@ struct GameObject
 	float hp;
 	bool active;
 	float mass;
+	//float detectionRange;
 	GameObject* target;
 
 	Vector3 dir; //direction/orientation
@@ -112,6 +114,7 @@ struct GameObject
 	Vector3 OGpos;
 
 	virtual void Response(GameObject* go) = 0;
+	//virtual void DistanceResponse(GameObject* go) = 0;
 	virtual void Render() = 0;
 	//virtual void timeTravel() = 0;
 	

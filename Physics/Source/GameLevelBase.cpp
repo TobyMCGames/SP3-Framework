@@ -385,6 +385,10 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::ZOMBIE, pos,vel,scale);
 				}
+				else if (key == "SZ") // zombie
+				{
+					tempEntity = entityFactory->produceEntity(EntityFactory::SLOWZOMBIE, pos, vel, scale);
+				}
 				else if (key == "SA") // skelearcher
 				{
 					tempEntity = entityFactory->produceEntity(EntityFactory::SKELE_ARCHER, pos, vel,scale);
@@ -793,8 +797,11 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 					//cout << "Collided" << endl;
 					break;
 				}
+
 			}
 		}
+
+		
 
 		///////  Only player or clone  can collide with
 		if (mob1->type != GameObject::GO_PLAYER && mob1->type != GameObject::GO_PLAYERCLONE)
@@ -830,6 +837,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 			}
 		}
 	}
+
 
 	//std::vector<int> cleanUpVector;
 	for (int j = 0; j < projectileList.size(); j++)
