@@ -73,7 +73,8 @@ void Player::Update(double dt, float m_speed)
 		}
 		if (playerclone != nullptr)
 		{
-			MeshRender::GetInstance()->GetCamera()->setpanTarget(this);
+			playerclone->active = false;
+			playerclone = nullptr;
 			controlled = true;
 		}
 	}
@@ -151,11 +152,14 @@ void Player::Update(double dt, float m_speed)
 	//////Create Clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
-		if (playerclone == nullptr && mana - 2 * dt * m_speed > 0) // summon the clone
+		if (playerclone == nullptr) // summon the clone
 		{
-			if (curLocation != Entity::IN_AIR)
+			if (mana - 2 * dt * m_speed > 0)
 			{
-				InitClone();
+				if (curLocation != Entity::IN_AIR)
+				{
+					InitClone();
+				}
 			}
 		}
 		else  // despawn the clone
@@ -184,8 +188,6 @@ void Player::Update(double dt, float m_speed)
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT) && this->timetraveled <= 0)
 	{
 		ChangeTimeline();
-		this->timetraveled = 0.3f;
-		CSoundController::GetInstance()->PlaySoundByID(23);
 		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
 	}
 	if (timetraveled > 0)
@@ -602,6 +604,8 @@ void Player::Response(GameObject* go)
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case SOIL_TILE:
+			if (Inventory[TREE_SEED] <= 0)
+				break;
 			if (curItem == TREE_SEED)
 			{
 				bool HasTree = false;
@@ -737,6 +741,8 @@ void Player::ChangeTimeline()
 	GameLevelBase* level = GameLevelManager::GetInstance()->getcurrentLevel();
 	level->ChangeTimelineBlocks(InFuture);
 	InFuture = !InFuture;
+	this->timetraveled = 0.3f;
+	CSoundController::GetInstance()->PlaySoundByID(23);
 }
 
 bool Player::IsInDialogue()

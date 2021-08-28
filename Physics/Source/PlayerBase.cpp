@@ -19,8 +19,6 @@ void PlayerBase::Response(GameObject* go)
 
 void PlayerBase::dead()
 {
-	//this->active = false;
-	std::cout << "you dieded" << std::endl;
 }
 
 int PlayerBase::getScrollSensitivity()

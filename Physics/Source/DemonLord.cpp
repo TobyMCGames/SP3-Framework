@@ -11,7 +11,7 @@ DemonLord::DemonLord()
 	, portalScale(0, 0, 1)
 	, Shield1Direction(1,0,0)
 	, FSMcounter(0)
-	, Phase(2)
+	, Phase(1)
 	, MaxHealth(3500)
 {
 	health = MaxHealth;
@@ -127,6 +127,15 @@ void DemonLord::Update(double dt,float m_speed)
 		break;
 	case 3:
 		Shield1Direction = (Player::GetInstance()->pos - pos).Normalized();
+		if (ChangeTimeCounter <= 0)
+		{
+			Player::GetInstance()->ChangeTimeline();
+			ChangeTimeCounter = Math::RandFloatMinMax(1, 5);
+		}
+		else
+		{
+			ChangeTimeCounter -= dt;
+		}
 		if (health <= 0 && curFSM != RETREAT)
 		{
 			if (portalSpinTime <= 0)
