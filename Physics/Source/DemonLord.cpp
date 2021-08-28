@@ -65,8 +65,8 @@ void DemonLord::Update(double dt,float m_speed)
 		}
 		else
 		{
-			FSMcounter = 1.2f;
-			Charging->PlayAnimation("Charging", 1, 1.2f);
+			FSMcounter = 0.8f;
+			Charging->PlayAnimation("Charging", 1, 0.8f);
 			Charging->Reset();
 			curFSM = ATTACK_DEMONBALL;
 		}
@@ -150,7 +150,21 @@ void DemonLord::Response(GameObject* go)
 		{
 		case GO_ARROW:
 		case GO_MAGICBALL:
-			if ((go->pos - pos).LengthSquared() <= (scale.y / 3) * (scale.y / 3))
+			if (Phase > 1)
+			{
+				Vector3 ToProj = go->pos - pos;
+				float angle = acosf(Shield1Direction.Dot(ToProj) / (Shield1Direction.Length() * ToProj.Length()));
+				if (Math::RadianToDegree(angle) < 145)
+				{
+					if ((go->pos - pos).Length() <= (scale.y / 2))
+					{
+						cout << "Shield hit" << endl;
+						go->active = false;
+						break;
+					}
+				}
+			}
+			if ((go->pos - pos).Length() <= scale.y / 3)
 			{
 				go->active = false;
 				takeDamage(go->damage);
@@ -248,8 +262,9 @@ void DemonLord::Render()
 		modelStack->PushMatrix();
 		{
 			modelStack->Rotate(Math::RadianToDegree(atan2f(Shield1Direction.y, Shield1Direction.x)), 0, 0, 1);
-			modelStack->Translate(0.35, 0, 0.0001);
-			modelStack->Scale(0.15, 0.6, 1);
+			modelStack->Translate(0, 0, 0.0001);
+			modelStack->Scale(1.2, 1.2, 1);
+			modelStack->Scale(0.84, 0.99, 1);
 			MeshRender::GetInstance()->RenderMesh(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_DEMONSHIELD), false);
 		}
 		modelStack->PopMatrix();
