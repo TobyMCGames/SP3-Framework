@@ -9,10 +9,12 @@ DemonLord::DemonLord()
 	: Floating(NULL)
 	, portalSpinTime(0)
 	, portalScale(0, 0, 1)
+	, Shield1Direction(1,0,0)
 	, FSMcounter(0)
+	, Phase(2)
+	, MaxHealth(3500)
 {
-	health = 3500;
-	//health = 300;
+	health = MaxHealth;
 	curFSM = ARRIVAL;
 	portalSpinTime = 6.f;
 
@@ -63,8 +65,8 @@ void DemonLord::Update(double dt,float m_speed)
 		}
 		else
 		{
-			FSMcounter = 2.f;
-			Charging->PlayAnimation("Charging", 1, 2.f);
+			FSMcounter = 1.2f;
+			Charging->PlayAnimation("Charging", 1, 1.2f);
 			Charging->Reset();
 			curFSM = ATTACK_DEMONBALL;
 		}
@@ -108,13 +110,32 @@ void DemonLord::Update(double dt,float m_speed)
 		break;
 	}
 
-	if (health <= 0 && curFSM != RETREAT)
+	switch (Phase)
 	{
-		if (portalSpinTime <= 0)
+	case 1:
+		if (health < MaxHealth * 2 / 3)
 		{
-			portalSpinTime = 6.f;
-			curFSM = RETREAT;
+			Phase = 2;
 		}
+		break;
+	case 2:
+		Shield1Direction = (Player::GetInstance()->pos - pos).Normalized();
+		if (health < MaxHealth * 1 / 3)
+		{
+			Phase = 3;
+		}
+		break;
+	case 3:
+		Shield1Direction = (Player::GetInstance()->pos - pos).Normalized();
+		if (health <= 0 && curFSM != RETREAT)
+		{
+			if (portalSpinTime <= 0)
+			{
+				portalSpinTime = 6.f;
+				curFSM = RETREAT;
+			}
+		}
+		break;
 	}
 	Floating->Update(dt);
 	return;
@@ -220,6 +241,18 @@ void DemonLord::Render()
 			modelStack->PopMatrix();
 		}
 		break;
+	}
+
+	if (Phase > 1 && curFSM != ARRIVAL && curFSM != RETREAT)
+	{
+		modelStack->PushMatrix();
+		{
+			modelStack->Rotate(Math::RadianToDegree(atan2f(Shield1Direction.y, Shield1Direction.x)), 0, 0, 1);
+			modelStack->Translate(0.35, 0, 0.0001);
+			modelStack->Scale(0.15, 0.6, 1);
+			MeshRender::GetInstance()->RenderMesh(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_DEMONSHIELD), false);
+		}
+		modelStack->PopMatrix();
 	}
 }
 
