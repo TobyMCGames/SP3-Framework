@@ -77,6 +77,7 @@ bool SceneGUI::Update(double dt)
 			}
 			else if (MouseState && !Application::IsMousePressed(0))
 			{
+				CSoundController::GetInstance()->PlaySoundByID(21);
 				MouseState = false;
 				SceneGame::GetInstance()->setisPaused(false);
 				RenderPause = false;
