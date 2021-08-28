@@ -363,6 +363,16 @@ void SceneBase::RenderGO(GameObject* go)
 		go->Render();
 		modelStack->PopMatrix();
 		break;
+	case GameObject::GO_NYMPH:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		if (go->vel.x < 0)
+			modelStack->Rotate(180, 0, 1, 0);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		//meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_NYMPH), false);
+		go->Render();
+		modelStack->PopMatrix();
+		break;
 	case GameObject::GO_SKELEARCHER:
 		modelStack->PushMatrix();
 		{

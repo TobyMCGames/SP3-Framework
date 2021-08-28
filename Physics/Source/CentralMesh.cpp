@@ -183,8 +183,10 @@ CentralMesh::CentralMesh()
 	meshList[GEO_HEAVYSKELEARCHER]->textureID = LoadTGA("Image//Enemy//HeavySkeleArcherAnimation.tga");
 	meshList[GEO_SPIDER] = MeshBuilder::GenerateSpriteAnimation("Spider", Color(1, 1, 1), 3, 6,1.f);
 	meshList[GEO_SPIDER]->textureID = LoadTGA("Image//Enemy//SpiderAnimation.tga");
-	meshList[GEO_NYMPH] = MeshBuilder::GenerateQuad("Nymph", Color(1, 1, 1));
-	meshList[GEO_NYMPH]->textureID = LoadTGA("Image//Enemy//nymph.tga");
+	meshList[GEO_NYMPH] = MeshBuilder::GenerateSpriteAnimation("Nymph", Color(1, 1, 1), 3, 8, 1.f);
+	meshList[GEO_NYMPH]->textureID = LoadTGA("Image//Enemy//NymphAnimation.tga");
+	//meshList[GEO_NYMPH] = MeshBuilder::GenerateQuad("Nymph", Color(1, 1, 1));
+	//meshList[GEO_NYMPH]->textureID = LoadTGA("Image//Enemy//nymph.tga");
 	meshList[GEO_TURRET] = MeshBuilder::GenerateSpriteAnimation("turret", Color(1, 1, 1), 2, 3,1.f);
 	meshList[GEO_TURRET]->textureID = LoadTGA("Image//Enemy//TurretAnimation.tga");
 	meshList[GEO_BOOMER] = MeshBuilder::GenerateSpriteAnimation("boomer", Color(1, 1, 1), 5, 6, 1.f);
