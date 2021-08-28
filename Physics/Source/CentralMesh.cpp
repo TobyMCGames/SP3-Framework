@@ -241,8 +241,6 @@ CentralMesh::CentralMesh()
 	meshList[GO_BACKGROUND_DARK_FOREST_MISTY]->textureID = LoadTGA("Image//BACKGROUND//Dark_Forest_Background_Misty.tga");
 	meshList[GO_BACKGROUND_DARK_FOREST] = MeshBuilder::GenerateQuad("dark forest 1", Color(1, 1, 1));
 	meshList[GO_BACKGROUND_DARK_FOREST]->textureID = LoadTGA("Image//BACKGROUND//Level_4//Dark_forest_BG1.tga");
-
-
 	meshList[GO_BACKGROUND_CASTLE] = MeshBuilder::GenerateQuad("background dark forest", Color(1, 1, 1));
 	meshList[GO_BACKGROUND_CASTLE]->textureID = LoadTGA("Image//BACKGROUND//Castle_background2.tga");
 }
