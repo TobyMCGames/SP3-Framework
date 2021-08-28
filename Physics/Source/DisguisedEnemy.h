@@ -21,15 +21,15 @@ protected:
 		COL_LEFT,
 		COL_RIGHT
 	};
-	float attackTimer;
 	float StateCounter;
 	const float JumpForce = 15;
 	const float MaxStateCounter = 1;
 	bool jump = false;
+	bool activeSound;
+	bool deactiveSound;
 	float disguiseAnimTimer;
 	const float maxanimtime = 1;
 	bool hasdisguised;
-	float attackSoundTimer;
 	float idleSoundTimer;
 	BEHAVIOUR currState;
 

@@ -11,8 +11,6 @@
 
 Level4::Level4()
 {
-	//CSoundController::GetInstance()->StopSounds();
-	//CSoundController::GetInstance()->PlaySoundByID(31);
 }
 
 Level4::~Level4()
@@ -25,7 +23,7 @@ void Level4::Init()
 
 	Math::InitRNG();
 	UpdateLevel();
-	//camera->setDebugMode();
+	CSoundController::GetInstance()->PlaySoundByID(32);
 }
 
 void Level4::UpdateLevel()
@@ -330,7 +328,7 @@ void Level4::Exit()
 		delete go;
 		map.pop_back();
 	}
-
+	CSoundController::GetInstance()->StopSounds();
 }
 /*
 void SceneCollision::ResetList(void)

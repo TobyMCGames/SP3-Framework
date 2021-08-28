@@ -7,7 +7,8 @@ DisguisedEnemy::DisguisedEnemy()
 {
 	Default_Speed = 10;
 	StateCounter = 0;
-	attackTimer = 0;
+	activeSound = false;
+	deactiveSound = false;
 	health = 40;
 	damage = 6;
 	disguiseAnimTimer = 0;
@@ -36,6 +37,13 @@ void DisguisedEnemy::Update(double dt, float m_speed)
 		NymphAnimation->Reset();
 		NymphAnimation->PlayAnimation("Walking", -1, 1.8);
 	}
+	if (currState == ATTACK && activeSound && !deactiveSound)
+	{
+		CSoundController::GetInstance()->PlaySoundByID(60);
+		activeSound = false;
+		deactiveSound = true;
+	}
+
 	pos.y += vel.y * dt * m_speed;
 	vel += GamePhysics::GetInstance()->gravity * dt * m_speed;
 	switch (currState)
@@ -51,6 +59,7 @@ void DisguisedEnemy::Update(double dt, float m_speed)
 		hasdisguised = true;
 		if (disguiseAnimTimer >= maxanimtime)
 		{
+			deactiveSound = false;
 			if ((pos - Player::GetInstance()->pos).Length() <= 50)
 			{
 				if ((Player::GetInstance()->pos.x - pos.x) > 0)
@@ -78,6 +87,7 @@ void DisguisedEnemy::Update(double dt, float m_speed)
 			NymphAnimation->Reset();
 			NymphAnimation->PlayAnimation("Disguise", -1, maxanimtime);
 			disguiseAnimTimer += dt * m_speed;
+			activeSound = true;
 		}
 		break;
 	default:

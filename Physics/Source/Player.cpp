@@ -533,6 +533,11 @@ void Player::Response(GameObject* go)
 	{
 		isdead = true;
 	}
+	if (isdead)
+	{
+		CSoundController::GetInstance()->StopSounds();
+		CSoundController::GetInstance()->PlaySoundByID(53);
+	}
 
 	if ((go->type == GO_SKELEARROW) || (go->type == GO_SKELEARCHER) ||
 		(go->type == GO_ZOMBIE) || (go->type == GO_TURRETBULLET) || 
@@ -562,29 +567,35 @@ void Player::Response(GameObject* go)
 			this->curWeapon = BOW;
 			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			CSoundController::GetInstance()->PlaySoundByID(51);
 			break;
 		case WEAPON_STATION_STAFF:
 			this->curWeapon = STAFF;
 			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			CSoundController::GetInstance()->PlaySoundByID(51);
 			break;
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
 			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			CSoundController::GetInstance()->PlaySoundByID(51);
 			break;
 		case BOMB_CRATE:
 			Inventory[BOMBS]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			go->active = false;
+			CSoundController::GetInstance()->PlaySoundByID(50);
 			break;
 		case VINE_SEEDS:
 			Inventory[VINE_SEED]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			CSoundController::GetInstance()->PlaySoundByID(50);
 			break;
 		case TREE_SEEDS:
 			Inventory[TREE_SEED]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			CSoundController::GetInstance()->PlaySoundByID(50);
 			go->active = false;
 			break;
 		case TREE_SAPLING_TILE:
@@ -593,6 +604,7 @@ void Player::Response(GameObject* go)
 				Inventory[TREE_SEED]++;
 				cKeyboardController->ResetKey(GLFW_KEY_E);
 				go->active = false;
+				CSoundController::GetInstance()->PlaySoundByID(50);
 			}
 			break;
 		case GO_KEY:
@@ -601,6 +613,7 @@ void Player::Response(GameObject* go)
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WARP_GATE:
+			CSoundController::GetInstance()->PlaySoundByID(52);
 			isCompleted = true;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
