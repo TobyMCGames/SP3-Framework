@@ -89,6 +89,8 @@ CentralMesh::CentralMesh()
 	meshList[GUI_ATK_ICON]->textureID = LoadTGA("Image//GUI//AtkIcon.tga");
 	meshList[TEXT_BOX] = MeshBuilder::GenerateQuad("Textbox",Color(1,1,1));
 	meshList[TEXT_BOX]->textureID = LoadTGA("Image//GUI//Dialogue_Text_Box.tga");
+	meshList[GEO_DEMONLORD_HEALTHBAR] = MeshBuilder::GenerateQuad("demon healthbar", Color(1, 1, 1));
+	meshList[GEO_DEMONLORD_HEALTHBAR]->textureID = LoadTGA("Image//GUI//DemonLord_HealthBar.tga");
 
 
 	// TILE

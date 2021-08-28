@@ -7,6 +7,7 @@ MagicBall::MagicBall()
 	: FadingAnimation(NULL)
 	, timer(3.f)
 {
+	damage = 35;
 	Default_Speed = 20.f;
 	FadingAnimation = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_MAGICBALL));
 	FadingAnimation->AddAnimation("Fading", 0, 5);
