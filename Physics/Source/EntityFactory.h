@@ -9,6 +9,7 @@
 #include "DisguisedEnemy.h"
 #include "DemonLord.h"
 #include "SingletonPattern.h"
+#include "Archbishop.h"
 
 class EntityFactory : public SingletonPattern<EntityFactory>
 {
@@ -25,6 +26,7 @@ public:
 		TURRET,
 		NYMPH,
 		DEMON_LORD,
+		ARCHBISHOP,
 
 		// leave this last
 		NUM_GAMEOBJECTS

@@ -423,6 +423,11 @@ bool GameLevelBase::loadMap(std::string file_path)
 					scale.Set(50, 50, 1);
 					tempEntity = entityFactory->produceEntity(EntityFactory::DEMON_LORD, pos, vel,scale);
 				}
+				else if (key == "AB") // archbishop
+				{
+					scale.Set(30,30, 1);
+					tempEntity = entityFactory->produceEntity(EntityFactory::ARCHBISHOP, pos, vel, scale);
+				}
 				else if (key == "P")//player
 				{
 					scale.Set(TILEWIDTH - 0.5, TILEHEIGHT - 0.5, 1);
@@ -865,7 +870,7 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 
 				Vector3 FuturePos = projectile->pos + projectile->vel * dt * m_speed;
 				Vector3 FutureN;
-				if (projectile->type == GameObject::GO_DEMONBALL)
+				if (projectile->type == GameObject::GO_DEMONBALL || projectile->type == GameObject::GO_ARCH_BALL)
 					FutureN = projectile->vel;
 				else
 					FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;

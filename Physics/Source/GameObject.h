@@ -28,6 +28,7 @@ struct GameObject
 		GO_BOOMER,
 		GO_NYMPH,
 		GO_DEMONLORD,
+		GO_ARCHBISHOP,
 		ENTITY_END,
 
 		// PROJECTILES
@@ -40,6 +41,7 @@ struct GameObject
 		GO_BOMB,
 		GO_SPIDERWEB,
 		GO_TURRETBULLET,
+		GO_ARCH_BALL,
 		PROJECTILE_END,
 
 		// TILES

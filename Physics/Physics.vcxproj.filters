@@ -254,6 +254,12 @@
     <ClCompile Include="Source\SlowZombie.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Archbishop_ball.cpp">
+      <Filter>Source Files\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Archbishop.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -464,6 +470,12 @@
       <Filter>Header Files\GameLevels</Filter>
     </ClInclude>
     <ClInclude Include="Source\SlowZombie.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Archbishop_ball.h">
+      <Filter>Header Files\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Archbishop.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

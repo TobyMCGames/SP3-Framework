@@ -41,6 +41,11 @@ Entity* EntityFactory::produceEntity(EntityTypes entityType, Vector3 pos, Vector
 		newEntity = new DemonLord();
 		newEntity->type = GameObject::GO_DEMONLORD;
 		break;
+	case ARCHBISHOP:
+		newEntity = new Archbishop();
+		newEntity->type = GameObject::GO_ARCHBISHOP;
+		newEntity->OGpos = pos;
+		break;
 	}
 	newEntity->pos = pos;
 	newEntity->vel = vel;

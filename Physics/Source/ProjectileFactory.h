@@ -15,6 +15,7 @@ public:
 		PTYPE_SKELEARROW,
 		PTYPE_SPIDERPOISON,
 		PTYPE_TURRETBULLET,
+		PTYPE_ARCH_BALL,
 		NUM_PROJECTILES,
 	};
 	Projectile* produceProjectile(PROJECTILE_TYPES projectileType, Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal);	

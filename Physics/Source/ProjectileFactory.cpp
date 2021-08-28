@@ -7,6 +7,7 @@
 #include "SkeleArrow.h"
 #include "SpiderWeb.h"
 #include "TurretBullet.h"
+#include "Archbishop_ball.h"
 
 Projectile* ProjectileFactory::produceProjectile(PROJECTILE_TYPES projectileType, Vector3 pos, Vector3 vel, Vector3 scale, Vector3 normal)
 {
@@ -45,6 +46,10 @@ Projectile* ProjectileFactory::produceProjectile(PROJECTILE_TYPES projectileType
 		newProjectile = new TurretBullet();
 		newProjectile->type = GameObject::GO_TURRETBULLET;
 		break;		
+	case PTYPE_ARCH_BALL:
+		newProjectile = new ArchBishopBall();
+		newProjectile->type = GameObject::GO_ARCH_BALL;
+		break;
 	}
 	if (newProjectile != nullptr)
 	{

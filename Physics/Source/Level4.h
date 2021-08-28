@@ -33,14 +33,10 @@ public:
 protected:
 	Level4();
 	~Level4();
-
-	//Physics
-	//std::vector<GameObject *> m_goList;
-
 	int m_objectCount;
 
-	int curSubLevel = 2;
-	int numSubLevels = 2;
+	int curSubLevel = 3;
+	int numSubLevels = 3;
 };
 
 #endif

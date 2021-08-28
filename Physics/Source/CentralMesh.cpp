@@ -203,6 +203,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_DEMONLORD]->textureID = LoadTGA("Image//Enemy//DemonLord_animation.tga");
 	meshList[GEO_DEMONLORD_PORTAL] = MeshBuilder::GenerateQuad("demonlord portal", Color(1, 1, 1), 1);
 	meshList[GEO_DEMONLORD_PORTAL]->textureID = LoadTGA("Image//Enemy//DemonLord_Portal.tga");
+	meshList[GEO_ARCHBISHOP_1] = MeshBuilder::GenerateSpriteAnimation("ArchBishop_form1", Color(1, 1, 1),2,4);
+	meshList[GEO_ARCHBISHOP_1]->textureID = LoadTGA("Image//Enemy//Archbishop_first_animation.tga");
 
 	//Weapons
 	meshList[GEO_ARROW] = MeshBuilder::GenerateQuad("arrow", Color(1, 1, 1));
@@ -227,8 +229,8 @@ CentralMesh::CentralMesh()
 	meshList[GEO_DEMONSHIELD]->textureID = LoadTGA("Image//PROJECTILES//DemonLord_Shield2.tga");
 	meshList[GEO_LASER] = MeshBuilder::GenerateQuad("Laser", Color(1, 1, 1));
 	meshList[GEO_LASER]->textureID = LoadTGA("Image//PROJECTILES//Laser.tga");
-
-
+	meshList[GEO_ARCH_BALL] = MeshBuilder::GenerateQuad("Arch bishop projectile", Color(1, 1, 1));
+	meshList[GEO_ARCH_BALL]->textureID = LoadTGA("Image//PROJECTILES//ArchBishop_ball.tga");
 
 	// BACKGROUND
 	meshList[GO_BACKGROUND_1] = MeshBuilder::GenerateQuad("background 1", Color(1, 1, 1));
@@ -241,7 +243,6 @@ CentralMesh::CentralMesh()
 	meshList[GO_BACKGROUND_DARK_FOREST_MISTY]->textureID = LoadTGA("Image//BACKGROUND//Dark_Forest_Background_Misty.tga");
 	meshList[GO_BACKGROUND_DARK_FOREST] = MeshBuilder::GenerateQuad("dark forest 1", Color(1, 1, 1));
 	meshList[GO_BACKGROUND_DARK_FOREST]->textureID = LoadTGA("Image//BACKGROUND//Level_4//Dark_forest_BG1.tga");
-
 
 }
 

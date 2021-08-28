@@ -153,6 +153,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Archbishop.cpp" />
+    <ClCompile Include="Source\Archbishop_ball.cpp" />
     <ClCompile Include="Source\Boomer.cpp" />
     <ClCompile Include="Source\Bomb.cpp" />
     <ClCompile Include="Source\Arrow.cpp" />
@@ -219,6 +221,8 @@
     <ClInclude Include="Source\AABB.h" />
     <ClInclude Include="Source\AdvanceGO.h" />
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\Archbishop.h" />
+    <ClInclude Include="Source\Archbishop_ball.h" />
     <ClInclude Include="Source\Boomer.h" />
     <ClInclude Include="Source\Bomb.h" />
     <ClInclude Include="Source\Arrow.h" />

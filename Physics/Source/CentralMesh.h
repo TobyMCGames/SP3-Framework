@@ -98,6 +98,7 @@ public:
 		GEO_TURRET,
 		GEO_DEMONLORD,
 		GEO_DEMONLORD_PORTAL,
+		GEO_ARCHBISHOP_1,
 
 		//projectiles
 		GEO_ARROW,
@@ -106,6 +107,7 @@ public:
 		GEO_DEMONBALL_CHARGE,
 		GEO_DEMONBALL,
 		GEO_DEMONSHIELD,
+		GEO_ARCH_BALL,
 
 		//enemy projectiles
 		GEO_TURRETBULLET,

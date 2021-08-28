@@ -526,7 +526,14 @@ void Player::Response(GameObject* go)
 		}
 	}
 
-
+	if (go->type == GameObject::GO_ARCH_BALL)
+	{
+		this->takeDamage(go->damage);
+	}
+	if (go->type == GameObject::GO_ARCHBISHOP)
+	{
+		this->takeDamage(go->damage);
+	}
 	if (go->type == GameObject::OUTOFBOUNDS_TILE)
 	{
 		isdead = true;

@@ -113,7 +113,6 @@ bool GameStateManager::Update(const double dt)
 		if (ActiveGameState->Update(dt) == false)
 			return false;
 	}
-
 	return true;
 }
 

@@ -345,7 +345,6 @@ void SceneGUI::renderGUI()
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "MAIN MENU", MenuButton, 3, 29, 25);
 		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "QUIT", QuitButton, 3, 29, 20);
 	}
-
 }
 
 bool SceneGUI::getRenderPause()
