@@ -65,8 +65,8 @@ void DemonLord::Update(double dt,float m_speed)
 		}
 		else
 		{
-			FSMcounter = 1.2f;
-			Charging->PlayAnimation("Charging", 1, 1.2f);
+			FSMcounter = 0.8f;
+			Charging->PlayAnimation("Charging", 1, 0.8f);
 			Charging->Reset();
 			curFSM = ATTACK_DEMONBALL;
 		}
