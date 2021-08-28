@@ -486,6 +486,10 @@ void Player::Reset()
 	if (playerclone != nullptr)
 		playerclone = nullptr;
 	curWeapon = BARE_HANDS;
+	for (int i = 0; i < NUM_ITEMS; i++)
+	{
+		Inventory[i] = 0;
+	}
 	curItem = 0;
 	scrollsnap = 0;
 	cloneinited = false;

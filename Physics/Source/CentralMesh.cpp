@@ -221,7 +221,7 @@ CentralMesh::CentralMesh()
 	meshList[GEO_DEMONBALL] = MeshBuilder::GenerateQuad("demonball", Color(1, 1, 1), 1.f);
 	meshList[GEO_DEMONBALL]->textureID = LoadTGA("Image//PROJECTILES//DemonBall.tga");
 	meshList[GEO_DEMONSHIELD] = MeshBuilder::GenerateQuad("demonshield", Color(1, 1, 1), 1.f);
-	meshList[GEO_DEMONSHIELD]->textureID = LoadTGA("Image//PROJECTILES//DemonLord_Shield.tga");
+	meshList[GEO_DEMONSHIELD]->textureID = LoadTGA("Image//PROJECTILES//DemonLord_Shield2.tga");
 	meshList[GEO_LASER] = MeshBuilder::GenerateQuad("Laser", Color(1, 1, 1));
 	meshList[GEO_LASER]->textureID = LoadTGA("Image//PROJECTILES//Laser.tga");
 
