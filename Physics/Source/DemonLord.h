@@ -25,6 +25,7 @@ protected:
 	Vector3 Shield1Direction;
 
 	float FSMcounter;
+	float ChangeTimeCounter;
 
 	int Phase;
 	float MaxHealth;
