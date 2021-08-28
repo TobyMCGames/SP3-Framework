@@ -24,17 +24,11 @@ public:
 	virtual void Destroy();
 	virtual void Exit();
 
-	//void ResetList(void);
-	GameObject* FetchGO();
-	void ReturnGO(GameObject *go);
-
 	void UpdateLevel();
 
 protected:
 	Level4();
 	~Level4();
-	int m_objectCount;
-
 	int curSubLevel = 3;
 	int numSubLevels = 3;
 };

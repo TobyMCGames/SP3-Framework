@@ -9,6 +9,7 @@ SceneGUI::SceneGUI()
 	, m_worldWidth(0)
 	, Timetravel(NULL)
 {
+	GameDialogues.LoadDialogue("Dialogues//Level_3_dialogues.txt"); // load level 4 texts
 	GameDialogues.LoadDialogue("Dialogues//Level_4_dialogues.txt"); // load level 4 texts
 	GameDialogues.setActive(false);
 }
@@ -73,6 +74,7 @@ bool SceneGUI::Update(double dt)
 			static bool MouseState = false;
 			if (!MouseState && Application::IsMousePressed(0))
 			{
+				CSoundController::GetInstance()->PlaySoundByID(21);
 				MouseState = true;
 			}
 			else if (MouseState && !Application::IsMousePressed(0))

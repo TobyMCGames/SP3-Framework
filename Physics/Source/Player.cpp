@@ -9,7 +9,7 @@
 
 Player::Player()
 	: curWeapon(Player::BARE_HANDS)
-	, curItem(2)
+	, curItem(0)
 	, scrollsnap(0)
 	, PlayerAnimation(NULL)
 	, playerclone(nullptr)
@@ -73,7 +73,8 @@ void Player::Update(double dt, float m_speed)
 		}
 		if (playerclone != nullptr)
 		{
-			MeshRender::GetInstance()->GetCamera()->setpanTarget(this);
+			playerclone->active = false;
+			playerclone = nullptr;
 			controlled = true;
 		}
 	}
@@ -151,11 +152,14 @@ void Player::Update(double dt, float m_speed)
 	//////Create Clone Mechanic
 	if (cKeyboardController->IsKeyReleased(GLFW_KEY_R))
 	{
-		if (playerclone == nullptr && mana - 2 * dt * m_speed > 0) // summon the clone
+		if (playerclone == nullptr) // summon the clone
 		{
-			if (curLocation != Entity::IN_AIR)
+			if (mana - 2 * dt * m_speed > 0)
 			{
-				InitClone();
+				if (curLocation != Entity::IN_AIR)
+				{
+					InitClone();
+				}
 			}
 		}
 		else  // despawn the clone
@@ -184,8 +188,6 @@ void Player::Update(double dt, float m_speed)
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT) && this->timetraveled <= 0)
 	{
 		ChangeTimeline();
-		this->timetraveled = 0.3f;
-		CSoundController::GetInstance()->PlaySoundByID(23);
 		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
 	}
 	if (timetraveled > 0)
@@ -538,11 +540,18 @@ void Player::Response(GameObject* go)
 	{
 		isdead = true;
 	}
+	if (isdead)
+	{
+		CSoundController::GetInstance()->StopSounds();
+		CSoundController::GetInstance()->PlaySoundByID(53);
+	}
 
 	if ((go->type == GO_SKELEARROW) || (go->type == GO_SKELEARCHER) ||
+		(go->type == GO_SLOWZOMBIE)||
 		(go->type == GO_ZOMBIE) || (go->type == GO_TURRETBULLET) || 
 		(go->type == GO_SPIDER) || (go->type == GO_SPIDERWEB) || 
-		(go->type == GO_HEAVYSKELEARCHER) || (go->type == GO_DEMONBALL))
+		(go->type == GO_HEAVYSKELEARCHER) || (go->type == GO_DEMONBALL)
+		|| (go->type == GO_NYMPH))
 	{
 		if (curState == STATE_NORMAL)
 		{
@@ -566,29 +575,35 @@ void Player::Response(GameObject* go)
 			this->curWeapon = BOW;
 			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			CSoundController::GetInstance()->PlaySoundByID(51);
 			break;
 		case WEAPON_STATION_STAFF:
 			this->curWeapon = STAFF;
 			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			CSoundController::GetInstance()->PlaySoundByID(51);
 			break;
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
 			this->curItem = Player::WEAPON;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			CSoundController::GetInstance()->PlaySoundByID(51);
 			break;
 		case BOMB_CRATE:
 			Inventory[BOMBS]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			go->active = false;
+			CSoundController::GetInstance()->PlaySoundByID(50);
 			break;
 		case VINE_SEEDS:
 			Inventory[VINE_SEED]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			CSoundController::GetInstance()->PlaySoundByID(50);
 			break;
 		case TREE_SEEDS:
 			Inventory[TREE_SEED]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
+			CSoundController::GetInstance()->PlaySoundByID(50);
 			go->active = false;
 			break;
 		case TREE_SAPLING_TILE:
@@ -597,6 +612,7 @@ void Player::Response(GameObject* go)
 				Inventory[TREE_SEED]++;
 				cKeyboardController->ResetKey(GLFW_KEY_E);
 				go->active = false;
+				CSoundController::GetInstance()->PlaySoundByID(50);
 			}
 			break;
 		case GO_KEY:
@@ -605,10 +621,13 @@ void Player::Response(GameObject* go)
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WARP_GATE:
+			CSoundController::GetInstance()->PlaySoundByID(52);
 			isCompleted = true;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case SOIL_TILE:
+			if (Inventory[TREE_SEED] <= 0)
+				break;
 			if (curItem == TREE_SEED)
 			{
 				bool HasTree = false;
@@ -744,6 +763,8 @@ void Player::ChangeTimeline()
 	GameLevelBase* level = GameLevelManager::GetInstance()->getcurrentLevel();
 	level->ChangeTimelineBlocks(InFuture);
 	InFuture = !InFuture;
+	this->timetraveled = 0.3f;
+	CSoundController::GetInstance()->PlaySoundByID(23);
 }
 
 bool Player::IsInDialogue()

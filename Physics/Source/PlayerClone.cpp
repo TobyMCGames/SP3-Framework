@@ -230,7 +230,7 @@ void PlayerClone::Update(double dt, float m_speed)
 			CloneAnimation->PlayAnimation("Idle", -1, 1);
 			if (cKeyboardController->IsKeyPressed(GLFW_KEY_A) || cKeyboardController->IsKeyPressed(GLFW_KEY_D))
 			{
-				CloneAnimation->Reset();
+				//CloneAnimation->Reset();
 				CloneAnimation->PlayAnimation("Walking", -1, 1.5);
 			}
 		}
@@ -366,6 +366,7 @@ void PlayerClone::Update(double dt, float m_speed)
 	{
 		dead();
 	}
+	CloneAnimation->Update(dt);
 }
 
 void PlayerClone::Response(GameObject* go)
@@ -402,7 +403,7 @@ void PlayerClone::Response(GameObject* go)
 
 	if ((go->type == GameObject::GO_SKELEARROW) || (go->type == GameObject::GO_SKELEARCHER) ||
 		(go->type == GameObject::GO_ZOMBIE) || (go->type == GameObject::GO_TURRETBULLET) || (go->type == GameObject::GO_HEAVYSKELEARCHER) ||
-		(go->type == GameObject::GO_SPIDER) || (go->type == GameObject::GO_SPIDERWEB))
+		(go->type == GameObject::GO_SPIDER) || (go->type == GameObject::GO_SPIDERWEB) || (go->type == GameObject::GO_NYMPH))
 	{
 		if (curState == STATE_NORMAL)
 		{

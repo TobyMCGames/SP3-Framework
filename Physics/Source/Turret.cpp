@@ -28,8 +28,8 @@ void Turret::Update(double dt, float m_speed)
 		TurretAnimation->Update(dt * m_speed);
 	}
 
-	if ((Player::GetInstance()->pos.x - pos.x) < 0 && (Player::GetInstance()->pos - pos).Length() <= 40 
-		&& (Player::GetInstance()->pos.y - pos.y) < 5 && (Player::GetInstance()->pos.y - pos.y) > -2)
+	if ((Player::GetInstance()->pos.x - pos.x) < 0 && (Player::GetInstance()->pos - pos).Length() <= 50 
+		&& (Player::GetInstance()->pos.y - pos.y) < 5 && (Player::GetInstance()->pos.y - pos.y) > -5)
 	{
 		if (waitTimer >= 3)
 		{

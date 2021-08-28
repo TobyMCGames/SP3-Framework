@@ -31,10 +31,6 @@ int Portal::getIndex(AdvanceGO* K)
 void Portal::Update(double dt, float m_speed)
 {
 	pos += vel * dt * m_speed;
-	for (int j = 0; j < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); j++)
-	{
-
-	}
 }
 
 void Portal::Response(GameObject* go)
@@ -66,34 +62,34 @@ void Portal::Response(GameObject* go)
 			PGatePos.Set(pos.x, go->pos.y);
 		}
 
-
-		cout << "portal counter: " << Player::GetInstance()->portalCounter << endl;
-		if (Player::GetInstance()->portalCounter < 2)
+		if (go->type != BRICK_TILE && go->type != LAVA_TILE)
 		{
-			AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
-				InteractableFactory::PTYPE_PORTAL_ENTRANCE, PGatePos, Vector3(4.5f, 4.5f, 1.f) , PGateNormal);
-			GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->push_back(go);
-			Player::GetInstance()->portalCounter++;
-		}
-		else 
-		{
-			AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
-				InteractableFactory::PTYPE_PORTAL_ENTRANCE, PGatePos, Vector3(4.5f, 4.5f, 1.f), PGateNormal);
-			GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->push_back(go);
-			for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
+			if (Player::GetInstance()->portalCounter < 2)
 			{
-				if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->type == PORTAL_GATE_ENTRANCE)
+				AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
+					InteractableFactory::PTYPE_PORTAL_ENTRANCE, PGatePos, Vector3(4.5f, 4.5f, 1.f), PGateNormal);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->push_back(go);
+				Player::GetInstance()->portalCounter++;
+			}
+			else
+			{
+				AdvanceGO* go = InteractableFactory::GetInstance()->produceInteractable(
+					InteractableFactory::PTYPE_PORTAL_ENTRANCE, PGatePos, Vector3(4.5f, 4.5f, 1.f), PGateNormal);
+				GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->push_back(go);
+				for (int i = 0; i < GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->size(); i++)
 				{
-					if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->active == false)
+					if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->type == PORTAL_GATE_ENTRANCE)
 					{
-						continue;
+						if (GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->active == false)
+						{
+							continue;
+						}
+						GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->active = false;
+						break;
 					}
-					GameLevelManager::GetInstance()->getcurrentLevel()->getInteractableList()->at(i)->active = false;
-					break;
 				}
 			}
 		}
-
 	}
 }
 

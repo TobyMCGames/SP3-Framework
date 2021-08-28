@@ -19,6 +19,7 @@ GameStateManager::GameStateManager()
 	cSoundController->LoadSound("Sounds\\Sounds_Player\\Hurt.wav", 5, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Player\\Hurt_2.wav", 6, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Player\\Hurt_3.wav", 7, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Player\\Lose.wav", 53, true);
 
 	//zombie sounds
 	cSoundController->LoadSound("Sounds\\Sounds_Zombie\\Zombie_Idle.wav", 8, true);
@@ -28,6 +29,9 @@ GameStateManager::GameStateManager()
 	cSoundController->LoadSound("Sounds\\Sounds_Zombie\\Zombie_Hurt_2.wav", 12, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Zombie\\Zombie_Death.wav", 13, true);
 
+	//Nymph Sounds
+	cSoundController->LoadSound("Sounds\\Sounds_Nymph\\Disguise.wav", 60, true);
+
 	//turret
 	cSoundController->LoadSound("Sounds\\Sounds_Turret\\Turret_Shoot.wav", 14, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Turret\\Turret_Hurt_2.wav", 15, true);
@@ -36,6 +40,8 @@ GameStateManager::GameStateManager()
 	//BGM
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Title_Theme.wav", 17, true, true);
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_1.wav", 18, true, true);
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_3.wav", 31, true, true);
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_4.wav", 32, true, true);
 
 	// player slow motion sounds
 	cSoundController->LoadSound("Sounds\\Sounds_Player\\Slow_Motion_Start.wav", 19, true);
@@ -52,15 +58,20 @@ GameStateManager::GameStateManager()
 	cSoundController->LoadSound("Sounds\\Sounds_Spider\\hurt.wav", 24, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Spider\\kill.wav", 25, true);
 
-	// pickup coin
-	cSoundController->LoadSound("Sounds\\Sounds_Item\\Pickup_Coin.wav", 26, true);
+	// Sound effects
+	cSoundController->LoadSound("Sounds\\Sounds_Interactables\\Pickup_Coin.wav", 26, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Interactables\\Pickup_Item.wav", 50, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Interactables\\Pickup_Weapon.wav", 51, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Interactables\\Warp.wav", 52, true);
+	cSoundController->LoadSound("Sounds\\Sounds_Interactables\\Health_Restore.ogg", 29, true);
 
 	// boomer sounds
 	cSoundController->LoadSound("Sounds\\Sounds_Boomer\\boomer_primed.wav", 27, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Boomer\\explosion.ogg", 28, true);
 
-	// health potion
-	cSoundController->LoadSound("Sounds\\Sounds_Item\\Health_Restore.ogg", 29, true);
+
+	// spider forest BGM
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\spider_forest.ogg", 30, true, true);
 
 	// DemonLord
 	cSoundController->LoadSound("Sounds\\Sounds_DemonLord\\DemonLord_Hurt.wav", 40, true);

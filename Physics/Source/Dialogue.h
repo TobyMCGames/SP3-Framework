@@ -15,6 +15,9 @@ public:
 		/*LEVEL_4_STORY_1 =5,
 		LEVEL_4_STORY_2 =6,
 		LEVEL_4_END = 7,*/
+		TUTS_PORTAL_GUN = 3,
+		LONG_DIST = 4,
+		TUTS_PORTAL_GUN_CP = 5,
 		TOTAL_SENTENCE,
 	};	
 

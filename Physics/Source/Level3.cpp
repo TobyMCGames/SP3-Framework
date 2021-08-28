@@ -10,7 +10,6 @@
 
 Level3::Level3()
 {
-	std::cout << "Initialising Level3" << std::endl;
 }
 
 Level3::~Level3()
@@ -20,47 +19,11 @@ Level3::~Level3()
 void Level3::Init()
 {
 	SceneBase::Init();
-	//Calculating aspect ratio
-	//m_worldHeight = 100.f;
-	//m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
-
-	//Physics code here
-	m_objectCount = 0;
 
 	Math::InitRNG();
 	UpdateLevel();
+	CSoundController::GetInstance()->PlaySoundByID(31);
 	//camera->setDebugMode();
-}
-
-GameObject* Level3::FetchGO()
-{
-	//Exercise 2a: implement FetchGO()
-	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); it++)
-	{
-		GameObject* go = (GameObject*)*it;
-		if (go->active == false)
-		{
-			go->active = true;
-			//Exercise 2b: increase object count every time an object is set to active
-			m_objectCount++;
-			return go;
-		}
-	}
-	for (int i = 0; i < 10; i++)
-	{
-		//m_goList.push_back(new GameObject(GameObject::GO_BALL));
-	}
-	//Exercise 2b: increase object count every time an object is set to active
-	map.back()->active = true;
-	m_objectCount++;
-	return map.back();
-}
-
-void Level3::ReturnGO(GameObject *go)
-{
-	//Exercise 3: implement ReturnGO()
-	go->active = false;
-	m_objectCount--;
 }
 
 void Level3::UpdateLevel()
@@ -71,7 +34,7 @@ void Level3::UpdateLevel()
 		{
 		case 1:
 			GameLevelBase::Exit();
-			loadMap("Maps//Map_LEVEL_3b.csv");
+			loadMap("Maps//Map_LEVEL_3.csv");
 			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 				getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
@@ -79,6 +42,13 @@ void Level3::UpdateLevel()
 		case 2:
 			GameLevelBase::Exit();
 			loadMap("Maps//Map_LEVEL_3a.csv");
+			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
+				getworldWidth(), getworldHeight());
+			camera->setpanTarget(player);
+			break;
+		case 3:
+			GameLevelBase::Exit();
+			loadMap("Maps//Map_LEVEL_3b.csv");
 			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45,
 				getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
@@ -282,41 +252,43 @@ void Level3::Render()
 	modelStack->PushMatrix();
 	modelStack->Translate(getworldWidth()/2, getworldHeight()/2,-1);
 	modelStack->Scale(getworldWidth(), getworldHeight(), -1);
-	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GO_BACKGROUND_1), false);
+	meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GO_BACKGROUND_CASTLE), false);
 	modelStack->PopMatrix();
 	zOffset = 0.001f;
 	for (std::vector<GameObject*>::iterator it = map.begin(); it != map.end(); ++it)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr || go->active == false)
+		if (go == nullptr)
 			continue;
-		if (go->active)
-		{
-			if (go->type != GameObject::OUTOFBOUNDS_TILE)
-				RenderGO(go);
-		}
+		if (!CheckWithinScreen(go) || go->active == false)
+			continue;
+
+		if (go->type != GameObject::OUTOFBOUNDS_TILE)
+			RenderGO(go);
 	}
 
 	for (std::vector<AdvanceGO*>::iterator it = InteractableList.begin(); it != InteractableList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr || go->active == false) 
+		if (go == nullptr)
 			continue;
-		if (go->active)
-		{
-			RenderGO(go);
-		}
+
+		if (!CheckWithinScreen(go) || go->active == false)
+			continue;
+
+		RenderGO(go);
 	}
 
 	for (std::vector<AdvanceGO*>::iterator it = EntityList.begin(); it != EntityList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr || go->active == false)
+		if (go == nullptr)
 			continue;
-		if (go->active)
-		{
-			RenderGO(go);
-		}
+
+		if (!CheckWithinScreen(go) || go->active == false)
+			continue;
+
+		RenderGO(go);
 	}
 	if (player != nullptr)
 		RenderPlayer();
@@ -324,12 +296,14 @@ void Level3::Render()
 	for (std::vector<AdvanceGO*>::iterator it = projectileList.begin(); it != projectileList.end(); it++)
 	{
 		GameObject* go = (GameObject*)*it;
-		if (go == nullptr || go->active == false)
+		if (go == nullptr)
 			continue;
-		if (go->active)
-		{
-			RenderGO(go);
-		}
+
+		if (!CheckWithinScreen(go) || go->active == false)
+			continue;
+
+		RenderGO(go);
+
 	}
 
 	
@@ -337,11 +311,6 @@ void Level3::Render()
 	//On screen text
 	
 	std::ostringstream ss;
-	//Exercise 5: Render m_objectCount
-	ss << "GameObject Count: " << m_objectCount;
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3, 0, 12);
-	
-	ss.str("");
 	ss.precision(5);
 	ss << "FPS: " << fps;
 	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3,40,40);
@@ -366,7 +335,7 @@ void Level3::Exit()
 		delete go;
 		map.pop_back();
 	}
-
+	CSoundController::GetInstance()->StopSounds();
 }
 /*
 void SceneCollision::ResetList(void)
