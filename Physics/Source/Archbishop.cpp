@@ -14,7 +14,7 @@ Archbishop::Archbishop()
 	firstform->AddAnimation("Moving",0,6);
 	firstform->PlayAnimation("Moving", -1,6.f);
 	health = 1000;
-	this->damage = 1;
+	this->damage = 10;
 	Default_Speed = 3.5;
 }
 
@@ -44,7 +44,6 @@ void Archbishop::Update(double dt, float m_speed)
 				this->damage = 2.5;
 				current_state = SPINING_KAMIKAZE;
 			}
-				
 			else if (rand == 4)
 				current_state = DISARM_PLAYER;
 
@@ -59,7 +58,7 @@ void Archbishop::Update(double dt, float m_speed)
 		{
 			current_state = IDLE;
 			rotation = 0;
-			if (Math::RandIntMinMax(0, 1) == 1)
+			if (Math::RandIntMinMax(0, 9) ==9)
 			{
 				current_state = DISARM_PLAYER;
 				
@@ -117,7 +116,7 @@ void Archbishop::Update(double dt, float m_speed)
 			CSoundController::GetInstance()->PlaySoundByID(69);
 		if (rotation <= -3600)
 		{
-			if (Math::RandIntMinMax(0,4) == 3)
+			if (Math::RandIntMinMax(0,10) == 5)
 			{
 				current_state = DISARM_PLAYER;
 				rotation = 0;

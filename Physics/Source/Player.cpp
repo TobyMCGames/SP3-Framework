@@ -185,10 +185,10 @@ void Player::Update(double dt, float m_speed)
 	}
 
 	/////// Switching Timeline Mechanic
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT) && this->timetraveled <= 0)
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_CAPS_LOCK) && this->timetraveled <= 0)
 	{
 		ChangeTimeline();
-		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
+		cKeyboardController->ResetKey(GLFW_KEY_CAPS_LOCK);
 	}
 	if (timetraveled > 0)
 		timetraveled -= dt;
@@ -409,7 +409,7 @@ void Player::Update(double dt, float m_speed)
 
 	if (InvincibilityTimer > 0)
 	{
-		InvincibilityTimer -= dt * m_speed;
+		InvincibilityTimer -= dt;
 	}
 	else
 	{
@@ -496,6 +496,7 @@ void Player::Reset()
 	swap = false;
 	Pexitspeed.Set(0, 0, 0);
 	isCompleted = false;
+	InFuture = false;
 	isdead = false;
 	health = 100;
 	mana = 100;
@@ -525,17 +526,18 @@ void Player::Response(GameObject* go)
 				Player::playRandHurtSound();
 			}
 			break;
+		case LAVA_TILE:
+			if (curState == STATE_NORMAL)
+			{
+				curState = STATE_INVINCIBLE;
+				InvincibilityTimer = 2;
+				Player::playRandHurtSound();
+				takeDamage(go->damage);
+			}
+			break;
 		}
 	}
 
-	if (go->type == GameObject::GO_ARCH_BALL)
-	{
-		this->takeDamage(go->damage);
-	}
-	if (go->type == GameObject::GO_ARCHBISHOP)
-	{
-		this->takeDamage(go->damage);
-	}
 	if (go->type == GameObject::OUTOFBOUNDS_TILE)
 	{
 		isdead = true;
@@ -550,8 +552,7 @@ void Player::Response(GameObject* go)
 		(go->type == GO_SLOWZOMBIE)||
 		(go->type == GO_ZOMBIE) || (go->type == GO_TURRETBULLET) || 
 		(go->type == GO_SPIDER) || (go->type == GO_SPIDERWEB) || 
-		(go->type == GO_HEAVYSKELEARCHER) || (go->type == GO_DEMONBALL)
-		|| (go->type == GO_NYMPH))
+		(go->type == GO_HEAVYSKELEARCHER) || (go->type == GO_DEMONBALL))
 	{
 		if (curState == STATE_NORMAL)
 		{
@@ -563,6 +564,16 @@ void Player::Response(GameObject* go)
 			takeDamage(go->damage);
 			curState = STATE_INVINCIBLE;
 			InvincibilityTimer = 1.5;
+			playRandHurtSound();
+		}
+	}
+	else if (go->type == GO_ARCHBISHOP || go->type == GO_ARCH_BALL)
+	{
+		if (curState == STATE_NORMAL)
+		{
+			takeDamage(go->damage);
+			curState = STATE_INVINCIBLE;
+			InvincibilityTimer = 1.f;
 			playRandHurtSound();
 		}
 	}
@@ -583,6 +594,7 @@ void Player::Response(GameObject* go)
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			CSoundController::GetInstance()->PlaySoundByID(51);
 			break;
+
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
 			this->curItem = Player::WEAPON;
@@ -676,11 +688,7 @@ void Player::Response(GameObject* go)
 		}
 	}
 	
-	if (go->type == GameObject::LAVA_TILE)
-	{
-		takeDamage(go->damage);
-		return;
-	}
+
 
 
 	if (go->type == GameObject::PORTAL_GATE_ENTRANCE)

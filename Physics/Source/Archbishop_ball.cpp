@@ -8,7 +8,7 @@
 ArchBishopBall::ArchBishopBall()
 {
 	Default_Speed = 40.f;
-	damage = 2.5;
+	damage = 25;
 }
 
 ArchBishopBall::~ArchBishopBall()

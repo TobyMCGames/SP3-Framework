@@ -171,6 +171,7 @@ void DemonLord::Update(double dt,float m_speed)
 					curFSM = RETREAT;
 				}
 				CSoundController::GetInstance()->StopSounds();
+				CSoundController::GetInstance()->PlaySoundByID(82);
 				CSoundController::GetInstance()->PlaySoundByID(45);
 			}
 		}
