@@ -19,6 +19,7 @@ PlayerClone::PlayerClone()
 	CloneAnimation->AddAnimation("CloneJumping", 6, 8);
 	CloneAnimation->AddAnimation("CloneFalling", 9, 11);
 	CloneAnimation->PlayAnimation("CloneIdle", -1, 6.f);
+	curItem = WEAPON;
 }
 
 PlayerClone::~PlayerClone()

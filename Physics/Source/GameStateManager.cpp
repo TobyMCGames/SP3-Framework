@@ -39,7 +39,7 @@ GameStateManager::GameStateManager()
 
 	//BGM
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Title_Theme.wav", 17, true, true);
-	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_1.wav", 18, true, true);
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_1.ogg", 18, true, true);
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\spider_forest.ogg", 30, true, true);
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_3.wav", 31, true, true);
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_4.wav", 32, true, true);
