@@ -185,10 +185,10 @@ void Player::Update(double dt, float m_speed)
 	}
 
 	/////// Switching Timeline Mechanic
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_LEFT_ALT) && this->timetraveled <= 0)
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_CAPS_LOCK) && this->timetraveled <= 0)
 	{
 		ChangeTimeline();
-		cKeyboardController->ResetKey(GLFW_KEY_LEFT_ALT);
+		cKeyboardController->ResetKey(GLFW_KEY_CAPS_LOCK);
 	}
 	if (timetraveled > 0)
 		timetraveled -= dt;
