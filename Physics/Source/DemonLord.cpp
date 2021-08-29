@@ -107,7 +107,7 @@ void DemonLord::Update(double dt,float m_speed)
 				ShootingPos + pos,
 				direction,
 				Vector3(10, 10, 1),
-				Vector3(1, 0, 0)
+				direction
 			);
 			CSoundController::GetInstance()->PlaySoundByID(44);
 			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(temp);
