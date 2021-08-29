@@ -20,6 +20,8 @@ public:
 		LEVEL_4_YABE = 12,
 		LEVEL_4_MINI = 13,
 		LEVEL_1_A_BOW = 14,
+		LEVEL_2_START = 15,
+		LEVEL_2_SLOWTIME = 16,
 		TOTAL_SENTENCE,
 	};	
 
