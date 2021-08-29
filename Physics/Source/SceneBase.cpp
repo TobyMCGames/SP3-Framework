@@ -611,6 +611,7 @@ void SceneBase::Render()
 
 void SceneBase::Destroy()
 {
+
 }
 
 void SceneBase::Exit()

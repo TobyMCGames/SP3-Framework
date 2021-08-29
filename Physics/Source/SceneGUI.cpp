@@ -16,8 +16,8 @@ SceneGUI::SceneGUI()
 
 SceneGUI::~SceneGUI()
 {
+	
 }
-
 void SceneGUI::Init()
 {
 	SceneBase::Init();
@@ -185,7 +185,7 @@ bool SceneGUI::Update(double dt)
 		}
 	}
 	// if in dialogue
-		//GameDialogues.Update(dt); 
+		//GameDialogues.Update(dt);
 
 	if (Timetravel != NULL)
 	{

@@ -59,7 +59,7 @@ void Archbishop::Update(double dt, float m_speed)
 		{
 			current_state = IDLE;
 			rotation = 0;
-			if (Math::RandIntMinMax(0, 1) == 1)
+			if (Math::RandIntMinMax(0, 9) ==9)
 			{
 				current_state = DISARM_PLAYER;
 				
@@ -117,7 +117,7 @@ void Archbishop::Update(double dt, float m_speed)
 			CSoundController::GetInstance()->PlaySoundByID(69);
 		if (rotation <= -3600)
 		{
-			if (Math::RandIntMinMax(0,4) == 3)
+			if (Math::RandIntMinMax(0,10) == 5)
 			{
 				current_state = DISARM_PLAYER;
 				rotation = 0;

@@ -584,6 +584,7 @@ void Player::Response(GameObject* go)
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			CSoundController::GetInstance()->PlaySoundByID(51);
 			break;
+
 		case WEAPON_STATION_PORTAL:
 			this->curWeapon = PORTALGUN;
 			this->curItem = Player::WEAPON;
