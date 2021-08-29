@@ -16,7 +16,7 @@
 SceneGame::SceneGame()
 	: ispaused(false)
 	, curLevel(1)
-	, curSubLevel(3)
+	, curSubLevel(1)
 {
 }
 
