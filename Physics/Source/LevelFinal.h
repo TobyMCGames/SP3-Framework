@@ -30,7 +30,6 @@ protected:
 	LevelFinal();
 	~LevelFinal();
 
-	int curSubLevel = 1;
 	int numSubLevels = 1;
 };
 

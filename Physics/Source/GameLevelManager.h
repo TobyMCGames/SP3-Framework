@@ -19,6 +19,7 @@ protected:
 	GameLevelBase* NextGameLevel;
 
 public:
+
 	// Destroy this CGameLevelManager
 	void Destroy();
 

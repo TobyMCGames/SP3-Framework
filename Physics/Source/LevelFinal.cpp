@@ -5,6 +5,8 @@
 #include <cmath>
 #include "Player.h"
 #include "GameLevelManager.h"
+#include "GameStateManager.h"
+#include "SceneGame.h"
 
 //Remove later
 #include "InteractableFactory.h"
@@ -31,9 +33,9 @@ void LevelFinal::Init()
 
 void LevelFinal::UpdateLevel()
 {
-	if (curSubLevel < numSubLevels + 1)
+	if (SceneGame::GetInstance()->curSubLevel <= numSubLevels)
 	{
-		switch (curSubLevel)
+		switch (SceneGame::GetInstance()->curSubLevel)
 		{
 		case 1:
 			GameLevelBase::Exit();
@@ -46,7 +48,9 @@ void LevelFinal::UpdateLevel()
 	}
 	else
 	{
-		//GameLevelManager::GetInstance()->SetActiveGameLevel("Level2");
+		SceneGame::GetInstance()->curSubLevel = 1;
+		SceneGame::GetInstance()->curLevel = 1;
+		GameStateManager::GetInstance()->SetActiveGameState("CreditsState");
 	}
 }
 
@@ -205,7 +209,7 @@ bool LevelFinal::Update(double dt)
 	}
 	if (Player::GetInstance()->isCompleted)
 	{
-		curSubLevel++;
+		SceneGame::GetInstance()->curSubLevel++;
 		GameLevelBase::Exit();
 		UpdateLevel();
 		Player::GetInstance()->isCompleted = false;

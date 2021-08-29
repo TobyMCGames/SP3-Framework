@@ -5,6 +5,7 @@
 #include <cmath>
 #include "Player.h"
 #include "GameLevelManager.h"
+#include "SceneGame.h"
 
 //Remove later
 #include "InteractableFactory.h"
@@ -30,9 +31,9 @@ void Level1::Init()
 
 void Level1::UpdateLevel()
 {
-	if (curSubLevel < numSubLevels + 1)
+	if (SceneGame::GetInstance()->curSubLevel <= numSubLevels)
 	{
-		switch (curSubLevel)
+		switch (SceneGame::GetInstance()->curSubLevel)
 		{
 		case 1:
 			GameLevelBase::Exit();
@@ -59,6 +60,8 @@ void Level1::UpdateLevel()
 	}
 	else
 	{
+		SceneGame::GetInstance()->curSubLevel = 1;
+		SceneGame::GetInstance()->curLevel++;
 		GameLevelManager::GetInstance()->SetActiveGameLevel("Level2");
 	}
 }
@@ -218,7 +221,7 @@ bool Level1::Update(double dt)
 	}
 	if (Player::GetInstance()->isCompleted)
 	{
-		curSubLevel++;
+		SceneGame::GetInstance()->curSubLevel++;
 		GameLevelBase::Exit();
 		UpdateLevel();
 		Player::GetInstance()->isCompleted = false;
