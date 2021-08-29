@@ -496,6 +496,7 @@ void Player::Reset()
 	swap = false;
 	Pexitspeed.Set(0, 0, 0);
 	isCompleted = false;
+	InFuture = false;
 	isdead = false;
 	health = 100;
 	mana = 100;
