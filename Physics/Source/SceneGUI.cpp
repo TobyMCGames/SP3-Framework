@@ -27,6 +27,7 @@ void SceneGUI::Init()
 	Math::InitRNG();
 	RenderPause = false;
 	RenderRetry = false;
+	StartTimer = false;
 
 	camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 0, 0,m_worldWidth,m_worldHeight);
 
