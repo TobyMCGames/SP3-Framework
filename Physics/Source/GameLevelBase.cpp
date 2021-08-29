@@ -166,17 +166,17 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_1_START);
 		newtext.setDetectionRange(10);
 	}
-	if (DialogueKey == "OE") // level1 ending dialogue
+	else if (DialogueKey == "OE") // level1 ending dialogue
 	{
 		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_1_END);
 		newtext.setDetectionRange(10);
 	}
-	if (DialogueKey == "L1AO") // opening dialogue
+	else if (DialogueKey == "L1AO") // opening dialogue
 	{
 		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_1_A_START);
 		newtext.setDetectionRange(10);
 	}
-	if (DialogueKey == "L1AG") // level1 ending dialogue
+	else if (DialogueKey == "L1AG") // level1 ending dialogue
 	{
 		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_1_A_GROW);
 		newtext.setDetectionRange(10);
@@ -218,6 +218,26 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 	{
 		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LONG_DIST);
 		newtext.setDetectionRange(5);
+	}
+	else if (DialogueKey == "4_START")
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_4_START);
+		newtext.setDetectionRange(30);
+	}
+	else if (DialogueKey == "4_FEELS")
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_4_FEELS);
+		newtext.setDetectionRange(20);
+	}
+	else if (DialogueKey == "4_YABE")
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_4_YABE);
+		newtext.setDetectionRange(20);
+	}
+	else if (DialogueKey == "4_MINI")
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_4_MINI);
+		newtext.setDetectionRange(40);
 	}
 	newtext.setPos(position);
 	TextList.push_back(newtext);

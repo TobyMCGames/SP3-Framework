@@ -13,7 +13,7 @@ Archbishop::Archbishop()
 	firstform = new SpriteAnimation(CentralMesh::GetInstance()->GetMeshID(CentralMesh::GEO_ARCHBISHOP_1));
 	firstform->AddAnimation("Moving",0,6);
 	firstform->PlayAnimation("Moving", -1,6.f);
-	health = 1000;
+	health = 2000;
 	this->damage = 10;
 	Default_Speed = 3.5;
 }
@@ -36,12 +36,12 @@ void Archbishop::Update(double dt, float m_speed)
 			else if (rand == 2)
 			{
 				current_state = TRACK_PLAYER;
-				this->damage = 2;
+				this->damage = 11;
 			}
 				
 			else if (rand == 3)
 			{
-				this->damage = 2.5;
+				this->damage = 12.5;
 				current_state = SPINING_KAMIKAZE;
 			}
 			else if (rand == 4)
