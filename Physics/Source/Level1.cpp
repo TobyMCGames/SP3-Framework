@@ -341,21 +341,3 @@ void Level1::Exit()
 	}
 	CSoundController::GetInstance()->StopSounds();
 }
-/*
-void SceneCollision::ResetList(void)
-{
-	for (int i = 0; i < map.size(); i++)
-	{
-		if (map[i]->active == true)
-		{
-			map[i]->active = false;
-			m_objectCount--;
-		}
-	}
-	for (int i = 0; i < EntityList.size(); i++)
-	{
-		delete EntityList[i];
-		EntityList[i] = nullptr;
-		EntityList.pop_back(i );
-	}
-}*/

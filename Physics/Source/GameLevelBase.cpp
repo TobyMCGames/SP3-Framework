@@ -1352,4 +1352,6 @@ void GameLevelBase::Exit()
 		InteractableList[i] = nullptr;
 	}
 	InteractableList.clear();
+
+	TextList.clear();
 }

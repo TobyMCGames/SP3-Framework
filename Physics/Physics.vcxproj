@@ -181,7 +181,6 @@
     <ClCompile Include="Source\LevelFinal.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
-    <ClCompile Include="Source\LogRoot.cpp" />
     <ClCompile Include="Source\MagicBall.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
@@ -251,7 +250,6 @@
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
-    <ClInclude Include="Source\LogRoot.h" />
     <ClInclude Include="Source\MagicBall.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />

@@ -25,8 +25,12 @@ Dialogue::Dialogue():
 
 Dialogue::~Dialogue()
 {
-	for (int i = dialogueList.size()-1 ; i >=0;i--)
+	for (int i = dialogueList.size() - 1; i >= 0;i--)
 	{
+		for (int j = dialogueList[i].size() - 1; j >= 0;j--)
+		{
+			dialogueList[i].pop_back();
+		}
 		dialogueList.pop_back();
 	}
 }

@@ -393,10 +393,13 @@ void Player::Update(double dt, float m_speed)
 	}
 
 	// player get webbed by spider mechanics
-	if (isWebbedBySpider == true)
+	if (isWebbedBySpider)
 	{
-		Default_Speed = 4;
 		webbedTimeLeft -= dt * m_speed;
+		if (!SlowTime)
+		{
+			Default_Speed = 4;
+		}
 		if (webbedTimeLeft < 0.f)
 		{
 			isWebbedBySpider = false;
