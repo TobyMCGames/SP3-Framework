@@ -3,7 +3,6 @@
 #include <string>
 #include <cstdlib>
 //#include "../GameControl/Settings.h"
-#include "LogRoot.h"
 
 #ifdef __linux__ 
 	#include <unistd.h>
@@ -36,7 +35,7 @@ private:
 		string current_working_dir(buff);
 
 		static char const * envRoot = current_working_dir.c_str();	// getenv("LOGL_ROOT_PATH");
-		static char const * givenRoot = (envRoot != nullptr ? envRoot : CLogRoot::GetInstance()->logl_root);
+		static char const* givenRoot = envRoot;
 			//logl_root);
 		static std::string root = (givenRoot != nullptr ? givenRoot : "");
 		return root;

@@ -185,8 +185,6 @@ bool SceneGUI::Update(double dt)
 			}
 		}
 	}
-	// if in dialogue
-		//GameDialogues.Update(dt);
 
 	if (Timetravel != NULL)
 	{
@@ -308,7 +306,8 @@ void SceneGUI::renderGUI()
 		break;
 	}
 	ss << Player::GetInstance()->GetCurItemAmt();
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1,1,1), 4, 7.5, 6);
+	if (Player::GetInstance()->GetCurItem() != PlayerBase::WEAPON)
+		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1,1,1), 4, 7.5, 6);
 
 	if (Timetravel != NULL)
 	{

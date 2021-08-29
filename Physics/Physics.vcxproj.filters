@@ -194,9 +194,6 @@
     <ClCompile Include="Source\InteractableFactory.cpp">
       <Filter>DesignPatterns</Filter>
     </ClCompile>
-    <ClCompile Include="Source\LogRoot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Level3.cpp">
       <Filter>Source Files\GameLevels</Filter>
     </ClCompile>
@@ -410,9 +407,6 @@
       <Filter>DesignPatterns</Filter>
     </ClInclude>
     <ClInclude Include="Source\filesystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LogRoot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Level3.h">
