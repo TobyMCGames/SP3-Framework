@@ -346,18 +346,13 @@ void Player::Update(double dt, float m_speed)
 	}
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_2))
 	{
-		curItem = VINE_SEED;
+		curItem = BOMBS;
 		cKeyboardController->ResetKey(GLFW_KEY_2);
 	}
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_3))
 	{
-		curItem = BOMBS;
-		cKeyboardController->ResetKey(GLFW_KEY_3);
-	}
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_4))
-	{
 		curItem = WEAPON;
-		cKeyboardController->ResetKey(GLFW_KEY_4);
+		cKeyboardController->ResetKey(GLFW_KEY_3);
 	}
 
 	scrollsnap += Application::GetYScrollOffset();
@@ -610,11 +605,6 @@ void Player::Response(GameObject* go)
 			go->active = false;
 			CSoundController::GetInstance()->PlaySoundByID(50);
 			break;
-		case VINE_SEEDS:
-			Inventory[VINE_SEED]++;
-			cKeyboardController->ResetKey(GLFW_KEY_E);
-			CSoundController::GetInstance()->PlaySoundByID(50);
-			break;
 		case TREE_SEEDS:
 			Inventory[TREE_SEED]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
@@ -629,11 +619,6 @@ void Player::Response(GameObject* go)
 				go->active = false;
 				CSoundController::GetInstance()->PlaySoundByID(50);
 			}
-			break;
-		case GO_KEY:
-			Inventory[LOCK_KEY]++;
-			go->active = false;
-			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case WARP_GATE:
 			CSoundController::GetInstance()->PlaySoundByID(52);

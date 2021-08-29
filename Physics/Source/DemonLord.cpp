@@ -183,7 +183,6 @@ void DemonLord::Update(double dt,float m_speed)
 
 void DemonLord::Response(GameObject* go) 
 {
-	cout << health << endl;
 	if (curFSM != ARRIVAL && curFSM != RETREAT)
 	{
 		switch (go->type)
@@ -198,7 +197,6 @@ void DemonLord::Response(GameObject* go)
 				{
 					if ((go->pos - pos).Length() <= (scale.y / 2))
 					{
-						cout << "Shield hit" << endl;
 						go->active = false;
 						break;
 					}

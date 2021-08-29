@@ -9,12 +9,11 @@ SceneGUI::SceneGUI()
 	, m_worldWidth(0)
 	, Timetravel(NULL)
 {
-	GameDialogues.LoadDialogue("Dialogues//Level_1_dialogues.txt"); // load level 4 texts
-	GameDialogues.LoadDialogue("Dialogues//Level_3_dialogues.txt"); // load level 4 texts
+	GameDialogues.LoadDialogue("Dialogues//Level_1_dialogues.txt"); // load level 1 texts
+	GameDialogues.LoadDialogue("Dialogues//Level_3_dialogues.txt"); // load level 3 texts
 	GameDialogues.LoadDialogue("Dialogues//Level_4_dialogues.txt"); // load level 4 texts
 	GameDialogues.setActive(false);
 }
-
 SceneGUI::~SceneGUI()
 {
 	
@@ -185,8 +184,6 @@ bool SceneGUI::Update(double dt)
 			}
 		}
 	}
-	// if in dialogue
-		//GameDialogues.Update(dt);
 
 	if (Timetravel != NULL)
 	{
@@ -283,14 +280,8 @@ void SceneGUI::renderGUI()
 	case PlayerBase::TREE_SEED:
 		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TREE_SEEDS), 6, 7, 7, 7);
 		break;
-	case PlayerBase::VINE_SEED:
-		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_VINE_SEEDS), 6, 7, 7, 7);
-		break;
 	case PlayerBase::BOMBS:
 		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_BOMB_CRATE), 6, 7, 7, 7);
-		break;
-	case PlayerBase::LOCK_KEY:
-		meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_KEY), 6, 7, 7, 7);
 		break;
 	case PlayerBase::WEAPON:
 		switch (Player::GetInstance()->getcurWeapon())
@@ -308,7 +299,8 @@ void SceneGUI::renderGUI()
 		break;
 	}
 	ss << Player::GetInstance()->GetCurItemAmt();
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1,1,1), 4, 7.5, 6);
+	if (Player::GetInstance()->GetCurItem() != PlayerBase::WEAPON)
+		meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(1,1,1), 4, 7.5, 6);
 
 	if (Timetravel != NULL)
 	{

@@ -19,7 +19,6 @@
 #include "SceneHTP.h"
 #include "SceneCredits.h"
 #include "MeshRender.h"
-#include "LogRoot.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -121,8 +120,6 @@ void Application::Init()
 		exit(EXIT_FAILURE);
 	}
 
-	//backup in case filesystem cannot find current directory
-	CLogRoot::GetInstance()->logl_root = "D:\SP3";
 
 	//Set the GLFW window creation hints - these are optional
 	glfwWindowHint(GLFW_SAMPLES, 4); //Request 4x antialiasing
@@ -205,7 +202,6 @@ void Application::Run()
 
 void Application::Exit()
 {
-	CLogRoot::DestroyInstance();
 	//Close OpenGL window and terminate GLFW
 	glfwDestroyWindow(m_window);
 	//Finalize and clean up GLFW
