@@ -5,6 +5,8 @@
 #include <cmath>
 #include "Player.h"
 #include "GameLevelManager.h"
+#include "GameStateManager.h"
+#include "SceneGame.h"
 
 //Remove later
 #include "InteractableFactory.h"
@@ -31,9 +33,9 @@ void LevelFinal::Init()
 
 void LevelFinal::UpdateLevel()
 {
-	if (curSubLevel < numSubLevels + 1)
+	if (SceneGame::GetInstance()->curSubLevel <= numSubLevels)
 	{
-		switch (curSubLevel)
+		switch (SceneGame::GetInstance()->curSubLevel)
 		{
 		case 1:
 			GameLevelBase::Exit();
@@ -46,7 +48,9 @@ void LevelFinal::UpdateLevel()
 	}
 	else
 	{
-		//GameLevelManager::GetInstance()->SetActiveGameLevel("Level2");
+		SceneGame::GetInstance()->curSubLevel = 1;
+		SceneGame::GetInstance()->curLevel = 1;
+		GameStateManager::GetInstance()->SetActiveGameState("CreditsState");
 	}
 }
 
@@ -205,7 +209,7 @@ bool LevelFinal::Update(double dt)
 	}
 	if (Player::GetInstance()->isCompleted)
 	{
-		curSubLevel++;
+		SceneGame::GetInstance()->curSubLevel++;
 		GameLevelBase::Exit();
 		UpdateLevel();
 		Player::GetInstance()->isCompleted = false;
@@ -278,6 +282,14 @@ void LevelFinal::Render()
 			continue;
 
 		RenderGO(go);
+		if (go->type == GameObject::GO_DEMONLORD)
+		{
+			float scaleX = 32 * go->health / 3500.f;
+			if (scaleX < 0)
+				scaleX = 0;
+			meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_QUAD), 40, 56, scaleX, 4);
+			meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_DEMONLORD_HEALTHBAR), 40, 56, 40, 8);
+		}
 	}
 	if (player != nullptr)
 		RenderPlayer();

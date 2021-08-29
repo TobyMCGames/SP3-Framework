@@ -893,108 +893,123 @@ void GameLevelBase::CollisionChecks(double dt, float m_speed)
 	}
 
 
-	//std::vector<int> cleanUpVector;
 	for (int j = 0; j < projectileList.size(); j++)
 	{
 		AdvanceGO* projectile;
 		projectile = projectileList[j];
-		if (projectile != nullptr)
+		if (projectile == nullptr)
+			continue;
+		
+		if (projectile->active == false)
 		{
-			if (projectile->active == false)
+			delete projectile;
+			projectileList[j] = nullptr;
+			continue;
+		}
+
+		if (CheckWithinScreen(projectile))
+		{
+
+			Vector3 FuturePos = projectile->pos + projectile->vel * dt * m_speed;
+			Vector3 FutureN;
+			if (projectile->type == GameObject::GO_DEMONBALL || projectile->type == GameObject::GO_ARCH_BALL)
+				FutureN = projectile->vel;
+			else
+				FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
+			float angle = atan2f(FutureN.y, FutureN.x);
+			//Find how many tiles mob is away from left side
+			LP = FuturePos.x - fabs((projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) *0.5);
+			XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
+			if (XnumTiles > 0)
 			{
-				delete projectile;
-				projectileList[j] = nullptr;
-			//	cleanUpVector.push_back(j);
-				continue;
+				XnumTiles -= 1;
 			}
+			XTilesAround = (projectile->scale.x - fmod(projectile->scale.x, getTileWidth())) / getTileWidth();
+			if (fmod(projectile->scale.x, getTileWidth()) > 0)
+				XTilesAround += 3;
+			else
+				XTilesAround += 2;
 
-			if (CheckWithinScreen(projectile))
+			//Find how many tiles screen is away from bottom
+			BP = FuturePos.y - fabs((projectile->scale.x * sin(angle) + projectile->scale.y * cos(angle)) * 0.5);
+			YnumTiles = (BP - fmod(BP, getTileHeight())) / getTileHeight();
+			if (YnumTiles > 0)
 			{
+				YnumTiles -= 1;
+			}
+			YTilesAround = (projectile->scale.y - fmod(projectile->scale.y, getTileHeight())) / getTileHeight();
+			if (fmod(projectile->scale.y, getTileHeight()) > 0)
+				YTilesAround += 3;
+			else
+				YTilesAround += 2;
 
-				Vector3 FuturePos = projectile->pos + projectile->vel * dt * m_speed;
-				Vector3 FutureN;
-				if (projectile->type == GameObject::GO_DEMONBALL || projectile->type == GameObject::GO_ARCH_BALL)
-					FutureN = projectile->vel;
-				else
-					FutureN = projectile->vel + GamePhysics::GetInstance()->gravity * dt * m_speed;
-				float angle = atan2f(FutureN.y, FutureN.x);
-				//Find how many tiles mob is away from left side
-				LP = FuturePos.x - fabs((projectile->scale.x * cos(angle) + projectile->scale.y * sin(angle)) *0.5);
-				XnumTiles = (LP - fmod(LP, getTileWidth())) / getTileWidth();
-				if (XnumTiles > 0)
+			for (int j = XnumTiles; j < XnumTiles + XTilesAround; j++)
+			{
+				if (j >= XTilesInWorld || j < 0)
+					continue;
+				for (int k = YnumTiles; k < YnumTiles + YTilesAround; k++)
 				{
-					XnumTiles -= 1;
-				}
-				XTilesAround = (projectile->scale.x - fmod(projectile->scale.x, getTileWidth())) / getTileWidth();
-				if (fmod(projectile->scale.x, getTileWidth()) > 0)
-					XTilesAround += 3;
-				else
-					XTilesAround += 2;
-
-				//Find how many tiles screen is away from bottom
-				BP = FuturePos.y - fabs((projectile->scale.x * sin(angle) + projectile->scale.y * cos(angle)) * 0.5);
-				YnumTiles = (BP - fmod(BP, getTileHeight())) / getTileHeight();
-				if (YnumTiles > 0)
-				{
-					YnumTiles -= 1;
-				}
-				YTilesAround = (projectile->scale.y - fmod(projectile->scale.y, getTileHeight())) / getTileHeight();
-				if (fmod(projectile->scale.y, getTileHeight()) > 0)
-					YTilesAround += 3;
-				else
-					YTilesAround += 2;
-
-				for (int j = XnumTiles; j < XnumTiles + XTilesAround; j++)
-				{
-					if (j >= XTilesInWorld || j < 0)
+					if (k >= YTilesInWorld || k < 0)
 						continue;
-					for (int k = YnumTiles; k < YnumTiles + YTilesAround; k++)
+					int TileSpace = k * XTilesInWorld + j;
+					if (map[TileSpace] == nullptr)
+						continue;
+
+					if (projectile->type == GameObject::GO_ARROW ||
+						projectile->type == GameObject::GO_MAGICBALL ||
+						projectile->type == GameObject::GO_PORTAL ||
+						projectile->type == GameObject::GO_BOMB)
 					{
-						if (k >= YTilesInWorld || k < 0)
-							continue;
-						int TileSpace = k * XTilesInWorld + j;
-						if (map[TileSpace] == nullptr)
-							continue;
+						if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, GAMESPEED))
+						{
+							GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, GAMESPEED);
+						}
+					}
+					else
+					{
+						if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, m_speed))
+						{
+							GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, m_speed);
+						}
+					}
 
-						if (projectile->type == GameObject::GO_ARROW ||
-							projectile->type == GameObject::GO_MAGICBALL ||
-							projectile->type == GameObject::GO_PORTAL)
-						{
-							if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, GAMESPEED))
-							{
-								GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, GAMESPEED);
-							}
-						}
-						else if (projectile->type == GameObject::GO_BOMB)
-						{
-							if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, GAMESPEED))
-							{
-								GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, GAMESPEED);
-							}
-						}
-						else
-						{
-							if (GamePhysics::GetInstance()->CheckCollision(projectile, map[TileSpace], dt, m_speed))
-							{
-								GamePhysics::GetInstance()->CheckCollisionResponse(projectile, map[TileSpace], dt, m_speed);
-							}
-						}
+				}
+			}
+			if (projectile == nullptr)
+				continue;
+			if (projectile->active == false)
+				continue;
+			for (int j = 0; j < InteractableList.size(); j++)
+			{
+				if (InteractableList[j] == nullptr)
+					continue;
+				if (!CheckWithinScreen(InteractableList[j]) || InteractableList[j]->active == false)
+					continue;
 
+				if (projectile->type == GameObject::GO_ARROW ||
+					projectile->type == GameObject::GO_MAGICBALL ||
+					projectile->type == GameObject::GO_PORTAL ||
+					projectile->type == GameObject::GO_BOMB)
+				{
+					if (GamePhysics::GetInstance()->CheckCollision(projectile, InteractableList[j], dt, GAMESPEED))
+					{
+						GamePhysics::GetInstance()->CheckCollisionResponse(projectile, InteractableList[j], dt, GAMESPEED);
 					}
 				}
-
-				//for (int j = 0; j < InteractableList)
-			}
-			else // delete projectile if they are no longer on screen
-			{
-				delete projectile;
-				projectileList[j] = nullptr;
-				//cleanUpVector.push_back(j);
+				else
+				{
+					if (GamePhysics::GetInstance()->CheckCollision(projectile, InteractableList[j], dt, m_speed))
+					{
+						GamePhysics::GetInstance()->CheckCollisionResponse(projectile, InteractableList[j], dt, m_speed);
+					}
+				}
 			}
 		}
-		else
+		else // delete projectile if they are no longer on screen
 		{
-			cout << "projectile was null in projectile list" << endl;
+			delete projectile;
+			projectileList[j] = nullptr;
+			//cleanUpVector.push_back(j);
 		}
 	}
 	// clean up was here
@@ -1248,6 +1263,11 @@ void GameLevelBase::ChangeTimelineBlocks(bool revert)
 			break;
 		}
 	}
+}
+
+std::vector<GameObject*>* GameLevelBase::getMap()
+{
+	return &map;
 }
 
 std::vector<AdvanceGO*>* GameLevelBase::getProjectileList()

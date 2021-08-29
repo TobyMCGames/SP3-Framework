@@ -20,9 +20,12 @@ public:
 	void setisPaused(bool ispaused);
 	bool getisPaused();
 
+	int curLevel;
+	int curSubLevel;
 protected:
 	SceneGame();
 	~SceneGame();
+
 	bool ispaused;
 };
 
