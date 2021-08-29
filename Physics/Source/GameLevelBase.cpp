@@ -189,7 +189,7 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 	else if (DialogueKey == "TUTS") // tutorial to staff 
 	{
 		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_2_START);
-		newtext.setDetectionRange(6);
+		newtext.setDetectionRange(8);
 	}
 	else if (DialogueKey == "TUTST") // tutorial slow time
 	{
