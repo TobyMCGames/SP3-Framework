@@ -66,6 +66,7 @@ public:
 
 	float m_speed;
 	const float GAMESPEED = 2.7f;
+	std::vector<GameObject*>* getMap();
 	std::vector<AdvanceGO*>* getProjectileList();
 	std::vector<AdvanceGO*>* getInteractableList();
 };

@@ -278,6 +278,14 @@ void LevelFinal::Render()
 			continue;
 
 		RenderGO(go);
+		if (go->type == GameObject::GO_DEMONLORD)
+		{
+			float scaleX = 32 * go->health / 3500.f;
+			if (scaleX < 0)
+				scaleX = 0;
+			meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_QUAD), 40, 56, scaleX, 4);
+			meshRender->RenderMeshOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_DEMONLORD_HEALTHBAR), 40, 56, 40, 8);
+		}
 	}
 	if (player != nullptr)
 		RenderPlayer();
