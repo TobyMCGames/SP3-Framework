@@ -1,17 +1,16 @@
-{3} [yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-ADADADADADAADADADADADDAAAAAAAAAaddD
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeDADADADADAADADADADADDAAAAAAAAAaddD
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eADADADADADAADADADADADDAAAAAAAAAaddD]
+{6} [Where am I?]
+[All I remember was fighting the demonlord over the time orb]
+[After the time orb exploded everything went blank]
+[I feel weird. hmm the way is blocked. I wonder]
+[Press CAPS]
 
-{4} [hehihehihehihehihehihehihehihehihehihehihehihehi
-hehihehihehihehihehihehihehihehihehihehi
-]
+{7} [I think I got this time travel thing down.]
+[I better try a find the demonlord and stop him]
+['E' to interact and move on]
+
+{8} [Is that a tree sapling? Maybe I can use it.]
+['E' to pick up]
+
+{9} [That platform seems to high, if only this tree was older]
+[Better place this guy down back to the dirt]
+['E' to use]

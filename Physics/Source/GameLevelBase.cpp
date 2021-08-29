@@ -163,7 +163,23 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 	Text newtext;
 	if (DialogueKey == "OD") // opening dialogue
 	{
-
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_1_START);
+		newtext.setDetectionRange(10);
+	}
+	if (DialogueKey == "OE") // level1 ending dialogue
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_1_END);
+		newtext.setDetectionRange(10);
+	}
+	if (DialogueKey == "L1AO") // opening dialogue
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_1_A_START);
+		newtext.setDetectionRange(10);
+	}
+	if (DialogueKey == "L1AG") // level1 ending dialogue
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_1_A_GROW);
+		newtext.setDetectionRange(10);
 	}
 	else if (DialogueKey == "TUTB") // tutorial to bow
 	{
