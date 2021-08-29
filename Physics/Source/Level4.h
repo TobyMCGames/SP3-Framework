@@ -29,7 +29,7 @@ public:
 protected:
 	Level4();
 	~Level4();
-	int curSubLevel = 1;
+	
 	int numSubLevels = 4;
 };
 

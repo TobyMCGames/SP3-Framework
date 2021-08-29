@@ -31,7 +31,7 @@ protected:
 	Level3();
 	~Level3();
 
-	int curSubLevel = 1;
+	
 	int numSubLevels = 3;
 };
 

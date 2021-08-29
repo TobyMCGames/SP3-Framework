@@ -15,6 +15,8 @@
 #include "SceneGUI.h"
 SceneGame::SceneGame()
 	: ispaused(false)
+	, curLevel(1)
+	, curSubLevel(1)
 {
 }
 
@@ -39,7 +41,24 @@ void SceneGame::Init()
 	GameLevelManager::GetInstance()->AddGameLevel("Level4", Level4::GetInstance());
 	GameLevelManager::GetInstance()->AddGameLevel("LevelFinal", LevelFinal::GetInstance());
 	// Set Active Game Level
-	GameLevelManager::GetInstance()->SetActiveGameLevel("LevelFinal");
+	switch (curLevel)
+	{
+	case 1:
+		GameLevelManager::GetInstance()->SetActiveGameLevel("Level1");
+		break;
+	case 2:
+		GameLevelManager::GetInstance()->SetActiveGameLevel("Level2");
+		break;
+	case 3:
+		GameLevelManager::GetInstance()->SetActiveGameLevel("Level3");
+		break;
+	case 4:
+		GameLevelManager::GetInstance()->SetActiveGameLevel("Level4");
+		break;
+	case 5:
+		GameLevelManager::GetInstance()->SetActiveGameLevel("LevelFinal");
+		break;
+	}
 
 	Application::changeCursor(true);
 	ispaused = false;
