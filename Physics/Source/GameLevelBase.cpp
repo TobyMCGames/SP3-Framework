@@ -188,7 +188,12 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 	}
 	else if (DialogueKey == "TUTS") // tutorial to staff 
 	{
-		newtext.setDialogue(Dialogue::CONVO_SENTENCES::TUTS_TEST);
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_2_START);
+		newtext.setDetectionRange(8);
+	}
+	else if (DialogueKey == "TUTST") // tutorial slow time
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_2_SLOWTIME);
 		newtext.setDetectionRange(10);
 	}
 	else if (DialogueKey == "TUTM") // tutorial movement
@@ -239,6 +244,11 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 	{
 		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_4_MINI);
 		newtext.setDetectionRange(40);
+	}
+	else if (DialogueKey == "TUT_CL")
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::TUT_CLONE);
+		newtext.setDetectionRange(10);
 	}
 	newtext.setPos(position);
 	TextList.push_back(newtext);
