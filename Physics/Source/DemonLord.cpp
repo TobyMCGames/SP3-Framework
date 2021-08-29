@@ -34,11 +34,16 @@ DemonLord::~DemonLord()
 	return;
 }
 
+
 void DemonLord::Update(double dt,float m_speed)
 {
 	switch (curFSM)
 	{
 	case ARRIVAL:
+		if (portalSpinTime == 6)
+		{
+			CSoundController::GetInstance()->PlaySoundByID(41);
+		}
 		if (portalSpinTime > 3)
 		{
 			float angle = 715 * (portalSpinTime - 3.f) / 3.f;
@@ -69,6 +74,7 @@ void DemonLord::Update(double dt,float m_speed)
 			FSMcounter = 0.8f;
 			Charging->PlayAnimation("Charging", 1, 0.8f);
 			Charging->Reset();
+			CSoundController::GetInstance()->PlaySoundByID(43);
 			curFSM = ATTACK_DEMONBALL;
 		}
 		break;
@@ -103,6 +109,7 @@ void DemonLord::Update(double dt,float m_speed)
 				Vector3(10, 10, 1),
 				Vector3(1, 0, 0)
 			);
+			CSoundController::GetInstance()->PlaySoundByID(44);
 			GameLevelManager::GetInstance()->getcurrentLevel()->getProjectileList()->push_back(temp);
 			FSMcounter = 6.f;
 			curFSM = IDLE;
@@ -131,6 +138,7 @@ void DemonLord::Update(double dt,float m_speed)
 	case 1:
 		if (health < MaxHealth * 2 / 3)
 		{
+			CSoundController::GetInstance()->PlaySoundByID(42);
 			Phase = 2;
 		}
 		break;
@@ -138,6 +146,7 @@ void DemonLord::Update(double dt,float m_speed)
 		Shield1Direction = (Player::GetInstance()->pos - pos).Normalized();
 		if (health < MaxHealth * 1 / 3)
 		{
+			CSoundController::GetInstance()->PlaySoundByID(42);
 			Phase = 3;
 		}
 		break;
@@ -161,6 +170,8 @@ void DemonLord::Update(double dt,float m_speed)
 					portalSpinTime = 6.f;
 					curFSM = RETREAT;
 				}
+				CSoundController::GetInstance()->StopSounds();
+				CSoundController::GetInstance()->PlaySoundByID(45);
 			}
 		}
 		break;

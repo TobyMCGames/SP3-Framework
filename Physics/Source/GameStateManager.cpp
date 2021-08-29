@@ -40,6 +40,7 @@ GameStateManager::GameStateManager()
 	//BGM
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Title_Theme.wav", 17, true, true);
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_1.wav", 18, true, true);
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\spider_forest.ogg", 30, true, true);
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_3.wav", 31, true, true);
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_4.wav", 32, true, true);
 
@@ -69,16 +70,19 @@ GameStateManager::GameStateManager()
 	cSoundController->LoadSound("Sounds\\Sounds_Boomer\\boomer_primed.wav", 27, true);
 	cSoundController->LoadSound("Sounds\\Sounds_Boomer\\explosion.ogg", 28, true);
 
-
-	// spider forest BGM
-	cSoundController->LoadSound("Sounds\\Sounds_BGM\\spider_forest.ogg", 30, true, true);
 	// Arch Bishop
 	cSoundController->LoadSound("Sounds\\Sounds_ArchBishop\\Bishop_Charging_Sound.wav", 69, true);
 	cSoundController->LoadSound("Sounds\\Sounds_ArchBishop\\Bishop_death.wav", 70, true);
 	cSoundController->LoadSound("Sounds\\Sounds_ArchBishop\\Bishop_Hurt.wav", 71, true);
 	cSoundController->LoadSound("Sounds\\Sounds_ArchBishop\\Bishop_Energyball.wav", 72, true);
+
 	// DemonLord
 	cSoundController->LoadSound("Sounds\\Sounds_DemonLord\\DemonLord_Hurt.wav", 40, true);
+	cSoundController->LoadSound("Sounds\\Sounds_DemonLord\\Arrival.wav", 41, true);
+	cSoundController->LoadSound("Sounds\\Sounds_DemonLord\\Scream2.wav", 42, true);
+	cSoundController->LoadSound("Sounds\\Sounds_DemonLord\\Charging.wav", 43, true);
+	cSoundController->LoadSound("Sounds\\Sounds_DemonLord\\Shoot.wav", 44, true);
+	cSoundController->LoadSound("Sounds\\Sounds_DemonLord\\Death.wav", 45, true);
 }
 
 GameStateManager::~GameStateManager()
