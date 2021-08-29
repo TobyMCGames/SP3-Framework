@@ -40,6 +40,7 @@ protected:
 	Dialogue GameDialogues;
 	bool RenderPause;
 	bool RenderRetry;
+	bool StartTimer;
 };
 
 #endif

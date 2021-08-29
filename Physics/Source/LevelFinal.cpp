@@ -11,7 +11,6 @@
 
 LevelFinal::LevelFinal()
 {
-	std::cout << "Initialising SceneCollision" << std::endl;
 }
 
 LevelFinal::~LevelFinal()
@@ -26,7 +25,9 @@ void LevelFinal::Init()
 	UpdateLevel();
 	//camera->setDebugMode();
 
-	CSoundController::GetInstance()->PlaySoundByID(18);
+	//CSoundController::GetInstance()->PlaySoundByID(18);
+	startloopCounter = 0;
+	CSoundController::GetInstance()->PlaySoundByID(80);
 }
 
 void LevelFinal::UpdateLevel()
@@ -210,6 +211,7 @@ bool LevelFinal::Update(double dt)
 		UpdateLevel();
 		Player::GetInstance()->isCompleted = false;
 	}
+
 	return true;
 }
 
@@ -332,7 +334,7 @@ void LevelFinal::Exit()
 		delete go;
 		map.pop_back();
 	}
-
+	CSoundController::GetInstance()->StopSounds();
 }
 /*
 void SceneCollision::ResetList(void)

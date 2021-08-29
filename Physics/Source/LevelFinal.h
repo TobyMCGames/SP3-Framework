@@ -30,6 +30,7 @@ protected:
 	LevelFinal();
 	~LevelFinal();
 
+	float startloopCounter;
 	int curSubLevel = 1;
 	int numSubLevels = 1;
 };
