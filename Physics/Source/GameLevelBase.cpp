@@ -574,6 +574,7 @@ bool GameLevelBase::loadMap(std::string file_path)
 	}
 	m_worldWidth = (highestcol * getTileWidth());
 	m_worldHeight = (linesinreverse.size())* getTileHeight();
+	linesinreverse.clear();
 	return true;
 }
 
