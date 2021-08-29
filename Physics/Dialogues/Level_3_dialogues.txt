@@ -5,5 +5,11 @@
 {4}[Hmm, That's a really long jump...]
 [Maybe a portal gun can come in handy...]
 {5}[<Not all blocks allow a portal to form>]
+{20}[That's quite alot of enemies ahead...]
+[Hey maybe I can use my clone to take them out together with me]
+[< Press R to spawn a clone >]
+[< To control a clone, press the TAB key >]
+[< Right click to get clone to shoot >]
+
 
 

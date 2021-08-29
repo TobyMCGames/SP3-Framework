@@ -245,6 +245,11 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_4_MINI);
 		newtext.setDetectionRange(40);
 	}
+	else if (DialogueKey == "TUT_CL")
+	{
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::TUT_CLONE);
+		newtext.setDetectionRange(10);
+	}
 	newtext.setPos(position);
 	TextList.push_back(newtext);
 }
