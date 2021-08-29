@@ -313,9 +313,7 @@ void Level3::Render()
 	std::ostringstream ss;
 	ss.precision(5);
 	ss << "FPS: " << fps;
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0, 1, 0), 3,40,40);
-	
-	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), "Collision", Color(0, 1, 0), 3, 0, 0);
+	meshRender->RenderTextOnScreen(centralMesh->GetMeshID(CentralMesh::GEO_TEXT), ss.str(), Color(0.95, 0.95, 0.95), 2,70,57);
 
 }
 

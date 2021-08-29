@@ -15,7 +15,7 @@
 #include "SceneGUI.h"
 SceneGame::SceneGame()
 	: ispaused(false)
-	, curLevel(1)
+	, curLevel(3)
 	, curSubLevel(1)
 {
 }
