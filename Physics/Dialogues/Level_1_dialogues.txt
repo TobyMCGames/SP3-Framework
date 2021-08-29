@@ -14,3 +14,6 @@
 {9} [That platform seems to high, if only this tree was older]
 [Better place this guy down back to the dirt]
 ['E' to use]
+
+{14} [Hey its a Bow! Lets see if I remember how to use this]
+[Aim with the mouse and shoot with Left Click]

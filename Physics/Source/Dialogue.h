@@ -19,6 +19,7 @@ public:
 		LEVEL_4_FEELS = 11,
 		LEVEL_4_YABE = 12,
 		LEVEL_4_MINI = 13,
+		LEVEL_1_A_BOW = 14,
 		TOTAL_SENTENCE,
 	};	
 

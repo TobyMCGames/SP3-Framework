@@ -293,18 +293,13 @@ void PlayerClone::Update(double dt, float m_speed)
 	}
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_2))
 	{
-		curItem = VINE_SEED;
+		curItem = BOMBS;
 		cKeyboardController->ResetKey(GLFW_KEY_2);
 	}
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_3))
 	{
-		curItem = BOMBS;
-		cKeyboardController->ResetKey(GLFW_KEY_3);
-	}
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_4))
-	{
 		curItem = WEAPON;
-		cKeyboardController->ResetKey(GLFW_KEY_4);
+		cKeyboardController->ResetKey(GLFW_KEY_3);
 	}
 
 	scrollsnap += Application::GetYScrollOffset();
@@ -442,10 +437,6 @@ void PlayerClone::Response(GameObject* go)
 			Inventory[BOMBS]++;
 			cKeyboardController->ResetKey(GLFW_KEY_E);
 			go->active = false;
-			break;
-		case VINE_SEEDS:
-			Inventory[VINE_SEED]++;
-			cKeyboardController->ResetKey(GLFW_KEY_E);
 			break;
 		case TREE_SEEDS:
 			Inventory[TREE_SEED]++;

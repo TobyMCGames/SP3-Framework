@@ -43,8 +43,8 @@ GameStateManager::GameStateManager()
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\spider_forest.ogg", 30, true, true);
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_3.wav", 31, true, true);
 	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Level_Track_4.wav", 32, true, true);
-	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Final_Theme_Intro.wav", 80, true, true);
-	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Final_Theme_End.ogg", 82, true);
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Final_Theme_Intro.ogg", 80, true, true);
+	cSoundController->LoadSound("Sounds\\Sounds_BGM\\Final_Theme_End.wav", 82, true);
 
 	// player slow motion sounds
 	cSoundController->LoadSound("Sounds\\Sounds_Player\\Slow_Motion_Start.wav", 19, true);

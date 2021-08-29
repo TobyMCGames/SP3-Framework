@@ -347,12 +347,12 @@ void Player::Update(double dt, float m_speed)
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_2))
 	{
 		curItem = BOMBS;
-		cKeyboardController->ResetKey(GLFW_KEY_3);
+		cKeyboardController->ResetKey(GLFW_KEY_2);
 	}
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_3))
 	{
 		curItem = WEAPON;
-		cKeyboardController->ResetKey(GLFW_KEY_4);
+		cKeyboardController->ResetKey(GLFW_KEY_3);
 	}
 
 	scrollsnap += Application::GetYScrollOffset();

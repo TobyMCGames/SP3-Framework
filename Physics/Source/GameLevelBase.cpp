@@ -183,7 +183,8 @@ void GameLevelBase::initDialogueText(std::string DialogueKey,Vector3 position)
 	}
 	else if (DialogueKey == "TUTB") // tutorial to bow
 	{
-		
+		newtext.setDialogue(Dialogue::CONVO_SENTENCES::LEVEL_1_A_BOW);
+		newtext.setDetectionRange(10);
 	}
 	else if (DialogueKey == "TUTS") // tutorial to staff 
 	{
