@@ -27,8 +27,6 @@ void LevelFinal::Init()
 	UpdateLevel();
 	//camera->setDebugMode();
 
-	//CSoundController::GetInstance()->PlaySoundByID(18);
-	startloopCounter = 0;
 	CSoundController::GetInstance()->PlaySoundByID(80);
 }
 
