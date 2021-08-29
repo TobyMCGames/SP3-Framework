@@ -265,8 +265,8 @@ bool GameLevelBase::loadMap(std::string file_path)
 	Interactables* tempInteract = nullptr;
 	while (!file.eof()) 
 	{
-		char line[256];
-		file.getline(line, 256);
+		char line[400];
+		file.getline(line,400);
 		if (!file.eof())
 			linesinreverse.push_back(line);
 	}
@@ -373,9 +373,21 @@ bool GameLevelBase::loadMap(std::string file_path)
 				{
 					temp = tileFactory->ProduceTile(TileFactory::DOOR_5_TILE, pos, scale, vel);
 				}
-				else if (key == "15")
+				else if (key == "15U")
 				{
-					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS, pos, scale, vel);
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS, pos, scale, vel,Vector3(0,1,0));
+				}
+				else if (key == "15D")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS, pos, scale, vel,Vector3(0,-1,0));
+				}
+				else if (key == "15L")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS, pos, scale, vel,Vector3(-1,0,0));
+				}
+				else if (key == "15R")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS, pos, scale, vel,Vector3(1,0,0));
 				}
 				else if (key == "16")
 				{
@@ -396,6 +408,22 @@ bool GameLevelBase::loadMap(std::string file_path)
 				else if (key == "20")
 				{
 					temp = tileFactory->ProduceTile(TileFactory::COBBLESTONE, pos, scale,vel);
+				}
+				else if (key == "21TR")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS_CORNER, pos, scale, vel, Vector3(1, 0, 0));
+				}
+				else if (key == "21TL")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS_CORNER, pos, scale, vel, Vector3(0,1, 0));
+				}
+				else if (key == "21BR")
+				{
+					temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS_CORNER, pos, scale, vel, Vector3(0,-1, 0));
+				}
+				else if (key == "21BL")
+				{
+				temp = tileFactory->ProduceTile(TileFactory::DARK_FOREST_GRASS_CORNER, pos, scale, vel, Vector3(-1,0, 0));
 				}
 				else if (key == "OOB") // outofbounds
 				{

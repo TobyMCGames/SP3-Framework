@@ -224,8 +224,17 @@ void SceneBase::RenderGO(GameObject* go)
 	case GameObject::DARK_FOREST_GRASS:
 		modelStack->PushMatrix();
 		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
 		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
 		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DARK_FOREST_GRASS), false);
+		modelStack->PopMatrix();
+		break;
+	case GameObject::DARK_FOREST_GRASS_CORNER:
+		modelStack->PushMatrix();
+		modelStack->Translate(go->pos.x, go->pos.y, go->pos.z + zOffset);
+		modelStack->Rotate(Math::RadianToDegree(atan2f(go->normal.y, go->normal.x)), 0, 0, 1);
+		modelStack->Scale(go->scale.x, go->scale.y, go->scale.z);
+		meshRender->RenderMesh(centralMesh->GetMeshID(CentralMesh::GEO_DARK_FOREST_GRASS_CORNER), false);
 		modelStack->PopMatrix();
 		break;
 

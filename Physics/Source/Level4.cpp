@@ -40,13 +40,17 @@ void Level4::UpdateLevel()
 			camera->setpanTarget(player);
 			break;
 		case 2:
-			//GameLevelBase::Exit();
 			loadMap("Maps//Map_LEVEL_4b.csv");
 			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45, getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
 			break;
 
 		case 3:
+			loadMap("Maps//Map_LEVEL_4c.csv");
+			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45, getworldWidth(), getworldHeight());
+			camera->setpanTarget(player);
+			break;
+		case 4:
 			loadMap("Maps//Map_LEVEL_4d.csv");
 			camera->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0, 1, 0), 80, 45, getworldWidth(), getworldHeight());
 			camera->setpanTarget(player);
