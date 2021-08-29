@@ -23,7 +23,6 @@ public:
 	virtual void Render();
 	virtual void Destroy();
 	virtual void Exit();
-
 	void UpdateLevel();
 
 protected:
@@ -32,5 +31,4 @@ protected:
 	int curSubLevel = 1;
 	int numSubLevels = 4;
 };
-
 #endif

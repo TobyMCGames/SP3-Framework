@@ -12,7 +12,6 @@ class GameStateManager : public SingletonPattern<GameStateManager>
 protected:
 	GameStateManager();
 	~GameStateManager();
-
 	map< string, SceneBase*> GameStateMap;
 
 	SceneBase* ActiveGameState;
