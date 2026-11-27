@@ -4,6 +4,8 @@ Title: Timeless Hero
 Platform: Desktop
 Genre: 2D Roleplaying Game
 
+Trailer: https://youtu.be/R4oFG1RXRkM
+
 How to download:
 1) You can fork this repo, open it with Visual Studio and Run
 2) Or download the .exe at https://hideinkopi.itch.io/the-timeless-hero
